@@ -24,7 +24,7 @@ import { cx } from 'class-variance-authority';
 import { ArrowLeft, X } from 'lucide-react';
 import { twMerge } from 'tailwind-merge';
 
-import { Button, Card } from '@/components/ui';
+import { Card, IconButton } from '@/components/ui';
 
 const Modal: FC<ModalProps> & ModalComposition = ({ children, ...rest }) => {
   return <Dialog.Root {...rest}>{children}</Dialog.Root>;
@@ -46,17 +46,16 @@ const ModalClose: FC<ModalCloseProps> = (props) => {
       <div>
         {/* eslint-disable-next-line */}
         {/* @ts-ignore */}
-        <Button
+        <IconButton
           variant="secondary"
           intent="neutral"
           size="sm"
           className={modalCloseStyles}
           aria-label="Close modal"
-          isIcon
           {...props}
         >
           <X />
-        </Button>
+        </IconButton>
       </div>
     </Dialog.Close>
   );
@@ -119,17 +118,16 @@ const ModalPrevious: FC<ModalPreviousProps> = (props) => {
     <>
       {/* eslint-disable-next-line */}
       {/* @ts-ignore */}
-      <Button
+      <IconButton
         aria-label="Previous page"
         variant="secondary"
         intent="neutral"
         size="sm"
         className={modalPreviousStyles}
-        isIcon
         {...props}
       >
         <ArrowLeft />
-      </Button>
+      </IconButton>
     </>
   );
 };

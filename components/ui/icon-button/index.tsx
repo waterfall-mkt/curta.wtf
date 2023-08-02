@@ -3,12 +3,12 @@
 import Link from 'next/link';
 import { type ForwardedRef, forwardRef } from 'react';
 
-import { buttonVariants } from './styles';
-import type { ButtonProps } from './types';
+import { iconButtonVariants } from './styles';
+import type { IconButtonProps } from './types';
 import { cx } from 'class-variance-authority';
 import { twMerge } from 'tailwind-merge';
 
-const Button = forwardRef(
+const IconButton = forwardRef(
   (
     {
       className,
@@ -22,7 +22,7 @@ const Button = forwardRef(
       onClick,
       children,
       ...rest
-    }: ButtonProps,
+    }: IconButtonProps,
     ref: ForwardedRef<HTMLButtonElement>,
   ) => {
     const fixedDisabledState = disabled && variant !== 'secondary';
@@ -30,7 +30,7 @@ const Button = forwardRef(
     const props = {
       className: twMerge(
         cx(
-          buttonVariants({
+          iconButtonVariants({
             size,
             variant,
             intent: fixedDisabledState ? undefined : intent,
@@ -67,6 +67,6 @@ const Button = forwardRef(
   },
 );
 
-Button.displayName = 'Button';
+IconButton.displayName = 'IconButton';
 
-export default Button;
+export default IconButton;

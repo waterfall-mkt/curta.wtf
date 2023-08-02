@@ -13,7 +13,7 @@ import { useAccount, useDisconnect, useEnsName } from 'wagmi';
 import { NAVBAR_PAGES, SOCIAL_LINKS } from '@/lib/constants/site';
 import { getShortenedAddress } from '@/lib/utils';
 
-import { Button, Modal } from '@/components/ui';
+import { Button, IconButton, Modal } from '@/components/ui';
 
 /* Props */
 export type NavBarInternalProps = {
@@ -112,9 +112,9 @@ const NavBarMobile: FC<NavBarInternalProps> = ({ yScroll }) => {
             <Logo size="sm" />
             <div className="z-popover flex">
               <Modal.Trigger asChild>
-                <Button intent="neutral" variant="text" isIcon>
+                <IconButton intent="neutral" variant="text">
                   <Menu />
-                </Button>
+                </IconButton>
               </Modal.Trigger>
             </div>
           </div>
@@ -150,12 +150,11 @@ const NavBarMobile: FC<NavBarInternalProps> = ({ yScroll }) => {
                     },
                     { onClick: () => disconnect, children: <Power /> },
                   ].map((props, index) => (
-                    <Button
+                    <IconButton
                       key={index}
                       variant="secondary"
                       intent="neutral"
                       size="sm"
-                      isIcon
                       {...props}
                     />
                   ))}
