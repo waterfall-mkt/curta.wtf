@@ -1,15 +1,19 @@
 'use client';
 
+import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { type FC, Fragment, useCallback, useEffect, useState } from 'react';
 
 import ConnectButton from './connect-button';
 import Logo from './logo';
 import clsx from 'clsx';
+import { ExternalLink, Menu, Power } from 'lucide-react';
+import { useAccount, useDisconnect, useEnsName } from 'wagmi';
 
-import { NAVBAR_PAGES } from '@/lib/constants/site';
+import { NAVBAR_PAGES, SOCIAL_LINKS } from '@/lib/constants/site';
+import { getShortenedAddress } from '@/lib/utils';
 
-import { Button } from '@/components/ui';
+import { Button, Modal } from '@/components/ui';
 
 /* Props */
 export type NavBarInternalProps = {
@@ -18,13 +22,10 @@ export type NavBarInternalProps = {
 };
 
 /* Component */
-const NavBar: FC = () => {
+const NavBarInternal: FC = () => {
   const [yScroll, setYScroll] = useState<number>(0);
 
-  // ---------------------------------------------------------------------------
   // Update scroll position
-  // ---------------------------------------------------------------------------
-
   const handleNavigation = useCallback((e: Event) => {
     const window = e.currentTarget as Window;
     setYScroll(window.scrollY);
@@ -37,10 +38,7 @@ const NavBar: FC = () => {
     return () => window.removeEventListener('scroll', handleNavigation);
   }, [handleNavigation]);
 
-  // ---------------------------------------------------------------------------
   // Selected slug determination
-  // ---------------------------------------------------------------------------
-
   const pathname = usePathname();
   const path = pathname.split('/');
   const selected = `/${!path || path.length < 1 ? '' : path[1]}`;
@@ -48,6 +46,7 @@ const NavBar: FC = () => {
   return (
     <Fragment>
       <NavBarDesktop selected={selected} yScroll={yScroll} />
+      <NavBarMobile yScroll={yScroll} />
     </Fragment>
   );
 };
@@ -87,4 +86,114 @@ const NavBarDesktop: FC<NavBarInternalProps> = ({ selected, yScroll }) => {
   );
 };
 
-export default NavBar;
+const NavBarMobile: FC<NavBarInternalProps> = ({ yScroll }) => {
+  const [isMounted, setIsMounted] = useState<boolean>(false);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const { address, isConnected } = useAccount();
+  const { disconnect } = useDisconnect();
+
+  useEffect(() => setIsMounted(true), []);
+
+  const { data, isError, isLoading } = useEnsName({
+    address,
+    chainId: Number(process.env.NEXT_PUBLIC_CHAIN_ID),
+  });
+
+  return (
+    <Fragment>
+      <Modal open={isOpen} onOpenChange={() => setIsOpen(!isOpen)}>
+        <nav
+          className={clsx(
+            'sticky top-0 z-popover flex bg-gray-900 px-4 lg:hidden',
+            yScroll && yScroll > 0 && 'border-b border-stroke',
+          )}
+        >
+          <div className="flex h-14 w-full items-center justify-between">
+            <Logo size="sm" />
+            <div className="z-popover flex">
+              <Modal.Trigger asChild>
+                <Button intent="neutral" variant="text" isIcon>
+                  <Menu />
+                </Button>
+              </Modal.Trigger>
+            </div>
+          </div>
+        </nav>
+        <Modal.Content className="flex flex-col gap-4 p-4">
+          <div className="grow">
+            {isConnected || address ? (
+              <div className="flex grow items-center justify-between">
+                <div>
+                  <label className="text-xs text-gray-200" htmlFor="connected-address-link">
+                    Connected as
+                  </label>
+                  <a
+                    id="connected-address-link"
+                    className="line-clamp-1 text-ellipsis font-medium text-gray-100 transition-colors hover:underline"
+                    href={`https://${process.env.NEXT_PUBLIC_BLOCK_EXPLORER}/address/${address}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {isMounted && !isError && !isLoading && data
+                      ? data
+                      : address
+                      ? getShortenedAddress(address)
+                      : '–'}
+                  </a>
+                </div>
+                <div className="flex gap-2">
+                  {[
+                    {
+                      href: `https://${process.env.NEXT_PUBLIC_BLOCK_EXPLORER}/address/${address}`,
+                      newTab: true,
+                      children: <ExternalLink />,
+                    },
+                    { onClick: () => disconnect, children: <Power /> },
+                  ].map((props, index) => (
+                    <Button
+                      key={index}
+                      variant="secondary"
+                      intent="neutral"
+                      size="sm"
+                      isIcon
+                      {...props}
+                    />
+                  ))}
+                </div>
+              </div>
+            ) : (
+              <ConnectButton className="pointer-events-auto z-popover w-full" />
+            )}
+          </div>
+
+          {NAVBAR_PAGES.map((page) => (
+            <Link
+              key={page.slug}
+              href={page.slug}
+              className="block text-xl font-medium text-gray-100 hover:underline"
+            >
+              {page.name}
+            </Link>
+          ))}
+
+          <hr className="border-t border-stroke" />
+
+          {SOCIAL_LINKS.map((item) => (
+            <Link
+              key={item.name}
+              href={item.href}
+              className="flex w-full items-center justify-between text-gray-150 transition-colors hover:text-gray-100"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <span>{item.name}</span>
+              <ExternalLink className="h-4 w-4" />
+            </Link>
+          ))}
+        </Modal.Content>
+      </Modal>
+    </Fragment>
+  );
+};
+
+export default NavBarInternal;
