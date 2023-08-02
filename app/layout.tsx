@@ -10,6 +10,7 @@ import '@/styles/globals.css';
 
 import Web3Provider from '@/lib/providers/Web3Provider';
 
+import Footer from '@/components/common/footer';
 import NavBar from '@/components/common/nav-bar';
 
 // -----------------------------------------------------------------------------
@@ -72,6 +73,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           <main className="relative mx-auto flex w-full max-w-[90rem] grow flex-col overflow-hidden px-3 pb-6 pt-3 lg:px-20 lg:pb-16 lg:pt-12">
             {children}
           </main>
+          <Footer />
         </Web3Provider>
       </body>
 
