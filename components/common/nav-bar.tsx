@@ -148,7 +148,11 @@ const NavBarMobile: FC<NavBarInternalProps> = ({ yScroll }) => {
                       newTab: true,
                       children: <ExternalLink />,
                     },
-                    { onClick: () => disconnect, children: <Power /> },
+                    {
+                      title: 'Disconnect wallet',
+                      onClick: () => disconnect(),
+                      children: <Power />,
+                    },
                   ].map((props, index) => (
                     <IconButton
                       key={index}
