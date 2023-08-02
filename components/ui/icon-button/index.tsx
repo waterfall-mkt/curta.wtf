@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { type ForwardedRef, forwardRef } from 'react';
 
-import { iconButtonVariants } from './styles';
+import { iconButtonIconVariants, iconButtonVariants } from './styles';
 import type { IconButtonProps } from './types';
 import { cx } from 'class-variance-authority';
 import { twMerge } from 'tailwind-merge';
@@ -53,7 +53,7 @@ const IconButton = forwardRef(
       return (
         <Link href={href} passHref legacyBehavior>
           <button {...props}>
-            <span>{children}</span>
+            <span className={iconButtonIconVariants({ size })}>{children}</span>
           </button>
         </Link>
       );
@@ -61,7 +61,7 @@ const IconButton = forwardRef(
 
     return (
       <button {...props}>
-        <span>{children}</span>
+        <span className={iconButtonIconVariants({ size })}>{children}</span>
       </button>
     );
   },

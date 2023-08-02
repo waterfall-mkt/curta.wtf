@@ -1,5 +1,16 @@
 import { cva } from 'class-variance-authority';
 
+export const iconButtonIconVariants = cva(['flex', 'items-center', 'justify-center'], {
+  variants: {
+    size: {
+      lg: ['w-6', 'h-6'],
+      md: ['w-5', 'h-5'],
+      sm: ['w-4', 'h-4'],
+      xs: ['w-3', 'h-3'],
+    },
+  },
+});
+
 export const iconButtonVariants = cva(
   [
     'font-medium',
@@ -16,10 +27,10 @@ export const iconButtonVariants = cva(
   {
     variants: {
       size: {
-        lg: ['px-2', 'py-2', 'rounded-xl', 'w-10', 'h-10'],
-        md: ['px-2', 'py-2', 'rounded-lg', 'w-8', 'h-8'],
-        sm: ['px-2', 'py-2', 'rounded-lg', 'w-7', 'h-7'],
-        xs: ['px-1', 'py-1', 'rounded-md', 'w-5', 'h-5'],
+        lg: ['rounded-xl', 'w-10', 'h-10'],
+        md: ['rounded-lg', 'w-8', 'h-8'],
+        sm: ['rounded-lg', 'w-7', 'h-7'],
+        xs: ['rounded-md', 'w-5', 'h-5'],
       },
       variant: {
         primary: ['text-gray-50'],
