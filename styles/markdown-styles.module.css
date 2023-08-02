@@ -1,0 +1,56 @@
+.markdown pre {
+  @apply w-full rounded-lg bg-[#1E1E1E] p-2 text-xs md:rounded-xl md:p-4 md:text-sm;
+}
+
+.markdown a {
+  @apply text-primary;
+}
+
+.markdown p code,
+.markdown li code,
+.markdown h1 code,
+.markdown h2 code,
+.markdown h3 code,
+.markdown h4 code,
+.markdown td code {
+  @apply rounded-md border border-stroke bg-gray-450 px-1 py-0.5 font-normal;
+  @apply rounded-md border border-stroke bg-white/10 px-1 py-0.5 font-normal;
+}
+
+.markdown code::before {
+  content: '';
+}
+
+.markdown code::after {
+  content: '';
+}
+
+.markdown li::marker {
+  @apply text-gray-200;
+}
+
+.markdown tr,
+.markdown thead {
+  @apply border-stroke;
+}
+
+.markdown sup {
+  position: relative;
+  z-index: -1;
+}
+.markdown img {
+  @apply mx-auto rounded-lg border border-stroke;
+}
+
+.markdown td > img {
+  @apply m-0 inline-block h-4 rounded-md align-sub;
+}
+
+.markdown h1,
+.markdown h2,
+.markdown h3,
+.markdown h4,
+.markdown h5,
+.markdown h6 {
+  font-weight: 600;
+}
