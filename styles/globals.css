@@ -17,20 +17,7 @@ a {
   box-sizing: border-box;
 }
 
-/* For Webkit-based browsers (Chrome, Safari and Opera) */
-.hide-scrollbar::-webkit-scrollbar {
-  display: none;
-}
-
-/* For IE, Edge and Firefox */
-.hide-scrollbar {
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
-}
-
-div#__next,
-div#__next > div,
-div#__next > div > main {
+body > div {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
@@ -53,9 +40,13 @@ div#__next > div > main {
   opacity: 0.2;
 }
 
-pre code {
-  overflow-x: auto;
-  padding: 0 !important;
+/* For Webkit-based browsers (Chrome, Safari and Opera) */
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
 
-  -webkit-text-size-adjust: none;
+/* For IE, Edge and Firefox */
+.hide-scrollbar {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
 }

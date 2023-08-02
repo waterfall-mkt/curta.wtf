@@ -77,6 +77,12 @@ module.exports = {
           DEFAULT: 'theme(colors.red.250)',
           dark: 'theme(colors.red.900)',
         },
+        tw: {
+          green: '#22c55e',
+          yellow: '#facc15',
+          orange: '#f97316',
+          red: '#ef4444',
+        },
         green: {
           50: 'rgba(153, 255, 221, 1)',
           100: 'rgba(132, 252, 211, 1)',

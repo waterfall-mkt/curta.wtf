@@ -69,11 +69,9 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       <body className={clsx(inter.variable, firaCode.variable, poppins.variable)}>
         <Web3Provider>
           <NavBar />
-          <div className="flex">
-            <main className="relative mx-auto flex min-h-screen w-full max-w-[90rem] grow flex-col overflow-hidden px-3 pb-6 pt-3 lg:px-20 lg:pb-16 lg:pt-12">
-              <div>{children}</div>
-            </main>
-          </div>
+          <main className="relative mx-auto flex w-full max-w-[90rem] grow flex-col overflow-hidden px-3 pb-6 pt-3 lg:px-20 lg:pb-16 lg:pt-12">
+            {children}
+          </main>
         </Web3Provider>
       </body>
 
