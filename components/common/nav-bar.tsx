@@ -11,6 +11,7 @@ import { ExternalLink, Menu, Power } from 'lucide-react';
 import { useAccount, useDisconnect, useEnsName } from 'wagmi';
 
 import { NAVBAR_PAGES, SOCIAL_LINKS } from '@/lib/constants/site';
+import { useMediaQuery } from '@/lib/hooks/useMediaQuery';
 import { getShortenedAddress } from '@/lib/utils';
 
 import { Button, IconButton, Modal } from '@/components/ui';
@@ -91,6 +92,7 @@ const NavBarMobile: FC<NavBarInternalProps> = ({ yScroll }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const { address, isConnected } = useAccount();
   const { disconnect } = useDisconnect();
+  const isSmallScreen = useMediaQuery('(max-width: 1024px)'); // `lg` breakpoint
 
   useEffect(() => setIsMounted(true), []);
 
@@ -101,7 +103,7 @@ const NavBarMobile: FC<NavBarInternalProps> = ({ yScroll }) => {
 
   return (
     <Fragment>
-      <Modal open={isOpen} onOpenChange={() => setIsOpen(!isOpen)}>
+      <Modal open={isOpen && isSmallScreen} onOpenChange={() => setIsOpen(!isOpen)}>
         <nav
           className={clsx(
             'sticky top-0 z-popover flex bg-gray-900 px-4 lg:hidden',
