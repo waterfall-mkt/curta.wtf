@@ -63,7 +63,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="en" className={clsx('dark', inter.className)} style={{ background: 'black' }}>
+    <html lang="en" className={clsx('dark', inter.className)} style={{ background: '#0D1017' }}>
       <body className={clsx(inter.variable, firaCode.variable, poppins.variable)}>
         <Web3Provider>
           <div className="flex">

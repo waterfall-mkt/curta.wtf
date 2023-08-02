@@ -1,17 +1,14 @@
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const { fontFamily } = require('tailwindcss/defaultTheme');
-
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   darkMode: 'class',
-  content: ['./app/**/*.{js,ts,jsx,tsx}', './components/**/*.{js,ts,jsx,tsx}'],
+  content: ['./pages/**/*.{js,ts,jsx,tsx}', './components/**/*.{js,ts,jsx,tsx}'],
   theme: {
     data: {
       disabled: 'disabled~="true"',
-      primary: 'intent~="primary"',
-      secondary: 'intent~="secondary"',
-      tertiary: 'intent~="tertiary"',
-      'intent-text': 'intent~="text"',
+      primary: 'variant~="primary"',
+      secondary: 'variant~="secondary"',
+      tertiary: 'variant~="tertiary"',
+      'variant-text': 'variant~="text"',
     },
     extend: {
       zIndex: {
@@ -24,7 +21,6 @@ module.exports = {
         desktop: '1440px',
       },
       animation: {
-        'ping-slow': 'ping 4s cubic-bezier(0.04, 1.04, 0.16, 1) infinite',
         'fade-in': 'fade-in 0.15s ease-in-out',
         'slide-up': 'slide-up 0.15s ease-in-out',
       },
@@ -37,16 +33,20 @@ module.exports = {
           from: { transform: 'translateY(100%)' },
           to: { transform: 'translateY(0)' },
         },
+        'accordion-down': {
+          from: { height: 0 },
+          to: { height: 'var(--radix-accordion-content-height)' },
+        },
+        'accordion-up': {
+          from: { height: 'var(--radix-accordion-content-height)' },
+          to: { height: 0 },
+        },
       },
       dropShadow: {
         DEFAULT: '0px 4px 24px rgba(13, 16, 23, 0.5)',
       },
       fontWeight: {
         book: 350,
-      },
-      fontFamily: {
-        poppins: ['var(--poppins-font)'],
-        sans: ['var(--inter-font)', ...fontFamily.sans],
       },
       fontSize: {
         xs: ['0.75rem', { lineHeight: '1rem' }],
@@ -63,19 +63,6 @@ module.exports = {
         'display-2xl': ['4.5rem', { lineHeight: '5.75rem', letterSpacing: '-1%' }],
       },
       colors: {
-        primary: '#007FFF',
-        'c-gray-400': '#A3A3A3',
-        'c-gray-500': '#737373',
-        'c-gray-700': '#404040',
-        'c-dark-gray-700': '#171717',
-        'c-dark-gray-800': '#121212',
-        'c-dark-gray-900': '#0D0D0D',
-        tw: {
-          green: '#22c55e',
-          yellow: '#facc15',
-          orange: '#f97316',
-          red: '#ef4444',
-        },
         verified: 'rgba(11, 165, 236, 1)',
         stroke: 'theme(colors.gray.350)',
         success: {
@@ -89,9 +76,6 @@ module.exports = {
         fail: {
           DEFAULT: 'theme(colors.red.250)',
           dark: 'theme(colors.red.900)',
-        },
-        gold: {
-          DEFAULT: '#FACC15',
         },
         green: {
           50: 'rgba(153, 255, 221, 1)',
@@ -185,11 +169,18 @@ module.exports = {
           900: 'rgba(13, 16, 23, 1)',
         },
       },
+      data: {
+        disabled: 'disabled~="true"',
+        primary: 'variant~="primary"',
+        secondary: 'variant~="secondary"',
+        tertiary: 'variant~="tertiary"',
+      },
     },
   },
   plugins: [
     require('@tailwindcss/aspect-ratio'),
     require('@tailwindcss/line-clamp'),
+    require('@tailwindcss/forms'),
     require('@tailwindcss/typography'),
     require('tailwindcss-percentage-width'),
     require('tailwindcss-animate'),
