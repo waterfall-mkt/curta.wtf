@@ -2,10 +2,11 @@ import type { Metadata } from 'next';
 import { Fira_Code, Inter, Poppins } from 'next/font/google';
 import type { ReactNode } from 'react';
 
-import './globals.css';
 import '@rainbow-me/rainbowkit/styles.css';
 import { Analytics } from '@vercel/analytics/react';
 import clsx from 'clsx';
+
+import '@/styles/globals.css';
 
 import Web3Provider from '@/lib/providers/Web3Provider';
 
