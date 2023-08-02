@@ -10,6 +10,8 @@ import '@/styles/globals.css';
 
 import Web3Provider from '@/lib/providers/Web3Provider';
 
+import NavBar from '@/components/common/nav-bar';
+
 // -----------------------------------------------------------------------------
 // Fonts
 // -----------------------------------------------------------------------------
@@ -66,8 +68,8 @@ export default function RootLayout({ children }: { children: ReactNode }) {
     <html lang="en" className={clsx('dark', inter.className)} style={{ background: '#0D1017' }}>
       <body className={clsx(inter.variable, firaCode.variable, poppins.variable)}>
         <Web3Provider>
+          <NavBar />
           <div className="flex">
-            {/* `<NavBar />` goes here */}
             <main className="relative mx-auto flex min-h-screen w-full max-w-[90rem] grow flex-col overflow-hidden px-3 pb-6 pt-3 lg:px-20 lg:pb-16 lg:pt-12">
               <div>{children}</div>
             </main>

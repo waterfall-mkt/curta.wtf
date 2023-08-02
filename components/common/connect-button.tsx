@@ -35,7 +35,7 @@ const ConnectButton: FC<ConnectButtonProps> = ({ className }) => {
               if (!connected) {
                 return (
                   <Button
-                    className="w-full"
+                    className={className}
                     variant="secondary"
                     intent="primary"
                     onClick={openConnectModal}
@@ -48,7 +48,12 @@ const ConnectButton: FC<ConnectButtonProps> = ({ className }) => {
 
               if (chain.unsupported) {
                 return (
-                  <Button className="w-full" intent="fail" onClick={openChainModal} type="button">
+                  <Button
+                    className={className}
+                    intent="fail"
+                    onClick={openChainModal}
+                    type="button"
+                  >
                     Switch network
                   </Button>
                 );
@@ -56,7 +61,7 @@ const ConnectButton: FC<ConnectButtonProps> = ({ className }) => {
 
               return (
                 <Button
-                  className="w-full"
+                  className={className}
                   variant="secondary"
                   intent="neutral"
                   onClick={openAccountModal}
