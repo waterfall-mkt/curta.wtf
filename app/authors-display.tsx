@@ -57,11 +57,13 @@ const AuthorsDisplay: FC<AuthorsDisplayProps> = ({ data }) => {
                     index > 0 ? 'border-t border-stroke' : '',
                   )}
                 >
-                  {ensName ? (
-                    <ENSAvatar name={ensName} size={40} />
-                  ) : (
-                    <Avatar src={author.avatar ?? ''} alt={author.address} size={40} />
-                  )}
+                  <div className="h-10 w-10 overflow-hidden rounded-full border border-stroke bg-gray-600">
+                    {ensName ? (
+                      <ENSAvatar name={ensName} size={40} />
+                    ) : (
+                      <Avatar src={author.avatar ?? ''} alt={author.address} size={40} />
+                    )}
+                  </div>
                   <div className="ml-3.5 grow">
                     <div className="text-gray-100">{displayName}</div>
                     <AddressLink className="w-fit text-sm" address={author.address} />
@@ -74,7 +76,7 @@ const AuthorsDisplay: FC<AuthorsDisplayProps> = ({ data }) => {
                         href={`https://twitter.com/${author.twitter}`}
                         newTab
                       >
-                        <Twitter className="h-6 w-6" />
+                        <Twitter />
                       </IconButton>
                     ) : null}
                     {author.github ? (
@@ -84,7 +86,7 @@ const AuthorsDisplay: FC<AuthorsDisplayProps> = ({ data }) => {
                         href={`https://github.com/${author.github}`}
                         newTab
                       >
-                        <Github className="h-6 w-6" />
+                        <Github />
                       </IconButton>
                     ) : null}
                   </div>

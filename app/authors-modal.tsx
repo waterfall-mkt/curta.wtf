@@ -24,7 +24,7 @@ const AuthorsModal: FC<AuthorsModalProps> = ({ data, children }) => {
       <Modal.Trigger asChild>
         <button
           id="author-avatar-7"
-          className="flex h-[52px] w-[52px] items-center justify-center rounded-full bg-gray-350 text-gray-100 ring-[3px] ring-gray-600 transition-transform hover:z-[10] hover:scale-110 hover:ring-0 focus-visible:z-[9] focus-visible:scale-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-250"
+          className="z-[9] flex h-[52px] w-[52px] items-center justify-center rounded-full bg-gray-350 text-gray-100 ring-[3px] ring-gray-600 transition-transform hover:z-[10] hover:scale-110 hover:ring-0 focus-visible:scale-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-250"
           onKeyDown={(e) => {
             if (e.key === 'ArrowLeft') {
               document.getElementById('author-avatar-6')?.focus();
