@@ -5,7 +5,7 @@ import AuthorsDisplay from './authors-display';
 import LinksDisplay from './links-display';
 import PhaseTable from './phase-table';
 
-import { fetchAuthors } from '@/lib/utils';
+import { fetchAuthors, fetchPuzzles } from '@/lib/utils';
 
 import ContainerLayout from '@/components/layouts/container';
 
@@ -44,6 +44,7 @@ export const metadata: Metadata = {
 
 export default async function Home() {
   const { data: authors } = await fetchAuthors();
+  const { data: puzzles } = await fetchPuzzles();
 
   return (
     <Fragment>
@@ -76,6 +77,9 @@ export default async function Home() {
             </div>
           </div>
           <PhaseTable />
+        </div>
+        <div className="mt-12 w-full md:mt-16">
+          <h2 className="text-2xl font-bold tracking-tighter text-gray-50">Puzzles</h2>
         </div>
       </ContainerLayout>
     </Fragment>
