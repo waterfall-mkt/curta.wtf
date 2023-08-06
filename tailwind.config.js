@@ -1,7 +1,11 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   darkMode: 'class',
-  content: ['./pages/**/*.{js,ts,jsx,tsx}', './components/**/*.{js,ts,jsx,tsx}'],
+  content: [
+    './app/**/*.{js,ts,jsx,tsx,mdx}',
+    './components/**/*.{js,ts,jsx,tsx,mdx}',
+    './pages/**/*.{js,ts,jsx,tsx,mdx}',
+  ],
   theme: {
     data: {
       disabled: 'disabled~="true"',
@@ -47,6 +51,9 @@ module.exports = {
       },
       fontWeight: {
         book: 350,
+      },
+      fontFamily: {
+        poppins: ['var(--poppins-font)'],
       },
       fontSize: {
         xs: ['0.75rem', { lineHeight: '1rem' }],

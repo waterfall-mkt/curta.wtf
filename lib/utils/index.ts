@@ -1,3 +1,4 @@
+import fetchAuthors from './fetchAuthors';
 import getShortenedAddress from './getShortenedAddress';
 
-export { getShortenedAddress };
+export { fetchAuthors, getShortenedAddress };

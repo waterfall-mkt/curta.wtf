@@ -35,31 +35,32 @@ export const metadata: Metadata = {
 // Page
 // -----------------------------------------------------------------------------
 
-export default function Home() {
+export default async function Home() {
   return (
     <Fragment>
       {/* Grid */}
-      <div className="bg-grid pointer-events-none" style={{ zIndex: -1 }} />
+      <div className="bg-grid pointer-events-none z-[-1]" />
       {/* Background ellipse */}
       <div
-        className="pointer-events-none absolute overflow-hidden rounded-full blur-3xl saturate-150"
+        className="pointer-events-none absolute left-1/2 top-[5.5rem] z-[-1] min-h-[52rem] min-w-[64rem] max-w-[128rem] -translate-x-1/2 overflow-hidden rounded-full blur-3xl saturate-150"
         style={{
-          minHeight: '52rem',
-          minWidth: '64rem',
-          maxWidth: '128rem',
-          top: '5.5rem',
-          left: '50%',
-          transform: 'translateX(-50%)',
           background:
             'radial-gradient(50% 50% at 50% 50%, rgba(8, 125, 252, 0.125) 0%, ' +
             'rgba(8, 125, 252, 0.5) 0%, rgba(8, 125, 252, 0.125) 0.01%, ' +
             'rgba(13, 13, 13, 0.125) 100%)',
-          zIndex: -1,
         }}
       />
 
       {/* Content */}
       <ContainerLayout>
+        <div className="flex flex-col space-y-8">
+          <div>
+            <h1 className="font-poppins text-5xl font-semibold leading-[6rem] tracking-tighter text-gray-50">
+              Curta CTF
+            </h1>
+            <div className="text-xl text-gray-150 md:text-2xl">{description}</div>
+          </div>
+        </div>
         <ConnectButton />
         <ConnectButton />
         <ConnectButton />
