@@ -22,11 +22,11 @@ export type PhaseTagProps = {
 
 const PhaseTag: FC<PhaseTagProps> = ({ phase, isPinging = true }) => {
   return (
-    <Tooltip content={GLOSSARY[`PHASE_${phase}` satisfies keyof typeof GLOSSARY]}>
-      <div className="relative flex w-fit items-center space-x-2 rounded-lg bg-white/10 px-3 py-1 backdrop-blur">
+    <Tooltip content={GLOSSARY[`PHASE_${phase}` satisfies keyof typeof GLOSSARY]} triggerAsChild>
+      <button className="relative flex w-fit items-center space-x-2 rounded-lg bg-white/10 px-3 py-1 backdrop-blur focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-250">
         <PhasePing phase={phase} isPinging={isPinging} />
         <div className="text-gray-50">Phase {phase}</div>
-      </div>
+      </button>
     </Tooltip>
   );
 };
