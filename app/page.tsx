@@ -1,7 +1,10 @@
 import type { Metadata } from 'next';
 import { Fragment } from 'react';
 
-import ConnectButton from '@/components/common/connect-button';
+import AuthorsDisplay from './authors-display';
+
+import { fetchAuthors } from '@/lib/utils';
+
 import ContainerLayout from '@/components/layouts/container';
 
 // -----------------------------------------------------------------------------
@@ -11,7 +14,7 @@ import ContainerLayout from '@/components/layouts/container';
 const description = 'A CTF protocol, where players create and solve EVM puzzles to earn NFTs.';
 
 export const metadata: Metadata = {
-  title: 'Curta, a CTF protocol',
+  title: 'Curta | Puzzles',
   description,
   keywords: ['ethereum', 'blockchain', 'ctf', 'on-chain', 'security', 'puzzle', 'game', 'nft'],
   themeColor: '#0D1017',
@@ -36,6 +39,8 @@ export const metadata: Metadata = {
 // -----------------------------------------------------------------------------
 
 export default async function Home() {
+  const { data: authors } = await fetchAuthors();
+
   return (
     <Fragment>
       {/* Grid */}
@@ -60,10 +65,10 @@ export default async function Home() {
             </h1>
             <div className="text-xl text-gray-150 md:text-2xl">{description}</div>
           </div>
+          <div className="flex flex-col space-y-4 sm:flex-row sm:space-x-8 sm:space-y-0">
+            <AuthorsDisplay data={authors} />
+          </div>
         </div>
-        <ConnectButton />
-        <ConnectButton />
-        <ConnectButton />
       </ContainerLayout>
     </Fragment>
   );

@@ -4,13 +4,13 @@ export const cardBodyVariants = cva([], {
   variants: {
     noPadding: {
       true: ['p-0'],
-      false: ['lg:p-6', 'p-3'],
+      false: ['p-4'],
     },
   },
 });
 
 export const cardFooterStyles =
-  'rounded-bl-[1.25rem] rounded-br-[1.25rem] border-t border-stroke p-6';
+  'rounded-bl-[1.25rem] rounded-br-[1.25rem] border-t border-stroke p-4';
 
 export const cardHeaderVariants = cva(
   [
@@ -26,7 +26,7 @@ export const cardHeaderVariants = cva(
     variants: {
       noPadding: {
         true: ['p-0'],
-        false: ['p-3', 'lg:p-6'],
+        false: ['p-4'],
       },
     },
   },
