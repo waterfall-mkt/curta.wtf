@@ -14,12 +14,18 @@ import Avatar from '@/components/templates/avatar';
 import ENSAvatar from '@/components/templates/ens-avatar';
 import { IconButton } from '@/components/ui';
 
-/* Props */
+// ---------------------------------------–-------------------------------------
+// Props
+// ---------------------------------------–-------------------------------------
+
 type AuthorsDisplayProps = {
   data: Author[];
 };
 
-/* Component */
+// ---------------------------------------–-------------------------------------
+// Component
+// ---------------------------------------–-------------------------------------
+
 const AuthorsDisplay: FC<AuthorsDisplayProps> = ({ data }) => {
   return (
     <div className="flex flex-col space-y-1">

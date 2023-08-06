@@ -7,7 +7,10 @@ import BoringAvatar from 'boring-avatars';
 import clsx from 'clsx';
 import { twMerge } from 'tailwind-merge';
 
-/* Props */
+// ---------------------------------------–-------------------------------------
+// Props
+// ---------------------------------------–-------------------------------------
+
 type AvatarProps = {
   className?: string;
   src: string;
@@ -15,7 +18,10 @@ type AvatarProps = {
   size?: number;
 };
 
-/* Component */
+// ---------------------------------------–-------------------------------------
+// Component
+// ---------------------------------------–-------------------------------------
+
 const Avatar: FC<AvatarProps> = ({ className, src, alt, size = 40 }) => {
   return (
     <RadixAvatar.Root>

@@ -17,32 +17,32 @@ export type FlagConfig = {
 export type Phase = 0 | 1 | 2 | 3;
 
 export type Puzzle = {
-  /* Protocol */
+  // Protocol
   id: number;
   address: `0x${string}`;
   author: Author;
   addedTx: `0x${string}`;
   addedTimestamp: number;
   addedBlock: number;
-  /* Metadata */
+  // Metadata
   name: string;
   flagConfig: FlagConfig;
-  /* Solve */
+  // Solve
   firstSolveTimestamp: number;
   firstSolver?: `0x${string}`;
   firstSolveBlock?: number;
   solveTx?: `0x${string}`;
   solveTime?: number;
   numberSolved: number;
-  /* Problem */
+  // Problem
   bytecode: string;
   solidity?: string;
   huff?: string;
   tokenRenderer?: string;
-  /* Solution */
+  // Solution
   github?: string;
   solution?: string;
-  /* Misc */
+  // Misc
   disabled?: boolean;
 };
 

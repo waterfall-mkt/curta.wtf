@@ -6,16 +6,22 @@ import type { Author } from '@/lib/types/protocol';
 
 import { Button, Modal } from '@/components/ui';
 
-/* Props */
+// ---------------------------------------–-------------------------------------
+// Props
+// ---------------------------------------–-------------------------------------
+
 type AuthorsModalProps = {
   data: Author[];
   children: ReactNode;
 };
 
+// ---------------------------------------–-------------------------------------
+// Component
+// ---------------------------------------–-------------------------------------
+
 const SUBMIT_PUZZLE_GOOGLE_FORM =
   'https://docs.google.com/forms/d/e/1FAIpQLSe_ZLf3Xwqrpp9P3m7d8J1Iya6v9UOagXbEWzlYn3CHQFr4dw/viewform';
 
-/* Component */
 const AuthorsModal: FC<AuthorsModalProps> = ({ data, children }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 

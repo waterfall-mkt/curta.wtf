@@ -16,13 +16,19 @@ import { getShortenedAddress } from '@/lib/utils';
 
 import { Button, IconButton, Modal } from '@/components/ui';
 
-/* Props */
-export type NavBarInternalProps = {
+// ---------------------------------------–-------------------------------------
+// Props
+// ---------------------------------------–-------------------------------------
+
+type NavBarInternalProps = {
   selected?: string;
   yScroll?: number;
 };
 
-/* Component */
+// ---------------------------------------–-------------------------------------
+// Component
+// ---------------------------------------–-------------------------------------
+
 const NavBarInternal: FC = () => {
   const [yScroll, setYScroll] = useState<number>(0);
 

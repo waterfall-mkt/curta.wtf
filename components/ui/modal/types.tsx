@@ -6,10 +6,16 @@ import type { VariantProps } from 'class-variance-authority';
 import type { ButtonProps } from '@/components/ui/button/types';
 import type { CardBodyProps, CardProps } from '@/components/ui/card/types';
 
-/* Variant Props */
+// ---------------------------------------–-------------------------------------
+// Variant props
+// ---------------------------------------–-------------------------------------
+
 export type ModalHeaderVariantProps = VariantProps<typeof modalHeaderVariants>;
 
-/* Component Props */
+// ---------------------------------------–-------------------------------------
+// Component props
+// ---------------------------------------–-------------------------------------
+
 export type ModalBodyProps = CardBodyProps;
 
 export type ModalHeaderProps = ModalHeaderVariantProps & {
@@ -20,7 +26,7 @@ export type ModalCloseProps = ButtonProps;
 
 export type ModalContentProps = CardProps & {
   description?: string;
-  /* Radix UI Props */
+  // Radix UI props
   portalForceMount?: true | undefined;
   portalContainer?: HTMLElement;
   overlayForceMount?: true | undefined;
@@ -36,7 +42,7 @@ export type ModalPreviousProps = ButtonProps;
 
 export type ModalProps = {
   children: ReactNode;
-  /* Radix UI Props */
+  // Radix UI props
   defaultOpen?: boolean;
   open?: boolean;
   onOpenChange?: (open: boolean) => void;
@@ -49,11 +55,14 @@ export type ModalTitleProps = RefAttributes<HTMLHeadingElement> & {
 
 export type ModalTriggerProps = {
   children: ReactNode;
-  /* Radix UI Props */
+  // Radix UI props
   asChild?: boolean;
 };
 
-/* Composition */
+// ---------------------------------------–-------------------------------------
+// Composition
+// ---------------------------------------–-------------------------------------
+
 export type ModalComposition = {
   Body: FC<ModalBodyProps>;
   Close: FC<ModalCloseProps>;

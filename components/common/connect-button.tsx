@@ -6,12 +6,18 @@ import { ConnectButton as RainbowConnect } from '@rainbow-me/rainbowkit';
 
 import { Button } from '@/components/ui';
 
-/* Props */
+// ---------------------------------------–-------------------------------------
+// Props
+// ---------------------------------------–-------------------------------------
+
 type ConnectButtonProps = {
   className?: string;
 };
 
-/* Component */
+// ---------------------------------------–-------------------------------------
+// Component
+// ---------------------------------------–-------------------------------------
+
 const ConnectButton: FC<ConnectButtonProps> = ({ className }) => {
   return (
     <RainbowConnect.Custom>

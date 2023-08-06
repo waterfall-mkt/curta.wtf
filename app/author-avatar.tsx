@@ -4,14 +4,20 @@ import type { FC, KeyboardEventHandler, ReactNode } from 'react';
 
 import type { Author } from '@/lib/types/protocol';
 
-/* Props */
+// ---------------------------------------–-------------------------------------
+// Props
+// ---------------------------------------–-------------------------------------
+
 type AuthorAvatarProps = {
   author: Author;
   index: number;
   children: ReactNode;
 };
 
-/* Component */
+// ---------------------------------------–-------------------------------------
+// Component
+// ---------------------------------------–-------------------------------------
+
 const AuthorAvatar: FC<AuthorAvatarProps> = ({ author, index, children }) => {
   const href = author.twitter
     ? `https://twitter.com/${author.twitter}`

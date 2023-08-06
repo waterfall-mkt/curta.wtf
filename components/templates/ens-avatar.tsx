@@ -2,14 +2,20 @@ import { publicClient } from '@/lib/client';
 
 import Avatar from '@/components/templates/avatar';
 
-/* Props */
+// ---------------------------------------–-------------------------------------
+// Props
+// ---------------------------------------–-------------------------------------
+
 type ENSAvatarProps = {
   className?: string;
   name: string;
   size?: number;
 };
 
-/* Component */
+// ---------------------------------------–-------------------------------------
+// Component
+// ---------------------------------------–-------------------------------------
+
 export default async function ENSAvatar({ className, name, size = 40 }: ENSAvatarProps) {
   const data = await publicClient.getEnsAvatar({ name });
 

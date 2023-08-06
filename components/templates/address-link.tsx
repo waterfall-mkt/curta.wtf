@@ -7,14 +7,20 @@ import type { Address } from 'viem';
 import { publicClient } from '@/lib/client';
 import { getShortenedAddress } from '@/lib/utils';
 
-/* Props */
+// ---------------------------------------–-------------------------------------
+// Props
+// ---------------------------------------–-------------------------------------
+
 type AddressLinkProps = {
   className?: string;
   address?: Address;
   href?: string;
 };
 
-/* Component */
+// ---------------------------------------–-------------------------------------
+// Component
+// ---------------------------------------–-------------------------------------
+
 const AddressLink: FC<AddressLinkProps> = async ({ className, address, href }) => {
   const ensName = address ? await publicClient.getEnsName({ address }) : undefined;
   const addressDisplay = ensName ?? (address ? getShortenedAddress(address) : '–');
