@@ -3,6 +3,7 @@ import { Fragment } from 'react';
 
 import AuthorsDisplay from './authors-display';
 import LinksDisplay from './links-display';
+import PhaseTable from './phase-table';
 
 import { fetchAuthors } from '@/lib/utils';
 
@@ -61,17 +62,20 @@ export default async function Home() {
 
       {/* Content */}
       <ContainerLayout>
-        <div className="flex flex-col space-y-8">
-          <div>
-            <h1 className="font-poppins text-5xl font-semibold leading-[6rem] tracking-tighter text-gray-50">
-              Curta CTF
-            </h1>
-            <div className="text-xl text-gray-150 md:text-2xl">{description}</div>
+        <div className="flex flex-col lg:flex-row">
+          <div className="flex flex-col space-y-8">
+            <div>
+              <h1 className="font-poppins text-5xl font-semibold leading-[6rem] tracking-tighter text-gray-50">
+                Curta CTF
+              </h1>
+              <div className="text-xl text-gray-150 md:text-2xl">{description}</div>
+            </div>
+            <div className="flex flex-col space-y-4 sm:flex-row sm:space-x-8 sm:space-y-0">
+              <AuthorsDisplay data={authors} />
+              <LinksDisplay />
+            </div>
           </div>
-          <div className="flex flex-col space-y-4 sm:flex-row sm:space-x-8 sm:space-y-0">
-            <AuthorsDisplay data={authors} />
-            <LinksDisplay />
-          </div>
+          <PhaseTable />
         </div>
       </ContainerLayout>
     </Fragment>
