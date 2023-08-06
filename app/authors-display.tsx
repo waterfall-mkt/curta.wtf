@@ -1,4 +1,4 @@
-import type { FC } from 'react';
+import { type FC, useId } from 'react';
 
 import AuthorAvatar from './author-avatar';
 import AuthorsModal from './authors-modal';
@@ -27,13 +27,15 @@ type AuthorsDisplayProps = {
 // ---------------------------------------–-------------------------------------
 
 const AuthorsDisplay: FC<AuthorsDisplayProps> = ({ data }) => {
+  const id = useId();
+
   return (
     <div className="flex flex-col space-y-1">
-      <label htmlFor="authors-display" className="text-sm font-book text-gray-200">
+      <label htmlFor={id} className="text-sm font-book text-gray-200">
         Puzzles By
       </label>
       <div
-        id="authors-display"
+        id={id}
         className="flex w-fit items-center -space-x-4 rounded-full border border-stroke bg-gray-600 p-1"
       >
         {data.slice(0, 7).map(async (author, index) => {
