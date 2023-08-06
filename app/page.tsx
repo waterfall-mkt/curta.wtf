@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Fragment } from 'react';
 
 import AuthorsDisplay from './authors-display';
+import LinksDisplay from './links-display';
 
 import { fetchAuthors } from '@/lib/utils';
 
@@ -69,6 +70,7 @@ export default async function Home() {
           </div>
           <div className="flex flex-col space-y-4 sm:flex-row sm:space-x-8 sm:space-y-0">
             <AuthorsDisplay data={authors} />
+            <LinksDisplay />
           </div>
         </div>
       </ContainerLayout>
