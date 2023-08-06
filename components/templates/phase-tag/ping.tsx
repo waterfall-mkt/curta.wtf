@@ -1,23 +1,14 @@
 import type { FC } from 'react';
 
+import type { PhaseTagProps } from '.';
 import clsx from 'clsx';
 
-import type { Phase } from '@/lib/types/protocol';
-
-/* Props */
-type PhasePingProps = {
-  className?: string;
-  phase: Phase;
-  isPinging: boolean;
-};
-
-/* Component */
-const PhasePing: FC<PhasePingProps> = ({ className, phase, isPinging }) => {
+const PhaseTagPing: FC<PhaseTagProps> = ({ phase, isPinging = true }) => {
   const PHASE_TO_COLOR = ['bg-tw-green', 'bg-tw-yellow', 'bg-tw-orange', 'bg-tw-red'];
 
   return (
-    <div className="flex h-2 w-2 items-center justify-center">
-      <div className={clsx('absolute flex h-3 w-3 items-center justify-center', className)}>
+    <div className="flex h-2 w-2 items-center justify-center" title={`Phase ${phase}`}>
+      <div className="absolute flex h-3 w-3 items-center justify-center">
         <div
           className={clsx(
             'absolute inline-flex h-full w-full rounded-full opacity-75',
@@ -31,6 +22,6 @@ const PhasePing: FC<PhasePingProps> = ({ className, phase, isPinging }) => {
   );
 };
 
-PhasePing.displayName = 'PhasePing';
+PhaseTagPing.displayName = 'PhaseTagPing';
 
-export default PhasePing;
+export default PhaseTagPing;

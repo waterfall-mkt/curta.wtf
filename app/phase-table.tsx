@@ -6,7 +6,7 @@ import type { ColumnDef } from '@tanstack/react-table';
 
 import type { Phase } from '@/lib/types/protocol';
 
-import PhaseTag from '@/components/templates/phase/tag';
+import PhaseTag from '@/components/templates/phase-tag';
 import { Table } from '@/components/ui';
 
 // ---------------------------------------–-------------------------------------
