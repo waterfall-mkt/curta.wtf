@@ -2,13 +2,19 @@ import type { FC, ReactNode } from 'react';
 
 import { Button } from '@/components/ui';
 
-/* Props */
+// ---------------------------------------–-------------------------------------
+// Props
+// ---------------------------------------–-------------------------------------
+
 type ErrorLayoutProps = {
   statusCode?: number;
   children?: ReactNode;
 };
 
-/* Component */
+// ---------------------------------------–-------------------------------------
+// Component
+// ---------------------------------------–-------------------------------------
+
 const ErrorLayout: FC<ErrorLayoutProps> = ({ statusCode, children }) => {
   const header = statusCode === 404 ? 'PageNotFound()' : `InternalServerError(${statusCode})`;
   const message = statusCode === 404 ? '0x924C0FAD' : '0x2145B8F0';

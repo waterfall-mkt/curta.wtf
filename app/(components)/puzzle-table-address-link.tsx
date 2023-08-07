@@ -1,4 +1,4 @@
-'use server';
+'use client';
 
 import type { FC } from 'react';
 
@@ -6,27 +6,27 @@ import clsx from 'clsx';
 import { twMerge } from 'tailwind-merge';
 import type { Address } from 'viem';
 
-import { publicClient } from '@/lib/client';
 import { getShortenedAddress } from '@/lib/utils';
 
 // ---------------------------------------–-------------------------------------
 // Props
 // ---------------------------------------–-------------------------------------
 
-export type AddressLinkProps = {
+type PuzzleTableAddressLinkProps = {
   className?: string;
-  address?: Address;
-  href?: string;
+  address: Address;
+  ensName?: string;
 };
 
 // ---------------------------------------–-------------------------------------
 // Component
 // ---------------------------------------–-------------------------------------
 
-const AddressLink: FC<AddressLinkProps> = async ({ className, address, href }) => {
-  const ensName = address ? await publicClient.getEnsName({ address }) : undefined;
-  const addressDisplay = ensName ?? (address ? getShortenedAddress(address) : '–');
-
+const PuzzleTableAddressLink: FC<PuzzleTableAddressLinkProps> = ({
+  className,
+  address,
+  ensName,
+}) => {
   return (
     <a
       className={twMerge(
@@ -35,16 +35,15 @@ const AddressLink: FC<AddressLinkProps> = async ({ className, address, href }) =
           className,
         ),
       )}
-      href={href ?? `https://${process.env.NEXT_PUBLIC_BLOCK_EXPLORER}/address/${address}`}
+      href={`https://${process.env.NEXT_PUBLIC_BLOCK_EXPLORER}/address/${address}`}
       target="_blank"
       rel="noopener noreferrer"
+      onClick={(e) => e.stopPropagation()}
       aria-label={`View ${address} on ${process.env.NEXT_PUBLIC_BLOCK_EXPLORER}`}
     >
-      {addressDisplay}
+      {ensName ?? getShortenedAddress(address)}
     </a>
   );
 };
 
-AddressLink.displayName = 'AddressLink';
-
-export default AddressLink;
+export default PuzzleTableAddressLink;

@@ -1,7 +1,11 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   darkMode: 'class',
-  content: ['./pages/**/*.{js,ts,jsx,tsx}', './components/**/*.{js,ts,jsx,tsx}'],
+  content: [
+    './app/**/*.{js,ts,jsx,tsx,mdx}',
+    './components/**/*.{js,ts,jsx,tsx,mdx}',
+    './pages/**/*.{js,ts,jsx,tsx,mdx}',
+  ],
   theme: {
     data: {
       disabled: 'disabled~="true"',
@@ -21,6 +25,7 @@ module.exports = {
         desktop: '1440px',
       },
       animation: {
+        'ping-slow': 'ping 4s cubic-bezier(0.04, 1.04, 0.16, 1) infinite',
         'fade-in': 'fade-in 0.15s ease-in-out',
         'slide-up': 'slide-up 0.15s ease-in-out',
       },
@@ -47,6 +52,9 @@ module.exports = {
       },
       fontWeight: {
         book: 350,
+      },
+      fontFamily: {
+        poppins: ['var(--poppins-font)'],
       },
       fontSize: {
         xs: ['0.75rem', { lineHeight: '1rem' }],
@@ -185,10 +193,9 @@ module.exports = {
   },
   plugins: [
     require('@tailwindcss/aspect-ratio'),
-    require('@tailwindcss/line-clamp'),
     require('@tailwindcss/forms'),
     require('@tailwindcss/typography'),
-    require('tailwindcss-percentage-width'),
     require('tailwindcss-animate'),
+    require('tailwindcss-percentage-width'),
   ],
 };

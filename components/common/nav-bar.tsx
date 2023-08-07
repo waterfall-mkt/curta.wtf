@@ -16,13 +16,19 @@ import { getShortenedAddress } from '@/lib/utils';
 
 import { Button, IconButton, Modal } from '@/components/ui';
 
-/* Props */
-export type NavBarInternalProps = {
+// ---------------------------------------–-------------------------------------
+// Props
+// ---------------------------------------–-------------------------------------
+
+type NavBarInternalProps = {
   selected?: string;
   yScroll?: number;
 };
 
-/* Component */
+// ---------------------------------------–-------------------------------------
+// Component
+// ---------------------------------------–-------------------------------------
+
 const NavBarInternal: FC = () => {
   const [yScroll, setYScroll] = useState<number>(0);
 
@@ -114,7 +120,7 @@ const NavBarMobile: FC<NavBarInternalProps> = ({ yScroll }) => {
             <Logo size="sm" />
             <div className="z-popover flex">
               <Modal.Trigger asChild>
-                <IconButton intent="neutral" variant="text">
+                <IconButton intent="neutral" variant="text" aria-label="Open navigation menu.">
                   <Menu />
                 </IconButton>
               </Modal.Trigger>

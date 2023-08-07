@@ -1,4 +1,3 @@
-import type { Metadata } from 'next';
 import { Fira_Code, Inter, Poppins } from 'next/font/google';
 import type { ReactNode } from 'react';
 
@@ -34,33 +33,6 @@ const poppins = Poppins({
 });
 
 // -----------------------------------------------------------------------------
-// Metadata
-// -----------------------------------------------------------------------------
-
-const description = 'A CTF protocol, where players create and solve EVM puzzles to earn NFTs.';
-
-export const metadata: Metadata = {
-  title: 'Curta, a CTF protocol',
-  description,
-  keywords: ['ethereum', 'blockchain', 'ctf', 'on-chain', 'security', 'puzzle', 'game', 'nft'],
-  themeColor: '#0D1017',
-  colorScheme: 'dark',
-  manifest: '/manifest.json',
-  openGraph: {
-    title: 'Curta, a CTF protocol',
-    description,
-    siteName: 'curta.wtf',
-    url: 'https://curta.wtf',
-    locale: 'en_US',
-  },
-  twitter: {
-    card: 'summary_large_image',
-    site: '@curta_ctf',
-    creator: '@waterfall_mkt',
-  },
-};
-
-// -----------------------------------------------------------------------------
 // Layout
 // -----------------------------------------------------------------------------
 
@@ -70,9 +42,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       <body className={clsx(inter.variable, firaCode.variable, poppins.variable)}>
         <Web3Provider>
           <NavBar />
-          <main className="relative mx-auto flex w-full max-w-[90rem] grow flex-col overflow-hidden px-3 pb-6 pt-3 lg:px-20 lg:pb-16 lg:pt-12">
-            {children}
-          </main>
+          <main className="relative flex w-full grow overflow-hidden">{children}</main>
           <Footer />
         </Web3Provider>
       </body>
