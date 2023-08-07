@@ -82,6 +82,7 @@ const PuzzleTableDesktop: FC<PuzzleTableInternalProps> = ({ data, sorting, setSo
                     e.stopPropagation();
                     window.open(row.original.solution, '_blank');
                   }}
+                  aria-label={`View puzzle #${row.original.id}'s solution.`}
                 >
                   <File />
                 </IconButton>
@@ -94,6 +95,7 @@ const PuzzleTableDesktop: FC<PuzzleTableInternalProps> = ({ data, sorting, setSo
                     e.stopPropagation();
                     window.open(`https://github.com/${row.original.github}`, '_blank');
                   }}
+                  aria-label={`View puzzle #${row.original.id}'s GitHub.`}
                 >
                   <Github />
                 </IconButton>
@@ -109,6 +111,7 @@ const PuzzleTableDesktop: FC<PuzzleTableInternalProps> = ({ data, sorting, setSo
                       '_blank',
                     );
                   }}
+                  aria-label={`View puzzle #${row.original.id}'s contract.`}
                 >
                   <Github />
                 </IconButton>

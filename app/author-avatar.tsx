@@ -39,6 +39,7 @@ const AuthorAvatar: FC<AuthorAvatarProps> = ({ author, index, children }) => {
       onClick={() => window.open(href, '_blank')}
       onKeyDown={onKeyDown}
       tabIndex={0}
+      aria-label={`View author ${author.address}'s Twitter or address.`}
     >
       <div className="relative h-[52px] w-[52px] rounded-full bg-gray-600 outline-none ring-[3px] ring-gray-600 transition-transform hover:z-[10] hover:scale-110 hover:ring-0 group-focus-visible:scale-100 group-focus-visible:ring-0">
         {children}
