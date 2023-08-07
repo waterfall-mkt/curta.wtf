@@ -83,9 +83,7 @@ const PuzzleTableDesktop: FC<PuzzleTableInternalProps> = ({ data, sorting, setSo
               onClick={(e) => e.stopPropagation()}
               aria-label={`View ${row.original.firstSolver} on ${process.env.NEXT_PUBLIC_BLOCK_EXPLORER}`}
             >
-              {row.original.firstSolverEnsName
-                ? row.original.firstSolverEnsName
-                : getShortenedAddress(row.original.firstSolver)}
+              {row.original.firstSolverEnsName ?? getShortenedAddress(row.original.firstSolver)}
             </a>
           ) : (
             '—'

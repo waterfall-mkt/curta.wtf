@@ -2,8 +2,6 @@
 
 import type { FC } from 'react';
 
-import clsx from 'clsx';
-
 import type { Author, Phase } from '@/lib/types/protocol';
 import { getShortenedAddress } from '@/lib/utils';
 
@@ -14,7 +12,6 @@ import PhasePing from '@/components/templates/phase-tag/ping';
 // -----------------------------------------------------------------------------
 
 type PuzzleTableInfoProps = {
-  className?: string;
   id: number;
   phase: Phase;
   name: string;
@@ -25,10 +22,10 @@ type PuzzleTableInfoProps = {
 // Components
 // -----------------------------------------------------------------------------
 
-const PuzzleTableInfo: FC<PuzzleTableInfoProps> = ({ className, id, phase, name, author }) => {
+const PuzzleTableInfo: FC<PuzzleTableInfoProps> = ({ id, phase, name, author }) => {
   return (
-    <div className={clsx('relative flex items-center space-x-4', className)}>
-      <PhasePing phase={phase} isPinging={true} />
+    <div className="relative flex items-center space-x-4">
+      <PhasePing phase={phase} isPinging />
       <div>
         <div className="line-clamp-1 overflow-ellipsis text-left text-sm text-gray-100">
           {name ?? `Puzzle #${id}`}
