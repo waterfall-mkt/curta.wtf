@@ -39,7 +39,7 @@ const PuzzleTableCountdown: FC<PuzzleTableCountdownProps> = ({ phase, timeLeft: 
 
   if (!mounted) {
     return (
-      <div className="flex w-24 flex-col gap-1">
+      <div className="flex w-24 flex-col gap-1" title={`Phase ${phase}`}>
         <div className="h-5 w-16 animate-pulse rounded-md bg-gray-350" />
         <div className="h-2 w-24 animate-pulse rounded-full bg-gray-350" />
       </div>
@@ -47,11 +47,15 @@ const PuzzleTableCountdown: FC<PuzzleTableCountdownProps> = ({ phase, timeLeft: 
   }
 
   if (phase === 0 || phase === 3) {
-    return <div className="text-left">∞</div>;
+    return (
+      <div className="text-left" title={`Phase ${phase}`}>
+        ∞
+      </div>
+    );
   }
 
   return (
-    <div className="w-fit">
+    <div className="w-fit" title={`Phase ${phase}`}>
       <div className="text-left">{getTimeLeftString(timeLeft)}</div>
       <div className="mt-1 h-2 w-24 rounded-full bg-gray-350">
         <div
