@@ -47,8 +47,7 @@
     "**/*.ts",
     "**/*.tsx",
     "**/*.mdx",
-    ".next/types/**/*.ts"
-, "app/legal/tos"  ],
+    ".next/types/**/*.ts"],
   "exclude": [
     "node_modules"
   ]
