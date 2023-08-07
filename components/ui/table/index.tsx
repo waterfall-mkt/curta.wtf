@@ -185,17 +185,18 @@ const Table = <T,>({
             return (
               <Fragment key={row.id}>
                 <tr
+                  className={tableBodyRowVariants({
+                    isSubTable,
+                    clickable: !!getRowRoute,
+                    highlighted,
+                  })}
+                  title={getRowRoute ? 'Click to view details' : undefined}
                   onClick={async () => {
                     if (getRowRoute) {
                       const route = await getRowRoute({ row });
                       router.push(route);
                     }
                   }}
-                  className={tableBodyRowVariants({
-                    isSubTable,
-                    clickable: !!getRowRoute,
-                    highlighted,
-                  })}
                 >
                   {row.getVisibleCells().map((cell) => {
                     return (
