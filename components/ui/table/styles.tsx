@@ -94,11 +94,22 @@ export const tableHeaderSortVariants = cva(
 );
 
 export const tablePaginationButtonVariants = cva(
-  ['flex', 'items-center', 'text-gray-200', 'font-medium', 'text-xs', 'transition-colors'],
+  [
+    'flex',
+    'items-center',
+    'text-gray-200',
+    'font-medium',
+    'text-xs',
+    'transition-colors',
+    'rounded-sm',
+    'focus-visible:ring-2',
+    'focus-visible:ring-blue-250',
+    'focus-visible:outline-none',
+  ],
   {
     variants: {
       disabled: {
-        true: ['text-gray-300', 'pointer-events-none'],
+        true: ['text-gray-300', 'pointer-events-none', 'aria-disabled'],
         false: ['hover:text-gray-100', 'text-gray-200'],
       },
     },
@@ -106,11 +117,19 @@ export const tablePaginationButtonVariants = cva(
 );
 
 export const tablePaginationNumberButtonVariants = cva(
-  ['rounded-lg', 'h-8', 'w-8', 'transition-colors'],
+  [
+    'rounded-lg',
+    'h-8',
+    'w-8',
+    'transition-colors',
+    'focus-visible:ring-2',
+    'focus-visible:outline-none',
+    'focus-visible:ring-blue-250',
+  ],
   {
     variants: {
       selected: {
-        true: ['text-gray-100', 'bg-gray-350'],
+        true: ['text-gray-100', 'bg-gray-350', 'aria-disabled'],
         false: ['text-gray-200', 'hover:bg-gray-350', 'hover:text-gray-100'],
       },
     },

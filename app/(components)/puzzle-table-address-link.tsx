@@ -31,7 +31,7 @@ const PuzzleTableAddressLink: FC<PuzzleTableAddressLinkProps> = ({
     <a
       className={twMerge(
         clsx(
-          'line-clamp-1 text-ellipsis text-gray-200 transition-colors hover:text-gray-100 hover:underline',
+          'line-clamp-1 w-fit text-ellipsis text-gray-200 transition-colors hover:text-gray-100 hover:underline',
           className,
         ),
       )}

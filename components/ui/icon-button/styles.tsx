@@ -16,7 +16,6 @@ export const iconButtonVariants = cva(
     'font-medium',
     'transition-colors',
     'flex',
-    'px-2',
     'justify-center',
     'items-center',
     'outline-none',
