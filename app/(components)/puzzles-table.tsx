@@ -12,6 +12,7 @@ import { File, Github } from 'lucide-react';
 import type { Puzzle } from '@/lib/types/protocol';
 import { getPuzzleTimeLeft } from '@/lib/utils';
 
+import Stat from '@/components/templates/stat';
 import { IconButton, Table } from '@/components/ui';
 import type { TableProps } from '@/components/ui/table/types';
 
@@ -35,6 +36,7 @@ const PuzzleTable: FC<PuzzleTableProps> = ({ data }) => {
   return (
     <Fragment>
       <PuzzleTableDesktop data={data} sorting={sorting} setSorting={setSorting} />
+      <PuzzleTableMobile data={data} sorting={sorting} setSorting={setSorting} />
     </Fragment>
   );
 };
@@ -158,6 +160,133 @@ const PuzzleTableDesktop: FC<PuzzleTableInternalProps> = ({ data, sorting, setSo
       setSorting={setSorting}
       getRowRoute={getRowRoute}
     />
+  );
+};
+
+const PuzzleTableMobile: FC<PuzzleTableInternalProps> = ({ data, sorting, setSorting }) => {
+  const columns = useMemo<ColumnDef<Puzzle>[]>(
+    () => [
+      {
+        accessorKey: 'id',
+        header: () => 'ID',
+        cell: ({ row }) => row.original.id,
+        footer: (props) => props.column.id,
+      },
+      {
+        accessorKey: 'name',
+        header: () => 'Puzzle',
+        cell: ({ row }) => (
+          <PuzzleTableInfo
+            phase={getPuzzleTimeLeft(row.original.firstSolveTimestamp).phase}
+            id={row.original.id}
+            name={row.original.name}
+            author={row.original.author}
+          />
+        ),
+        footer: (props) => props.column.id,
+      },
+      {
+        accessorKey: 'numberSolved',
+        header: () => <div className="ml-auto">Solvers</div>,
+        cell: ({ row }) => <div className="flex justify-end">{row.original.numberSolved}</div>,
+        footer: (props) => props.column.id,
+      },
+      {
+        accessorKey: 'accordion',
+        cell: ({ row }) => <Table.AccordionButton row={row} />,
+        header: () => null,
+        footer: (props) => props.column.id,
+      },
+    ],
+    [],
+  );
+
+  return (
+    <Table
+      className="md:hidden"
+      columns={columns}
+      data={data}
+      sorting={sorting}
+      setSorting={setSorting}
+      renderSubComponent={({ row }) => <PuzzleTableMobileSubComponent data={row.original} />}
+      getRowRoute={getRowRoute}
+    />
+  );
+};
+
+const PuzzleTableMobileSubComponent: FC<{ data: Puzzle }> = ({ data }) => {
+  const { phase, timeLeft } = getPuzzleTimeLeft(data.firstSolveTimestamp);
+
+  return (
+    <div className="grid grid-cols-2 gap-x-2 gap-y-2 p-3">
+      <Stat
+        name="Time till next phase"
+        value={<PuzzleTableCountdown phase={phase} timeLeft={timeLeft} />}
+      />
+      <Stat
+        name="First solver"
+        value={
+          data.firstSolver ? (
+            <PuzzleTableAddressLink
+              className="text-gray-100"
+              address={data.firstSolver}
+              ensName={data.firstSolverEnsName}
+            />
+          ) : (
+            '—'
+          )
+        }
+      />
+      <Stat
+        name="Links"
+        value={
+          <div className="mt-1 flex items-center justify-end gap-1">
+            {data.solution ? (
+              <IconButton
+                variant="tertiary"
+                intent="neutral"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  window.open(data.solution, '_blank');
+                }}
+                aria-label={`View puzzle #${data.id}'s solution.`}
+              >
+                <File />
+              </IconButton>
+            ) : null}
+            {data.github ? (
+              <IconButton
+                variant="tertiary"
+                intent="neutral"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  window.open(`https://github.com/${data.github}`, '_blank');
+                }}
+                aria-label={`View puzzle #${data.id}'s GitHub.`}
+              >
+                <Github />
+              </IconButton>
+            ) : null}
+            {
+              <IconButton
+                variant="tertiary"
+                intent="neutral"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  window.open(
+                    `https://${process.env.NEXT_PUBLIC_BLOCK_EXPLORER}/address/${data.address}`,
+                    '_blank',
+                  );
+                }}
+                aria-label={`View puzzle #${data.id}'s contract.`}
+              >
+                <Github />
+              </IconButton>
+            }
+          </div>
+        }
+      />
+    </div>
   );
 };
 
