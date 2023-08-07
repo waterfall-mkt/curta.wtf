@@ -15,13 +15,7 @@ export type ExternalLink = {
 /**
  * Type for a page slug on [**curta.wtf**](https://curta.wtf).
  */
-export type PageSlug =
-  | '/'
-  | '/docs'
-  | '/terms-of-service'
-  | '/leaderboard'
-  | '/playground'
-  | '/guides';
+export type PageSlug = '/' | '/docs' | '/legal/tos' | '/leaderboard' | '/playground' | '/guides';
 
 /**
  * Type for an external page linked on [**curta.wtf**](https://curta.wtf),
