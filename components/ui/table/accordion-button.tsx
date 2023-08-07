@@ -21,6 +21,7 @@ const TableAccordionButton = <T,>({ row }: TableAccordionButtonProps<T>) => {
       intent="neutral"
       onClick={(e) => handleClick(e)}
       disabled={!row.getCanExpand()}
+      aria-label="Expand row."
     >
       {row.getIsExpanded() ? <ChevronUp /> : <ChevronDown />}
     </IconButton>

@@ -120,7 +120,7 @@ const NavBarMobile: FC<NavBarInternalProps> = ({ yScroll }) => {
             <Logo size="sm" />
             <div className="z-popover flex">
               <Modal.Trigger asChild>
-                <IconButton intent="neutral" variant="text">
+                <IconButton intent="neutral" variant="text" aria-label="Open navigation menu.">
                   <Menu />
                 </IconButton>
               </Modal.Trigger>
