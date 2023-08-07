@@ -1,5 +1,6 @@
 export type Author = {
   address: `0x${string}`;
+  ensName?: string;
   avatar?: string;
   name?: string;
   twitter?: string;
@@ -30,6 +31,7 @@ export type Puzzle = {
   // Solve
   firstSolveTimestamp: number;
   firstSolver?: `0x${string}`;
+  firstSolverEnsName?: string;
   firstSolveBlock?: number;
   solveTx?: `0x${string}`;
   solveTime?: number;

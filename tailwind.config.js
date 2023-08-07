@@ -25,6 +25,7 @@ module.exports = {
         desktop: '1440px',
       },
       animation: {
+        'ping-slow': 'ping 4s cubic-bezier(0.04, 1.04, 0.16, 1) infinite',
         'fade-in': 'fade-in 0.15s ease-in-out',
         'slide-up': 'slide-up 0.15s ease-in-out',
       },

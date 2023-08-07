@@ -1,10 +1,10 @@
 import type { Metadata } from 'next';
 import { Fragment } from 'react';
 
-import AuthorsDisplay from './authors-display';
-import LinksDisplay from './links-display';
-import PhaseTable from './phase-table';
-import PuzzleTable from './puzzles-table';
+import AuthorsDisplay from './(components)/authors-display';
+import LinksDisplay from './(components)/links-display';
+import PhaseTable from './(components)/phase-table';
+import PuzzleTable from './(components)/puzzles-table';
 
 import { fetchAuthors, fetchPuzzles } from '@/lib/utils';
 
