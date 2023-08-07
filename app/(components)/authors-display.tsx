@@ -1,4 +1,4 @@
-import { type FC, useId } from 'react';
+import { cache, type FC, useId } from 'react';
 
 import AuthorAvatar from './author-avatar';
 import AuthorsModal from './authors-modal';
@@ -39,7 +39,9 @@ const AuthorsDisplay: FC<AuthorsDisplayProps> = ({ data }) => {
         className="flex w-fit items-center -space-x-4 rounded-full border border-stroke bg-gray-600 p-1"
       >
         {data.slice(0, 7).map(async (author, index) => {
-          const ensName = await publicClient.getEnsName({ address: author.address });
+          const ensName = await cache(
+            async () => await publicClient.getEnsName({ address: author.address }),
+          )();
 
           return (
             <AuthorAvatar key={index} author={author} index={index}>
@@ -54,7 +56,9 @@ const AuthorsDisplay: FC<AuthorsDisplayProps> = ({ data }) => {
         {data.length > 7 ? (
           <AuthorsModal data={data}>
             {data.map(async (author, index) => {
-              const ensName = await publicClient.getEnsName({ address: author.address });
+              const ensName = await cache(
+                async () => await publicClient.getEnsName({ address: author.address }),
+              )();
               const displayName = author.name ?? ensName ?? getShortenedAddress(author.address);
 
               return (

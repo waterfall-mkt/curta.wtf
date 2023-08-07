@@ -1,6 +1,4 @@
-'use server';
-
-import type { FC } from 'react';
+import { cache, type FC } from 'react';
 
 import clsx from 'clsx';
 import { twMerge } from 'tailwind-merge';
@@ -24,7 +22,9 @@ export type AddressLinkProps = {
 // ---------------------------------------–-------------------------------------
 
 const AddressLink: FC<AddressLinkProps> = async ({ className, address, href }) => {
-  const ensName = address ? await publicClient.getEnsName({ address }) : undefined;
+  const ensName = address
+    ? await cache(async () => await publicClient.getEnsName({ address }))()
+    : undefined;
   const addressDisplay = ensName ?? (address ? getShortenedAddress(address) : '–');
 
   return (

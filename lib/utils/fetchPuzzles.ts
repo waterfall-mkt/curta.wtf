@@ -1,3 +1,5 @@
+import { cache } from 'react';
+
 import type { PostgrestError } from '@supabase/supabase-js';
 
 import { publicClient } from '@/lib/client';
@@ -27,7 +29,9 @@ const fetchPuzzles = async (): Promise<PuzzlesResponse> => {
   const puzzles: Puzzle[] = [];
   for (const puzzle of data) {
     const authorEnsName =
-      (await publicClient.getEnsName({ address: puzzle.author.address })) || undefined;
+      (await cache(
+        async () => await publicClient.getEnsName({ address: puzzle.author.address }),
+      )()) || undefined;
     const firstSolverEnsName =
       (puzzle.firstSolver && (await publicClient.getEnsName({ address: puzzle.firstSolver }))) ||
       undefined;
