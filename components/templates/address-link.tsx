@@ -1,3 +1,5 @@
+'use server';
+
 import type { FC } from 'react';
 
 import clsx from 'clsx';
@@ -11,7 +13,7 @@ import { getShortenedAddress } from '@/lib/utils';
 // Props
 // ---------------------------------------–-------------------------------------
 
-type AddressLinkProps = {
+export type AddressLinkProps = {
   className?: string;
   address?: Address;
   href?: string;

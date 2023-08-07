@@ -21,7 +21,7 @@ const PillLinkButton: FC<PillLinkButtonProps> = ({ site, label, href, ...rest })
     <a
       href={href}
       className={clsx(
-        'flex h-8 w-fit items-center space-x-2 rounded-full border border-stroke bg-white/5 text-sm text-gray-100 backdrop-blur-xl transition-colors hover:bg-white/10 focus-visible:ring-2 focus-visible:ring-blue-250',
+        'line-clamp-1 flex h-8 w-fit items-center space-x-2 text-ellipsis rounded-full border border-stroke bg-white/5 text-sm text-gray-100 backdrop-blur-xl transition-colors hover:bg-white/10 focus-visible:ring-2 focus-visible:ring-blue-250',
         site ? 'pl-1 pr-2.5' : 'px-2.5',
       )}
       target="_blank"

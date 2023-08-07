@@ -4,6 +4,7 @@ import { Fragment } from 'react';
 import AuthorsDisplay from './authors-display';
 import LinksDisplay from './links-display';
 import PhaseTable from './phase-table';
+import PuzzleTable from './puzzles-table';
 
 import { fetchAuthors, fetchPuzzles } from '@/lib/utils';
 
@@ -79,7 +80,8 @@ export default async function Home() {
           <PhaseTable />
         </div>
         <div className="mt-12 w-full md:mt-16">
-          <h2 className="text-2xl font-bold tracking-tighter text-gray-50">Puzzles</h2>
+          <h2 className="mb-4 text-2xl font-bold tracking-tighter text-gray-50">Puzzles</h2>
+          <PuzzleTable data={puzzles} />
         </div>
       </ContainerLayout>
     </Fragment>
