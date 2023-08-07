@@ -3,13 +3,14 @@
 import { type FC, Fragment, useMemo, useState } from 'react';
 
 import PuzzleTableCountdown from './countdown';
+import PuzzleTableAddressLink from './puzzle-table-address-link';
 import PuzzleTableInfo from './puzzle-table-info';
 import type { ColumnDef } from '@tanstack/react-table';
 import type { Row, SortingState } from '@tanstack/react-table';
 import { File, Github } from 'lucide-react';
 
 import type { Puzzle } from '@/lib/types/protocol';
-import { getPuzzleTimeLeft, getShortenedAddress } from '@/lib/utils';
+import { getPuzzleTimeLeft } from '@/lib/utils';
 
 import { IconButton, Table } from '@/components/ui';
 import type { TableProps } from '@/components/ui/table/types';
@@ -75,16 +76,11 @@ const PuzzleTableDesktop: FC<PuzzleTableInternalProps> = ({ data, sorting, setSo
         header: () => 'First solver',
         cell: ({ row }) =>
           row.original.firstSolver ? (
-            <a
-              className="line-clamp-1 text-ellipsis text-gray-100 hover:underline"
-              href={`https://${process.env.NEXT_PUBLIC_BLOCK_EXPLORER}/address/${row.original.firstSolver}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={(e) => e.stopPropagation()}
-              aria-label={`View ${row.original.firstSolver} on ${process.env.NEXT_PUBLIC_BLOCK_EXPLORER}`}
-            >
-              {row.original.firstSolverEnsName ?? getShortenedAddress(row.original.firstSolver)}
-            </a>
+            <PuzzleTableAddressLink
+              className="text-gray-100"
+              address={row.original.firstSolver}
+              ensName={row.original.firstSolverEnsName}
+            />
           ) : (
             '—'
           ),
