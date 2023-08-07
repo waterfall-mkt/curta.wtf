@@ -8,7 +8,7 @@ import type { ExternalLink, Page } from '@/lib/types/site';
 export const FOOTER_PAGES: Page[] = [
   { name: 'Home', slug: '/' },
   { name: 'Careers', slug: 'https://jobs.waterfall.market' },
-  { name: 'Terms of Service', slug: '/terms-of-service' },
+  { name: 'Terms of Service', slug: '/legal/tos' },
   { name: 'Waterfall', slug: 'https://waterfall.market' },
   { name: 'Discord', slug: 'https://discord.gg/zxerRE2Dn7' },
 ];
