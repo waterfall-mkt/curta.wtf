@@ -10,21 +10,22 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
       if (href && href.startsWith('/')) {
         return (
           <Link
-            className="mdx--link group font-medium text-primary no-underline hover:underline"
+            className="mdx--link group font-medium no-underline hover:underline"
             href={href}
-            passHref
+            style={{ color: 'var(--primary-color)' }}
           >
-            <a {...rest}>{children}</a>
+            {children}
           </Link>
         );
       }
 
       return (
         <a
-          className="mdx--link group font-medium text-primary no-underline hover:underline"
+          className="mdx--link group font-medium no-underline hover:underline"
           href={href}
           target="_blank"
           rel="noopener noreferrer"
+          style={{ color: 'var(--primary-color)' }}
           {...rest}
         >
           {children}
@@ -52,7 +53,7 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
       </h3>
     ),
     p: ({ children }: JSX.IntrinsicElements['p']) => (
-      <p className="font-light not-italic text-gray-100 before:content-none after:content-none">
+      <p className="not-prose font-light not-italic text-gray-100 before:content-none after:content-none">
         {children}
       </p>
     ),
