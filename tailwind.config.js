@@ -76,6 +76,7 @@ module.exports = {
         'display-2xl': ['4.5rem', { lineHeight: '5.75rem', letterSpacing: '-1%' }],
       },
       colors: {
+        primary: '#007FFF',
         verified: 'rgba(11, 165, 236, 1)',
         stroke: 'theme(colors.gray.350)',
         success: {

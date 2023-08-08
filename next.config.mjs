@@ -6,12 +6,14 @@ const withMDX = createMDX({
   options: {
     remarkPlugins: [],
     rehypePlugins: [rehypeMdxCodeProps],
-    providerImportSource: '@mdx-js/react',
   },
 });
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  experimental: {
+    mdxRs: true,
+  },
   images: {
     domains: ['ipfs.io', 'arweave.net'],
   },
