@@ -22,6 +22,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const { data: solvesCount } = await fetchSolvesCount();
 
   return {
+    description,
     openGraph: {
       title: 'Curta, a CTF protocol',
       description,
