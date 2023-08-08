@@ -34,6 +34,9 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     openGraph: {
       title: 'Curta, a CTF protocol',
+      description,
+      siteName: 'curta.wtf',
+      url: 'https://curta.wtf',
       locale: 'en_US',
       images: [ogImage],
     },
