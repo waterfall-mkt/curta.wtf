@@ -37,28 +37,22 @@ const poppins = Poppins({
 // Metadata
 // -----------------------------------------------------------------------------
 
-const description = 'A CTF protocol, where players create and solve EVM puzzles to earn NFTs.';
-
 export const metadata: Metadata = {
   title: {
     template: '%s | Curta',
     default: 'Curta',
   },
-  description,
   keywords: ['ethereum', 'blockchain', 'ctf', 'on-chain', 'security', 'puzzle', 'game', 'nft'],
   themeColor: '#0D1017',
   colorScheme: 'dark',
   manifest: '/manifest.json',
   openGraph: {
-    title: 'Curta, a CTF protocol',
-    description,
     siteName: 'curta.wtf',
     url: 'https://curta.wtf',
     locale: 'en_US',
   },
   twitter: {
     card: 'summary_large_image',
-    description,
     site: '@curta_ctf',
     siteId: '1604186457165406210',
     creator: '@waterfall_mkt',
