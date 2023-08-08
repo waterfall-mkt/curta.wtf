@@ -57,6 +57,8 @@ export const metadata: Metadata = {
     locale: 'en_US',
   },
   twitter: {
+    card: 'summary_large_image',
+    description,
     site: '@curta_ctf',
     siteId: '1604186457165406210',
     creator: '@waterfall_mkt',
