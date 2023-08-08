@@ -1,3 +1,15 @@
+import createMDX from '@next/mdx';
+import rehypeMdxCodeProps from 'rehype-mdx-code-props';
+
+const withMDX = createMDX({
+  extension: /\.mdx?$/,
+  options: {
+    remarkPlugins: [],
+    rehypePlugins: [rehypeMdxCodeProps],
+    providerImportSource: '@mdx-js/react',
+  },
+});
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
@@ -15,4 +27,4 @@ const nextConfig = {
   },
 };
 
-module.exports = nextConfig;
+export default withMDX(nextConfig);
