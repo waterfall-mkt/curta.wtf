@@ -21,33 +21,25 @@ export async function generateMetadata(): Promise<Metadata> {
   const { data: puzzles } = await fetchPuzzles();
   const { data: solvesCount } = await fetchSolvesCount();
 
-  const ogImage = {
-    url:
-      'https://curta.wtf/api/og?authors=' +
-      `${authors.length}&puzzles=${puzzles.length}&display=1` +
-      `&solvers=${solvesCount.solvers}&solves=${solvesCount.solves}`,
-    width: 1200,
-    height: 600,
-    alt: 'Curta Open-Graph image',
-  };
-
   return {
     openGraph: {
       title: 'Curta, a CTF protocol',
       description,
-      siteName: 'curta.wtf',
-      url: 'https://curta.wtf',
-      locale: 'en_US',
-      images: [ogImage],
+      images: [
+        {
+          url:
+            'https://curta.wtf/api/og?authors=' +
+            `${authors.length}&puzzles=${puzzles.length}&display=1` +
+            `&solvers=${solvesCount.solvers}&solves=${solvesCount.solves}`,
+          width: 1200,
+          height: 600,
+          alt: 'Curta Open-Graph image',
+        },
+      ],
     },
     twitter: {
       card: 'summary_large_image',
       description,
-      site: '@curta_ctf',
-      siteId: '1604186457165406210',
-      creator: '@waterfall_mkt',
-      creatorId: '1466508083929223176',
-      images: [ogImage],
     },
   };
 }
