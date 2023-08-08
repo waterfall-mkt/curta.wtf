@@ -58,7 +58,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       <body className={clsx(inter.variable, firaCode.variable, poppins.variable)}>
         <Web3Provider>
           <NavBar />
-          <main className="relative flex w-full grow overflow-hidden">{children}</main>
+          <main className="relative flex w-full grow">{children}</main>
           <Footer />
         </Web3Provider>
       </body>

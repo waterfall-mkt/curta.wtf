@@ -15,7 +15,31 @@ export type ExternalLink = {
 /**
  * Type for a page slug on [**curta.wtf**](https://curta.wtf).
  */
-export type PageSlug = '/' | '/docs' | '/legal/tos' | '/leaderboard' | '/playground' | '/guides';
+export type PageSlug =
+  | '/'
+  | '/docs'
+  | '/legal/tos'
+  | '/leaderboard'
+  | '/playground'
+  | '/guides'
+  // Docs
+  | '/docs'
+  | '/docs/phases'
+  | '/docs/puzzles'
+  | '/docs/authorship-token'
+  | '/docs/flag-token'
+  | '/docs/leaderboard'
+  | '/docs/resources/glossary'
+  | '/docs/resources/contracts'
+  | '/docs/resources/external-links'
+  // Guides
+  | '/guide/player/getting-started'
+  | '/guide/player/submitting-solutions'
+  | '/guide/player/nft-rewards'
+  | '/guide/author/becoming-an-author'
+  | '/guide/author/creating-a-puzzle'
+  | '/guide/author/customizing-art'
+  | '/guide/author/becoming-fermat';
 
 /**
  * Type for an external page linked on [**curta.wtf**](https://curta.wtf),
