@@ -17,7 +17,6 @@ export type ExternalLink = {
  */
 export type PageSlug =
   | '/'
-  | '/docs'
   | '/legal/tos'
   | '/leaderboard'
   | '/playground'
