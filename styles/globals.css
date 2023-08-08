@@ -2,6 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --primary-color: #007FFF;
+  --verified-color: rgba(11, 165, 236, 1);
+}
+
 html,
 body,
 main {

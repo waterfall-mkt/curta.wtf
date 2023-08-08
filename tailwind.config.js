@@ -1,3 +1,6 @@
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const { fontFamily } = require('tailwindcss/defaultTheme');
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   darkMode: 'class',
@@ -54,6 +57,8 @@ module.exports = {
         book: 350,
       },
       fontFamily: {
+        sans: ['var(--inter-font)', ...fontFamily.sans],
+        mono: ['var(--fira-code-font)', ...fontFamily.mono],
         poppins: ['var(--poppins-font)'],
       },
       fontSize: {
@@ -71,7 +76,8 @@ module.exports = {
         'display-2xl': ['4.5rem', { lineHeight: '5.75rem', letterSpacing: '-1%' }],
       },
       colors: {
-        verified: 'rgba(11, 165, 236, 1)',
+        primary: 'var(--primary-color)',
+        verified: 'var(--verified-color)',
         stroke: 'theme(colors.gray.350)',
         success: {
           DEFAULT: 'theme(colors.green.250)',

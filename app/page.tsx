@@ -22,12 +22,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const { data: solvesCount } = await fetchSolvesCount();
 
   return {
-    title: 'Curta | Puzzles',
     description,
-    keywords: ['ethereum', 'blockchain', 'ctf', 'on-chain', 'security', 'puzzle', 'game', 'nft'],
-    themeColor: '#0D1017',
-    colorScheme: 'dark',
-    manifest: '/manifest.json',
     openGraph: {
       title: 'Curta, a CTF protocol',
       description,
@@ -48,6 +43,7 @@ export async function generateMetadata(): Promise<Metadata> {
     },
     twitter: {
       card: 'summary_large_image',
+      description,
       site: '@curta_ctf',
       siteId: '1604186457165406210',
       creator: '@waterfall_mkt',

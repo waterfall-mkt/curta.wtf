@@ -1,3 +1,4 @@
+import type { Metadata } from 'next';
 import { Fira_Code, Inter, Poppins } from 'next/font/google';
 import type { ReactNode } from 'react';
 
@@ -31,6 +32,21 @@ const poppins = Poppins({
   weight: ['600'],
   subsets: ['latin'],
 });
+
+// -----------------------------------------------------------------------------
+// Metadata
+// -----------------------------------------------------------------------------
+
+export const metadata: Metadata = {
+  title: {
+    template: '%s | Curta',
+    default: 'Curta',
+  },
+  keywords: ['ethereum', 'blockchain', 'ctf', 'on-chain', 'security', 'puzzle', 'game', 'nft'],
+  themeColor: '#0D1017',
+  colorScheme: 'dark',
+  manifest: '/manifest.json',
+};
 
 // -----------------------------------------------------------------------------
 // Layout
