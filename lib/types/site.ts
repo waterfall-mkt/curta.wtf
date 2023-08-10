@@ -32,13 +32,13 @@ export type PageSlug =
   | '/docs/resources/contracts'
   | '/docs/resources/external-links'
   // Guides
-  | '/guide/player/getting-started'
-  | '/guide/player/submitting-solutions'
-  | '/guide/player/nft-rewards'
-  | '/guide/author/becoming-an-author'
-  | '/guide/author/creating-a-puzzle'
-  | '/guide/author/customizing-art'
-  | '/guide/author/becoming-fermat';
+  | '/guides/player/getting-started'
+  | '/guides/player/submitting-solutions'
+  | '/guides/player/nft-rewards'
+  | '/guides/author/becoming-an-author'
+  | '/guides/author/creating-a-puzzle'
+  | '/guides/author/customizing-art'
+  | '/guides/author/becoming-fermat';
 
 /**
  * Type for an external page linked on [**curta.wtf**](https://curta.wtf),

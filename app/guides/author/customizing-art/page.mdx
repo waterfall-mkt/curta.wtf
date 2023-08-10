@@ -1,0 +1,66 @@
+import Image from 'next/image';
+
+# Customizing Art
+
+Authors can customize 5 colors on their puzzle's [Flag Token](/docs/flag-token) art:
+
+| Name           | Description                           |
+| -------------- | ------------------------------------- |
+| Background     | Portion behind the entire card        |
+| Fill           | Background color of the card          |
+| Border         | Stroke that outlines the card         |
+| Primary text   | Main text elements (header and stats) |
+| Secondary text | Secondary text elements (labels)      |
+
+Anyone can play around with customizing colors on the [playground](/playground) via a color picker or presets (many of which were curated by the [monkeytype](https://github.com/monkeytypegame/monkeytype/blob/master/frontend/static/themes/_list.json) community). After the colors have been decided, there are 2 ways to update them:
+
+1. via this site's interface
+2. or by directly calling the contract.
+
+## Using the UI
+
+First, navigate to some puzzle page. If you are connected with the address that added it to Curta, you'll see a "Settings" button. Click it.
+
+<Image
+  className="mx-auto rounded-lg border border-stroke"
+  src="/assets/navigating-to-settings.webp"
+  alt="Navigating to Settings UI"
+  width={1512}
+  height={860}
+/>
+
+Then, you can play around with some presets in the "Preset" tab or input colors manually in the "Custom" tab:
+
+<Image
+  className="mx-auto rounded-lg border border-stroke"
+  src="/assets/customize-flag-demo.gif"
+  alt="Customize Flag Demo"
+  width={1000}
+  height={568}
+/>
+
+## Calling the Contract
+
+Each color is represented with 24 bits. Bitpack the colors into a single `uint256` with the following offsets:
+
+```py showLineNumbers={false}
+bitpackedUint = (background  << 96)
+              | (fill        << 72)
+              | (border      << 48)
+              | (primaryText << 24)
+              | (secondaryText    )
+```
+
+Then, call `updateFlagColors(uint256 _colors)` on [`AuthorshipToken`](https://etherscan.io/address/0xC0ffeEb30F5aAA18Cd0a799F6dA1bdcb46f63C44):
+
+```solidity showLineNumbers={false}
+/// @notice Updates the colors for a puzzle's Flags.
+/// @param _colors Bitpacked `uint256` of 5 24 bit colors in the following order
+/// (left-most bit to right-most):
+///     * Background
+///     * Fill
+///     * Border
+///     * Primary text
+///     * Secondary text
+function updateFlagColors(uint256 _colors) external;
+```
