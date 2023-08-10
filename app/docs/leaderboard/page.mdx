@@ -1,3 +1,11 @@
+import { getBaseMetadata } from '@/lib/utils';
+
+export const metadata = getBaseMetadata({
+  title: 'Leaderboard',
+  description: 'Learn how Curta ranks players on the leaderboard from on-chain solve data.',
+  titleTemplate: '%s | Curta Docs'
+});
+
 # Leaderboard
 
 On Curta, anyone can make their own leaderboards because all solve data is on-chain. We designed [our leaderboard](/leaderboard) to rank players by the **Phase** they completed it first (via **Points**), then by how fast their solve was relative to others (via **Speed Score**).

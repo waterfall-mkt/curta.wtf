@@ -1,5 +1,13 @@
 import Image from 'next/image';
 
+import { getBaseMetadata } from '@/lib/utils';
+
+export const metadata = getBaseMetadata({
+  title: 'Submitting Solutions',
+  description: 'Learn how to submit solutions to Curta puzzles to earn Flag NFTs.',
+  titleTemplate: '%s | Curta Guides'
+});
+
 # Submitting Solutions
 
 Once you've solved a puzzle, there are 2 ways to submit a solution:

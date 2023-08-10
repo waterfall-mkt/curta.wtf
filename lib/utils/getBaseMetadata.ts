@@ -1,10 +1,14 @@
 import type { Metadata } from 'next';
 
-const getBaseMetadata = (
-  title: string,
-  description: string,
-  titleTemplate: string = '%s | Curta',
-): Metadata => {
+const getBaseMetadata = ({
+  title,
+  description = 'Curta is a CTF protocol, where players create and solve EVM puzzles to earn NFTs.',
+  titleTemplate = '%s | Curta',
+}: {
+  title: string;
+  description?: string;
+  titleTemplate?: string;
+}): Metadata => {
   return {
     title,
     openGraph: {

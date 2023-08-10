@@ -2,11 +2,11 @@ import Image from 'next/image';
 
 import { getBaseMetadata } from '@/lib/utils';
 
-export const metadata = getBaseMetadata(
-  'Authorship Token',
-  'Authorship Tokens are ERC-721 tokens that are required to add puzzles to Curta.',
-  'Curta Docs'
-);
+export const metadata = getBaseMetadata({
+  title: 'Authorship Token',
+  description: 'Authorship Tokens are ERC-721 tokens that are required to add puzzles to Curta.',
+  titleTemplate: '%s | Curta Docs'
+});
 
 # Authorship Token
 

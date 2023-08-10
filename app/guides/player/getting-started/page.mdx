@@ -1,5 +1,13 @@
 import Image from 'next/image';
 
+import { getBaseMetadata } from '@/lib/utils';
+
+export const metadata = getBaseMetadata({
+  title: 'Getting Started',
+  description: 'Learn how to get started with solving problems on Curta.',
+  titleTemplate: '%s | Curta Guides'
+});
+
 # Getting Started
 
 ## Navigating Around the Frontend
