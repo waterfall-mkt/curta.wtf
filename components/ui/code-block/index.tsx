@@ -85,6 +85,7 @@ const CodeBlock: FC<CodeBlockProps> = ({
             <div className={codeBlockHeaderFileNameStyles}>{fileName}</div>
           </div>
           <IconButton
+            className="bg-gray-600 active:bg-gray-450"
             size="sm"
             variant="tertiary"
             intent="neutral"
@@ -131,7 +132,7 @@ const CodeBlock: FC<CodeBlockProps> = ({
                   <IconButton
                     size="sm"
                     className={clsx(
-                      'absolute right-2 top-2',
+                      'absolute right-2 top-2 bg-gray-600 active:bg-gray-450',
                       isMobile ? 'flex' : 'hidden animate-in fade-in group-hover:flex',
                     )}
                     variant="tertiary"
