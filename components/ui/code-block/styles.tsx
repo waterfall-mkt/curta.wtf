@@ -34,13 +34,18 @@ export const codeBlockLineHighlightedStyles = 'bg-blue-900 shadow-[inset_2px_0] 
 
 export const codeBlockLineNumberStyles = 'mr-4 inline-block w-4 text-end text-gray-150 select-none';
 
-export const codeBlockLineStyles = 'px-4 min-w-fit';
+export const codeBlockLineVariants = cva(['px-4 min-w-fit'], {
+  variants: {
+    breakLines: { true: ['break-all'], false: [] },
+  },
+});
 
 export const codeBlockPreVariants = cva(
-  ['group', 'py-4', 'px-0', 'overflow-x-scroll', 'my-0', 'bg-gray-600'],
+  ['group', 'py-4', 'px-0', 'my-0', 'bg-gray-600', 'hide-scrollbar'],
   {
     variants: {
-      hasFileName: { true: ['rounded-b-xl', 'rounded-t-none'], false: ['rounded-xl'] },
+      hasHeader: { true: ['rounded-b-xl', 'rounded-t-none'], false: ['rounded-xl'] },
+      breakLines: { true: ['whitespace-pre-line'], false: ['overflow-x-scroll'] },
     },
   },
 );

@@ -1,10 +1,9 @@
 import { notFound } from 'next/navigation';
 
 import PuzzleHeader from './(components)/header';
+import PuzzleProblemDisplay from './(components)/problem-display';
 
 import { fetchPuzzleById } from '@/lib/utils';
-
-import { CodeBlock } from '@/components/ui';
 
 // -----------------------------------------------------------------------------
 // Page
@@ -21,13 +20,15 @@ export default async function Page({ params }: { params: { id: string } }) {
   // data.
   if (!puzzle || error) return notFound();
 
+  const languages = ['Bytecode']
+    .concat(puzzle.solidity ? ['Solidity'] : [])
+    .concat(puzzle.huff ? ['Huff'] : []);
+
   return (
     <div className="flex flex-col">
       <PuzzleHeader puzzle={puzzle} />
-      <div className="mt-4 flex flex-col gap-4 md:flex-row md:gap-6">
-        <CodeBlock fileName="Puzzle.sol" className="max-h-[41.25rem] grow" language="solidity">
-          {puzzle.solidity ?? ''}
-        </CodeBlock>
+      <div className="mt-4 flex grow flex-col gap-4 md:flex-row md:gap-6">
+        <PuzzleProblemDisplay puzzle={puzzle} languages={languages} />
         {/* <div className="h-fit w-full justify-center rounded-[1.25rem] border border-stroke bg-gray-600 md:min-w-[20rem] md:max-w-[20rem]">
           <div className="flex flex-col items-center p-4">
             <a

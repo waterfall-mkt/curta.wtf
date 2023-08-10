@@ -11,7 +11,7 @@ import {
   codeBlockHeaderStyles,
   codeBlockLineHighlightedStyles,
   codeBlockLineNumberStyles,
-  codeBlockLineStyles,
+  codeBlockLineVariants,
   codeBlockPreVariants,
   codeBlockStyles,
 } from './styles';
@@ -32,14 +32,19 @@ require('prismjs/components/prism-typescript');
 require('prismjs/components/prism-jsx');
 require('prismjs/components/prism-tsx');
 require('prismjs/components/prism-solidity');
+require('prismjs/components/prism-c');
+require('prismjs/components/prism-cpp');
 require('prismjs/components/prism-python');
 
 const CodeBlock: FC<CodeBlockProps> = ({
   className,
   fileName,
+  headerLabel,
   language = 'none',
+  logo,
   highlightLines = [],
   showLineNumbers = true,
+  breakLines = false,
   roundedTop = true,
   children,
   ...rest
@@ -51,22 +56,23 @@ const CodeBlock: FC<CodeBlockProps> = ({
 
   const isMobile = isMounted ? /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) : false;
 
-  const hasFileName = fileName !== undefined;
+  const hasHeader = fileName !== undefined || headerLabel !== undefined;
 
-  const Icon =
-    language === 'javascript' || language === 'js'
-      ? CodeBlockLanguageLogo.JavaScript
-      : language === 'typescript' || language === 'ts'
-      ? CodeBlockLanguageLogo.TypeScript
-      : language === 'jsx'
-      ? CodeBlockLanguageLogo.React
-      : language === 'tsx'
-      ? CodeBlockLanguageLogo.React
-      : language === 'solidity' || language === 'sol'
-      ? CodeBlockLanguageLogo.Solidity
-      : language === 'python' || language === 'py'
-      ? CodeBlockLanguageLogo.Python
-      : File;
+  const Icon = logo
+    ? logo
+    : language === 'javascript' || language === 'js'
+    ? CodeBlockLanguageLogo.JavaScript
+    : language === 'typescript' || language === 'ts'
+    ? CodeBlockLanguageLogo.TypeScript
+    : language === 'jsx'
+    ? CodeBlockLanguageLogo.React
+    : language === 'tsx'
+    ? CodeBlockLanguageLogo.React
+    : language === 'solidity' || language === 'sol'
+    ? CodeBlockLanguageLogo.Solidity
+    : language === 'python' || language === 'py'
+    ? CodeBlockLanguageLogo.Python
+    : File;
 
   const copyToClipboard = () => {
     if (!copied) {
@@ -78,31 +84,40 @@ const CodeBlock: FC<CodeBlockProps> = ({
 
   return (
     <div className={twMerge(clsx(codeBlockContainerVariants({ roundedTop }), className))}>
-      {hasFileName ? (
+      {hasHeader ? (
         <div className={codeBlockHeaderStyles}>
           <div className={codeBlockHeaderFileNameContainerStyles}>
             <Icon className={codeBlockHeaderFileNameIconStyles} />
             <div className={codeBlockHeaderFileNameStyles}>{fileName}</div>
+            {fileName !== undefined && headerLabel !== undefined ? (
+              <hr className="h-4 w-[1px] border-l border-stroke" role="separator" />
+            ) : null}
+            <div>{headerLabel}</div>
           </div>
-          <IconButton
-            className="bg-gray-600 active:bg-gray-450"
-            size="sm"
-            variant="tertiary"
-            intent="neutral"
-            title="Copy to clipboard"
-            onClick={copyToClipboard}
-            type="button"
-            aria-label="Copy to clipboard"
-          >
-            {copied ? <Check /> : <Copy />}
-          </IconButton>
+          <div className="flex items-center gap-2">
+            <IconButton
+              className="bg-gray-600 active:bg-gray-450"
+              size="sm"
+              variant="tertiary"
+              intent="neutral"
+              title="Copy to clipboard"
+              onClick={copyToClipboard}
+              type="button"
+              aria-label="Copy to clipboard"
+            >
+              {copied ? <Check /> : <Copy />}
+            </IconButton>
+          </div>
         </div>
       ) : null}
       <Highlight prism={Prism} theme={theme} code={children} language={language}>
         {({ tokens, getLineProps, getTokenProps }) => (
           <div className="relative">
             <pre
-              className={codeBlockPreVariants({ hasFileName: hasFileName || !roundedTop })}
+              className={codeBlockPreVariants({
+                hasHeader: hasHeader || !roundedTop,
+                breakLines,
+              })}
               {...rest}
             >
               <code className={codeBlockStyles}>
@@ -114,7 +129,7 @@ const CodeBlock: FC<CodeBlockProps> = ({
                       key={i}
                       className={clsx(
                         className,
-                        codeBlockLineStyles,
+                        codeBlockLineVariants({ breakLines }),
                         highlightLines.includes(i + 1) ? codeBlockLineHighlightedStyles : '',
                       )}
                       {...restLineProps}
@@ -128,7 +143,7 @@ const CodeBlock: FC<CodeBlockProps> = ({
                     </div>
                   );
                 })}
-                {!hasFileName ? (
+                {!hasHeader ? (
                   <IconButton
                     size="sm"
                     className={clsx(
