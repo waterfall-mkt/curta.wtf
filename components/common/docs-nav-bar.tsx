@@ -5,12 +5,12 @@ import { type FC, Fragment, useMemo, useState } from 'react';
 
 import * as Dialog from '@radix-ui/react-dialog';
 import clsx from 'clsx';
-import { ChevronRight, Menu, X } from 'lucide-react';
+import { ChevronRight } from 'lucide-react';
 
 import { useMediaQuery } from '@/lib/hooks/useMediaQuery';
 import type { Page } from '@/lib/types/site';
 
-import { Button, IconButton } from '@/components/ui';
+import { Button } from '@/components/ui';
 
 // -----------------------------------------------------------------------------
 // Props
