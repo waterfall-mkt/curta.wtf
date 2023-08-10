@@ -49,7 +49,7 @@ const Logo: FC<LogoProps> = ({ className, href = '/', size = 'md' }) => {
             <filter id="c">
               <feGaussianBlur stdDeviation="8" in="SourceGraphic" result="offset-blur" />
               <feComposite operator="out" in="SourceGraphic" in2="offset-blur" result="inverse" />
-              <feFlood flood-color="#007FFF" flood-opacity=".95" result="color" />
+              <feFlood floodColor="#007FFF" floodOpacity=".95" result="color" />
               <feComposite operator="in" in="color" in2="inverse" result="shadow" />
               <feComposite in="shadow" in2="SourceGraphic" />
               <feComposite operator="atop" in="shadow" in2="SourceGraphic" />

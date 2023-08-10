@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Fragment, isValidElement } from 'react';
+import { isValidElement } from 'react';
 
 import type { MDXComponents } from 'mdx/types';
 
