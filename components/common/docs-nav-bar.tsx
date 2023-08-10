@@ -10,6 +10,7 @@ import { ChevronRight, Menu, X } from 'lucide-react';
 import { useMediaQuery } from '@/lib/hooks/useMediaQuery';
 import type { Page } from '@/lib/types/site';
 
+import PillLinkButton from '@/components/templates/pill-link-button';
 import { Button, IconButton } from '@/components/ui';
 
 // -----------------------------------------------------------------------------

@@ -1,6 +1,7 @@
-import type { FC } from 'react';
+import type { FC, ReactNode } from 'react';
 
 import clsx from 'clsx';
+import { twMerge } from 'tailwind-merge';
 
 // -----------------------------------------------------------------------------
 // Props
@@ -8,21 +9,24 @@ import clsx from 'clsx';
 
 type PillLinkButtonProps = JSX.IntrinsicElements['a'] & {
   site?: 'etherscan' | 'github';
-  label: string;
   href: string;
+  chldren: ReactNode;
 };
 
 // -----------------------------------------------------------------------------
 // Component
 // -----------------------------------------------------------------------------
 
-const PillLinkButton: FC<PillLinkButtonProps> = ({ site, label, href, ...rest }) => {
+const PillLinkButton: FC<PillLinkButtonProps> = ({ className, site, href, children, ...rest }) => {
   return (
     <a
       href={href}
-      className={clsx(
-        'line-clamp-1 flex h-8 w-fit items-center space-x-2 text-ellipsis rounded-full border border-stroke bg-white/5 text-sm text-gray-100 backdrop-blur-xl transition-colors hover:bg-white/10 focus-visible:ring-2 focus-visible:ring-blue-250',
-        site ? 'pl-1 pr-2.5' : 'px-2.5',
+      className={twMerge(
+        clsx(
+          'line-clamp-1 flex h-8 w-fit items-center space-x-2 text-ellipsis rounded-full border border-stroke bg-white/5 text-sm text-gray-100 backdrop-blur-xl transition-colors hover:bg-white/10 focus-visible:ring-2 focus-visible:ring-blue-250',
+          site ? 'pl-1 pr-2.5' : 'px-2.5',
+          className,
+        ),
       )}
       target="_blank"
       rel="noopener noreferrer"
@@ -37,7 +41,7 @@ const PillLinkButton: FC<PillLinkButtonProps> = ({ site, label, href, ...rest })
           ) : null}
         </span>
       ) : null}
-      <span>{label}</span>
+      <span>{children}</span>
     </a>
   );
 };
