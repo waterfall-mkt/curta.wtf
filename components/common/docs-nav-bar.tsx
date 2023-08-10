@@ -81,7 +81,7 @@ const DocsNavBarMobile: FC<DocsNavBarInternalProps> = ({ sections, selected }) =
         <ol className="ml-4 flex text-sm">
           <li className="flex items-center text-gray-200">
             {selectedSectionName}
-            <ChevronRight className="mx-1 h-3 w-3" />
+            <ChevronRight className="mx-1 h-4 w-4" />
           </li>
           <li className="font-medium text-gray-100">{selectedPageName}</li>
         </ol>

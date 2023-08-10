@@ -1,4 +1,4 @@
-import type { FC, ReactNode } from 'react';
+import type { FC } from 'react';
 
 import clsx from 'clsx';
 import { twMerge } from 'tailwind-merge';
@@ -10,7 +10,6 @@ import { twMerge } from 'tailwind-merge';
 type PillLinkButtonProps = JSX.IntrinsicElements['a'] & {
   site?: 'etherscan' | 'github';
   href: string;
-  chldren: ReactNode;
 };
 
 // -----------------------------------------------------------------------------
