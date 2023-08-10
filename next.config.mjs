@@ -1,23 +1,21 @@
 import createMDX from '@next/mdx';
 import rehypeMdxCodeProps from 'rehype-mdx-code-props';
+import remarkGfm from 'remark-gfm';
 
 const withMDX = createMDX({
   extension: /\.mdx?$/,
   options: {
-    remarkPlugins: [],
+    remarkPlugins: [remarkGfm],
     rehypePlugins: [rehypeMdxCodeProps],
   },
 });
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  experimental: {
-    mdxRs: true,
-  },
   images: {
     domains: ['ipfs.io', 'arweave.net'],
   },
-  reactStrictMode: false,
+  reactStrictMode: true,
   swcMinify: false,
   webpack5: true,
   pageExtensions: ['ts', 'tsx', 'js', 'jsx', 'md', 'mdx'],

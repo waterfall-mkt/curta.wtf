@@ -1,6 +1,10 @@
 import Link from 'next/link';
+import { isValidElement } from 'react';
 
 import type { MDXComponents } from 'mdx/types';
+
+import { CodeBlock } from '@/components/ui';
+import type { CodeBlockProps } from '@/components/ui/code-block/types';
 
 // This file is required to use MDX in `app` directory.
 export function useMDXComponents(components: MDXComponents): MDXComponents {
@@ -57,6 +61,20 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
         {children}
       </p>
     ),
+    pre: ({
+      children,
+      ...rest
+    }: JSX.IntrinsicElements['pre'] & Omit<CodeBlockProps, 'children'>) => {
+      const childrenProps = isValidElement(children) ? children.props : undefined;
+      const language = childrenProps?.className ? childrenProps.className.substring(9) : undefined;
+      const code = typeof childrenProps?.children === 'string' ? childrenProps.children.trim() : '';
+
+      return (
+        <CodeBlock language={language} {...rest}>
+          {code}
+        </CodeBlock>
+      );
+    },
     strong: ({ children, ...rest }: JSX.IntrinsicElements['strong']) => (
       <strong className="font-medium text-gray-50" {...rest}>
         {children}
