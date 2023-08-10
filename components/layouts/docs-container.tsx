@@ -24,6 +24,7 @@ const DocsContainerLayout: FC<DocsContainerLayoutProps> = ({ sections, children 
       <DocsNavBar sections={sections} />
       <article className="prose mx-auto max-w-none grow px-4 dark:prose-invert md:px-0">
         {children}
+        <hr className="mb-6 mt-6 w-full rounded-full border-stroke md:mt-12" role="separator" />
       </article>
     </ContainerLayout>
   );

@@ -13,33 +13,39 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
     a: ({ href, children, ...rest }: JSX.IntrinsicElements['a']) => {
       if (href && href.startsWith('/')) {
         return (
-          <Link
-            className="mdx--link group font-medium no-underline hover:underline"
-            href={href}
-            style={{ color: 'var(--primary-color)' }}
-          >
-            {children}
-          </Link>
+          <span className="not-prose">
+            <Link
+              className="mdx--link group font-medium no-underline hover:underline"
+              href={href}
+              style={{ color: 'var(--primary-color)' }}
+            >
+              {children}
+            </Link>
+          </span>
         );
       }
 
       return (
-        <a
-          className="mdx--link group font-medium no-underline hover:underline"
-          href={href}
-          target="_blank"
-          rel="noopener noreferrer"
-          style={{ color: 'var(--primary-color)' }}
-          {...rest}
-        >
-          {children}
-        </a>
+        <span className="not-prose">
+          <a
+            className="mdx--link group font-medium no-underline hover:underline"
+            href={href}
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ color: 'var(--primary-color)' }}
+            {...rest}
+          >
+            {children}
+          </a>
+        </span>
       );
     },
     code: ({ children }: JSX.IntrinsicElements['code']) => (
-      <code className="rounded-md border border-stroke bg-gray-450 px-1 py-0.5 font-mono font-light text-gray-50 before:content-none after:content-none group-[.mdx--link]:text-primary">
-        {children}
-      </code>
+      <span className="not-prose">
+        <code className="rounded-md border border-stroke bg-gray-450 px-1 py-0.5 font-mono text-sm font-normal before:content-none after:content-none group-[.mdx--link]:text-primary">
+          {children}
+        </code>
+      </span>
     ),
     h1: ({ children }: JSX.IntrinsicElements['h1']) => (
       <h1 className="mb-4 text-3xl font-semibold tracking-tight text-gray-50 md:text-4xl">
@@ -57,7 +63,7 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
       </h3>
     ),
     p: ({ children }: JSX.IntrinsicElements['p']) => (
-      <p className="not-prose font-light not-italic text-gray-100 before:content-none after:content-none">
+      <p className="font-light not-italic text-gray-100 before:content-none after:content-none">
         {children}
       </p>
     ),
