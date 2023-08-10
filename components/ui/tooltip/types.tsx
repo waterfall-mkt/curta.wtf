@@ -1,7 +1,9 @@
-import type { ReactNode } from 'react';
+import type { ComponentPropsWithoutRef, ReactNode } from 'react';
 
-export type TooltipProps = JSX.IntrinsicElements['div'] & {
+import * as TooltipPrimitive from '@radix-ui/react-tooltip';
+
+export type TooltipProps = ComponentPropsWithoutRef<typeof TooltipPrimitive.Content> & {
   content: ReactNode;
-  triggerAsChild?: boolean;
   hasArrow?: boolean;
+  noDelay?: boolean;
 };

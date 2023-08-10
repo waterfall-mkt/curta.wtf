@@ -3,7 +3,7 @@ import { cva } from 'class-variance-authority';
 export const iconButtonIconVariants = cva(['flex', 'items-center', 'justify-center'], {
   variants: {
     size: {
-      lg: ['w-6', 'h-6'],
+      lg: ['w-5', 'h-5'],
       md: ['w-5', 'h-5'],
       sm: ['w-4', 'h-4'],
       xs: ['w-3', 'h-3'],

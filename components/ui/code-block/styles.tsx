@@ -1,7 +1,16 @@
 import { cva } from 'class-variance-authority';
 
 export const codeBlockContainerVariants = cva(
-  ['flex', 'flex-col', 'overflow-hidden', 'border', 'border-stroke'],
+  [
+    'flex',
+    'flex-col',
+    'overflow-y-scroll',
+    'border',
+    'border-stroke',
+    'relative',
+    'bg-gray-600',
+    'hide-scrollbar',
+  ],
   {
     variants: {
       roundedTop: {
@@ -19,7 +28,7 @@ export const codeBlockHeaderFileNameIconStyles = 'w-4 h-4';
 export const codeBlockHeaderFileNameStyles = 'text-sm text-ellipsis overflow-hidden line-clamp-1';
 
 export const codeBlockHeaderStyles =
-  'flex h-[2.75rem] grow items-center justify-between border-b border-stroke bg-gray-700 pl-4 pr-2 rounded-top-xl';
+  'flex min-h-[2.75rem] max-h-[2.75rem] grow items-center justify-between border-b border-stroke bg-gray-700 pl-4 pr-2 rounded-top-xl sticky top-0 z-10';
 
 export const codeBlockLineHighlightedStyles = 'bg-blue-900 shadow-[inset_2px_0] shadow-blue-250';
 
