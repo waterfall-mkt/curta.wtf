@@ -1,0 +1,37 @@
+import Image from 'next/image';
+
+import { getBaseMetadata } from '@/lib/utils';
+
+export const metadata = getBaseMetadata({
+  title: 'Authorship Token',
+  description: 'Authorship Tokens are ERC-721 tokens that are required to add puzzles to Curta.',
+  titleTemplate: '%s | Curta Docs'
+});
+
+# Authorship Token
+
+**Authorship Tokens** are ERC-721 tokens that are required to add puzzles to Curta. After an Authorship Token has been used to add a puzzle, it can never be used again. The author will still own the token after using it (i.e. it doesn't get burnt), and it'll get displayed as an attribute in its metadata. As soon as a puzzle has been deployed and added, Phase 0 begins and anyone may attempt to solve it.
+
+<Image
+  className="mx-auto rounded-lg border border-stroke"
+  src="/assets/authorship-tokens.webp"
+  alt="Authorship Tokens"
+  width={2250}
+  height={750}
+/>
+
+## Distribution
+
+To aim for high quality puzzles on Curta, the distribution mechanism mints Authorship Tokens to skilled participants. To start, the contract mints 1 Authorship Token each to a [highly curated group of 24 authors](/assets/authorship-token-initial-batch.txt) that we believe will write interesting, challenging problems. After this, there are only 2 ways to receive a newly minted Authorship Token:
+
+1. be the first solver to any puzzle
+2. or receive them via selection.
+
+To learn about obtaining Authorship Tokens, see [Becoming an Author](/guides/author/becoming-an-author).
+
+## Fermat
+
+**Fermat** is the author whose puzzle went the longest unsolved, and Fermat can be identified on-chain as the owner of the Flag Token with token ID #0. Becoming Fermat may incentivize authors to:
+
+- write challenging problems;
+- keep their solution private until submissions are closed.

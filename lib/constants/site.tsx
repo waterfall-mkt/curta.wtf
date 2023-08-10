@@ -3,6 +3,56 @@ import { Github, Twitter } from 'lucide-react';
 import type { ExternalLink, Page } from '@/lib/types/site';
 
 /**
+ * Guides pages displayed on [**curta.wtf/guides**](https://curta.wtf/guides)'s
+ * navigation bar.
+ */
+export const GUIDES_PAGES: { name: string; pages: Page[] }[] = [
+  {
+    name: 'Player',
+    pages: [
+      { name: 'Getting Started', slug: '/guides/player/getting-started' },
+      { name: 'Submitting Solutions', slug: '/guides/player/submitting-solutions' },
+      { name: 'NFT Rewards', slug: '/guides/player/nft-rewards' },
+    ],
+  },
+  {
+    name: 'Author',
+    pages: [
+      { name: 'Becoming an Author', slug: '/guides/author/becoming-an-author' },
+      { name: 'Creating a Puzzle', slug: '/guides/author/creating-a-puzzle' },
+      { name: 'Customizing Art', slug: '/guides/author/customizing-art' },
+      { name: 'Becoming Fermat', slug: '/guides/author/becoming-fermat' },
+    ],
+  },
+];
+
+/**
+ * Docs pages displayed on [**curta.wtf/docs**](https://curta.wtf/docs)'s
+ * navigation bar.
+ */
+export const DOCS_PAGES: { name: string; pages: Page[] }[] = [
+  {
+    name: 'Overview',
+    pages: [
+      { name: 'Introduction', slug: '/docs' },
+      { name: 'Phases', slug: '/docs/phases' },
+      { name: 'Puzzles', slug: '/docs/puzzles' },
+      { name: 'Authorship Token', slug: '/docs/authorship-token' },
+      { name: 'Flag Token', slug: '/docs/flag-token' },
+      { name: 'Leaderboard', slug: '/docs/leaderboard' },
+    ],
+  },
+  {
+    name: 'Resources',
+    pages: [
+      { name: 'Glossary', slug: '/docs/resources/glossary' },
+      { name: 'Contracts', slug: '/docs/resources/contracts' },
+      { name: 'External Links', slug: '/docs/resources/external-links' },
+    ],
+  },
+];
+
+/**
  * Pages displayed on [**curta.wtf**](https://curta.wtf)'s footer.
  */
 export const FOOTER_PAGES: Page[] = [

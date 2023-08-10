@@ -13,16 +13,15 @@ const LinksDisplay: FC = () => {
         Links
       </label>
       <div id={id} className="flex flex-row space-x-2 sm:flex-col sm:space-x-0 sm:space-y-1">
-        <PillLinkButton
-          site="github"
-          label="waterfall-mkt/curta"
-          href="https://github.com/waterfall-mkt/curta"
-        />
+        <PillLinkButton site="github" href="https://github.com/waterfall-mkt/curta">
+          waterfall-mkt/curta
+        </PillLinkButton>
         <PillLinkButton
           site="etherscan"
-          label={getShortenedAddress(process.env.NEXT_PUBLIC_CURTA_ADDRESS)}
           href={`https://${process.env.NEXT_PUBLIC_BLOCK_EXPLORER}/address/${process.env.NEXT_PUBLIC_CURTA_ADDRESS}`}
-        />
+        >
+          {getShortenedAddress(process.env.NEXT_PUBLIC_CURTA_ADDRESS)}
+        </PillLinkButton>
       </div>
     </div>
   );

@@ -1,5 +1,4 @@
 import type { Metadata } from 'next';
-import { Fragment } from 'react';
 
 import AuthorsDisplay from './(components)/authors-display';
 import LinksDisplay from './(components)/links-display';
@@ -61,7 +60,7 @@ export default async function Home() {
   const { data: puzzles } = await fetchPuzzles();
 
   return (
-    <Fragment>
+    <div className="relative flex w-full grow overflow-hidden">
       {/* Grid */}
       <div className="bg-grid pointer-events-none z-[-1]" />
       {/* Background ellipse */}
@@ -97,7 +96,7 @@ export default async function Home() {
           <PuzzleTable data={puzzles} />
         </div>
       </ContainerLayout>
-    </Fragment>
+    </div>
   );
 }
 

@@ -1,0 +1,39 @@
+import Image from 'next/image';
+
+import { getBaseMetadata } from '@/lib/utils';
+
+export const metadata = getBaseMetadata({
+  title: 'Submitting Solutions',
+  description: 'Learn how to submit solutions to Curta puzzles to earn Flag NFTs.',
+  titleTemplate: '%s | Curta Guides'
+});
+
+# Submitting Solutions
+
+Once you've solved a puzzle, there are 2 ways to submit a solution:
+
+1. via this site's interface
+2. or by directly calling the contract.
+
+## Using the UI
+
+Paste your solution into the input box, then press "Submit":
+
+<Image
+  className="mx-auto rounded-lg border border-stroke"
+  src="/assets/puzzle-solution.webp"
+  alt="Submit solutions UI"
+  width={1512}
+  height={860}
+/>
+
+## Calling the Contract
+
+Call `solve(uint32 _puzzleId, uint256 _solution)` on [`Curta`](https://etherscan.io/address/0x0000000006bC8D9e5e9d436217B88De704a9F307):
+
+```solidity showLineNumbers={false}
+/// @notice Mints an NFT if the provided solution solves the puzzle.
+/// @param _puzzleId The ID of the puzzle.
+/// @param _solution The solution.
+function solve(uint32 _puzzleId, uint256 _solution) external;
+```

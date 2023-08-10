@@ -1,26 +1,9 @@
-export const title = 'Terms of Service';
+import { getBaseMetadata } from '@/lib/utils';
 
-export const description = 'See our terms of our service and how they relate to you.';
-
-export const metadata = {
-  title,
-  description,
-  openGraph: {
-    title: `${title} | Curta`,
-    description,
-    siteName: 'curta.wtf',
-    url: 'https://curta.wtf',
-    locale: 'en_US',
-  },
-  twitter: {
-    title: `${title} | Curta`,
-    description,
-    site: '@curta_ctf',
-    siteId: '1604186457165406210',
-    creator: '@waterfall_mkt',
-    creatorId: '1466508083929223176',
-  },
-};
+export const metadata = getBaseMetadata({
+  title: 'Terms of Service',
+  description: 'See our terms of our service and how they relate to you.'
+});
 
 # Terms of Service
 Curta is a decentralized marketplace for Capture the Flag (CTF) puzzles, where users can create,

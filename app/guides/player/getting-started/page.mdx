@@ -1,0 +1,35 @@
+import Image from 'next/image';
+
+import { getBaseMetadata } from '@/lib/utils';
+
+export const metadata = getBaseMetadata({
+  title: 'Getting Started',
+  description: 'Learn how to get started with solving problems on Curta.',
+  titleTemplate: '%s | Curta Guides'
+});
+
+# Getting Started
+
+## Navigating Around the Frontend
+
+On the [**home page**](/), you can view ongoing and past puzzles, which you can filter by [**Phase**](/docs/phases) (Phase 0, 1, and 2 mean ongoing; Phase 3 means over):
+
+<Image
+  className="mx-auto rounded-lg border border-stroke"
+  src="/assets/phases-cropped.gif"
+  alt="Phase tabs demonstration"
+  width={864}
+  height={354}
+/>
+
+## How to Compete
+
+Once you've clicked on a puzzle, you'll be brought to its puzzle page. Here, you can read through the source code and try to solve the puzzle. Keep in mind that each puzzle takes in players' addresses as a seed, so you'll have to solve it for the address you connected to the site with.
+
+<Image
+  className="mx-auto rounded-lg border border-stroke"
+  src="/assets/puzzle-source.webp"
+  alt="Phase source"
+  width={1512}
+  height={860}
+/>

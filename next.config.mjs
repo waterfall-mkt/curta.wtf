@@ -1,23 +1,23 @@
 import createMDX from '@next/mdx';
+import rehypeKatex from 'rehype-katex';
 import rehypeMdxCodeProps from 'rehype-mdx-code-props';
+import remarkGfm from 'remark-gfm';
+import remarkMath from 'remark-math';
 
 const withMDX = createMDX({
   extension: /\.mdx?$/,
   options: {
-    remarkPlugins: [],
-    rehypePlugins: [rehypeMdxCodeProps],
+    remarkPlugins: [remarkGfm, remarkMath],
+    rehypePlugins: [rehypeKatex, rehypeMdxCodeProps],
   },
 });
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  experimental: {
-    mdxRs: true,
-  },
   images: {
     domains: ['ipfs.io', 'arweave.net'],
   },
-  reactStrictMode: false,
+  reactStrictMode: true,
   swcMinify: false,
   webpack5: true,
   pageExtensions: ['ts', 'tsx', 'js', 'jsx', 'md', 'mdx'],
