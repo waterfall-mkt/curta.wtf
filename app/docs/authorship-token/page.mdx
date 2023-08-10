@@ -1,5 +1,13 @@
 import Image from 'next/image';
 
+import { getBaseMetadata } from '@/lib/utils';
+
+export const metadata = getBaseMetadata(
+  'Authorship Token',
+  'Authorship Tokens are ERC-721 tokens that are required to add puzzles to Curta.',
+  'Curta Docs'
+);
+
 # Authorship Token
 
 **Authorship Tokens** are ERC-721 tokens that are required to add puzzles to Curta. After an Authorship Token has been used to add a puzzle, it can never be used again. The author will still own the token after using it (i.e. it doesn't get burnt), and it'll get displayed as an attribute in its metadata. As soon as a puzzle has been deployed and added, Phase 0 begins and anyone may attempt to solve it.
