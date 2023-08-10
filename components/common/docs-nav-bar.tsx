@@ -10,7 +10,6 @@ import { ChevronRight, Menu, X } from 'lucide-react';
 import { useMediaQuery } from '@/lib/hooks/useMediaQuery';
 import type { Page } from '@/lib/types/site';
 
-import PillLinkButton from '@/components/templates/pill-link-button';
 import { Button, IconButton } from '@/components/ui';
 
 // -----------------------------------------------------------------------------
@@ -71,18 +70,18 @@ const DocsNavBarMobile: FC<DocsNavBarInternalProps> = ({ sections, selected }) =
     <Dialog.Root open={open && isSmallScreen} onOpenChange={setOpen}>
       <div className="pointer-events-auto sticky top-14 z-popover mb-4 flex h-12 w-full items-center border-b border-stroke bg-gray-900 px-4 md:hidden">
         <Dialog.Trigger asChild>
-          <IconButton
-            variant="tertiary"
-            intent="neutral"
+          <button
+            className="rounded-full bg-gray-450 px-3 py-1.5 text-xs text-gray-100 transition-transform hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-250 active:scale-100"
+            type="button"
             aria-label={open ? 'Close docs nav bar' : 'Open docs nav bar'}
           >
-            {open ? <X /> : <Menu />}
-          </IconButton>
+            Menu
+          </button>
         </Dialog.Trigger>
         <ol className="ml-4 flex text-sm">
           <li className="flex items-center text-gray-200">
             {selectedSectionName}
-            <ChevronRight className="mx-1 h-4 w-4" />
+            <ChevronRight className="mx-1 h-3 w-3" />
           </li>
           <li className="font-medium text-gray-100">{selectedPageName}</li>
         </ol>
