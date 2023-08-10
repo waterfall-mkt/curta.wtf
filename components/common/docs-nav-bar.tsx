@@ -43,7 +43,7 @@ const DocsNavBar: FC<DocsNavBarProps> = ({ sections }) => {
 const DocsNavBarDesktop: FC<DocsNavBarInternalProps> = ({ sections, selected }) => {
   return (
     <nav
-      className="hide-scrollbar sticky top-[6.5rem] -ml-4 hidden min-w-[11rem] max-w-[11rem] flex-col overflow-y-scroll px-0.5 md:flex lg:top-[7.5rem]"
+      className="hide-scrollbar sticky top-[6.5rem] -ml-4 hidden min-w-[14rem] max-w-[14rem] flex-col overflow-y-scroll px-0.5 md:flex lg:top-[7.5rem]"
       style={{ height: 'calc(100vh - 11rem)' }}
     >
       <DocsNavBarInternal sections={sections} selected={selected} />
