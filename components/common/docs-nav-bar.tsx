@@ -23,6 +23,7 @@ type DocsNavBarProps = {
 type DocsNavBarInternalProps = {
   sections: { name: string; pages: Page[] }[];
   selected?: string;
+  setIsOpen?: (isOpen: boolean) => void;
 };
 
 // -----------------------------------------------------------------------------
@@ -52,7 +53,7 @@ const DocsNavBarDesktop: FC<DocsNavBarInternalProps> = ({ sections, selected }) 
 };
 
 const DocsNavBarMobile: FC<DocsNavBarInternalProps> = ({ sections, selected }) => {
-  const [open, setOpen] = useState<boolean>(false);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
   const isSmallScreen = useMediaQuery('(max-width: 768px)'); // `md` breakpoint
 
   const [selectedSectionName, selectedPageName] = useMemo(() => {
@@ -67,13 +68,13 @@ const DocsNavBarMobile: FC<DocsNavBarInternalProps> = ({ sections, selected }) =
   }, [sections, selected]);
 
   return (
-    <Dialog.Root open={open && isSmallScreen} onOpenChange={setOpen}>
+    <Dialog.Root open={isOpen && isSmallScreen} onOpenChange={setIsOpen}>
       <div className="pointer-events-auto sticky top-14 z-popover mb-4 flex h-12 w-full items-center border-b border-stroke bg-gray-900 px-4 md:hidden">
         <Dialog.Trigger asChild>
           <button
             className="rounded-full bg-gray-450 px-3 py-1.5 text-xs text-gray-100 transition-transform hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-250 active:scale-100"
             type="button"
-            aria-label={open ? 'Close docs nav bar' : 'Open docs nav bar'}
+            aria-label={isOpen ? 'Close docs nav bar' : 'Open docs nav bar'}
           >
             Menu
           </button>
@@ -89,9 +90,9 @@ const DocsNavBarMobile: FC<DocsNavBarInternalProps> = ({ sections, selected }) =
 
       <Dialog.Portal>
         <Dialog.Overlay className="fixed inset-0 z-overlay outline-none backdrop-brightness-50 animate-in fade-in-50 focus:outline-none md:hidden" />
-        <Dialog.Content onOpenAutoFocus={(e) => e.preventDefault()} asChild>
+        <Dialog.Content onOpenAutoFocus={(e: Event) => e.preventDefault()} asChild>
           <nav className="hide-scrollbar fixed inset-0 z-overlay overflow-y-scroll bg-gray-900 p-4 pt-[7.5rem] animate-in slide-in-from-top-1 md:hidden">
-            <DocsNavBarInternal sections={sections} selected={selected} />
+            <DocsNavBarInternal sections={sections} selected={selected} setIsOpen={setIsOpen} />
           </nav>
         </Dialog.Content>
       </Dialog.Portal>
@@ -99,7 +100,7 @@ const DocsNavBarMobile: FC<DocsNavBarInternalProps> = ({ sections, selected }) =
   );
 };
 
-const DocsNavBarInternal: FC<DocsNavBarInternalProps> = ({ sections, selected }) => {
+const DocsNavBarInternal: FC<DocsNavBarInternalProps> = ({ sections, selected, setIsOpen }) => {
   return (
     <Fragment>
       {sections.map((category, index) => (
@@ -120,6 +121,7 @@ const DocsNavBarInternal: FC<DocsNavBarInternalProps> = ({ sections, selected })
                   variant="text"
                   intent="neutral"
                   href={page.slug}
+                  onClick={() => setIsOpen?.(false)}
                   disabled={pageSelected}
                 >
                   {page.name}

@@ -180,8 +180,9 @@ const NavBarMobile: FC<NavBarInternalProps> = ({ yScroll }) => {
           {NAVBAR_PAGES.map((page) => (
             <Link
               key={page.slug}
-              href={page.slug}
               className="block text-xl font-medium text-gray-100 hover:underline"
+              href={page.slug}
+              onClick={() => setIsOpen(false)}
             >
               {page.name}
             </Link>
@@ -192,8 +193,8 @@ const NavBarMobile: FC<NavBarInternalProps> = ({ yScroll }) => {
           {SOCIAL_LINKS.map((item) => (
             <Link
               key={item.name}
-              href={item.href}
               className="flex w-full items-center justify-between text-gray-150 transition-colors hover:text-gray-100"
+              href={item.href}
               target="_blank"
               rel="noopener noreferrer"
             >
