@@ -3,6 +3,7 @@ import type { FC, ReactNode } from 'react';
 import type { Page } from '@/lib/types/site';
 
 import DocsNavBar from '@/components/common/docs-nav-bar';
+import DocsPageNav from '@/components/common/docs-page-nav';
 import ContainerLayout from '@/components/layouts/container';
 
 // -----------------------------------------------------------------------------
@@ -25,6 +26,7 @@ const DocsContainerLayout: FC<DocsContainerLayoutProps> = ({ sections, children 
       <article className="prose mx-auto max-w-none grow px-4 dark:prose-invert md:px-0">
         {children}
         <hr className="mb-6 mt-6 w-full rounded-full border-stroke md:mt-12" role="separator" />
+        <DocsPageNav sections={sections} />
       </article>
     </ContainerLayout>
   );
