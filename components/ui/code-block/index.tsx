@@ -1,7 +1,8 @@
 'use client';
 
-import { type FC, useEffect, useState } from 'react';
+import type { FC } from 'react';
 
+import CodeBlockActions from './actions';
 import CodeBlockLanguageLogo from './language-logo';
 import {
   codeBlockContainerVariants,
@@ -18,12 +19,10 @@ import {
 import { theme } from './theme';
 import type { CodeBlockProps } from './types';
 import clsx from 'clsx';
-import { Check, Copy, File } from 'lucide-react';
+import { File } from 'lucide-react';
 import { Highlight } from 'prism-react-renderer';
 import Prism from 'prismjs';
 import { twMerge } from 'tailwind-merge';
-
-import { IconButton } from '@/components/ui';
 
 // Add support for additional languagaes
 (typeof global === 'undefined' ? window : global).Prism = Prism;
@@ -42,6 +41,7 @@ const CodeBlock: FC<CodeBlockProps> = ({
   headerLabel,
   language = 'none',
   logo,
+  switcher,
   highlightLines = [],
   showLineNumbers = true,
   breakLines = false,
@@ -49,13 +49,6 @@ const CodeBlock: FC<CodeBlockProps> = ({
   children,
   ...rest
 }) => {
-  const [copied, setCopied] = useState<boolean>(false);
-  const [isMounted, setIsMounted] = useState(false);
-
-  useEffect(() => setIsMounted(true), []);
-
-  const isMobile = isMounted ? /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) : false;
-
   const hasHeader = fileName !== undefined || headerLabel !== undefined;
 
   const Icon = logo
@@ -74,14 +67,6 @@ const CodeBlock: FC<CodeBlockProps> = ({
     ? CodeBlockLanguageLogo.Python
     : File;
 
-  const copyToClipboard = () => {
-    if (!copied) {
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    }
-    navigator.clipboard.writeText(children);
-  };
-
   return (
     <div className={twMerge(clsx(codeBlockContainerVariants({ roundedTop }), className))}>
       {hasHeader ? (
@@ -94,20 +79,7 @@ const CodeBlock: FC<CodeBlockProps> = ({
             ) : null}
             <div>{headerLabel}</div>
           </div>
-          <div className="flex items-center gap-2">
-            <IconButton
-              className="bg-gray-600 active:bg-gray-450"
-              size="sm"
-              variant="tertiary"
-              intent="neutral"
-              title="Copy to clipboard"
-              onClick={copyToClipboard}
-              type="button"
-              aria-label="Copy to clipboard"
-            >
-              {copied ? <Check /> : <Copy />}
-            </IconButton>
-          </div>
+          <CodeBlockActions code={children} switcher={switcher} inHeader />
         </div>
       ) : null}
       <Highlight prism={Prism} theme={theme} code={children} language={language}>
@@ -143,24 +115,8 @@ const CodeBlock: FC<CodeBlockProps> = ({
                     </div>
                   );
                 })}
-                {!hasHeader ? (
-                  <IconButton
-                    size="sm"
-                    className={clsx(
-                      'absolute right-2 top-2 bg-gray-600 active:bg-gray-450',
-                      isMobile ? 'flex' : 'hidden animate-in fade-in group-hover:flex',
-                    )}
-                    variant="tertiary"
-                    intent="neutral"
-                    title="Copy to clipboard"
-                    onClick={copyToClipboard}
-                    type="button"
-                    aria-label="Copy to clipboard"
-                  >
-                    {copied ? <Check /> : <Copy />}
-                  </IconButton>
-                ) : null}
               </code>
+              {!hasHeader ? <CodeBlockActions code={children} switcher={switcher} /> : null}
             </pre>
           </div>
         )}

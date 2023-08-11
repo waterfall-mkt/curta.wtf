@@ -38,7 +38,7 @@ const PuzzleProblemDisplay: FC<PuzzleProblemDisplayProps> = ({ puzzle, languages
         >
           Curta
         </a>
-        <span> calls </span>
+        <span>calls</span>
         <code className="rounded-md border border-stroke bg-gray-450 px-1 py-0.5 text-xs font-normal text-gray-100">
           verify()
         </code>

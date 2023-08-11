@@ -1,5 +1,34 @@
 import { cva } from 'class-variance-authority';
 
+// ---------------------------------------–-------------------------------------
+// `CodeBlockAction` styles
+// ---------------------------------------–-------------------------------------
+
+export const codeBlockActionsVariants = cva(['flex', 'items-center', 'gap-2'], {
+  variants: {
+    inHeader: {
+      true: ['flex'],
+      false: ['absolute', 'right-2', 'top-2'],
+    },
+    showOnHover: {
+      true: [],
+      false: [],
+    },
+  },
+  compoundVariants: [
+    {
+      inHeader: false,
+      showOnHover: true,
+      className: ['hidden', 'animate-in', 'fade-in', 'group-hover:flex'],
+    },
+    { inHeader: false, showOnHover: false, className: ['flex'] },
+  ],
+});
+
+// ---------------------------------------–-------------------------------------
+// `CodeBlock` styles
+// ---------------------------------------–-------------------------------------
+
 export const codeBlockContainerVariants = cva(
   [
     'flex',
