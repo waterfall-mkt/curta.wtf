@@ -25,7 +25,7 @@ const CodeBlockFileName: FC<CodeBlockFileNameProps> = ({ fileName, headerLabel, 
   };
 
   return (
-    <div className="relative overflow-x-scroll">
+    <div className="relative grow overflow-x-scroll">
       <div className={codeBlockHeaderFileNameContainerStyles} onScroll={onScroll}>
         <span>
           <Icon className={codeBlockHeaderFileNameIconStyles} />
