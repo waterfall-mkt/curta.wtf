@@ -3,12 +3,10 @@
 import type { FC } from 'react';
 
 import CodeBlockActions from './actions';
+import CodeBlockFileName from './file-name';
 import CodeBlockLanguageLogo from './language-logo';
 import {
   codeBlockContainerVariants,
-  codeBlockHeaderFileNameContainerStyles,
-  codeBlockHeaderFileNameIconStyles,
-  codeBlockHeaderFileNameStyles,
   codeBlockHeaderStyles,
   codeBlockLineHighlightedStyles,
   codeBlockLineNumberStyles,
@@ -71,14 +69,7 @@ const CodeBlock: FC<CodeBlockProps> = ({
     <div className={twMerge(clsx(codeBlockContainerVariants({ roundedTop }), className))}>
       {hasHeader ? (
         <div className={codeBlockHeaderStyles}>
-          <div className={codeBlockHeaderFileNameContainerStyles}>
-            <Icon className={codeBlockHeaderFileNameIconStyles} />
-            <div className={codeBlockHeaderFileNameStyles}>{fileName}</div>
-            {fileName !== undefined && headerLabel !== undefined ? (
-              <hr className="h-4 w-[1px] border-l border-stroke" role="separator" />
-            ) : null}
-            <div>{headerLabel}</div>
-          </div>
+          <CodeBlockFileName fileName={fileName} headerLabel={headerLabel} Icon={Icon} />
           <CodeBlockActions code={children} switcher={switcher} inHeader />
         </div>
       ) : null}

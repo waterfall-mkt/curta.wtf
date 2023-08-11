@@ -7,7 +7,7 @@ import { cva } from 'class-variance-authority';
 export const codeBlockActionsVariants = cva(['flex', 'items-center', 'gap-2'], {
   variants: {
     inHeader: {
-      true: ['flex'],
+      true: ['flex', 'ml-2'],
       false: ['absolute', 'right-2', 'top-2'],
     },
     showOnHover: {
@@ -50,11 +50,36 @@ export const codeBlockContainerVariants = cva(
   },
 );
 
-export const codeBlockHeaderFileNameContainerStyles = 'flex items-center space-x-2 text-gray-150';
+export const codeBlockHeaderFileNameContainerHideOverflowVariants = cva(
+  [
+    'pointer-events-none',
+    'absolute',
+    'top-0',
+    'h-full',
+    'w-4',
+    'from-gray-700',
+    'transition-opacity',
+  ],
+  {
+    variants: {
+      side: {
+        left: ['bg-gradient-to-r', 'left-0'],
+        right: ['bg-gradient-to-l', 'right-0'],
+      },
+      visible: {
+        true: ['opacity-100'],
+        false: ['opacity-0'],
+      },
+    },
+  },
+);
+
+export const codeBlockHeaderFileNameContainerStyles =
+  'flex items-center space-x-2 text-gray-150 overflow-x-scroll hide-scrollbar';
 
 export const codeBlockHeaderFileNameIconStyles = 'w-4 h-4';
 
-export const codeBlockHeaderFileNameStyles = 'text-sm text-ellipsis overflow-hidden line-clamp-1';
+export const codeBlockHeaderFileNameStyles = 'text-sm';
 
 export const codeBlockHeaderStyles =
   'flex min-h-[2.75rem] max-h-[2.75rem] grow items-center justify-between border-b border-stroke bg-gray-700 pl-4 pr-2 rounded-top-xl sticky top-0 z-10';

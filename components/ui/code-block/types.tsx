@@ -2,6 +2,7 @@ import type { FC, ReactNode } from 'react';
 
 import { codeBlockActionsVariants, codeBlockContainerVariants } from './styles';
 import type { VariantProps } from 'class-variance-authority';
+import type { LucideIcon } from 'lucide-react';
 
 // ---------------------------------------–-------------------------------------
 // Variant props
@@ -22,6 +23,10 @@ export type CodeBlockActionsProps = CodeBlockActionsVariantProps & {
     value: string;
     onChange: (value: string) => void;
   };
+};
+
+export type CodeBlockFileNameProps = Pick<CodeBlockProps, 'fileName' | 'headerLabel'> & {
+  Icon: FC<JSX.IntrinsicElements['svg']> | LucideIcon;
 };
 
 export type CodeBlockProps = Omit<JSX.IntrinsicElements['pre'], 'children'> &
