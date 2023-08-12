@@ -1,27 +1,24 @@
 'use client';
 
-import type { FC } from 'react';
+import { type FC, useState } from 'react';
 
-import { useToast } from '@/components/ui';
-import { Button } from '@/components/ui';
+import { Input } from '@/components/ui';
 
 const PuzzleInfoSolutionForm: FC = () => {
-  const { toast } = useToast();
+  const [solution, setSolution] = useState<string>('');
 
   return (
-    <div className="flex flex-col items-center p-4">
-      <Button
-        onClick={() =>
-          toast({
-            title: 'Toast',
-            description: 'This is a toast',
-            intent: 'success',
-            duration: 5000,
-          })
-        }
-      >
-        Toast
-      </Button>
+    <div className="flex flex-col items-center gap-2 p-4">
+      <div className="flex w-full flex-col">
+        <Input
+          label="Solution (button activates if correct)"
+          placeholder="0x"
+          value={solution}
+          onChange={(e) => setSolution(e.target.value)}
+          errorMessage=""
+          className="w-full rounded-b-none"
+        />
+      </div>
     </div>
   );
 };
