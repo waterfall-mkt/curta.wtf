@@ -20,7 +20,7 @@ type PuzzleTableInfoProps = {
 };
 
 // -----------------------------------------------------------------------------
-// Components
+// Component
 // -----------------------------------------------------------------------------
 
 const PuzzleTableInfo: FC<PuzzleTableInfoProps> = ({ id, phase, name, author }) => {

@@ -48,6 +48,10 @@ const fetchPuzzleById = async (id: number): Promise<PuzzleResponse> => {
     // Solve
     firstSolveTimestamp: puzzleData.firstSolveTimestamp,
     firstSolver: puzzleData.firstSolver,
+    firstSolverEnsName:
+      (puzzleData.firstSolver &&
+        (await publicClient.getEnsName({ address: puzzleData.firstSolver }))) ||
+      undefined,
     firstSolveBlock: puzzleData.firstSolveBlock,
     solveTime: puzzleData.firstSolveTimestamp
       ? puzzleData.firstSolveTimestamp - puzzleData.addedTimestamp

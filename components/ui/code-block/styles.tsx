@@ -33,6 +33,7 @@ export const codeBlockContainerVariants = cva(
   [
     'flex',
     'flex-col',
+    'grow',
     'overflow-y-scroll',
     'border',
     'border-stroke',
