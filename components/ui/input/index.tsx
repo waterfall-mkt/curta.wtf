@@ -24,17 +24,17 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
       label,
       errorMessage = 'Something went wrong.',
       size = 'md',
-      onChange,
       inputMode,
       isCurrency = false,
       currencyType = 'ETH',
       leftIcon,
       rightIcon,
+      onChange,
       ...rest
     },
     ref,
   ) => {
-    const [invalid, setInvalid] = useState<boolean>();
+    const [invalid, setInvalid] = useState<boolean>(false);
     const inputRef = useRef<HTMLInputElement>(null);
     const inputId = useId();
     const hintId = useId();
@@ -110,7 +110,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
           ) : null}
         </div>
 
-        {/* Error Hint */}
+        {/* Error hint */}
         <small className={inputErrorVariants({ invalid })} id={hintId}>
           {errorMessage}
         </small>
@@ -124,10 +124,10 @@ const InputDatePicker: FC<InputDatePickerProps> = ({
   errorMessage = 'Must be a date.',
   size = 'md',
   value,
-  onChange,
   placeholder,
   min,
   max,
+  onChange,
 }) => {
   return (
     <div className="relative">

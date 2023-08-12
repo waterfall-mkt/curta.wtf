@@ -4,6 +4,7 @@ import CodeBlock from './code-block';
 import IconButton from './icon-button';
 import Input from './input';
 import Modal from './modal';
+import Popover from './popover';
 import Select from './select';
 import Table from './table';
 import Toaster from './toaster';
@@ -17,6 +18,7 @@ export {
   IconButton,
   Input,
   Modal,
+  Popover,
   Select,
   Table,
   Toaster,

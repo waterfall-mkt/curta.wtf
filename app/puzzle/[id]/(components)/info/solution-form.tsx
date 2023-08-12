@@ -2,7 +2,7 @@
 
 import { type FC, useState } from 'react';
 
-import { Input } from '@/components/ui';
+import { Button, Input, Popover } from '@/components/ui';
 
 const PuzzleInfoSolutionForm: FC = () => {
   const [solution, setSolution] = useState<string>('');
@@ -19,6 +19,9 @@ const PuzzleInfoSolutionForm: FC = () => {
           className="w-full rounded-b-none"
         />
       </div>
+      <Popover trigger={<Button>Open popover</Button>} hasArrow>
+        Popover content
+      </Popover>
     </div>
   );
 };

@@ -6,6 +6,7 @@ specifiers:
   '@next/mdx': ^13.4.13
   '@radix-ui/react-avatar': ^1.0.3
   '@radix-ui/react-dialog': ^1.0.4
+  '@radix-ui/react-popover': ^1.0.6
   '@radix-ui/react-toast': ^1.1.4
   '@radix-ui/react-tooltip': ^1.0.6
   '@radix-ui/react-visually-hidden': ^1.0.3
@@ -62,6 +63,7 @@ dependencies:
   '@next/mdx': 13.4.13_msthxdjvrhmdkfpqqalumiidgq
   '@radix-ui/react-avatar': 1.0.3_fnrvimhhml6lvqlvghdjxbhtmm
   '@radix-ui/react-dialog': 1.0.4_fnrvimhhml6lvqlvghdjxbhtmm
+  '@radix-ui/react-popover': 1.0.6_fnrvimhhml6lvqlvghdjxbhtmm
   '@radix-ui/react-toast': 1.1.4_fnrvimhhml6lvqlvghdjxbhtmm
   '@radix-ui/react-tooltip': 1.0.6_fnrvimhhml6lvqlvghdjxbhtmm
   '@radix-ui/react-visually-hidden': 1.0.3_fnrvimhhml6lvqlvghdjxbhtmm
@@ -915,6 +917,41 @@ packages:
       '@radix-ui/react-use-layout-effect': 1.0.1_fzrd6ivowi4azn3madm57eamia
       '@types/react': 18.2.18
       react: 18.2.0
+    dev: false
+
+  /@radix-ui/react-popover/1.0.6_fnrvimhhml6lvqlvghdjxbhtmm:
+    resolution: {integrity: sha512-cZ4defGpkZ0qTRtlIBzJLSzL6ht7ofhhW4i1+pkemjV1IKXm0wgCRnee154qlV6r9Ttunmh2TNZhMfV2bavUyA==}
+    peerDependencies:
+      '@types/react': '*'
+      '@types/react-dom': '*'
+      react: ^16.8 || ^17.0 || ^18.0
+      react-dom: ^16.8 || ^17.0 || ^18.0
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+      '@types/react-dom':
+        optional: true
+    dependencies:
+      '@babel/runtime': 7.22.6
+      '@radix-ui/primitive': 1.0.1
+      '@radix-ui/react-compose-refs': 1.0.1_fzrd6ivowi4azn3madm57eamia
+      '@radix-ui/react-context': 1.0.1_fzrd6ivowi4azn3madm57eamia
+      '@radix-ui/react-dismissable-layer': 1.0.4_fnrvimhhml6lvqlvghdjxbhtmm
+      '@radix-ui/react-focus-guards': 1.0.1_fzrd6ivowi4azn3madm57eamia
+      '@radix-ui/react-focus-scope': 1.0.3_fnrvimhhml6lvqlvghdjxbhtmm
+      '@radix-ui/react-id': 1.0.1_fzrd6ivowi4azn3madm57eamia
+      '@radix-ui/react-popper': 1.1.2_fnrvimhhml6lvqlvghdjxbhtmm
+      '@radix-ui/react-portal': 1.0.3_fnrvimhhml6lvqlvghdjxbhtmm
+      '@radix-ui/react-presence': 1.0.1_fnrvimhhml6lvqlvghdjxbhtmm
+      '@radix-ui/react-primitive': 1.0.3_fnrvimhhml6lvqlvghdjxbhtmm
+      '@radix-ui/react-slot': 1.0.2_fzrd6ivowi4azn3madm57eamia
+      '@radix-ui/react-use-controllable-state': 1.0.1_fzrd6ivowi4azn3madm57eamia
+      '@types/react': 18.2.18
+      '@types/react-dom': 18.2.7
+      aria-hidden: 1.2.3
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+      react-remove-scroll: 2.5.5_fzrd6ivowi4azn3madm57eamia
     dev: false
 
   /@radix-ui/react-popper/1.1.2_fnrvimhhml6lvqlvghdjxbhtmm:
