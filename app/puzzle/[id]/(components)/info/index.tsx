@@ -1,6 +1,7 @@
 import type { FC } from 'react';
 
 import PuzzleInfoFirstSolver from './first-solver';
+import PuzzleInfoSolutionForm from './solution-form';
 import PuzzleInfoTimeLeft from './time-left';
 
 import type { Puzzle } from '@/lib/types/protocol';
@@ -22,7 +23,7 @@ const PuzzleInfo: FC<PuzzleInfoProps> = ({ puzzle }) => {
       <hr className="w-full border-t border-stroke" role="separator" />
       <PuzzleInfoTimeLeft puzzle={puzzle} />
       <hr className="w-full border-t border-stroke" role="separator" />
-      <div className="flex flex-col items-center p-4">solution input</div>
+      <PuzzleInfoSolutionForm />
     </div>
   );
 };
