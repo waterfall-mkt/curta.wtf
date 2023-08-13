@@ -1,7 +1,8 @@
 'use client';
 
 import {
-  type FC,
+  type ChangeEvent,
+  type ForwardedRef,
   forwardRef,
   useEffect,
   useId,
@@ -12,12 +13,12 @@ import {
 
 import InputCurrencyLabel from './currency-label';
 import InputIconContainer from './icon-container';
-import { inputErrorVariants, inputLabelVariants, inputVariants } from './styles';
-import type { InputDatePickerProps, InputProps, InputType } from './types';
+import { inputErrorStyles, inputLabelVariants, inputVariants } from './styles';
+import type { InputProps } from './types';
 import clsx from 'clsx';
 import { twMerge } from 'tailwind-merge';
 
-const Input = forwardRef<HTMLInputElement, InputProps>(
+const Input = forwardRef(
   (
     {
       className,
@@ -31,8 +32,8 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
       rightIcon,
       onChange,
       ...rest
-    },
-    ref,
+    }: InputProps,
+    ref: ForwardedRef<HTMLInputElement>,
   ) => {
     const [invalid, setInvalid] = useState<boolean>(false);
     const inputRef = useRef<HTMLInputElement>(null);
@@ -46,7 +47,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
       setInvalid(!inputRef.current?.validity.valid ?? false);
     }, [inputRef, setInvalid]);
 
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
       setInvalid(!event.target.validity.valid);
       onChange?.(event);
     };
@@ -61,7 +62,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
         : undefined;
 
     return (
-      <div className="relative flex flex-col space-y-1 transition-colors">
+      <div className="relative flex flex-col gap-1 transition-colors">
         {/* Label */}
         {label ? (
           <label className={inputLabelVariants({ invalid })} htmlFor={inputId}>
@@ -110,52 +111,15 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
           ) : null}
         </div>
 
-        {/* Error hint */}
-        <small className={inputErrorVariants({ invalid })} id={hintId}>
-          {errorMessage}
-        </small>
+        {errorMessage !== '' && invalid ? (
+          <small className={inputErrorStyles} id={hintId}>
+            {errorMessage}
+          </small>
+        ) : null}
       </div>
     );
   },
-) as InputType;
-
-const InputDatePicker: FC<InputDatePickerProps> = ({
-  label,
-  errorMessage = 'Must be a date.',
-  size = 'md',
-  value,
-  placeholder,
-  min,
-  max,
-  onChange,
-}) => {
-  return (
-    <div className="relative">
-      <Input
-        value={value}
-        label={label}
-        size={size}
-        errorMessage={errorMessage}
-        placeholder={placeholder}
-        readOnly
-      />
-      <Input
-        className="absolute bottom-0 left-0 select-none text-transparent invalid:text-transparent"
-        min={min}
-        max={max}
-        size={size}
-        aria-hidden={true}
-        type="date"
-        onChange={onChange}
-        onKeyDown={(e) => e.preventDefault()}
-      />
-    </div>
-  );
-};
-
-InputDatePicker.displayName = 'InputDatePicker';
-
-Input.DatePicker = InputDatePicker;
+);
 
 Input.displayName = 'Input';
 
