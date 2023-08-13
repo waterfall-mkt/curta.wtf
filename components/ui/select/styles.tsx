@@ -16,9 +16,8 @@ export const selectIconContainerVariants = cva(
     variants: {
       size: {
         lg: ['w-5', 'h-10', 'right-4'],
-        md: ['w-5', 'h-8', 'right-3'],
-        sm: ['w-4', 'h-7', 'right-3'],
-        xs: ['w-3', 'h-5', 'right-2'],
+        md: ['w-4', 'h-8', 'right-3'],
+        sm: ['w-3.5', 'h-7', 'right-2.5'],
       },
       variant: {
         primary: [],
@@ -103,10 +102,9 @@ export const selectVariants = cva(
   {
     variants: {
       size: {
-        lg: ['rounded-xl', 'pl-4', 'pr-11', 'h-10', 'text-lg'],
-        md: ['rounded-lg', 'pl-3', 'pr-[2.125rem]', 'h-8', 'text-md'],
-        sm: ['rounded-lg', 'pl-3', 'pr-[2.125rem]', 'h-7', 'text-sm'],
-        xs: ['rounded-md', 'pl-2', 'pr-6', 'h-5', 'text-xs'],
+        lg: ['rounded-xl', 'pl-4', 'pr-11', 'h-10', 'text-md'],
+        md: ['rounded-lg', 'pl-3', 'pr-9', 'h-8', 'text-sm'],
+        sm: ['rounded-lg', 'pl-2.5', 'pr-7', 'h-7', 'text-xs'],
       },
       variant: {
         primary: ['text-gray-50'],

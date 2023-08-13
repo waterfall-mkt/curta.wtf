@@ -6,7 +6,6 @@ export const iconButtonIconVariants = cva(['flex', 'items-center', 'justify-cent
       lg: ['w-5', 'h-5'],
       md: ['w-5', 'h-5'],
       sm: ['w-4', 'h-4'],
-      xs: ['w-3', 'h-3'],
     },
   },
 });
@@ -29,7 +28,6 @@ export const iconButtonVariants = cva(
         lg: ['rounded-xl', 'w-10', 'h-10'],
         md: ['rounded-lg', 'w-8', 'h-8'],
         sm: ['rounded-lg', 'w-7', 'h-7'],
-        xs: ['rounded-md', 'w-5', 'h-5'],
       },
       variant: {
         primary: ['text-gray-50'],

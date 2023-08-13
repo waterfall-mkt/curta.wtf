@@ -25,6 +25,7 @@ export const inputVariants = cva(
     'placeholder:text-gray-200',
     'invalid:text-red-100',
     'invalid:border-red-350',
+    'invalid:hover:border-red-350',
     'focus-visible:outline-none',
     'focus-visible:ring',
     'focus-visible:ring-blue-250',

@@ -52,18 +52,8 @@ const AuthorsModal: FC<AuthorsModalProps> = ({ data, children }) => {
 
           <div className="sticky bottom-0 flex grow border-t border-stroke bg-gray-600 p-4">
             <Button
-              className="hidden w-full py-3 lg:pointer-events-auto lg:block"
-              size="md"
-              variant="primary"
-              intent="primary"
-              href={SUBMIT_PUZZLE_GOOGLE_FORM}
-              newTab
-            >
-              Submit a puzzle
-            </Button>
-            <Button
-              className="w-full lg:hidden"
-              size="sm"
+              className="w-full"
+              size="lg"
               variant="primary"
               intent="primary"
               href={SUBMIT_PUZZLE_GOOGLE_FORM}

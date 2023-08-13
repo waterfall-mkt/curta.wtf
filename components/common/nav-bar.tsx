@@ -75,6 +75,7 @@ const NavBarDesktop: FC<NavBarInternalProps> = ({ selected, yScroll }) => {
             <Button
               key={page.slug}
               href={page.slug}
+              size="lg"
               variant="text"
               intent="neutral"
               disabled={pageIsSelected}

@@ -23,10 +23,7 @@ const Logo: FC<LogoProps> = ({ className, href = '/', size = 'md' }) => {
     <Link
       href={href}
       className={twMerge(
-        clsx(
-          'flex items-center font-semibold text-white transition-colors hover:text-gray-50',
-          className,
-        ),
+        clsx('flex items-center font-semibold tracking-tighter text-gray-50', className),
       )}
     >
       <div>

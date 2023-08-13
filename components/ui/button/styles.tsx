@@ -5,8 +5,6 @@ export const buttonVariants = cva(
     'font-medium',
     'transition-colors',
     'flex',
-    'px-4',
-    'rounded-xl',
     'justify-center',
     'items-center',
     'outline-none',
@@ -17,10 +15,9 @@ export const buttonVariants = cva(
   {
     variants: {
       size: {
-        lg: ['py-3', 'text-lg'],
-        md: ['py-2', 'text-md'],
-        sm: ['py-2', 'text-sm'],
-        xs: ['py-2', 'text-xs'],
+        lg: ['rounded-xl', 'px-4', 'h-10', 'text-base'],
+        md: ['rounded-lg', 'px-3', 'h-8', 'text-sm'],
+        sm: ['rounded-lg', 'px-2.5', 'h-7', 'text-xs'],
       },
       variant: {
         primary: ['text-gray-50'],
@@ -156,14 +153,3 @@ export const buttonVariants = cva(
     ],
   },
 );
-
-export const iconButtonSizeVariants = cva(['px-2'], {
-  variants: {
-    size: {
-      lg: ['px-2', 'py-2', 'rounded-xl', 'w-10', 'h-10'],
-      md: ['px-2', 'py-2', 'rounded-lg', 'w-8', 'h-8'],
-      sm: ['px-2', 'py-2', 'rounded-lg', 'w-7', 'h-7'],
-      xs: ['px-1', 'py-1', 'rounded-md', 'w-5', 'h-5'],
-    },
-  },
-});
