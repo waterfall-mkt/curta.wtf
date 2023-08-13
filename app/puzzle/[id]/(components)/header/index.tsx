@@ -32,7 +32,7 @@ const PuzzleHeader: FC<PuzzleHeaderProps> = async ({ puzzle }) => {
       <div className="flex items-center">
         <PuzzleHeaderPageNav prevPuzzle={prevPuzzle} nextPuzzle={nextPuzzle} />
         <div className="ml-4">
-          <div className="text-sm font-medium text-gray-150">Puzzle #{puzzle.id}</div>
+          <div className="text-sm font-book text-gray-150">Puzzle #{puzzle.id}</div>
           <div className="max-w-[13rem] overflow-hidden text-ellipsis whitespace-nowrap text-xl font-medium text-gray-50 md:text-2xl">
             {puzzle.name ?? `Puzzle ${puzzle.id}`}
           </div>
@@ -44,7 +44,7 @@ const PuzzleHeader: FC<PuzzleHeaderProps> = async ({ puzzle }) => {
       </div>
       <div className="flex grow items-end justify-between">
         <div>
-          <div className="text-sm font-medium text-gray-150">Author</div>
+          <div className="text-sm font-book text-gray-150">Author</div>
           <div className="flex grow items-center gap-2">
             <div className="h-[1.875rem] w-[1.875rem] rounded-full">
               {puzzle.author.ensName ? (
