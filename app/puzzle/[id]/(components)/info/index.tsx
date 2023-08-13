@@ -23,7 +23,7 @@ const PuzzleInfo: FC<PuzzleInfoProps> = ({ puzzle }) => {
       <hr className="w-full border-t border-stroke" role="separator" />
       <PuzzleInfoTimeLeft puzzle={puzzle} />
       <hr className="w-full border-t border-stroke" role="separator" />
-      <PuzzleInfoSolutionForm />
+      <PuzzleInfoSolutionForm puzzle={puzzle} />
     </div>
   );
 };

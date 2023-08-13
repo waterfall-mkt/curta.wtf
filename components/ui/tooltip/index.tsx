@@ -27,19 +27,17 @@ const Tooltip = forwardRef(
           <RadixTooltip.Trigger onClick={(e) => e.preventDefault()} asChild>
             {children}
           </RadixTooltip.Trigger>
-          <RadixTooltip.Portal className="max-h-[2rem]">
-            <RadixTooltip.Content
-              ref={ref}
-              className={twMerge(cx(tooltipStyles, className))}
-              sideOffset={sideOffset}
-              {...rest}
-            >
-              {hasArrow ? (
-                <RadixTooltip.Arrow className={tooltipArrowStyles} width={8} height={4} />
-              ) : null}
-              {content}
-            </RadixTooltip.Content>
-          </RadixTooltip.Portal>
+          <RadixTooltip.Content
+            ref={ref}
+            className={twMerge(cx(tooltipStyles, className))}
+            sideOffset={sideOffset}
+            {...rest}
+          >
+            {hasArrow ? (
+              <RadixTooltip.Arrow className={tooltipArrowStyles} width={8} height={4} />
+            ) : null}
+            {content}
+          </RadixTooltip.Content>
         </RadixTooltip.Root>
       </RadixTooltip.Provider>
     );

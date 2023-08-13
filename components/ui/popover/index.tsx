@@ -10,10 +10,19 @@ import { twMerge } from 'tailwind-merge';
 
 const Popover = forwardRef(
   (
-    { className, sideOffset = 4, hasArrow = true, trigger, children, ...rest }: PopoverProps,
+    {
+      className,
+      sideOffset = 4,
+      hasArrow = true,
+      trigger,
+      open,
+      onOpenChange,
+      children,
+      ...rest
+    }: PopoverProps,
     ref: ForwardedRef<HTMLDivElement>,
   ) => (
-    <PopoverPrimitive.Root>
+    <PopoverPrimitive.Root open={open} onOpenChange={onOpenChange}>
       <PopoverPrimitive.Trigger asChild>{trigger}</PopoverPrimitive.Trigger>
       <PopoverPrimitive.Content
         ref={ref}

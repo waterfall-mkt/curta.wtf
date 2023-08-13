@@ -6,6 +6,7 @@ import Input from './input';
 import Modal from './modal';
 import Popover from './popover';
 import Select from './select';
+import Switch from './switch';
 import Table from './table';
 import Toaster from './toaster';
 import { useToast } from './toaster/useToast';
@@ -20,6 +21,7 @@ export {
   Modal,
   Popover,
   Select,
+  Switch,
   Table,
   Toaster,
   useToast,

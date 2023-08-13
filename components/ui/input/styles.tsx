@@ -34,9 +34,9 @@ export const inputVariants = cva(
   {
     variants: {
       size: {
-        sm: ['py-1.5', 'pl-3', 'font-book', 'text-sm', 'h-[2.25rem]'],
-        md: ['py-2', 'pl-4', 'font-book', 'text-md', 'h-[3rem]'],
         lg: ['py-2', 'pl-4', 'font-medium', 'text-lg', 'h-[3.25rem]'],
+        md: ['py-2', 'pl-4', 'font-book', 'text-md', 'h-[3rem]'],
+        sm: ['py-1.5', 'pl-3', 'font-book', 'text-sm', 'h-[2.25rem]'],
       },
       isCurrency: {
         true: [],
@@ -44,12 +44,12 @@ export const inputVariants = cva(
       },
     },
     compoundVariants: [
-      { size: 'sm', isCurrency: true, className: 'pr-[3.25rem]' },
-      { size: 'sm', isCurrency: false, className: 'pr-3' },
-      { size: 'md', isCurrency: true, className: 'pr-[3.75rem]' },
-      { size: 'md', isCurrency: false, className: 'pr-4' },
       { size: 'lg', isCurrency: true, className: 'pr-[4rem]' },
       { size: 'lg', isCurrency: false, className: 'pr-4' },
+      { size: 'md', isCurrency: true, className: 'pr-[3.75rem]' },
+      { size: 'md', isCurrency: false, className: 'pr-4' },
+      { size: 'sm', isCurrency: true, className: 'pr-[3.25rem]' },
+      { size: 'sm', isCurrency: false, className: 'pr-3' },
     ],
   },
 );
