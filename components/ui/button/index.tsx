@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { type ForwardedRef, forwardRef } from 'react';
 
-import { buttonVariants } from './styles';
+import { buttonIconVariants, buttonVariants } from './styles';
 import type { ButtonProps } from './types';
 import { cx } from 'class-variance-authority';
 import { twMerge } from 'tailwind-merge';
@@ -17,8 +17,10 @@ const Button = forwardRef(
       intent = 'primary',
       disabled = false,
       href,
-      title,
+      leftIcon,
+      rightIcon,
       newTab = false,
+      title,
       onClick,
       children,
       ...rest
@@ -43,7 +45,7 @@ const Button = forwardRef(
       'data-variant': variant,
       'data-disabled': disabled,
       'aria-disabled': disabled,
-      disabled: disabled,
+      disabled,
       ref,
       onClick: newTab && href ? () => window.open(href, '_blank') : onClick,
       ...rest,
@@ -53,7 +55,9 @@ const Button = forwardRef(
       return (
         <Link href={href} passHref legacyBehavior>
           <button {...props}>
+            {leftIcon ? <span className={buttonIconVariants({ size })}>{leftIcon}</span> : null}
             <span>{children}</span>
+            {rightIcon ? <span className={buttonIconVariants({ size })}>{rightIcon}</span> : null}
           </button>
         </Link>
       );
@@ -61,7 +65,9 @@ const Button = forwardRef(
 
     return (
       <button {...props}>
+        {leftIcon ? <span className={buttonIconVariants({ size })}>{leftIcon}</span> : null}
         <span>{children}</span>
+        {rightIcon ? <span className={buttonIconVariants({ size })}>{rightIcon}</span> : null}
       </button>
     );
   },

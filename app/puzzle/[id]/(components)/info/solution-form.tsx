@@ -2,6 +2,8 @@
 
 import { type FC, useState } from 'react';
 
+import { Heart } from 'lucide-react';
+
 import { Button, Input, Popover } from '@/components/ui';
 
 const PuzzleInfoSolutionForm: FC = () => {
@@ -19,7 +21,7 @@ const PuzzleInfoSolutionForm: FC = () => {
           onChange={(e) => setSolution(e.target.value)}
           errorMessage=""
           rightIcon={
-            <Button size="sm" variant="outline" intent="neutral">
+            <Button size="sm" variant="outline" intent="neutral" rightIcon={<Heart />}>
               0.02 ETH
             </Button>
           }
