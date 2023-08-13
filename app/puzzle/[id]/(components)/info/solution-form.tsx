@@ -19,7 +19,7 @@ const PuzzleInfoSolutionForm: FC = () => {
           onChange={(e) => setSolution(e.target.value)}
           errorMessage=""
           rightIcon={
-            <Button size="sm" variant="tertiary" intent="neutral">
+            <Button size="sm" variant="outline" intent="neutral">
               0.02 ETH
             </Button>
           }

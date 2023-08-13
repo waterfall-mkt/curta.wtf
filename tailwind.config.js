@@ -14,7 +14,7 @@ module.exports = {
       disabled: 'disabled~="true"',
       primary: 'variant~="primary"',
       secondary: 'variant~="secondary"',
-      tertiary: 'variant~="tertiary"',
+      outline: 'variant~="outline"',
       'variant-text': 'variant~="text"',
     },
     extend: {
@@ -193,7 +193,7 @@ module.exports = {
         disabled: 'disabled~="true"',
         primary: 'variant~="primary"',
         secondary: 'variant~="secondary"',
-        tertiary: 'variant~="tertiary"',
+        outline: 'variant~="outline"',
       },
     },
   },

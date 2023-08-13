@@ -64,7 +64,7 @@ const PuzzleHeader: FC<PuzzleHeaderProps> = async ({ puzzle }) => {
             <Tooltip content="Solution">
               <IconButton
                 href={puzzle.solution}
-                variant="tertiary"
+                variant="outline"
                 intent="neutral"
                 size="lg"
                 newTab
@@ -77,7 +77,7 @@ const PuzzleHeader: FC<PuzzleHeaderProps> = async ({ puzzle }) => {
             <Tooltip content="Source">
               <IconButton
                 href={`https://github.com/${puzzle.github}`}
-                variant="tertiary"
+                variant="outline"
                 intent="neutral"
                 size="lg"
                 newTab
@@ -89,7 +89,7 @@ const PuzzleHeader: FC<PuzzleHeaderProps> = async ({ puzzle }) => {
           <Tooltip content="Contract">
             <IconButton
               href={`https://${process.env.NEXT_PUBLIC_BLOCK_EXPLORER}/address/${puzzle.address}`}
-              variant="tertiary"
+              variant="outline"
               intent="neutral"
               size="lg"
               newTab

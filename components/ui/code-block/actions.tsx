@@ -32,7 +32,7 @@ const CodeBlockActions: FC<CodeBlockActionsProps> = ({ code, switcher, inHeader 
         <Select
           className="bg-gray-600 active:bg-gray-450"
           size="sm"
-          variant="tertiary"
+          variant="outline"
           intent="neutral"
           value={switcher.value}
           onChange={(e) => switcher.onChange(e.target.value)}
@@ -45,7 +45,7 @@ const CodeBlockActions: FC<CodeBlockActionsProps> = ({ code, switcher, inHeader 
       <IconButton
         size="sm"
         className="bg-gray-600 active:bg-gray-450"
-        variant="tertiary"
+        variant="outline"
         intent="neutral"
         title="Copy to clipboard"
         onClick={copyToClipboard}

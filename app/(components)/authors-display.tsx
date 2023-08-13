@@ -83,7 +83,7 @@ const AuthorsDisplay: FC<AuthorsDisplayProps> = ({ data }) => {
                   <div className="flex items-center gap-2">
                     {author.twitter ? (
                       <IconButton
-                        variant="tertiary"
+                        variant="outline"
                         intent="neutral"
                         href={`https://twitter.com/${author.twitter}`}
                         newTab
@@ -93,7 +93,7 @@ const AuthorsDisplay: FC<AuthorsDisplayProps> = ({ data }) => {
                     ) : null}
                     {author.github ? (
                       <IconButton
-                        variant="tertiary"
+                        variant="outline"
                         intent="neutral"
                         href={`https://github.com/${author.github}`}
                         newTab

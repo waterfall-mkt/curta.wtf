@@ -102,7 +102,7 @@ const PuzzleTableDesktop: FC<PuzzleTableInternalProps> = ({ data, sorting, setSo
             <div className="flex items-center justify-end gap-1">
               {row.original.solution ? (
                 <IconButton
-                  variant="tertiary"
+                  variant="outline"
                   intent="neutral"
                   onClick={(e) => {
                     e.stopPropagation();
@@ -115,7 +115,7 @@ const PuzzleTableDesktop: FC<PuzzleTableInternalProps> = ({ data, sorting, setSo
               ) : null}
               {row.original.github ? (
                 <IconButton
-                  variant="tertiary"
+                  variant="outline"
                   intent="neutral"
                   onClick={(e) => {
                     e.stopPropagation();
@@ -128,7 +128,7 @@ const PuzzleTableDesktop: FC<PuzzleTableInternalProps> = ({ data, sorting, setSo
               ) : null}
               {
                 <IconButton
-                  variant="tertiary"
+                  variant="outline"
                   intent="neutral"
                   onClick={(e) => {
                     e.stopPropagation();
@@ -243,7 +243,7 @@ const PuzzleTableMobileSubComponent: FC<{ data: Puzzle }> = ({ data }) => {
           <div className="mt-1 flex items-center justify-end gap-1">
             {data.solution ? (
               <IconButton
-                variant="tertiary"
+                variant="outline"
                 intent="neutral"
                 onClick={(e) => {
                   e.stopPropagation();
@@ -256,7 +256,7 @@ const PuzzleTableMobileSubComponent: FC<{ data: Puzzle }> = ({ data }) => {
             ) : null}
             {data.github ? (
               <IconButton
-                variant="tertiary"
+                variant="outline"
                 intent="neutral"
                 onClick={(e) => {
                   e.stopPropagation();
@@ -269,7 +269,7 @@ const PuzzleTableMobileSubComponent: FC<{ data: Puzzle }> = ({ data }) => {
             ) : null}
             {
               <IconButton
-                variant="tertiary"
+                variant="outline"
                 intent="neutral"
                 onClick={(e) => {
                   e.stopPropagation();
