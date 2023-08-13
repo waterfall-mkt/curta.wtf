@@ -17,13 +17,8 @@ export const inputIconContainerVariants = cva(
   {
     variants: {
       position: {
-        left: ['left-1.5'],
-        right: ['right-1.5'],
-      },
-      size: {
-        sm: ['px-1'],
-        md: ['px-1'],
-        lg: ['px-1'],
+        left: ['left-2'],
+        right: ['right-2'],
       },
     },
   },

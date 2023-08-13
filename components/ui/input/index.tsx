@@ -92,16 +92,8 @@ const Input = forwardRef(
             onChange={handleChange}
             {...rest}
           />
-          {leftIcon ? (
-            <InputIconContainer position="left" size={size}>
-              {leftIcon}
-            </InputIconContainer>
-          ) : null}
-          {rightIcon ? (
-            <InputIconContainer position="right" size={size}>
-              {rightIcon}
-            </InputIconContainer>
-          ) : null}
+          {leftIcon ? <InputIconContainer position="left">{leftIcon}</InputIconContainer> : null}
+          {rightIcon ? <InputIconContainer position="right">{rightIcon}</InputIconContainer> : null}
           {isCurrency ? (
             <InputCurrencyLabel
               className="absolute bottom-0 right-1.5 top-0 my-auto"

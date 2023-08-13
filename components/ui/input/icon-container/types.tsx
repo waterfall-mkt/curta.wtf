@@ -8,7 +8,7 @@ import type { VariantProps } from 'class-variance-authority';
 // ---------------------------------------–-------------------------------------
 
 export type InputIconContainerVariantProps = Required<
-  Pick<VariantProps<typeof inputIconContainerVariants>, 'size' | 'position'>
+  Pick<VariantProps<typeof inputIconContainerVariants>, 'position'>
 >;
 
 // ---------------------------------------–-------------------------------------
