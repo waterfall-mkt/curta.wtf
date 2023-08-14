@@ -31,6 +31,8 @@ module.exports = {
         'ping-slow': 'ping 4s cubic-bezier(0.04, 1.04, 0.16, 1) infinite',
         'fade-in': 'fade-in 0.15s ease-in-out',
         'slide-up': 'slide-up 0.15s ease-in-out',
+        'accordion-down': 'accordion-down 0.15s ease-out',
+        'accordion-up': 'accordion-up 0.15s ease-out',
       },
       keyframes: {
         'fade-in': {
