@@ -1,19 +1,18 @@
 ### Solve locally
 
-1. Clone + install GitHub repo
+1. Clone [GitHub repo](https://github.com/waterfall-mkt/curta-puzzles) + install deps
 ```sh showLineNumbers={false} containerized={false}
-git clone https://github.com/waterfall-mkt/curta-puzzles.git
-test
+git clone https://github.com/waterfall-mkt/curta-puzzles.git && cd curta-puzzles && forge install
 ```
 
-2. Set RPC URL in `.env`
-```sh showLineNumbers={false} containerized={false}
-git clone https://github.com/waterfall-mkt/curta-puzzles.git
-test
+2. Set `RPC_URL_MAINNET` in `.env`
+```sh fileName=".env" showLineNumbers={false} containerized={false}
+RPC_URL_MAINNET=""
 ```
 
-3. Clone + install GitHub repo
+3. Write solution + run script
 ```sh showLineNumbers={false} containerized={false}
-git clone https://github.com/waterfall-mkt/curta-puzzles.git
-test
+forge script <PATH_TO_PUZZLE> -f mainnet -vvv
 ```
+
+<div className='text-xs mt-2 leading-normal text-gray-200 px-4'>See full details in the [README.md](https://github.com).</div>

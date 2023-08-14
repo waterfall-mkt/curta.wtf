@@ -25,7 +25,10 @@ export type CodeBlockActionsProps = CodeBlockActionsVariantProps & {
   };
 };
 
-export type CodeBlockFileNameProps = Pick<CodeBlockProps, 'fileName' | 'headerLabel'> & {
+export type CodeBlockFileNameProps = Pick<
+  CodeBlockProps,
+  'fileName' | 'headerLabel' | 'containerized'
+> & {
   Icon: FC<JSX.IntrinsicElements['svg']> | LucideIcon;
 };
 

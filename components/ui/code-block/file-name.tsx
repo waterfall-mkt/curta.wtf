@@ -10,7 +10,12 @@ import {
 } from './styles';
 import type { CodeBlockFileNameProps } from './types';
 
-const CodeBlockFileName: FC<CodeBlockFileNameProps> = ({ fileName, headerLabel, Icon }) => {
+const CodeBlockFileName: FC<CodeBlockFileNameProps> = ({
+  fileName,
+  headerLabel,
+  containerized,
+  Icon,
+}) => {
   const [scrollIsAtLeft, setScrollIsAtLeft] = useState<boolean>(true);
   const [scrollIsAtRight, setScrollIsAtRight] = useState<boolean>(false);
 
@@ -40,12 +45,14 @@ const CodeBlockFileName: FC<CodeBlockFileNameProps> = ({ fileName, headerLabel, 
         className={codeBlockHeaderFileNameContainerHideOverflowVariants({
           side: 'left',
           visible: !scrollIsAtLeft,
+          containerized,
         })}
       />
       <div
         className={codeBlockHeaderFileNameContainerHideOverflowVariants({
           side: 'right',
           visible: !scrollIsAtRight,
+          containerized,
         })}
       />
     </div>

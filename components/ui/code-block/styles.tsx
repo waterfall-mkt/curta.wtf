@@ -61,15 +61,7 @@ export const codeBlockContainerVariants = cva(
 );
 
 export const codeBlockHeaderFileNameContainerHideOverflowVariants = cva(
-  [
-    'pointer-events-none',
-    'absolute',
-    'top-0',
-    'h-full',
-    'w-4',
-    'from-gray-700',
-    'transition-opacity',
-  ],
+  ['pointer-events-none', 'absolute', 'top-0', 'h-full', 'w-4', 'transition-opacity'],
   {
     variants: {
       side: {
@@ -79,6 +71,10 @@ export const codeBlockHeaderFileNameContainerHideOverflowVariants = cva(
       visible: {
         true: ['opacity-100'],
         false: ['opacity-0'],
+      },
+      containerized: {
+        true: ['from-gray-700'],
+        false: ['from-gray-450'],
       },
     },
   },
@@ -100,7 +96,6 @@ export const codeBlockHeaderVariants = cva(
     'justify-between',
     'border-b',
     'border-stroke',
-    'bg-gray-700',
     'pl-4',
     'pr-2',
     'sticky',
@@ -110,8 +105,8 @@ export const codeBlockHeaderVariants = cva(
   {
     variants: {
       containerized: {
-        true: ['rounded-t-xl'],
-        false: [],
+        true: ['rounded-t-xl', 'bg-gray-700'],
+        false: ['bg-gray-450'],
       },
     },
   },

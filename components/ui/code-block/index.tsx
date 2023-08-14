@@ -77,7 +77,12 @@ const CodeBlock: FC<CodeBlockProps> = ({
     >
       {hasHeader ? (
         <div className={codeBlockHeaderVariants({ containerized })}>
-          <CodeBlockFileName fileName={fileName} headerLabel={headerLabel} Icon={Icon} />
+          <CodeBlockFileName
+            fileName={fileName}
+            headerLabel={headerLabel}
+            containerized={containerized}
+            Icon={Icon}
+          />
           <CodeBlockActions code={children} switcher={switcher} inHeader />
         </div>
       ) : null}
