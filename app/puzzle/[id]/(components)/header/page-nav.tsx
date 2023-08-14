@@ -32,6 +32,7 @@ const PuzzleHeaderPageNav: FC<PuzzleHeaderPageNavProps> = ({ prevPuzzle, nextPuz
         intent="neutral"
         disabled={!prevPuzzle}
         onClick={prevPuzzle ? () => router.push(`/puzzle/${prevPuzzle.id}`) : undefined}
+        aria-label="Navigate to previous puzzle."
       >
         <ArrowLeft />
       </IconButton>
@@ -40,6 +41,7 @@ const PuzzleHeaderPageNav: FC<PuzzleHeaderPageNavProps> = ({ prevPuzzle, nextPuz
         intent="neutral"
         disabled={!nextPuzzle}
         onClick={nextPuzzle ? () => router.push(`/puzzle/${nextPuzzle.id}`) : undefined}
+        aria-label="Navigate to next puzzle."
       >
         <ArrowRight />
       </IconButton>

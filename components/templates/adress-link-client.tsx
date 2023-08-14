@@ -35,7 +35,6 @@ const AddressLinkClient: FC<AddressLinkClientProps> = ({ className, address, ens
       target="_blank"
       rel="noopener noreferrer"
       onClick={(e) => e.stopPropagation()}
-      aria-label={`View ${address} on ${process.env.NEXT_PUBLIC_BLOCK_EXPLORER}`}
     >
       {ensName ?? getShortenedAddress(address)}
     </a>

@@ -26,7 +26,6 @@ const PuzzleInfoFirstSolver: FC<PuzzleInfoFirstSolverProps> = ({ puzzle }) => {
           href={`https://${process.env.NEXT_PUBLIC_BLOCK_EXPLORER}/tx/${puzzle.solveTx}`}
           target="_blank"
           rel="noopener noreferrer"
-          aria-label={`View ${puzzle.firstSolver}'s solve on ${process.env.NEXT_PUBLIC_BLOCK_EXPLORER}`}
         >
           <div className="text-center text-sm font-book text-black/50">First Blood</div>
           <div className="text-2xl font-medium text-gray-50">

@@ -38,7 +38,6 @@ const AddressLink: FC<AddressLinkProps> = async ({ className, address, href }) =
       href={href ?? `https://${process.env.NEXT_PUBLIC_BLOCK_EXPLORER}/address/${address}`}
       target="_blank"
       rel="noopener noreferrer"
-      aria-label={`View ${address} on ${process.env.NEXT_PUBLIC_BLOCK_EXPLORER}`}
     >
       {addressDisplay}
     </a>

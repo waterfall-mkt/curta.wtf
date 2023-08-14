@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 :root {
-  --primary-color: #007FFF;
+  --primary-color: #4DA6FF;
   --verified-color: rgba(11, 165, 236, 1);
 }
 
