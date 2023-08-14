@@ -45,7 +45,7 @@ const PuzzleInfoFirstSolver: FC<PuzzleInfoFirstSolverProps> = ({ puzzle }) => {
           name: 'Solve Time',
           value: puzzle.solveTime ? getTimeLeftString(puzzle.solveTime) : '—',
           title: puzzle.firstSolveTimestamp
-            ? new Date(puzzle.firstSolveTimestamp * 1000).toLocaleDateString()
+            ? new Date(puzzle.firstSolveTimestamp * 1000).toString()
             : '',
         },
         { name: 'Total Solves', value: puzzle.numberSolved },

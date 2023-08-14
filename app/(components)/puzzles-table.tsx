@@ -3,15 +3,14 @@
 import { type FC, Fragment, useMemo, useState } from 'react';
 
 import PuzzleTableCountdown from './countdown';
-import PuzzleTableAddressLink from './puzzle-table-address-link';
 import PuzzleTableInfo from './puzzle-table-info';
-import type { ColumnDef } from '@tanstack/react-table';
-import type { Row, SortingState } from '@tanstack/react-table';
+import type { ColumnDef, Row, SortingState } from '@tanstack/react-table';
 import { File, Github } from 'lucide-react';
 
 import type { Puzzle } from '@/lib/types/protocol';
 import { getPuzzleTimeLeft } from '@/lib/utils';
 
+import AddressLinkClient from '@/components/templates/adress-link-client';
 import Stat from '@/components/templates/stat';
 import { IconButton, Table } from '@/components/ui';
 import type { TableProps } from '@/components/ui/table/types';
@@ -78,7 +77,7 @@ const PuzzleTableDesktop: FC<PuzzleTableInternalProps> = ({ data, sorting, setSo
         header: () => 'First solver',
         cell: ({ row }) =>
           row.original.firstSolver ? (
-            <PuzzleTableAddressLink
+            <AddressLinkClient
               className="text-gray-100"
               address={row.original.firstSolver}
               ensName={row.original.firstSolverEnsName}
@@ -227,7 +226,7 @@ const PuzzleTableMobileSubComponent: FC<{ data: Puzzle }> = ({ data }) => {
         name="First solver"
         value={
           data.firstSolver ? (
-            <PuzzleTableAddressLink
+            <AddressLinkClient
               className="text-gray-100"
               address={data.firstSolver}
               ensName={data.firstSolverEnsName}

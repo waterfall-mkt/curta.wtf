@@ -33,8 +33,10 @@ const fetchPuzzles = async (): Promise<PuzzlesResponse> => {
         async () => await publicClient.getEnsName({ address: puzzle.author.address }),
       )()) || undefined;
     const firstSolverEnsName =
-      (puzzle.firstSolver && (await publicClient.getEnsName({ address: puzzle.firstSolver }))) ||
-      undefined;
+      (await cache(
+        async () =>
+          puzzle.firstSolver && (await publicClient.getEnsName({ address: puzzle.firstSolver })),
+      )()) || undefined;
 
     puzzles.push({
       // Protocol

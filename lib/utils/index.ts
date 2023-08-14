@@ -1,6 +1,7 @@
 import fetchAuthors from './fetchAuthors';
 import fetchPuzzleById from './fetchPuzzleById';
 import fetchPuzzles from './fetchPuzzles';
+import fetchPuzzleSolvesById from './fetchPuzzleSolvesById';
 import fetchSolvesCount from './fetchSolvesCount';
 import formatValueToPrecision from './formatValueToPrecision';
 import getBaseMetadata from './getBaseMetadata';
@@ -12,6 +13,7 @@ export {
   fetchAuthors,
   fetchPuzzleById,
   fetchPuzzles,
+  fetchPuzzleSolvesById,
   fetchSolvesCount,
   formatValueToPrecision,
   getBaseMetadata,

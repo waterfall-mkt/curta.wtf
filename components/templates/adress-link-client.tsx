@@ -12,7 +12,7 @@ import { getShortenedAddress } from '@/lib/utils';
 // Props
 // ---------------------------------------–-------------------------------------
 
-type PuzzleTableAddressLinkProps = {
+type AddressLinkClientProps = {
   className?: string;
   address: Address;
   ensName?: string;
@@ -22,11 +22,7 @@ type PuzzleTableAddressLinkProps = {
 // Component
 // ---------------------------------------–-------------------------------------
 
-const PuzzleTableAddressLink: FC<PuzzleTableAddressLinkProps> = ({
-  className,
-  address,
-  ensName,
-}) => {
+const AddressLinkClient: FC<AddressLinkClientProps> = ({ className, address, ensName }) => {
   return (
     <a
       className={twMerge(
@@ -46,4 +42,4 @@ const PuzzleTableAddressLink: FC<PuzzleTableAddressLinkProps> = ({
   );
 };
 
-export default PuzzleTableAddressLink;
+export default AddressLinkClient;
