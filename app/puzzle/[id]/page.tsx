@@ -35,14 +35,14 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
     queryParams.push(`firstSolve=${puzzle.solveTime}`);
   }
 
-  const colors = fetchPuzzleFlagColors(puzzle.id);
+  const { colors } = await fetchPuzzleFlagColors(puzzle.id);
 
   if (colors) {
     queryParams.push(`colors=${colors}`);
   }
 
   const query = queryParams.join('&');
-  const title = `Puzzle ${puzzle.id}`;
+  const title = `Puzzle #${puzzle.id}`;
   const url = `https://curta.wtf/api/og/puzzle?${query}`;
 
   return {
