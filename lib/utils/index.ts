@@ -1,5 +1,6 @@
 import fetchAuthors from './fetchAuthors';
 import fetchPuzzleById from './fetchPuzzleById';
+import fetchPuzzleFlagColors from './fetchPuzzleFlagColors';
 import fetchPuzzles from './fetchPuzzles';
 import fetchPuzzleSolvesById from './fetchPuzzleSolvesById';
 import fetchSolvesCount from './fetchSolvesCount';
@@ -12,6 +13,7 @@ import getTimeLeftString from './getTimeLeftString';
 export {
   fetchAuthors,
   fetchPuzzleById,
+  fetchPuzzleFlagColors,
   fetchPuzzles,
   fetchPuzzleSolvesById,
   fetchSolvesCount,
