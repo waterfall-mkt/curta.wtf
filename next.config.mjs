@@ -7,7 +7,6 @@ import remarkMath from 'remark-math';
 const withMDX = createMDX({
   extension: /\.mdx?$/,
   options: {
-    providerImportSource: '@mdx-js/react',
     remarkPlugins: [remarkGfm, remarkMath],
     rehypePlugins: [rehypeKatex, rehypeMdxCodeProps],
   },
