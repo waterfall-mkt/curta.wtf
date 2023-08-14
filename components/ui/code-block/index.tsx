@@ -7,7 +7,7 @@ import CodeBlockFileName from './file-name';
 import CodeBlockLanguageLogo from './language-logo';
 import {
   codeBlockContainerVariants,
-  codeBlockHeaderStyles,
+  codeBlockHeaderVariants,
   codeBlockLineHighlightedStyles,
   codeBlockLineNumberStyles,
   codeBlockLineVariants,
@@ -17,7 +17,7 @@ import {
 import { theme } from './theme';
 import type { CodeBlockProps } from './types';
 import clsx from 'clsx';
-import { File } from 'lucide-react';
+import { File, TerminalSquare } from 'lucide-react';
 import { Highlight } from 'prism-react-renderer';
 import Prism from 'prismjs';
 import { twMerge } from 'tailwind-merge';
@@ -32,6 +32,7 @@ require('prismjs/components/prism-solidity');
 require('prismjs/components/prism-c');
 require('prismjs/components/prism-cpp');
 require('prismjs/components/prism-python');
+require('prismjs/components/prism-bash');
 
 const CodeBlock: FC<CodeBlockProps> = ({
   className,
@@ -44,6 +45,7 @@ const CodeBlock: FC<CodeBlockProps> = ({
   showLineNumbers = true,
   breakLines = false,
   roundedTop = true,
+  containerized = true,
   children,
   ...rest
 }) => {
@@ -63,12 +65,18 @@ const CodeBlock: FC<CodeBlockProps> = ({
     ? CodeBlockLanguageLogo.Solidity
     : language === 'python' || language === 'py'
     ? CodeBlockLanguageLogo.Python
+    : language === 'bash' || language === 'sh'
+    ? TerminalSquare
     : File;
 
   return (
-    <div className={twMerge(clsx(codeBlockContainerVariants({ roundedTop }), className))}>
+    <div
+      className={twMerge(
+        clsx(codeBlockContainerVariants({ roundedTop, containerized }), className),
+      )}
+    >
       {hasHeader ? (
-        <div className={codeBlockHeaderStyles}>
+        <div className={codeBlockHeaderVariants({ containerized })}>
           <CodeBlockFileName fileName={fileName} headerLabel={headerLabel} Icon={Icon} />
           <CodeBlockActions code={children} switcher={switcher} inHeader />
         </div>
@@ -80,6 +88,7 @@ const CodeBlock: FC<CodeBlockProps> = ({
               className={codeBlockPreVariants({
                 hasHeader: hasHeader || !roundedTop,
                 breakLines,
+                containerized,
               })}
               {...rest}
             >

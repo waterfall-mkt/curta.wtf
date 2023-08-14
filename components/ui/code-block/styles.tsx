@@ -35,19 +35,28 @@ export const codeBlockContainerVariants = cva(
     'flex-col',
     'grow',
     'overflow-y-scroll',
-    'border',
     'border-stroke',
     'relative',
-    'bg-gray-600',
     'hide-scrollbar',
+    'h-fit',
   ],
   {
     variants: {
       roundedTop: {
-        true: ['rounded-xl'],
-        false: ['rounded-b-xl', 'rounded-t-none'],
+        true: [],
+        false: [],
+      },
+      containerized: {
+        true: ['bg-gray-600', 'border'],
+        false: ['bg-gray-450', 'border-y'],
       },
     },
+    compoundVariants: [
+      { roundedTop: true, containerized: true, className: ['rounded-xl'] },
+      { roundedTop: true, containerized: false, className: [''] },
+      { roundedTop: false, containerized: true, className: ['rounded-b-xl'] },
+      { roundedTop: false, containerized: false, className: [''] },
+    ],
   },
 );
 
@@ -82,8 +91,31 @@ export const codeBlockHeaderFileNameIconStyles = 'w-4 h-4';
 
 export const codeBlockHeaderFileNameStyles = 'text-sm';
 
-export const codeBlockHeaderStyles =
-  'flex min-h-[2.75rem] max-h-[2.75rem] grow items-center justify-between border-b border-stroke bg-gray-700 pl-4 pr-2 rounded-top-xl sticky top-0 z-10';
+export const codeBlockHeaderVariants = cva(
+  [
+    'flex',
+    'min-h-[2.75rem]',
+    'grow',
+    'items-center',
+    'justify-between',
+    'border-b',
+    'border-stroke',
+    'bg-gray-700',
+    'pl-4',
+    'pr-2',
+    'sticky',
+    'top-0',
+    'z-10',
+  ],
+  {
+    variants: {
+      containerized: {
+        true: ['rounded-t-xl'],
+        false: [],
+      },
+    },
+  },
+);
 
 export const codeBlockLineHighlightedStyles = 'bg-blue-900 shadow-[inset_2px_0] shadow-blue-250';
 
@@ -95,14 +127,18 @@ export const codeBlockLineVariants = cva(['px-4 min-w-fit'], {
   },
 });
 
-export const codeBlockPreVariants = cva(
-  ['group', 'py-4', 'px-0', 'my-0', 'bg-gray-600', 'hide-scrollbar'],
-  {
-    variants: {
-      hasHeader: { true: ['rounded-b-xl', 'rounded-t-none'], false: ['rounded-xl'] },
-      breakLines: { true: ['whitespace-pre-line'], false: ['overflow-x-scroll'] },
-    },
+export const codeBlockPreVariants = cva(['group', 'py-4', 'px-0', 'my-0', 'hide-scrollbar'], {
+  variants: {
+    hasHeader: { true: [], false: [] },
+    breakLines: { true: ['whitespace-pre-line'], false: ['overflow-x-scroll'] },
+    containerized: { true: ['bg-gray-600'], false: ['bg-gray-450'] },
   },
-);
+  compoundVariants: [
+    { hasHeader: true, containerized: true, className: ['rounded-b-xl'] },
+    { hasHeader: true, containerized: false, className: [''] },
+    { hasHeader: false, containerized: true, className: ['rounded-xl'] },
+    { hasHeader: false, containerized: false, className: [''] },
+  ],
+});
 
 export const codeBlockStyles = 'text-xs normal leading-5 flex flex-col min-w-fit';
