@@ -81,7 +81,7 @@ const PuzzleSolvesTableDesktop: FC<PuzzleSolvesTableInternalProps> = ({
         cell: ({ row }) => (
           <div
             title={new Date(
-              1000 * (row.original.puzzle.addedTimestamp + row.original.solveTime),
+              1000 * ((row.original.puzzleAddedTimestamp ?? 0) + row.original.solveTime),
             ).toString()}
           >
             {getTimeLeftString(row.original.solveTime)}
@@ -113,7 +113,7 @@ const PuzzleSolvesTableDesktop: FC<PuzzleSolvesTableInternalProps> = ({
                     '_blank',
                   );
                 }}
-                aria-label={`View ${row.original.solver}'s solution of puzzle ${row.original.puzzle.id}.`}
+                aria-label={`View ${row.original.solver}'s solution of puzzle ${row.original.puzzleId}.`}
               >
                 <ExternalLink />
               </IconButton>
@@ -180,7 +180,7 @@ const PuzzleSolvesTableMobile: FC<PuzzleSolvesTableInternalProps> = ({
           <div
             className="flex flex-col"
             title={new Date(
-              1000 * (row.original.puzzle.addedTimestamp + row.original.solveTime),
+              1000 * ((row.original.puzzleAddedTimestamp ?? 0) + row.original.solveTime),
             ).toString()}
           >
             <div>{getTimeLeftString(row.original.solveTime)}</div>

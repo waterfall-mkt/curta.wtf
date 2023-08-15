@@ -60,7 +60,8 @@ export type Solve = {
   solverEnsName?: string;
   solverEnsAvatar?: string;
   solveTime: number;
-  puzzle: Puzzle;
+  puzzleId: number;
+  puzzleAddedTimestamp?: number;
   phase: Phase;
   rank: number;
   tx: `0x${string}`;

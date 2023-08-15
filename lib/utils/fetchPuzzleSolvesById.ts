@@ -43,7 +43,8 @@ const fetchPuzzleSolvesById = async (id: number): Promise<PuzzleSolvesResponse> 
       /* solverEnsName,
       solverEnsAvatar, */
       solveTime: solve.solveTimestamp - puzzle.addedTimestamp,
-      puzzle,
+      puzzleId: puzzle.id,
+      puzzleAddedTimestamp: puzzle.firstSolveTimestamp,
       phase: solve.phase as Phase,
       rank: i + 1,
       tx: solve.solveTx,
