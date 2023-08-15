@@ -1,7 +1,8 @@
-// import { cache } from 'react';
+import { cache } from 'react';
+
 import type { PostgrestError } from '@supabase/supabase-js';
 
-// import { publicClient } from '@/lib/client';
+import { publicClient } from '@/lib/client';
 import { PRESET_COLORS } from '@/lib/constants/presetColors';
 import supabase from '@/lib/services/supabase';
 import type { SupabasePuzzle } from '@/lib/types/api';
@@ -27,16 +28,22 @@ const fetchPuzzleById = async (id: number): Promise<PuzzleResponse> => {
 
   const puzzleData = data[0];
 
+  const [authorEnsName, firstSolverEnsName] = await Promise.all([
+    cache(async () => await publicClient.getEnsName({ address: puzzleData.author.address }))(),
+    cache(async () =>
+      puzzleData.firstSolver
+        ? await publicClient.getEnsName({ address: puzzleData.firstSolver })
+        : undefined,
+    )(),
+  ]);
+
   const puzzle: Puzzle = {
     // Protocol
     id: puzzleData.id,
     address: puzzleData.address,
     author: {
       ...puzzleData.author,
-      /* ensName:
-        (await cache(
-          async () => await publicClient.getEnsName({ address: puzzleData.author.address }),
-        )()) || undefined, */
+      ensName: authorEnsName || undefined,
     } as Author,
     addedTx: puzzleData.addedTx,
     addedTimestamp: puzzleData.addedTimestamp,
@@ -47,10 +54,7 @@ const fetchPuzzleById = async (id: number): Promise<PuzzleResponse> => {
     // Solve
     firstSolveTimestamp: puzzleData.firstSolveTimestamp,
     firstSolver: puzzleData.firstSolver,
-    /* firstSolverEnsName:
-      (puzzleData.firstSolver &&
-        (await publicClient.getEnsName({ address: puzzleData.firstSolver }))) ||
-      undefined, */
+    firstSolverEnsName: firstSolverEnsName ?? undefined,
     firstSolveBlock: puzzleData.firstSolveBlock,
     solveTime: puzzleData.firstSolveTimestamp
       ? puzzleData.firstSolveTimestamp - puzzleData.addedTimestamp
