@@ -1,10 +1,11 @@
 'use client';
 
-import type { FC } from 'react';
+import { type FC, useEffect, useState } from 'react';
 
 import clsx from 'clsx';
 import { twMerge } from 'tailwind-merge';
 import type { Address } from 'viem';
+import { useEnsName } from 'wagmi';
 
 import { getShortenedAddress } from '@/lib/utils';
 
@@ -23,6 +24,15 @@ type AddressLinkClientProps = {
 // ---------------------------------------–-------------------------------------
 
 const AddressLinkClient: FC<AddressLinkClientProps> = ({ className, address, ensName }) => {
+  const [mounted, setMounted] = useState<boolean>(false);
+  const { data } = useEnsName({ address });
+
+  useEffect(() => setMounted(true), []);
+
+  const addressDisplay = mounted
+    ? data ?? ensName ?? getShortenedAddress(address)
+    : ensName ?? getShortenedAddress(address);
+
   return (
     <a
       className={twMerge(
@@ -36,7 +46,7 @@ const AddressLinkClient: FC<AddressLinkClientProps> = ({ className, address, ens
       rel="noopener noreferrer"
       onClick={(e) => e.stopPropagation()}
     >
-      {ensName ?? getShortenedAddress(address)}
+      {addressDisplay}
     </a>
   );
 };
