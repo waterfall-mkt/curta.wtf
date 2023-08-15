@@ -95,13 +95,13 @@ const NavBarDesktop: FC<NavBarInternalProps> = ({ selected, yScroll }) => {
 };
 
 const NavBarMobile: FC<NavBarInternalProps> = ({ yScroll }) => {
-  const [isMounted, setIsMounted] = useState<boolean>(false);
+  const [mounted, setMounted] = useState<boolean>(false);
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const { address, isConnected } = useAccount();
   const { disconnect } = useDisconnect();
   const isSmallScreen = useMediaQuery('(max-width: 1024px)'); // `lg` breakpoint
 
-  useEffect(() => setIsMounted(true), []);
+  useEffect(() => setMounted(true), []);
 
   const { data, isError, isLoading } = useEnsName({
     address,
@@ -143,7 +143,7 @@ const NavBarMobile: FC<NavBarInternalProps> = ({ yScroll }) => {
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    {isMounted && !isError && !isLoading && data
+                    {mounted && !isError && !isLoading && data
                       ? data
                       : address
                       ? getShortenedAddress(address)

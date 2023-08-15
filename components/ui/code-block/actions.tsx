@@ -10,11 +10,11 @@ import { IconButton, Select } from '@/components/ui';
 
 const CodeBlockActions: FC<CodeBlockActionsProps> = ({ code, switcher, inHeader }) => {
   const [copied, setCopied] = useState<boolean>(false);
-  const [isMounted, setIsMounted] = useState<boolean>(false);
+  const [mounted, setMounted] = useState<boolean>(false);
 
-  useEffect(() => setIsMounted(true), []);
+  useEffect(() => setMounted(true), []);
 
-  const isMobile = isMounted ? /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) : false;
+  const isMobile = mounted ? /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) : false;
 
   const copyToClipboard = () => {
     if (!copied) {
