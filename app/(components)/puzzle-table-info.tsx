@@ -33,7 +33,7 @@ const PuzzleTableInfo: FC<PuzzleTableInfoProps> = ({ id, phase, name, author }) 
         <AddressLinkClient
           className="mt-0.5 text-xs"
           address={author.address}
-          ensName={author.ensName}
+          prefetchedEnsName={author.ensName}
         />
       </div>
     </div>

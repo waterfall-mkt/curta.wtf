@@ -16,22 +16,26 @@ import { getShortenedAddress } from '@/lib/utils';
 type AddressLinkClientProps = {
   className?: string;
   address: Address;
-  ensName?: string;
+  prefetchedEnsName?: string;
 };
 
 // ---------------------------------------–-------------------------------------
 // Component
 // ---------------------------------------–-------------------------------------
 
-const AddressLinkClient: FC<AddressLinkClientProps> = ({ className, address, ensName }) => {
+const AddressLinkClient: FC<AddressLinkClientProps> = ({
+  className,
+  address,
+  prefetchedEnsName,
+}) => {
   const [mounted, setMounted] = useState<boolean>(false);
-  const { data } = useEnsName({ address });
+  const { data: ensName } = useEnsName({ address });
 
   useEffect(() => setMounted(true), []);
 
   const addressDisplay = mounted
-    ? data ?? ensName ?? getShortenedAddress(address)
-    : ensName ?? getShortenedAddress(address);
+    ? ensName ?? prefetchedEnsName ?? getShortenedAddress(address)
+    : prefetchedEnsName ?? getShortenedAddress(address);
 
   return (
     <a

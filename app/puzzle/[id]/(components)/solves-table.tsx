@@ -10,7 +10,7 @@ import type { Solve } from '@/lib/types/protocol';
 import { getTimeLeftString } from '@/lib/utils';
 
 import AddressLinkClient from '@/components/templates/address-link-client';
-import Avatar from '@/components/templates/avatar';
+import ENSAvatarClient from '@/components/templates/ens-avatar-client';
 import PhaseTag from '@/components/templates/phase-tag';
 import { IconButton, Table } from '@/components/ui';
 import type { TableProps } from '@/components/ui/table/types';
@@ -74,16 +74,16 @@ const PuzzleSolvesTableDesktop: FC<PuzzleSolvesTableInternalProps> = ({
         cell: ({ row }) => (
           <div className="flex items-center gap-3.5">
             <div className="overflow-hidden rounded-full">
-              {row.original.solverEnsAvatar ? (
-                <Avatar src={row.original.solverEnsAvatar} alt={row.original.solver} size={40} />
-              ) : (
-                <Avatar src={''} alt={row.original.solver} size={40} />
-              )}
+              <ENSAvatarClient
+                nameOrAddress={row.original.solverEnsName ?? row.original.solver}
+                size={40}
+                prefetchedEnsAvatar={row.original.solverEnsAvatar}
+              />
             </div>
             <AddressLinkClient
               className="text-gray-100"
               address={row.original.solver}
-              ensName={row.original.solverEnsName}
+              prefetchedEnsName={row.original.solverEnsName}
             />
           </div>
         ),
@@ -169,16 +169,16 @@ const PuzzleSolvesTableMobile: FC<PuzzleSolvesTableInternalProps> = ({
         cell: ({ row }) => (
           <div className="flex items-center gap-3.5">
             <div className="overflow-hidden rounded-full">
-              {row.original.solverEnsAvatar ? (
-                <Avatar src={row.original.solverEnsAvatar} alt={row.original.solver} size={40} />
-              ) : (
-                <Avatar src={''} alt={row.original.solver} size={40} />
-              )}
+              <ENSAvatarClient
+                nameOrAddress={row.original.solverEnsName ?? row.original.solver}
+                size={40}
+                prefetchedEnsAvatar={row.original.solverEnsAvatar}
+              />
             </div>
             <AddressLinkClient
               className="text-gray-100"
               address={row.original.solver}
-              ensName={row.original.solverEnsName}
+              prefetchedEnsName={row.original.solverEnsName}
             />
           </div>
         ),

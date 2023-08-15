@@ -80,7 +80,7 @@ const PuzzleTableDesktop: FC<PuzzleTableInternalProps> = ({ data, sorting, setSo
             <AddressLinkClient
               className="text-gray-100"
               address={row.original.firstSolver}
-              ensName={row.original.firstSolverEnsName}
+              prefetchedEnsName={row.original.firstSolverEnsName}
             />
           ) : (
             '—'
@@ -229,7 +229,7 @@ const PuzzleTableMobileSubComponent: FC<{ data: Puzzle }> = ({ data }) => {
             <AddressLinkClient
               className="text-gray-100"
               address={data.firstSolver}
-              ensName={data.firstSolverEnsName}
+              prefetchedEnsName={data.firstSolverEnsName}
             />
           ) : (
             '—'
