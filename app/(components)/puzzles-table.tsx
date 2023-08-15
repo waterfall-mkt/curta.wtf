@@ -103,6 +103,7 @@ const PuzzleTableDesktop: FC<PuzzleTableInternalProps> = ({ data, sorting, setSo
                 <IconButton
                   variant="outline"
                   intent="neutral"
+                  title={row.original.solution}
                   onClick={(e) => {
                     e.stopPropagation();
                     window.open(row.original.solution, '_blank');
@@ -116,6 +117,7 @@ const PuzzleTableDesktop: FC<PuzzleTableInternalProps> = ({ data, sorting, setSo
                 <IconButton
                   variant="outline"
                   intent="neutral"
+                  title={`https://github.com/${row.original.github}`}
                   onClick={(e) => {
                     e.stopPropagation();
                     window.open(`https://github.com/${row.original.github}`, '_blank');
@@ -129,6 +131,7 @@ const PuzzleTableDesktop: FC<PuzzleTableInternalProps> = ({ data, sorting, setSo
                 <IconButton
                   variant="outline"
                   intent="neutral"
+                  title={`https://${process.env.NEXT_PUBLIC_BLOCK_EXPLORER}/address/${row.original.address}`}
                   onClick={(e) => {
                     e.stopPropagation();
                     window.open(
@@ -244,6 +247,7 @@ const PuzzleTableMobileSubComponent: FC<{ data: Puzzle }> = ({ data }) => {
               <IconButton
                 variant="outline"
                 intent="neutral"
+                title={data.solution}
                 onClick={(e) => {
                   e.stopPropagation();
                   window.open(data.solution, '_blank');
@@ -257,6 +261,7 @@ const PuzzleTableMobileSubComponent: FC<{ data: Puzzle }> = ({ data }) => {
               <IconButton
                 variant="outline"
                 intent="neutral"
+                title={`https://github.com/${data.github}`}
                 onClick={(e) => {
                   e.stopPropagation();
                   window.open(`https://github.com/${data.github}`, '_blank');
@@ -270,6 +275,7 @@ const PuzzleTableMobileSubComponent: FC<{ data: Puzzle }> = ({ data }) => {
               <IconButton
                 variant="outline"
                 intent="neutral"
+                title={`https://${process.env.NEXT_PUBLIC_BLOCK_EXPLORER}/address/${data.address}`}
                 onClick={(e) => {
                   e.stopPropagation();
                   window.open(

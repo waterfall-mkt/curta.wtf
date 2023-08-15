@@ -116,6 +116,7 @@ const PuzzleSolvesTableDesktop: FC<PuzzleSolvesTableInternalProps> = ({
               <IconButton
                 variant="outline"
                 intent="neutral"
+                title={`https://${process.env.NEXT_PUBLIC_BLOCK_EXPLORER}/tx/${row.original.tx}`}
                 onClick={(e) => {
                   e.stopPropagation();
                   window.open(
