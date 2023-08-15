@@ -1,5 +1,4 @@
 // import { cache } from 'react';
-import fetchPuzzleById from './fetchPuzzleById';
 import type { PostgrestError } from '@supabase/supabase-js';
 
 // import { publicClient } from '@/lib/client';
@@ -14,8 +13,6 @@ type PuzzleSolvesResponse = {
 };
 
 const fetchPuzzleSolvesById = async (id: number): Promise<PuzzleSolvesResponse> => {
-  const { data: puzzle } = await fetchPuzzleById(id);
-
   const { data, status, error } = await supabase
     .from('solves')
     .select('*', { count: 'exact' })
@@ -23,7 +20,7 @@ const fetchPuzzleSolvesById = async (id: number): Promise<PuzzleSolvesResponse> 
     .order('solveTimestamp', { ascending: true })
     .returns<SupabaseSolve[]>();
 
-  if ((error && status !== 406) || !data || (data && data.length === 0) || !puzzle) {
+  if ((error && status !== 406) || !data || (data && data.length === 0)) {
     return { data: [], status, error };
   }
 
@@ -42,9 +39,8 @@ const fetchPuzzleSolvesById = async (id: number): Promise<PuzzleSolvesResponse> 
       solver: solve.solver,
       /* solverEnsName,
       solverEnsAvatar, */
-      solveTime: solve.solveTimestamp - puzzle.addedTimestamp,
-      puzzleId: puzzle.id,
-      puzzleAddedTimestamp: puzzle.firstSolveTimestamp,
+      solveTimestamp: solve.solveTimestamp,
+      puzzleId: solve.puzzleId,
       phase: solve.phase as Phase,
       rank: i + 1,
       tx: solve.solveTx,

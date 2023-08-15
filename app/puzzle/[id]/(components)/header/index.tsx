@@ -24,8 +24,10 @@ type PuzzleHeaderProps = {
 // -----------------------------------------------------------------------------
 
 const PuzzleHeader: FC<PuzzleHeaderProps> = async ({ puzzle }) => {
-  const { data: prevPuzzle } = await fetchPuzzleById(puzzle.id - 1);
-  const { data: nextPuzzle } = await fetchPuzzleById(puzzle.id + 1);
+  const [{ data: prevPuzzle }, { data: nextPuzzle }] = await Promise.all([
+    fetchPuzzleById(puzzle.id - 1),
+    fetchPuzzleById(puzzle.id + 1),
+  ]);
 
   return (
     <div className="flex flex-col justify-center md:flex-row">

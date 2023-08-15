@@ -20,7 +20,10 @@ import {
 const description = 'A CTF protocol, where players create and solve EVM puzzles to earn NFTs.';
 
 export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
-  const { data: puzzle } = await fetchPuzzleById(Number(params.id));
+  const [{ data: puzzle }, { colors }] = await Promise.all([
+    fetchPuzzleById(Number(params.id)),
+    fetchPuzzleFlagColors(Number(params.id)),
+  ]);
   if (!puzzle) return {};
 
   const queryParams = [
@@ -34,8 +37,6 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
   if (puzzle.firstSolveTimestamp) {
     queryParams.push(`firstSolve=${puzzle.solveTime}`);
   }
-
-  const { colors } = await fetchPuzzleFlagColors(puzzle.id);
 
   if (colors) {
     queryParams.push(`colors=${colors}`);
@@ -84,8 +85,10 @@ export default async function Page({ params }: { params: { id: string } }) {
   // Return 404 if `id` is not a number.
   if (isNaN(id)) return notFound();
 
-  const { data: puzzle, error } = await fetchPuzzleById(id);
-  const { data: solves } = await fetchPuzzleSolvesById(id);
+  const [{ data: puzzle, error }, { data: solves }] = await Promise.all([
+    fetchPuzzleById(id),
+    fetchPuzzleSolvesById(id),
+  ]);
 
   // Return 404 if `puzzle` is `null` or there was an `error` in fetching the
   // data.
@@ -104,7 +107,7 @@ export default async function Page({ params }: { params: { id: string } }) {
       </div>
       <div className="mt-4 grow md:mt-10">
         <h2 className="mb-4 text-xl font-medium text-gray-50 lg:text-display-sm">Solves</h2>
-        <PuzzleSolvesTable data={solves} />
+        <PuzzleSolvesTable data={solves} puzzleAddedTimestamp={puzzle.addedTimestamp} />
       </div>
     </div>
   );

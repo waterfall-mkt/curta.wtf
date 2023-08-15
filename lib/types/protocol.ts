@@ -59,9 +59,8 @@ export type Solve = {
   solver: `0x${string}`;
   solverEnsName?: string;
   solverEnsAvatar?: string;
-  solveTime: number;
+  solveTimestamp: number;
   puzzleId: number;
-  puzzleAddedTimestamp?: number;
   phase: Phase;
   rank: number;
   tx: `0x${string}`;

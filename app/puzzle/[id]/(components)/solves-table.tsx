@@ -21,27 +21,41 @@ import type { TableProps } from '@/components/ui/table/types';
 
 type PuzzleSolvesTableProps = {
   data: Solve[];
+  puzzleAddedTimestamp: number;
 };
 
-type PuzzleSolvesTableInternalProps = Omit<TableProps<Solve>, 'columns'>;
+type PuzzleSolvesTableInternalProps = Omit<TableProps<Solve>, 'columns'> & {
+  puzzleAddedTimestamp: number;
+};
 
 // -----------------------------------------------------------------------------
 // Component
 // -----------------------------------------------------------------------------
 
-const PuzzleSolvesTable: FC<PuzzleSolvesTableProps> = ({ data }) => {
+const PuzzleSolvesTable: FC<PuzzleSolvesTableProps> = ({ data, puzzleAddedTimestamp }) => {
   const [sorting, setSorting] = useState<SortingState>([]);
 
   return (
     <Fragment>
-      <PuzzleSolvesTableDesktop data={data} sorting={sorting} setSorting={setSorting} />
-      <PuzzleSolvesTableMobile data={data} sorting={sorting} setSorting={setSorting} />
+      <PuzzleSolvesTableDesktop
+        data={data}
+        puzzleAddedTimestamp={puzzleAddedTimestamp}
+        sorting={sorting}
+        setSorting={setSorting}
+      />
+      <PuzzleSolvesTableMobile
+        data={data}
+        puzzleAddedTimestamp={puzzleAddedTimestamp}
+        sorting={sorting}
+        setSorting={setSorting}
+      />
     </Fragment>
   );
 };
 
 const PuzzleSolvesTableDesktop: FC<PuzzleSolvesTableInternalProps> = ({
   data,
+  puzzleAddedTimestamp,
   sorting,
   setSorting,
 }) => {
@@ -79,12 +93,8 @@ const PuzzleSolvesTableDesktop: FC<PuzzleSolvesTableInternalProps> = ({
         accessorKey: 'solveTime',
         header: () => 'Time taken',
         cell: ({ row }) => (
-          <div
-            title={new Date(
-              1000 * ((row.original.puzzleAddedTimestamp ?? 0) + row.original.solveTime),
-            ).toString()}
-          >
-            {getTimeLeftString(row.original.solveTime)}
+          <div title={new Date(1000 * row.original.solveTimestamp).toString()}>
+            {getTimeLeftString(row.original.solveTimestamp - puzzleAddedTimestamp)}
           </div>
         ),
         footer: (props) => props.column.id,
@@ -124,7 +134,7 @@ const PuzzleSolvesTableDesktop: FC<PuzzleSolvesTableInternalProps> = ({
         size: 75,
       },
     ],
-    [],
+    [puzzleAddedTimestamp],
   );
 
   return (
@@ -140,6 +150,7 @@ const PuzzleSolvesTableDesktop: FC<PuzzleSolvesTableInternalProps> = ({
 
 const PuzzleSolvesTableMobile: FC<PuzzleSolvesTableInternalProps> = ({
   data,
+  puzzleAddedTimestamp,
   sorting,
   setSorting,
 }) => {
@@ -179,11 +190,9 @@ const PuzzleSolvesTableMobile: FC<PuzzleSolvesTableInternalProps> = ({
         cell: ({ row }) => (
           <div
             className="flex flex-col"
-            title={new Date(
-              1000 * ((row.original.puzzleAddedTimestamp ?? 0) + row.original.solveTime),
-            ).toString()}
+            title={new Date(1000 * row.original.solveTimestamp).toString()}
           >
-            <div>{getTimeLeftString(row.original.solveTime)}</div>
+            <div>{getTimeLeftString(row.original.solveTimestamp - puzzleAddedTimestamp)}</div>
             <div className="text-xs text-gray-200">Phase {row.original.phase}</div>
           </div>
         ),
@@ -191,7 +200,7 @@ const PuzzleSolvesTableMobile: FC<PuzzleSolvesTableInternalProps> = ({
         size: 90,
       },
     ],
-    [],
+    [puzzleAddedTimestamp],
   );
 
   return (
