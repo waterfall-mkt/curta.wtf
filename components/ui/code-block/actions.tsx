@@ -36,6 +36,7 @@ const CodeBlockActions: FC<CodeBlockActionsProps> = ({ code, switcher, inHeader 
           intent="neutral"
           value={switcher.value}
           onChange={(e) => switcher.onChange(e.target.value)}
+          aria-label="Select a language for the code block."
         >
           {switcher.options.map((option, index) => (
             <Select.Item key={index}>{option}</Select.Item>
