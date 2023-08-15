@@ -1,8 +1,7 @@
-import { cache } from 'react';
-
+// import { cache } from 'react';
 import type { PostgrestError } from '@supabase/supabase-js';
 
-import { publicClient } from '@/lib/client';
+// import { publicClient } from '@/lib/client';
 import { PRESET_COLORS } from '@/lib/constants/presetColors';
 import supabase from '@/lib/services/supabase';
 import type { SupabasePuzzle } from '@/lib/types/api';
@@ -34,10 +33,10 @@ const fetchPuzzleById = async (id: number): Promise<PuzzleResponse> => {
     address: puzzleData.address,
     author: {
       ...puzzleData.author,
-      ensName:
+      /* ensName:
         (await cache(
           async () => await publicClient.getEnsName({ address: puzzleData.author.address }),
-        )()) || undefined,
+        )()) || undefined, */
     } as Author,
     addedTx: puzzleData.addedTx,
     addedTimestamp: puzzleData.addedTimestamp,
@@ -48,10 +47,10 @@ const fetchPuzzleById = async (id: number): Promise<PuzzleResponse> => {
     // Solve
     firstSolveTimestamp: puzzleData.firstSolveTimestamp,
     firstSolver: puzzleData.firstSolver,
-    firstSolverEnsName:
+    /* firstSolverEnsName:
       (puzzleData.firstSolver &&
         (await publicClient.getEnsName({ address: puzzleData.firstSolver }))) ||
-      undefined,
+      undefined, */
     firstSolveBlock: puzzleData.firstSolveBlock,
     solveTime: puzzleData.firstSolveTimestamp
       ? puzzleData.firstSolveTimestamp - puzzleData.addedTimestamp

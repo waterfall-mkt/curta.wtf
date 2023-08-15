@@ -1,9 +1,8 @@
-import { cache } from 'react';
-
+// import { cache } from 'react';
 import fetchPuzzleById from './fetchPuzzleById';
 import type { PostgrestError } from '@supabase/supabase-js';
 
-import { publicClient } from '@/lib/client';
+// import { publicClient } from '@/lib/client';
 import supabase from '@/lib/services/supabase';
 import type { SupabaseSolve } from '@/lib/types/api';
 import type { Phase, Solve } from '@/lib/types/protocol';
@@ -31,18 +30,18 @@ const fetchPuzzleSolvesById = async (id: number): Promise<PuzzleSolvesResponse> 
   const solves: Solve[] = [];
   for (let i = 0; i < data.length; ++i) {
     const solve = data[i];
-    const solverEnsName =
+    /* const solverEnsName =
       (await cache(async () => await publicClient.getEnsName({ address: solve.solver }))()) ||
       undefined;
     const solverEnsAvatar =
       (await cache(async () =>
         solverEnsName ? await publicClient.getEnsAvatar({ name: solverEnsName }) : undefined,
-      )()) || undefined;
+      )()) || undefined; */
 
     solves.push({
       solver: solve.solver,
-      solverEnsName,
-      solverEnsAvatar,
+      /* solverEnsName,
+      solverEnsAvatar, */
       solveTime: solve.solveTimestamp - puzzle.addedTimestamp,
       puzzle,
       phase: solve.phase as Phase,
