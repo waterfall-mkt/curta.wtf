@@ -9,7 +9,7 @@ import { ExternalLink } from 'lucide-react';
 import type { Solve } from '@/lib/types/protocol';
 import { getTimeLeftString } from '@/lib/utils';
 
-import AddressLinkClient from '@/components/templates/adress-link-client';
+import AddressLinkClient from '@/components/templates/address-link-client';
 import Avatar from '@/components/templates/avatar';
 import PhaseTag from '@/components/templates/phase-tag';
 import { IconButton, Table } from '@/components/ui';

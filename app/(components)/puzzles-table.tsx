@@ -10,7 +10,7 @@ import { File, Github } from 'lucide-react';
 import type { Puzzle } from '@/lib/types/protocol';
 import { getPuzzleTimeLeft } from '@/lib/utils';
 
-import AddressLinkClient from '@/components/templates/adress-link-client';
+import AddressLinkClient from '@/components/templates/address-link-client';
 import Stat from '@/components/templates/stat';
 import { IconButton, Table } from '@/components/ui';
 import type { TableProps } from '@/components/ui/table/types';

@@ -4,7 +4,7 @@ import type { FC } from 'react';
 
 import type { Author, Phase } from '@/lib/types/protocol';
 
-import AddressLinkClient from '@/components/templates/adress-link-client';
+import AddressLinkClient from '@/components/templates/address-link-client';
 import PhasePing from '@/components/templates/phase-tag/ping';
 
 // -----------------------------------------------------------------------------
