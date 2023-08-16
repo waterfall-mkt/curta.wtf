@@ -3,15 +3,14 @@
 import { type FC, Fragment, useMemo, useState } from 'react';
 
 import PuzzleTableCountdown from './countdown';
-import PuzzleTableAddressLink from './puzzle-table-address-link';
 import PuzzleTableInfo from './puzzle-table-info';
-import type { ColumnDef } from '@tanstack/react-table';
-import type { Row, SortingState } from '@tanstack/react-table';
+import type { ColumnDef, Row, SortingState } from '@tanstack/react-table';
 import { File, Github } from 'lucide-react';
 
 import type { Puzzle } from '@/lib/types/protocol';
 import { getPuzzleTimeLeft } from '@/lib/utils';
 
+import AddressLinkClient from '@/components/templates/address-link-client';
 import Stat from '@/components/templates/stat';
 import { IconButton, Table } from '@/components/ui';
 import type { TableProps } from '@/components/ui/table/types';
@@ -78,10 +77,10 @@ const PuzzleTableDesktop: FC<PuzzleTableInternalProps> = ({ data, sorting, setSo
         header: () => 'First solver',
         cell: ({ row }) =>
           row.original.firstSolver ? (
-            <PuzzleTableAddressLink
+            <AddressLinkClient
               className="text-gray-100"
               address={row.original.firstSolver}
-              ensName={row.original.firstSolverEnsName}
+              prefetchedEnsName={row.original.firstSolverEnsName}
             />
           ) : (
             '—'
@@ -102,8 +101,9 @@ const PuzzleTableDesktop: FC<PuzzleTableInternalProps> = ({ data, sorting, setSo
             <div className="flex items-center justify-end gap-1">
               {row.original.solution ? (
                 <IconButton
-                  variant="tertiary"
+                  variant="outline"
                   intent="neutral"
+                  title={row.original.solution}
                   onClick={(e) => {
                     e.stopPropagation();
                     window.open(row.original.solution, '_blank');
@@ -115,8 +115,9 @@ const PuzzleTableDesktop: FC<PuzzleTableInternalProps> = ({ data, sorting, setSo
               ) : null}
               {row.original.github ? (
                 <IconButton
-                  variant="tertiary"
+                  variant="outline"
                   intent="neutral"
+                  title={`https://github.com/${row.original.github}`}
                   onClick={(e) => {
                     e.stopPropagation();
                     window.open(`https://github.com/${row.original.github}`, '_blank');
@@ -128,8 +129,9 @@ const PuzzleTableDesktop: FC<PuzzleTableInternalProps> = ({ data, sorting, setSo
               ) : null}
               {
                 <IconButton
-                  variant="tertiary"
+                  variant="outline"
                   intent="neutral"
+                  title={`https://${process.env.NEXT_PUBLIC_BLOCK_EXPLORER}/address/${row.original.address}`}
                   onClick={(e) => {
                     e.stopPropagation();
                     window.open(
@@ -227,10 +229,10 @@ const PuzzleTableMobileSubComponent: FC<{ data: Puzzle }> = ({ data }) => {
         name="First solver"
         value={
           data.firstSolver ? (
-            <PuzzleTableAddressLink
+            <AddressLinkClient
               className="text-gray-100"
               address={data.firstSolver}
-              ensName={data.firstSolverEnsName}
+              prefetchedEnsName={data.firstSolverEnsName}
             />
           ) : (
             '—'
@@ -243,8 +245,9 @@ const PuzzleTableMobileSubComponent: FC<{ data: Puzzle }> = ({ data }) => {
           <div className="mt-1 flex items-center justify-end gap-1">
             {data.solution ? (
               <IconButton
-                variant="tertiary"
+                variant="outline"
                 intent="neutral"
+                title={data.solution}
                 onClick={(e) => {
                   e.stopPropagation();
                   window.open(data.solution, '_blank');
@@ -256,8 +259,9 @@ const PuzzleTableMobileSubComponent: FC<{ data: Puzzle }> = ({ data }) => {
             ) : null}
             {data.github ? (
               <IconButton
-                variant="tertiary"
+                variant="outline"
                 intent="neutral"
+                title={`https://github.com/${data.github}`}
                 onClick={(e) => {
                   e.stopPropagation();
                   window.open(`https://github.com/${data.github}`, '_blank');
@@ -269,8 +273,9 @@ const PuzzleTableMobileSubComponent: FC<{ data: Puzzle }> = ({ data }) => {
             ) : null}
             {
               <IconButton
-                variant="tertiary"
+                variant="outline"
                 intent="neutral"
+                title={`https://${process.env.NEXT_PUBLIC_BLOCK_EXPLORER}/address/${data.address}`}
                 onClick={(e) => {
                   e.stopPropagation();
                   window.open(

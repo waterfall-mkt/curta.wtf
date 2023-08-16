@@ -17,11 +17,7 @@ const fetchAuthors = async (): Promise<AuthorsResponse> => {
     .returns<SupabaseAuthor[]>();
 
   if ((error && status !== 406) || !data || (data && data.length === 0)) {
-    return {
-      data: [],
-      status: status,
-      error: error,
-    };
+    return { data: [], status, error };
   }
 
   const authors: Author[] = data.map((item) => {

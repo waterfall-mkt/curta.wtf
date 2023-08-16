@@ -30,10 +30,10 @@ const ErrorLayout: FC<ErrorLayoutProps> = ({ statusCode, children }) => {
       >
         FAIL. REASON: {message}
       </a>
-      <Button href="/" variant="tertiary" intent="neutral" className="mt-6 hidden lg:block">
+      <Button href="/" variant="outline" intent="neutral" size="lg" className="mt-6 hidden lg:flex">
         Back to Curta
       </Button>
-      <Button href="/" size="sm" variant="tertiary" intent="neutral" className="mt-4 lg:hidden">
+      <Button href="/" size="md" variant="outline" intent="neutral" className="mt-4 lg:hidden">
         Back to Curta
       </Button>
       {children}

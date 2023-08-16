@@ -12,6 +12,7 @@ import Web3Provider from '@/lib/providers/Web3Provider';
 
 import Footer from '@/components/common/footer';
 import NavBar from '@/components/common/nav-bar';
+import { Toaster } from '@/components/ui';
 
 // -----------------------------------------------------------------------------
 // Fonts
@@ -60,6 +61,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           <NavBar />
           <main className="relative flex w-full grow">{children}</main>
           <Footer />
+          <Toaster />
         </Web3Provider>
       </body>
 

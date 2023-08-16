@@ -16,9 +16,11 @@ import ContainerLayout from '@/components/layouts/container';
 const description = 'A CTF protocol, where players create and solve EVM puzzles to earn NFTs.';
 
 export async function generateMetadata(): Promise<Metadata> {
-  const { data: authors } = await fetchAuthors();
-  const { data: puzzles } = await fetchPuzzles();
-  const { data: solvesCount } = await fetchSolvesCount();
+  const [{ data: authors }, { data: puzzles }, { data: solvesCount }] = await Promise.all([
+    fetchAuthors(),
+    fetchPuzzles(),
+    fetchSolvesCount(),
+  ]);
 
   return {
     description,
@@ -56,8 +58,10 @@ export async function generateMetadata(): Promise<Metadata> {
 // -----------------------------------------------------------------------------
 
 export default async function Home() {
-  const { data: authors } = await fetchAuthors();
-  const { data: puzzles } = await fetchPuzzles();
+  const [{ data: authors }, { data: puzzles }] = await Promise.all([
+    fetchAuthors(),
+    fetchPuzzles(),
+  ]);
 
   return (
     <div className="relative flex w-full grow overflow-hidden">

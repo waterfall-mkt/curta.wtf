@@ -42,6 +42,7 @@ const ConnectButton: FC<ConnectButtonProps> = ({ className }) => {
                 return (
                   <Button
                     className={className}
+                    size="lg"
                     variant="secondary"
                     intent="primary"
                     onClick={openConnectModal}
@@ -56,6 +57,7 @@ const ConnectButton: FC<ConnectButtonProps> = ({ className }) => {
                 return (
                   <Button
                     className={className}
+                    size="lg"
                     intent="fail"
                     onClick={openChainModal}
                     type="button"
@@ -68,6 +70,7 @@ const ConnectButton: FC<ConnectButtonProps> = ({ className }) => {
               return (
                 <Button
                   className={className}
+                  size="lg"
                   variant="secondary"
                   intent="neutral"
                   onClick={openAccountModal}

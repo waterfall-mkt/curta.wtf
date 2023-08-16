@@ -1,12 +1,20 @@
 import { cva } from 'class-variance-authority';
 
+export const buttonIconVariants = cva(['flex', 'items-center', 'justify-center'], {
+  variants: {
+    size: {
+      lg: ['w-5', 'h-5'],
+      md: ['w-4', 'h-4'],
+      sm: ['w-3.5', 'h-3.5'],
+    },
+  },
+});
+
 export const buttonVariants = cva(
   [
     'font-medium',
     'transition-colors',
     'flex',
-    'px-4',
-    'rounded-xl',
     'justify-center',
     'items-center',
     'outline-none',
@@ -17,15 +25,14 @@ export const buttonVariants = cva(
   {
     variants: {
       size: {
-        lg: ['py-3', 'text-lg'],
-        md: ['py-2', 'text-md'],
-        sm: ['py-2', 'text-sm'],
-        xs: ['py-2', 'text-xs'],
+        lg: ['rounded-xl', 'px-4', 'h-10', 'space-x-2', 'text-base'],
+        md: ['rounded-lg', 'px-3', 'h-8', 'space-x-1.5', 'text-sm'],
+        sm: ['rounded-lg', 'px-2.5', 'h-7', 'space-x-1.5', 'text-xs'],
       },
       variant: {
         primary: ['text-gray-50'],
         secondary: [],
-        tertiary: ['border'],
+        outline: ['border'],
         text: ['bg-none'],
       },
       intent: {
@@ -40,9 +47,9 @@ export const buttonVariants = cva(
           'data-secondary:data-disabled:text-gray-350',
           'data-secondary:data-disabled:bg-gray-600',
           // Tertiary
-          'data-tertiary:text-gray-100',
-          'data-tertiary:border-gray-300',
-          'data-tertiary:hover:border-gray-250',
+          'data-outline:text-gray-100',
+          'data-outline:border-gray-300',
+          'data-outline:hover:border-gray-250',
           // Text
           'data-variant-text:text-gray-200',
           'data-variant-text:hover:text-gray-100',
@@ -59,9 +66,9 @@ export const buttonVariants = cva(
           'data-secondary:data-disabled:text-blue-700',
           'data-secondary:data-disabled:bg-blue-900',
           // Tertiary
-          'data-tertiary:text-blue-150',
-          'data-tertiary:border-blue-300',
-          'data-tertiary:hover:border-blue-200',
+          'data-outline:text-blue-150',
+          'data-outline:border-blue-300',
+          'data-outline:hover:border-blue-200',
           // Text
           'data-variant-text:text-blue-150',
           'data-variant-text:hover:text-blue-100',
@@ -78,9 +85,9 @@ export const buttonVariants = cva(
           'data-secondary:data-disabled:text-green-700',
           'data-secondary:data-disabled:bg-green-900',
           // Tertiary
-          'data-tertiary:text-green-150',
-          'data-tertiary:border-green-300',
-          'data-tertiary:hover:border-green-200',
+          'data-outline:text-green-150',
+          'data-outline:border-green-300',
+          'data-outline:hover:border-green-200',
           // Text
           'data-variant-text:text-green-150',
           'data-variant-text:hover:text-green-100',
@@ -97,9 +104,9 @@ export const buttonVariants = cva(
           'data-secondary:data-disabled:text-red-700',
           'data-secondary:data-disabled:bg-red-900',
           // Tertiary
-          'data-tertiary:text-red-150',
-          'data-tertiary:border-red-300',
-          'data-tertiary:hover:border-red-200',
+          'data-outline:text-red-150',
+          'data-outline:border-red-300',
+          'data-outline:hover:border-red-200',
           // Text
           'data-variant-text:text-red-150',
           'data-variant-text:hover:text-red-100',
@@ -116,9 +123,9 @@ export const buttonVariants = cva(
           'data-secondary:data-disabled:text-yellow-700',
           'data-secondary:data-disabled:bg-yellow-900',
           // Tertiary
-          'data-tertiary:text-yellow-150',
-          'data-tertiary:border-yellow-300',
-          'data-tertiary:hover:border-yellow-200',
+          'data-outline:text-yellow-150',
+          'data-outline:border-yellow-300',
+          'data-outline:hover:border-yellow-200',
           // Text
           'data-variant-text:text-yellow-150',
           'data-variant-text:hover:text-yellow-100',
@@ -135,9 +142,9 @@ export const buttonVariants = cva(
           'data-secondary:data-disabled:text-orange-700',
           'data-secondary:data-disabled:bg-orange-900',
           // Tertiary
-          'data-tertiary:text-orange-150',
-          'data-tertiary:border-orange-300',
-          'data-tertiary:hover:border-orange-200',
+          'data-outline:text-orange-150',
+          'data-outline:border-orange-300',
+          'data-outline:hover:border-orange-200',
           // Text
           'data-variant-text:text-orange-150',
           'data-variant-text:hover:text-orange-100',
@@ -151,19 +158,8 @@ export const buttonVariants = cva(
     },
     compoundVariants: [
       { variant: 'primary', disabled: true, className: 'bg-gray-300 text-gray-200' },
-      { variant: 'tertiary', disabled: true, className: 'border-gray-400 text-gray-250' },
+      { variant: 'outline', disabled: true, className: 'border-gray-400 text-gray-250' },
       { variant: 'text', disabled: true, className: 'bg-none text-gray-300' },
     ],
   },
 );
-
-export const iconButtonSizeVariants = cva(['px-2'], {
-  variants: {
-    size: {
-      lg: ['px-2', 'py-2', 'rounded-xl', 'w-10', 'h-10'],
-      md: ['px-2', 'py-2', 'rounded-lg', 'w-8', 'h-8'],
-      sm: ['px-2', 'py-2', 'rounded-lg', 'w-7', 'h-7'],
-      xs: ['px-1', 'py-1', 'rounded-md', 'w-5', 'h-5'],
-    },
-  },
-});

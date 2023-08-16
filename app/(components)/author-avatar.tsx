@@ -36,6 +36,7 @@ const AuthorAvatar: FC<AuthorAvatarProps> = ({ author, index, children }) => {
     <button
       id={`author-avatar-${index}`}
       className="group rounded-full transition-transform focus-visible:z-[10] focus-visible:scale-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-250"
+      title={href}
       onClick={() => window.open(href, '_blank')}
       onKeyDown={onKeyDown}
       tabIndex={0}

@@ -14,7 +14,7 @@ module.exports = {
       disabled: 'disabled~="true"',
       primary: 'variant~="primary"',
       secondary: 'variant~="secondary"',
-      tertiary: 'variant~="tertiary"',
+      outline: 'variant~="outline"',
       'variant-text': 'variant~="text"',
     },
     extend: {
@@ -31,6 +31,8 @@ module.exports = {
         'ping-slow': 'ping 4s cubic-bezier(0.04, 1.04, 0.16, 1) infinite',
         'fade-in': 'fade-in 0.15s ease-in-out',
         'slide-up': 'slide-up 0.15s ease-in-out',
+        'accordion-down': 'accordion-down 0.15s ease-out',
+        'accordion-up': 'accordion-up 0.15s ease-out',
       },
       keyframes: {
         'fade-in': {
@@ -176,7 +178,7 @@ module.exports = {
           50: 'rgba(240, 246, 252, 1)',
           100: 'rgba(193, 205, 217, 1)',
           150: 'rgba(148, 163, 179, 1)',
-          200: 'rgba(109, 125, 142, 1)',
+          200: 'rgba(117, 129, 149, 1)',
           250: 'rgba(77, 92, 109, 1)',
           300: 'rgba(55, 67, 82, 1)',
           350: 'rgba(39, 48, 61, 1)',
@@ -193,13 +195,12 @@ module.exports = {
         disabled: 'disabled~="true"',
         primary: 'variant~="primary"',
         secondary: 'variant~="secondary"',
-        tertiary: 'variant~="tertiary"',
+        outline: 'variant~="outline"',
       },
     },
   },
   plugins: [
     require('@tailwindcss/aspect-ratio'),
-    require('@tailwindcss/forms'),
     require('@tailwindcss/typography'),
     require('tailwindcss-animate'),
     require('tailwindcss-percentage-width'),

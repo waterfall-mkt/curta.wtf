@@ -9,7 +9,6 @@ import type { CodeBlockProps } from '@/components/ui/code-block/types';
 // This file is required to use MDX in `app` directory.
 export function useMDXComponents(components: MDXComponents): MDXComponents {
   return {
-    ...components,
     a: ({ href, children, ...rest }: JSX.IntrinsicElements['a']) => {
       if (href && href.startsWith('/')) {
         return (
@@ -77,5 +76,6 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
         <table className="my-0">{children}</table>
       </div>
     ),
+    ...components,
   };
 }

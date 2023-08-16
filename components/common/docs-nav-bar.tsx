@@ -114,6 +114,7 @@ const DocsNavBarInternal: FC<DocsNavBarInternalProps> = ({ sections, selected, s
             return (
               <div key={page.slug}>
                 <Button
+                  size="lg"
                   className={clsx(
                     'mt-1 w-full justify-start',
                     pageSelected ? 'cursor-default bg-blue-800 text-blue-200' : '',

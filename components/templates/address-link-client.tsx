@@ -1,10 +1,11 @@
 'use client';
 
-import type { FC } from 'react';
+import { type FC, useEffect, useState } from 'react';
 
 import clsx from 'clsx';
 import { twMerge } from 'tailwind-merge';
 import type { Address } from 'viem';
+import { useEnsName } from 'wagmi';
 
 import { getShortenedAddress } from '@/lib/utils';
 
@@ -12,21 +13,30 @@ import { getShortenedAddress } from '@/lib/utils';
 // Props
 // ---------------------------------------–-------------------------------------
 
-type PuzzleTableAddressLinkProps = {
+type AddressLinkClientProps = {
   className?: string;
   address: Address;
-  ensName?: string;
+  prefetchedEnsName?: string;
 };
 
 // ---------------------------------------–-------------------------------------
 // Component
 // ---------------------------------------–-------------------------------------
 
-const PuzzleTableAddressLink: FC<PuzzleTableAddressLinkProps> = ({
+const AddressLinkClient: FC<AddressLinkClientProps> = ({
   className,
   address,
-  ensName,
+  prefetchedEnsName,
 }) => {
+  const [mounted, setMounted] = useState<boolean>(false);
+  const { data: ensName } = useEnsName({ address });
+
+  useEffect(() => setMounted(true), []);
+
+  const addressDisplay = mounted
+    ? ensName ?? prefetchedEnsName ?? getShortenedAddress(address)
+    : prefetchedEnsName ?? getShortenedAddress(address);
+
   return (
     <a
       className={twMerge(
@@ -39,11 +49,10 @@ const PuzzleTableAddressLink: FC<PuzzleTableAddressLinkProps> = ({
       target="_blank"
       rel="noopener noreferrer"
       onClick={(e) => e.stopPropagation()}
-      aria-label={`View ${address} on ${process.env.NEXT_PUBLIC_BLOCK_EXPLORER}`}
     >
-      {ensName ?? getShortenedAddress(address)}
+      {addressDisplay}
     </a>
   );
 };
 
-export default PuzzleTableAddressLink;
+export default AddressLinkClient;

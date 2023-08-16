@@ -57,8 +57,10 @@ export type Token = {
 
 export type Solve = {
   solver: `0x${string}`;
-  solveTime: number;
-  puzzle: Puzzle;
+  solverEnsName?: string;
+  solverEnsAvatar?: string;
+  solveTimestamp: number;
+  puzzleId: number;
   phase: Phase;
   rank: number;
   tx: `0x${string}`;
