@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Fira_Code, Inter, Poppins } from 'next/font/google';
+import { Inter, Poppins } from 'next/font/google';
 import type { ReactNode } from 'react';
 
 import '@rainbow-me/rainbowkit/styles.css';
@@ -20,11 +20,6 @@ import { Toaster } from '@/components/ui';
 
 const inter = Inter({
   variable: '--inter-font',
-  subsets: ['latin'],
-});
-
-const firaCode = Fira_Code({
-  variable: '--fira-code-font',
   subsets: ['latin'],
 });
 
@@ -56,7 +51,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en" className={clsx('dark', inter.className)} style={{ background: '#0D1017' }}>
-      <body className={clsx(inter.variable, firaCode.variable, poppins.variable)}>
+      <body className={clsx(inter.variable, poppins.variable)}>
         <Web3Provider>
           <NavBar />
           <main className="relative flex w-full grow">{children}</main>

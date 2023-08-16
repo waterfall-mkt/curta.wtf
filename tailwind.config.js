@@ -60,7 +60,6 @@ module.exports = {
       },
       fontFamily: {
         sans: ['var(--inter-font)', ...fontFamily.sans],
-        mono: ['var(--fira-code-font)', ...fontFamily.mono],
         poppins: ['var(--poppins-font)'],
       },
       fontSize: {
