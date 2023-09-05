@@ -5,7 +5,7 @@ import LinksDisplay from './(components)/links-display';
 import PhaseTable from './(components)/phase-table';
 import PuzzleTable from './(components)/puzzles-table';
 
-import { fetchAuthors, fetchPuzzles, fetchSolvesCount } from '@/lib/utils';
+import { fetchAuthors, fetchPuzzles } from '@/lib/utils';
 
 import ContainerLayout from '@/components/layouts/container';
 
@@ -16,12 +16,6 @@ import ContainerLayout from '@/components/layouts/container';
 const description = 'A CTF protocol, where players create and solve EVM puzzles to earn NFTs.';
 
 export async function generateMetadata(): Promise<Metadata> {
-  const [{ data: authors }, { data: puzzles }, { data: solvesCount }] = await Promise.all([
-    fetchAuthors(),
-    fetchPuzzles(),
-    fetchSolvesCount(),
-  ]);
-
   return {
     description,
     openGraph: {
@@ -30,7 +24,7 @@ export async function generateMetadata(): Promise<Metadata> {
       siteName: 'curta.wtf',
       url: 'https://curta.wtf',
       locale: 'en_US',
-      images: [
+      /* images: [
         {
           url:
             'https://curta.wtf/api/og?authors=' +
@@ -40,7 +34,7 @@ export async function generateMetadata(): Promise<Metadata> {
           height: 600,
           alt: 'Curta Open-Graph image',
         },
-      ],
+      ], */
     },
     twitter: {
       card: 'summary_large_image',
