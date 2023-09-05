@@ -220,7 +220,7 @@ const PuzzleTableMobileSubComponent: FC<{ data: Puzzle }> = ({ data }) => {
   const { phase, timeLeft } = getPuzzleTimeLeft(data.firstSolveTimestamp);
 
   return (
-    <div className="grid grid-cols-2 gap-x-2 gap-y-2 p-3">
+    <div className="grid grid-cols-2 gap-2 p-3">
       <Stat
         name="Time till next phase"
         value={<PuzzleTableCountdown phase={phase} timeLeft={timeLeft} />}

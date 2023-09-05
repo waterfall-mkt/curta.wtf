@@ -112,7 +112,7 @@ const PuzzleSolvesTableDesktop: FC<PuzzleSolvesTableInternalProps> = ({
         header: () => 'Solution',
         cell: ({ row }) => {
           return (
-            <div className="flex items-center justify-end gap-1">
+            <div className="flex justify-end">
               <IconButton
                 variant="outline"
                 intent="neutral"

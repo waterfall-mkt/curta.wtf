@@ -48,13 +48,6 @@ export type Puzzle = {
   disabled?: boolean;
 };
 
-export type Token = {
-  id: number;
-  puzzleAddress: `0x${string}`;
-  owner: `0x${string}`;
-  tokenImage: string;
-};
-
 export type Solve = {
   solver: `0x${string}`;
   solverEnsName?: string;
@@ -64,4 +57,21 @@ export type Solve = {
   phase: Phase;
   rank: number;
   tx: `0x${string}`;
+  puzzle?: Pick<Puzzle, 'id' | 'name' | 'author' | 'numberSolved' | 'addedTimestamp'>;
+};
+
+export type Solver = {
+  rank: number;
+  solver: `0x${string}`;
+  solverEnsName?: string;
+  solverEnsAvatar?: string;
+  count: {
+    phase0: number;
+    phase1: number;
+    phase2: number;
+    total: number;
+  };
+  points: number;
+  speedScore: number;
+  solves: Solve[];
 };

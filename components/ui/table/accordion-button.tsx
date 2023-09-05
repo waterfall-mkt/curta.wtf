@@ -16,8 +16,7 @@ const TableAccordionButton = <T,>({ row }: TableAccordionButtonProps<T>) => {
   return (
     <IconButton
       className="ml-auto"
-      size="sm"
-      variant="secondary"
+      variant="outline"
       intent="neutral"
       onClick={(e) => handleClick(e)}
       disabled={!row.getCanExpand()}

@@ -98,6 +98,9 @@ module.exports = {
           orange: '#f97316',
           red: '#ef4444',
         },
+        gold: {
+          DEFAULT: '#FACC15',
+        },
         green: {
           50: 'rgba(153, 255, 221, 1)',
           100: 'rgba(132, 252, 211, 1)',
