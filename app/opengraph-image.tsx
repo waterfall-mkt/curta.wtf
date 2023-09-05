@@ -1,6 +1,6 @@
 import { ImageResponse } from 'next/server';
 
-import { fetchAuthors, fetchPuzzles, fetchSolvesCount } from '@/lib/utils';
+//import { fetchAuthors, fetchPuzzles, fetchSolvesCount } from '@/lib/utils';
 
 /* const inter300 = fetch(
   new URL(
@@ -24,11 +24,11 @@ const inter600 = fetch(
 ).then((res) => res.arrayBuffer()); */
 
 export default async function Image() {
-  const [{ data: authors }, { data: puzzles }, { data: solvesCount }] = await Promise.all([
+  /* const [{ data: authors }, { data: puzzles }, { data: solvesCount }] = await Promise.all([
     fetchAuthors(),
     fetchPuzzles(),
     fetchSolvesCount(),
-  ]);
+  ]); */
 
   return new ImageResponse(
     (
