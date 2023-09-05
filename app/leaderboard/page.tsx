@@ -1,7 +1,17 @@
 import LeaderboardRevalidate from './(components)/revalidate';
 import LeaderboardTable from './(components)/table';
 
+import { getBaseMetadata } from '@/lib/utils';
 import { fetchLeaderboard } from '@/lib/utils';
+
+// -----------------------------------------------------------------------------
+// Metadata
+// -----------------------------------------------------------------------------
+
+export const metadata = getBaseMetadata({
+  title: 'Leaderboard',
+  description: 'Top performing developers on Curta.',
+});
 
 // -----------------------------------------------------------------------------
 // Page
