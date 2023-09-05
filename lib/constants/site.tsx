@@ -69,7 +69,6 @@ export const FOOTER_PAGES: Page[] = [
 export const NAVBAR_PAGES: Page[] = [
   { name: 'Puzzles', slug: '/' },
   { name: 'Leaderboard', slug: '/leaderboard' },
-  { name: 'Playground', slug: '/playground' },
   { name: 'Docs', slug: '/docs' },
   { name: 'Guides', slug: '/guides' },
 ];
