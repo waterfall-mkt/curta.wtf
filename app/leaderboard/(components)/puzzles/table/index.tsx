@@ -2,8 +2,8 @@
 
 import { type FC, Fragment, useState } from 'react';
 
-import LeaderboardTableDesktop from './desktop';
-import LeaderboardTableMobile from './mobile';
+import LeaderboardPuzzlesTableDesktop from './desktop';
+import LeaderboardPuzzlesTableMobile from './mobile';
 import type { Row, SortingState } from '@tanstack/react-table';
 
 import type { Solve, Solver } from '@/lib/types/protocol';
@@ -14,23 +14,23 @@ import type { TableProps } from '@/components/ui/table/types';
 // Props
 // -----------------------------------------------------------------------------
 
-type LeaderboardTableProps = {
+type LeaderboardPuzzlesTableProps = {
   data: Solver[];
 };
 
-export type LeaderboardTableInternalProps = Omit<TableProps<Solver>, 'columns'>;
+export type LeaderboardPuzzlesTableInternalProps = Omit<TableProps<Solver>, 'columns'>;
 
 // -----------------------------------------------------------------------------
 // Component
 // -----------------------------------------------------------------------------
 
-const LeaderboardTable: FC<LeaderboardTableProps> = ({ data }) => {
+const LeaderboardPuzzlesTable: FC<LeaderboardPuzzlesTableProps> = ({ data }) => {
   const [sorting, setSorting] = useState<SortingState>([]);
 
   return (
     <Fragment>
-      <LeaderboardTableDesktop data={data} sorting={sorting} setSorting={setSorting} />
-      <LeaderboardTableMobile data={data} sorting={sorting} setSorting={setSorting} />
+      <LeaderboardPuzzlesTableDesktop data={data} sorting={sorting} setSorting={setSorting} />
+      <LeaderboardPuzzlesTableMobile data={data} sorting={sorting} setSorting={setSorting} />
     </Fragment>
   );
 };
@@ -39,4 +39,4 @@ export const getPuzzleRowRoute = ({ row }: { row: Row<Solve> }): `/${string}` =>
   return `/puzzle/${row.original.puzzleId}`;
 };
 
-export default LeaderboardTable;
+export default LeaderboardPuzzlesTable;

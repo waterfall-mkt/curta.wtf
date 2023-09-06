@@ -2,7 +2,7 @@
 
 import { type FC, useMemo } from 'react';
 
-import { getPuzzleRowRoute, type LeaderboardTableInternalProps } from '.';
+import { getPuzzleRowRoute, type LeaderboardPuzzlesTableInternalProps } from '.';
 import type { ColumnDef } from '@tanstack/react-table';
 import { Crown, ExternalLink } from 'lucide-react';
 
@@ -16,7 +16,7 @@ import PhaseTag from '@/components/templates/phase-tag';
 import ProgressBar from '@/components/templates/progress-bar';
 import { IconButton, Table } from '@/components/ui';
 
-const LeaderboardTableDesktop: FC<LeaderboardTableInternalProps> = ({
+const LeaderboardPuzzlesTableDesktop: FC<LeaderboardPuzzlesTableInternalProps> = ({
   data,
   sorting,
   setSorting,
@@ -117,7 +117,7 @@ const LeaderboardTableDesktop: FC<LeaderboardTableInternalProps> = ({
       sorting={sorting}
       setSorting={setSorting}
       renderSubComponent={({ row }) => (
-        <LeaderboardTableDesktopSubComponent data={row.original.solves} />
+        <LeaderboardPuzzlesTableDesktopSubComponent data={row.original.solves} />
       )}
       topRounded={false}
       noBorder
@@ -125,7 +125,7 @@ const LeaderboardTableDesktop: FC<LeaderboardTableInternalProps> = ({
   );
 };
 
-const LeaderboardTableDesktopSubComponent: FC<{ data: Solve[] }> = ({ data }) => {
+const LeaderboardPuzzlesTableDesktopSubComponent: FC<{ data: Solve[] }> = ({ data }) => {
   const columns = useMemo<ColumnDef<Solve>[]>(
     () => [
       {
@@ -251,4 +251,4 @@ const LeaderboardTableDesktopSubComponent: FC<{ data: Solve[] }> = ({ data }) =>
   );
 };
 
-export default LeaderboardTableDesktop;
+export default LeaderboardPuzzlesTableDesktop;

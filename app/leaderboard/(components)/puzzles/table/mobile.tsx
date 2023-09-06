@@ -2,7 +2,7 @@
 
 import { type FC, useMemo } from 'react';
 
-import type { LeaderboardTableInternalProps } from '.';
+import type { LeaderboardPuzzlesTableInternalProps } from '.';
 import type { ColumnDef } from '@tanstack/react-table';
 import { ChevronRight, Crown, ExternalLink } from 'lucide-react';
 
@@ -15,7 +15,7 @@ import InfoTooltip from '@/components/templates/info-tooltip';
 import Stat from '@/components/templates/stat';
 import { Button, Table } from '@/components/ui';
 
-const LeaderboardTableMobile: FC<LeaderboardTableInternalProps> = ({
+const LeaderboardPuzzlesTableMobile: FC<LeaderboardPuzzlesTableInternalProps> = ({
   data,
   highlightValues,
   sorting,
@@ -85,14 +85,16 @@ const LeaderboardTableMobile: FC<LeaderboardTableInternalProps> = ({
       highlightAccessor="solver"
       highlightValues={highlightValues}
       setSorting={setSorting}
-      renderSubComponent={({ row }) => <LeaderboardTableMobileSubComponent data={row.original} />}
+      renderSubComponent={({ row }) => (
+        <LeaderboardPuzzlesTableMobileSubComponent data={row.original} />
+      )}
       topRounded={false}
       noBorder
     />
   );
 };
 
-const LeaderboardTableMobileSubComponent: FC<{ data: Solver }> = ({ data }) => {
+const LeaderboardPuzzlesTableMobileSubComponent: FC<{ data: Solver }> = ({ data }) => {
   return (
     <div className="flex flex-col">
       <div className="grid grid-cols-2 gap-2 p-3">
@@ -165,4 +167,4 @@ const LeaderboardTableMobileSubComponent: FC<{ data: Solver }> = ({ data }) => {
   );
 };
 
-export default LeaderboardTableMobile;
+export default LeaderboardPuzzlesTableMobile;

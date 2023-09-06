@@ -5,13 +5,13 @@ import supabase from '@/lib/services/supabase';
 import type { SupabaseSolve } from '@/lib/types/api';
 import type { Phase, Puzzle, Solver } from '@/lib/types/protocol';
 
-type LeaderboardResponse = {
+type LeaderboardPuzzlesResponse = {
   data: { data: Solver[]; puzzles: number; solvers: number; solves: number; lastUpdated: number };
   status: number;
   error: PostgrestError | null;
 };
 
-const fetchLeaderboard = async (
+const fetchLeaderboardPuzzles = async (
   {
     minPuzzleId = 0,
     maxPuzzleId = Number.MAX_SAFE_INTEGER,
@@ -19,7 +19,7 @@ const fetchLeaderboard = async (
     minPuzzleId?: number;
     maxPuzzleId?: number;
   } = { minPuzzleId: 0, maxPuzzleId: Number.MAX_SAFE_INTEGER },
-): Promise<LeaderboardResponse> => {
+): Promise<LeaderboardPuzzlesResponse> => {
   const now = Date.now();
 
   // Fetch solves.
@@ -123,4 +123,4 @@ const fetchLeaderboard = async (
   };
 };
 
-export default fetchLeaderboard;
+export default fetchLeaderboardPuzzles;
