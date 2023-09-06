@@ -242,4 +242,4 @@ export default async function Image() {
 // Next.js config
 // -----------------------------------------------------------------------------
 
-//export const runtime = 'edge';
+export const runtime = 'edge';
