@@ -1,6 +1,7 @@
 'use client';
 
-import { type FC, useState } from 'react';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { type FC, useCallback, useState } from 'react';
 
 import { ChevronRightCircle } from 'lucide-react';
 
@@ -21,8 +22,30 @@ type LeaderboardPuzzlesFiltersProps = {
 
 const LeaderboardPuzzlesFilters: FC<LeaderboardPuzzlesFiltersProps> = ({ maxSeason, puzzles }) => {
   const [season, setSeason] = useState<number>(maxSeason);
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
   const minPuzzleId = season === 0 ? 1 : (season - 1) * 5 + 1;
   const maxPuzzleId = season === 0 ? puzzles : Math.min(puzzles, season * 5);
+
+  // A helper function to update the URL search params when a user filters to a
+  // new season in the table via the UI to keep URL<>component states synced.
+  const updateSearchParams = useCallback(
+    (newSeason: number) => {
+      // Instantiate a new `URLSearchParams` object from the current search and
+      // replace the `puzzles-season` with the new page index.
+      const newSearchParams = new URLSearchParams(Array.from(searchParams.entries()));
+      newSearchParams.set('puzzles-season', newSeason.toString());
+
+      // If the new season is `maxSeason`, we want to remove `puzzles-season`
+      // from the search params entirely because the latest season is rendered
+      // by default.
+      if (newSeason === maxSeason) newSearchParams.delete('puzzles-season');
+
+      router.replace(`${pathname}?${newSearchParams.toString()}`);
+    },
+    [searchParams, maxSeason, router, pathname],
+  );
 
   return (
     <div className="flex items-center gap-2">
@@ -30,7 +53,12 @@ const LeaderboardPuzzlesFilters: FC<LeaderboardPuzzlesFiltersProps> = ({ maxSeas
         variant="secondary"
         defaultValue={maxSeason}
         value={season}
-        onChange={(e) => setSeason(Number(e.target.value))}
+        onChange={(e) => {
+          const newSeason = Number(e.target.value);
+
+          setSeason(newSeason);
+          updateSearchParams(newSeason);
+        }}
       >
         <Select.Item value={0}>All seasons</Select.Item>
         {Array(maxSeason)
