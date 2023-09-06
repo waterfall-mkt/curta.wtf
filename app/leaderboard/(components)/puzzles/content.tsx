@@ -1,7 +1,7 @@
 'use client';
 
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { type FC, Fragment, type UIEvent, useCallback, useState } from 'react';
+import { ChangeEvent, type FC, Fragment, type UIEvent, useCallback, useState } from 'react';
 
 import fetchLeaderboardData from './server-action';
 import LeaderboardPuzzlesTable from './table';
@@ -75,6 +75,29 @@ const LeaderboardPuzzlesContent: FC<LeaderboardPuzzlesContentProps> = ({
     [searchParams, maxSeason, router, pathname],
   );
 
+  // Function to keep everything synced when a new season is selected:
+  //     * Component state
+  //     * URL search params
+  //     * Displayed data
+  const onSeasonChange = async (e: ChangeEvent<HTMLSelectElement>) => {
+    const newSeason = Number(e.target.value);
+
+    setSeason(newSeason);
+    updateSearchParams(newSeason);
+    const newMinPuzzleId = newSeason === 0 ? 1 : (newSeason - 1) * 5 + 1;
+    const newMaxPuzzleId = newSeason === 0 ? puzzles : Math.min(puzzles, newSeason * 5);
+    setData(
+      (
+        await fetchLeaderboardData({
+          minPuzzleId: newMinPuzzleId,
+          maxPuzzleId: newMaxPuzzleId,
+        })
+      ).data,
+    );
+  };
+
+  // Function for setting scroll values to conditionally render gradient
+  // overflows.
   const onScroll = (event: UIEvent<HTMLDivElement>) => {
     const target = event.target as HTMLDivElement;
     const scrollLeft = target.scrollLeft;
@@ -94,22 +117,7 @@ const LeaderboardPuzzlesContent: FC<LeaderboardPuzzlesContentProps> = ({
               variant="secondary"
               defaultValue={defaultSeason}
               value={season}
-              onChange={async (e) => {
-                const newSeason = Number(e.target.value);
-
-                setSeason(newSeason);
-                updateSearchParams(newSeason);
-                const newMinPuzzleId = newSeason === 0 ? 1 : (newSeason - 1) * 5 + 1;
-                const newMaxPuzzleId = newSeason === 0 ? puzzles : Math.min(puzzles, newSeason * 5);
-                setData(
-                  (
-                    await fetchLeaderboardData({
-                      minPuzzleId: newMinPuzzleId,
-                      maxPuzzleId: newMaxPuzzleId,
-                    })
-                  ).data,
-                );
-              }}
+              onChange={onSeasonChange}
               aria-label="Select a puzzles season leaderboard to view."
             >
               <Select.Item value={0}>All seasons</Select.Item>
