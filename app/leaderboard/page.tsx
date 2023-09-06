@@ -1,8 +1,7 @@
+import LeaderboardPuzzles from './(components)/puzzles';
 import LeaderboardRevalidate from './(components)/revalidate';
-import LeaderboardTable from './(components)/table';
 
-import { getBaseMetadata } from '@/lib/utils';
-import { fetchLeaderboard } from '@/lib/utils';
+import { fetchPuzzlesCount, getBaseMetadata } from '@/lib/utils';
 
 // -----------------------------------------------------------------------------
 // Metadata
@@ -18,7 +17,7 @@ export const metadata = getBaseMetadata({
 // -----------------------------------------------------------------------------
 
 export default async function Page() {
-  const { data } = await fetchLeaderboard();
+  const { data } = await fetchPuzzlesCount();
   const lastUpdated = new Date(data.lastUpdated);
 
   return (
@@ -26,7 +25,7 @@ export default async function Page() {
       <h1 className="mb-2 text-xl font-medium text-gray-50 md:mb-4 md:text-display-md">
         Leaderboard
       </h1>
-      <LeaderboardTable data={data.data} />
+      <LeaderboardPuzzles puzzles={data.count} />
       <LeaderboardRevalidate lastUpdated={lastUpdated} />
     </div>
   );

@@ -43,7 +43,7 @@ const PuzzleInfoTimeLeftAccordion: FC<PuzzleInfoTimeLeftAccordionProps> = ({ pha
       <Accordion.Item value="timeline" className="w-full">
         <Accordion.Trigger className="group z-10 flex h-9 w-full items-center justify-between rounded-lg border border-gray-300 bg-gray-600 px-3 text-sm font-medium text-gray-150 transition-colors hover:border-gray-250 hover:text-gray-100 focus:outline-none focus-visible:outline focus-visible:-outline-offset-1 focus-visible:outline-blue-250 active:bg-gray-450 data-[state='open']:rounded-b-none data-[state='open']:text-gray-100 data-[state='open']:focus-visible:rounded-b-sm">
           <div className="flex items-center space-x-2.5">
-            <PhaseTagPing phase={phase} />
+            <PhaseTagPing phase={phase} isPinging={phase < 3} />
             <span>{text}</span>
           </div>
           <ChevronRight className="h-4 w-4 transition-transform group-data-[state='open']:rotate-90" />

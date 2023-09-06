@@ -1,6 +1,6 @@
 import { ImageResponse } from 'next/server';
 
-import { fetchAuthors, fetchPuzzles, fetchSolvesCount } from '@/lib/utils';
+import { fetchAuthors, fetchPuzzlesCount, fetchSolvesCount } from '@/lib/utils';
 
 // -----------------------------------------------------------------------------
 // Image
@@ -17,7 +17,7 @@ export default async function Image() {
 
   const [{ data: authors }, { data: puzzles }, { data: solvesCount }] = await Promise.all([
     fetchAuthors(),
-    fetchPuzzles(),
+    fetchPuzzlesCount(),
     fetchSolvesCount(),
   ]);
 
@@ -128,7 +128,7 @@ export default async function Image() {
                       letterSpacing: '-0.05em',
                     }}
                   >
-                    {puzzles.length}
+                    {puzzles.count}
                   </div>
                   <div style={{ display: 'flex', color: '#758195', fontSize: 24, lineHeight: 1 }}>
                     Puzzles

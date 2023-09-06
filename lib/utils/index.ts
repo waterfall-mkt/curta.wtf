@@ -1,8 +1,9 @@
 import fetchAuthors from './fetchAuthors';
-import fetchLeaderboard from './fetchLeaderboard';
+import fetchLeaderboardPuzzles from './fetchLeaderboardPuzzles';
 import fetchPuzzleById from './fetchPuzzleById';
 import fetchPuzzleFlagColors from './fetchPuzzleFlagColors';
 import fetchPuzzles from './fetchPuzzles';
+import fetchPuzzlesCount from './fetchPuzzlesCount';
 import fetchPuzzleSolvesById from './fetchPuzzleSolvesById';
 import fetchSolvesCount from './fetchSolvesCount';
 import formatValueToPrecision from './formatValueToPrecision';
@@ -13,10 +14,11 @@ import getTimeLeftString from './getTimeLeftString';
 
 export {
   fetchAuthors,
-  fetchLeaderboard,
+  fetchLeaderboardPuzzles,
   fetchPuzzleById,
   fetchPuzzleFlagColors,
   fetchPuzzles,
+  fetchPuzzlesCount,
   fetchPuzzleSolvesById,
   fetchSolvesCount,
   formatValueToPrecision,

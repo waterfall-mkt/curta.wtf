@@ -2,7 +2,7 @@
 
 import { type FC, useMemo } from 'react';
 
-import { getPuzzleRowRoute, type LeaderboardTableInternalProps } from '.';
+import { getPuzzleRowRoute, type LeaderboardPuzzlesTableInternalProps } from '.';
 import type { ColumnDef } from '@tanstack/react-table';
 import { Crown, ExternalLink } from 'lucide-react';
 
@@ -16,7 +16,7 @@ import PhaseTag from '@/components/templates/phase-tag';
 import ProgressBar from '@/components/templates/progress-bar';
 import { IconButton, Table } from '@/components/ui';
 
-const LeaderboardTableDesktop: FC<LeaderboardTableInternalProps> = ({
+const LeaderboardPuzzlesTableDesktop: FC<LeaderboardPuzzlesTableInternalProps> = ({
   data,
   sorting,
   setSorting,
@@ -72,7 +72,11 @@ const LeaderboardTableDesktop: FC<LeaderboardTableInternalProps> = ({
           return (
             <div className="flex flex-col gap-1">
               <span>{row.original.speedScore}</span>
-              <ProgressBar value={row.original.speedScore} total={100} />
+              <ProgressBar
+                value={row.original.speedScore}
+                total={100}
+                aria-label={`${row.original.solver}'s speed score: ${row.original.speedScore}.`}
+              />
             </div>
           );
         },
@@ -101,7 +105,7 @@ const LeaderboardTableDesktop: FC<LeaderboardTableInternalProps> = ({
       {
         accessorKey: 'accordion',
         cell: ({ row }) => <Table.AccordionButton row={row} />,
-        header: () => null,
+        header: () => 'Expand',
         footer: (props) => props.column.id,
         size: 75,
       },
@@ -117,13 +121,15 @@ const LeaderboardTableDesktop: FC<LeaderboardTableInternalProps> = ({
       sorting={sorting}
       setSorting={setSorting}
       renderSubComponent={({ row }) => (
-        <LeaderboardTableDesktopSubComponent data={row.original.solves} />
+        <LeaderboardPuzzlesTableDesktopSubComponent data={row.original.solves} />
       )}
+      topRounded={false}
+      noBorder
     />
   );
 };
 
-const LeaderboardTableDesktopSubComponent: FC<{ data: Solve[] }> = ({ data }) => {
+const LeaderboardPuzzlesTableDesktopSubComponent: FC<{ data: Solve[] }> = ({ data }) => {
   const columns = useMemo<ColumnDef<Solve>[]>(
     () => [
       {
@@ -190,7 +196,11 @@ const LeaderboardTableDesktopSubComponent: FC<{ data: Solve[] }> = ({ data }) =>
                 <div className="grow" />
                 {row.original.phase === 0 ? <Crown className="h-4 w-4 text-gold" /> : null}
               </div>
-              <ProgressBar value={total - rank} total={total - 1} />
+              <ProgressBar
+                value={total - rank}
+                total={total - 1}
+                aria-label={`${row.original.solver} ranked ${row.original.rank}.`}
+              />
             </div>
           );
         },
@@ -201,7 +211,7 @@ const LeaderboardTableDesktopSubComponent: FC<{ data: Solve[] }> = ({ data }) =>
         accessorKey: 'phase',
         header: () => 'Phase solved',
         cell: ({ row }) => {
-          return <PhaseTag phase={row.original.phase} />;
+          return <PhaseTag phase={row.original.phase} isPinging={row.original.phase < 3} />;
         },
         footer: (props) => props.column.id,
         size: 105,
@@ -249,4 +259,4 @@ const LeaderboardTableDesktopSubComponent: FC<{ data: Solve[] }> = ({ data }) =>
   );
 };
 
-export default LeaderboardTableDesktop;
+export default LeaderboardPuzzlesTableDesktop;
