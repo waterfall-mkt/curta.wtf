@@ -7,8 +7,8 @@ import { fetchAuthors, fetchPuzzles, fetchSolvesCount } from '@/lib/utils';
 // -----------------------------------------------------------------------------
 
 export default async function Image() {
-  const inter300 = fetch(
-    new URL('../node_modules/@fontsource/inter/files/inter-latin-300-normal.woff', import.meta.url),
+  const inter400 = fetch(
+    new URL('../node_modules/@fontsource/inter/files/inter-latin-400-normal.woff', import.meta.url),
   ).then((res) => res.arrayBuffer());
 
   const inter600 = fetch(
@@ -32,7 +32,7 @@ export default async function Image() {
           backgroundColor: '#0D1017',
           width: '100%',
           height: '100%',
-          fontFamily: 'Inter 300',
+          fontFamily: 'Inter 400',
         }}
       >
         <div style={{ display: 'flex', flexDirection: 'column' }}>
@@ -243,7 +243,7 @@ export default async function Image() {
       width: 1200,
       height: 630,
       fonts: [
-        { name: 'Inter 300', data: await inter300 },
+        { name: 'Inter 400', data: await inter400 },
         { name: 'Inter 600', data: await inter600 },
       ],
     },

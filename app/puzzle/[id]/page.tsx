@@ -6,7 +6,7 @@ import PuzzleInfo from './(components)/info';
 import PuzzleProblemDisplay from './(components)/problem-display';
 import PuzzleSolvesTable from './(components)/solves-table';
 
-import { fetchPuzzleById, fetchPuzzleSolvesById } from '@/lib/utils';
+import { fetchPuzzleById, fetchPuzzleSolvesById, getBaseMetadata } from '@/lib/utils';
 
 // -----------------------------------------------------------------------------
 // Metadata
@@ -18,28 +18,7 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
   const { data: puzzle } = await fetchPuzzleById(Number(params.id));
   if (!puzzle) return {};
 
-  const title = `Puzzle #${puzzle.id}`;
-
-  return {
-    title,
-    description,
-    openGraph: {
-      title: `${title} | Curta`,
-      description,
-      siteName: 'curta.wtf',
-      url: 'https://curta.wtf',
-      locale: 'en_US',
-    },
-    twitter: {
-      card: 'summary_large_image',
-      title: `${title} | Curta`,
-      description,
-      site: '@curta_ctf',
-      siteId: '1604186457165406210',
-      creator: '@waterfall_mkt',
-      creatorId: '1466508083929223176',
-    },
-  };
+  return getBaseMetadata({ title: `Puzzle #${puzzle.id}`, description });
 }
 
 // -----------------------------------------------------------------------------
