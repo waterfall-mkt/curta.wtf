@@ -2,13 +2,21 @@ import { ImageResponse } from 'next/server';
 
 import { fetchAuthors, fetchPuzzles, fetchSolvesCount } from '@/lib/utils';
 
+// -----------------------------------------------------------------------------
+// Fonts
+// -----------------------------------------------------------------------------
+
 const inter300 = fetch(
-  new URL('../public/fonts/inter-latin-300-normal.woff', import.meta.url),
+  new URL('../node_modules/@fontsource/inter/files/inter-latin-300-normal.woff', import.meta.url),
 ).then((res) => res.arrayBuffer());
 
 const inter600 = fetch(
-  new URL('../public/fonts/inter-latin-600-normal.woff', import.meta.url),
+  new URL('../node_modules/@fontsource/inter/files/inter-latin-600-normal.woff', import.meta.url),
 ).then((res) => res.arrayBuffer());
+
+// -----------------------------------------------------------------------------
+// Image
+// -----------------------------------------------------------------------------
 
 export default async function Image() {
   const [{ data: authors }, { data: puzzles }, { data: solvesCount }] = await Promise.all([
@@ -230,4 +238,8 @@ export default async function Image() {
   );
 }
 
-export const runtime = 'edge';
+// -----------------------------------------------------------------------------
+// Next.js config
+// -----------------------------------------------------------------------------
+
+//export const runtime = 'edge';
