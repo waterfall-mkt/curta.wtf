@@ -3,11 +3,11 @@ import { ImageResponse } from 'next/server';
 import { fetchAuthors, fetchPuzzles, fetchSolvesCount } from '@/lib/utils';
 
 const inter300 = fetch(
-  new URL('../node_modules/@fontsource/inter/files/inter-latin-300-normal.woff', import.meta.url),
+  new URL('../public/fonts/inter-latin-300-normal.woff', import.meta.url),
 ).then((res) => res.arrayBuffer());
 
 const inter600 = fetch(
-  new URL('../node_modules/@fontsource/inter/files/inter-latin-600-normal.woff', import.meta.url),
+  new URL('../public/fonts/inter-latin-600-normal.woff', import.meta.url),
 ).then((res) => res.arrayBuffer());
 
 export default async function Image() {
