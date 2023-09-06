@@ -24,17 +24,6 @@ export async function generateMetadata(): Promise<Metadata> {
       siteName: 'curta.wtf',
       url: 'https://curta.wtf',
       locale: 'en_US',
-      /* images: [
-        {
-          url:
-            'https://curta.wtf/api/og?authors=' +
-            `${authors.length}&puzzles=${puzzles.length}&display=1` +
-            `&solvers=${solvesCount.solvers}&solves=${solvesCount.solves}`,
-          width: 1200,
-          height: 600,
-          alt: 'Curta Open-Graph image',
-        },
-      ], */
     },
     twitter: {
       card: 'summary_large_image',
