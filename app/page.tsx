@@ -15,26 +15,24 @@ import ContainerLayout from '@/components/layouts/container';
 
 const description = 'A CTF protocol, where players create and solve EVM puzzles to earn NFTs.';
 
-export async function generateMetadata(): Promise<Metadata> {
-  return {
+export const metadata: Metadata = {
+  description,
+  openGraph: {
+    title: 'Curta, a CTF protocol',
     description,
-    openGraph: {
-      title: 'Curta, a CTF protocol',
-      description,
-      siteName: 'curta.wtf',
-      url: 'https://curta.wtf',
-      locale: 'en_US',
-    },
-    twitter: {
-      card: 'summary_large_image',
-      description,
-      site: '@curta_ctf',
-      siteId: '1604186457165406210',
-      creator: '@waterfall_mkt',
-      creatorId: '1466508083929223176',
-    },
-  };
-}
+    siteName: 'curta.wtf',
+    url: 'https://curta.wtf',
+    locale: 'en_US',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    description,
+    site: '@curta_ctf',
+    siteId: '1604186457165406210',
+    creator: '@waterfall_mkt',
+    creatorId: '1466508083929223176',
+  },
+};
 
 // -----------------------------------------------------------------------------
 // Page
