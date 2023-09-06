@@ -5,7 +5,7 @@ import { type FC, Fragment, useMemo, useState } from 'react';
 import PuzzleTableCountdown from './countdown';
 import PuzzleTableInfo from './puzzle-table-info';
 import type { ColumnDef, Row, SortingState } from '@tanstack/react-table';
-import { File, Github } from 'lucide-react';
+import { ExternalLink, File, Github } from 'lucide-react';
 
 import type { Puzzle } from '@/lib/types/protocol';
 import { getPuzzleTimeLeft } from '@/lib/utils';
@@ -285,7 +285,7 @@ const PuzzleTableMobileSubComponent: FC<{ data: Puzzle }> = ({ data }) => {
                 }}
                 aria-label={`View puzzle #${data.id}'s contract.`}
               >
-                <Github />
+                <ExternalLink />
               </IconButton>
             }
           </div>
