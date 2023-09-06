@@ -25,7 +25,9 @@ const PhaseTable: FC = () => {
       {
         accessorKey: 'phase',
         header: () => 'Phase',
-        cell: ({ row }) => <PhaseTag phase={row.original.phase} />,
+        cell: ({ row }) => (
+          <PhaseTag phase={row.original.phase} isPinging={row.original.phase < 3} />
+        ),
         footer: (props) => props.column.id,
       },
       {

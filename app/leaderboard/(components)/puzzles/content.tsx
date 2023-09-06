@@ -9,6 +9,7 @@ import { ChevronRightCircle, ExternalLink } from 'lucide-react';
 
 import type { LeaderboardPuzzlesResponse } from '@/lib/utils/fetchLeaderboardPuzzles';
 
+import PhaseTagPing from '@/components/templates/phase-tag/ping';
 import { Button, Select } from '@/components/ui';
 
 // -----------------------------------------------------------------------------
@@ -50,7 +51,7 @@ const LeaderboardPuzzlesContent: FC<LeaderboardPuzzlesContentProps> = ({
   const router = useRouter();
   const pathname = usePathname();
   const minPuzzleId = season === 0 ? 1 : (season - 1) * 5 + 1;
-  const maxPuzzleId = season === 0 ? puzzles : Math.min(puzzles, season * 5);
+  const isSeasonOver = season * 5 <= puzzles;
 
   // A helper function to update the URL search params when a user filters to a
   // new season in the table via the UI to keep URL<>component states synced.
@@ -114,21 +115,35 @@ const LeaderboardPuzzlesContent: FC<LeaderboardPuzzlesContentProps> = ({
             <div className="flex items-center gap-2 overflow-x-scroll">
               {[
                 {
-                  value: `Puzzles ${minPuzzleId}-${maxPuzzleId}`,
-                  hidden: minPuzzleId === maxPuzzleId,
+                  children: (
+                    <Fragment>
+                      {season > 0 ? (
+                        <PhaseTagPing
+                          phase={isSeasonOver ? 3 : 0}
+                          isPinging={!isSeasonOver}
+                          title={
+                            isSeasonOver
+                              ? 'All puzzles for this season have been added.'
+                              : 'There are still puzzles to be added for this season.'
+                          }
+                        />
+                      ) : null}
+                      <span>
+                        Puzzles {minPuzzleId}-{season > 0 ? season * 5 : puzzles}
+                      </span>
+                    </Fragment>
+                  ),
                 },
-                { value: `${data?.solvers ?? defaultData.solvers} solvers` },
-                { value: `${data?.solves ?? defaultData.solves} solves` },
-              ].map((item, index) =>
-                item.hidden ? null : (
-                  <div
-                    key={index}
-                    className="line-clamp-1 flex h-6 min-w-fit items-center rounded-full border border-stroke bg-gray-450 px-2 text-xs font-normal text-gray-100"
-                  >
-                    {item.value}
-                  </div>
-                ),
-              )}
+                { children: `${data?.solvers ?? defaultData.solvers} solvers` },
+                { children: `${data?.solves ?? defaultData.solves} solves` },
+              ].map((item, index) => (
+                <div
+                  key={index}
+                  className="line-clamp-1 flex h-6 min-w-fit items-center gap-1.5 rounded-full border border-stroke bg-gray-450 px-2 text-xs font-normal text-gray-100"
+                >
+                  {item.children}
+                </div>
+              ))}
             </div>
           </div>
           <Button

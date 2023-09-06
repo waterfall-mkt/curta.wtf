@@ -211,7 +211,7 @@ const LeaderboardPuzzlesTableDesktopSubComponent: FC<{ data: Solve[] }> = ({ dat
         accessorKey: 'phase',
         header: () => 'Phase solved',
         cell: ({ row }) => {
-          return <PhaseTag phase={row.original.phase} />;
+          return <PhaseTag phase={row.original.phase} isPinging={row.original.phase < 3} />;
         },
         footer: (props) => props.column.id,
         size: 105,
