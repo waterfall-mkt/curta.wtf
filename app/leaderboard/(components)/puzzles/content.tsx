@@ -96,6 +96,7 @@ const LeaderboardPuzzlesContent: FC<LeaderboardPuzzlesContentProps> = ({
                   ).data,
                 );
               }}
+              aria-label="Select a puzzles season leaderboard to view."
             >
               <Select.Item value={0}>All seasons</Select.Item>
               {Array(maxSeason)

@@ -196,7 +196,7 @@ const PuzzleTableMobile: FC<PuzzleTableInternalProps> = ({ data, sorting, setSor
       {
         accessorKey: 'accordion',
         cell: ({ row }) => <Table.AccordionButton row={row} />,
-        header: () => null,
+        header: () => 'Expand',
         footer: (props) => props.column.id,
       },
     ],

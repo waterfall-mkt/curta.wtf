@@ -72,7 +72,11 @@ const LeaderboardPuzzlesTableDesktop: FC<LeaderboardPuzzlesTableInternalProps> =
           return (
             <div className="flex flex-col gap-1">
               <span>{row.original.speedScore}</span>
-              <ProgressBar value={row.original.speedScore} total={100} />
+              <ProgressBar
+                value={row.original.speedScore}
+                total={100}
+                aria-label={`${row.original.solver}'s speed score: ${row.original.speedScore}.`}
+              />
             </div>
           );
         },
@@ -101,7 +105,7 @@ const LeaderboardPuzzlesTableDesktop: FC<LeaderboardPuzzlesTableInternalProps> =
       {
         accessorKey: 'accordion',
         cell: ({ row }) => <Table.AccordionButton row={row} />,
-        header: () => null,
+        header: () => 'Expand',
         footer: (props) => props.column.id,
         size: 75,
       },
@@ -192,7 +196,11 @@ const LeaderboardPuzzlesTableDesktopSubComponent: FC<{ data: Solve[] }> = ({ dat
                 <div className="grow" />
                 {row.original.phase === 0 ? <Crown className="h-4 w-4 text-gold" /> : null}
               </div>
-              <ProgressBar value={total - rank} total={total - 1} />
+              <ProgressBar
+                value={total - rank}
+                total={total - 1}
+                aria-label={`${row.original.solver} ranked ${row.original.rank}.`}
+              />
             </div>
           );
         },
