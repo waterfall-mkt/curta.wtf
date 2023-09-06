@@ -86,6 +86,8 @@ const LeaderboardTableMobile: FC<LeaderboardTableInternalProps> = ({
       highlightValues={highlightValues}
       setSorting={setSorting}
       renderSubComponent={({ row }) => <LeaderboardTableMobileSubComponent data={row.original} />}
+      topRounded={false}
+      noBorder
     />
   );
 };

@@ -119,6 +119,8 @@ const LeaderboardTableDesktop: FC<LeaderboardTableInternalProps> = ({
       renderSubComponent={({ row }) => (
         <LeaderboardTableDesktopSubComponent data={row.original.solves} />
       )}
+      topRounded={false}
+      noBorder
     />
   );
 };

@@ -6,22 +6,36 @@ import type { SupabaseSolve } from '@/lib/types/api';
 import type { Phase, Puzzle, Solver } from '@/lib/types/protocol';
 
 type LeaderboardResponse = {
-  data: { data: Solver[]; lastUpdated: number };
+  data: { data: Solver[]; puzzles: number; solvers: number; solves: number; lastUpdated: number };
   status: number;
   error: PostgrestError | null;
 };
 
-const fetchLeaderboard = async (): Promise<LeaderboardResponse> => {
+const fetchLeaderboard = async (
+  {
+    minPuzzleId = 0,
+    maxPuzzleId = Number.MAX_SAFE_INTEGER,
+  }: {
+    minPuzzleId?: number;
+    maxPuzzleId?: number;
+  } = { minPuzzleId: 0, maxPuzzleId: Number.MAX_SAFE_INTEGER },
+): Promise<LeaderboardResponse> => {
   const now = Date.now();
 
   // Fetch solves.
   const { data, status, error } = await supabase
     .from('solves')
     .select('*')
+    .gte('puzzleId', minPuzzleId)
+    .lte('puzzleId', maxPuzzleId)
     .returns<SupabaseSolve[]>();
 
   if ((error && status !== 406) || !data || (data && data.length === 0)) {
-    return { data: { data: [], lastUpdated: now }, status, error };
+    return {
+      data: { data: [], puzzles: 0, solvers: 0, solves: 0, lastUpdated: now },
+      status,
+      error,
+    };
   }
 
   // Fetch puzzles.
@@ -94,11 +108,19 @@ const fetchLeaderboard = async (): Promise<LeaderboardResponse> => {
       };
     })
     .sort((a, b) => b.speedScore - a.speedScore)
-    .sort((a, b) => b.points - a.points)
-    .slice(0, 100)
-    .map((item, index) => ({ ...item, rank: index + 1 }));
+    .sort((a, b) => b.points - a.points);
 
-  return { data: { data: solvers, lastUpdated: now }, status, error };
+  return {
+    data: {
+      data: solvers.slice(0, 100).map((item, index) => ({ ...item, rank: index + 1 })),
+      puzzles: puzzles?.length ?? 0,
+      solvers: solvers.length,
+      solves: data.length,
+      lastUpdated: now,
+    },
+    status,
+    error,
+  };
 };
 
 export default fetchLeaderboard;
