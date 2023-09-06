@@ -71,7 +71,7 @@ export default async function Image() {
                   height={40}
                   viewBox="0 0 24 24"
                   fill="none"
-                  stroke="#6D7D8E"
+                  stroke="#758195"
                   stroke-width="2"
                   stroke-linecap="round"
                   stroke-linejoin="round"
@@ -95,7 +95,7 @@ export default async function Image() {
                   >
                     {authors.length}
                   </div>
-                  <div style={{ display: 'flex', color: '#6D7D8E', fontSize: 24, lineHeight: 1 }}>
+                  <div style={{ display: 'flex', color: '#758195', fontSize: 24, lineHeight: 1 }}>
                     Authors
                   </div>
                 </div>
@@ -108,7 +108,7 @@ export default async function Image() {
                   height={40}
                   viewBox="0 0 24 24"
                   fill="none"
-                  stroke="#6D7D8E"
+                  stroke="#758195"
                   stroke-width="2"
                   stroke-linecap="round"
                   stroke-linejoin="round"
@@ -130,7 +130,7 @@ export default async function Image() {
                   >
                     {puzzles.length}
                   </div>
-                  <div style={{ display: 'flex', color: '#6D7D8E', fontSize: 24, lineHeight: 1 }}>
+                  <div style={{ display: 'flex', color: '#758195', fontSize: 24, lineHeight: 1 }}>
                     Puzzles
                   </div>
                 </div>
@@ -143,7 +143,7 @@ export default async function Image() {
                   height={40}
                   viewBox="0 0 24 24"
                   fill="none"
-                  stroke="#6D7D8E"
+                  stroke="#758195"
                   stroke-width="2"
                   stroke-linecap="round"
                   stroke-linejoin="round"
@@ -166,7 +166,7 @@ export default async function Image() {
                   >
                     {solvesCount.solvers}
                   </div>
-                  <div style={{ display: 'flex', color: '#6D7D8E', fontSize: 24, lineHeight: 1 }}>
+                  <div style={{ display: 'flex', color: '#758195', fontSize: 24, lineHeight: 1 }}>
                     Solvers
                   </div>
                 </div>
@@ -179,7 +179,7 @@ export default async function Image() {
                   height={40}
                   viewBox="0 0 24 24"
                   fill="none"
-                  stroke="#6D7D8E"
+                  stroke="#758195"
                   stroke-width="2"
                   stroke-linecap="round"
                   stroke-linejoin="round"
@@ -202,7 +202,7 @@ export default async function Image() {
                   >
                     {solvesCount.solves}
                   </div>
-                  <div style={{ display: 'flex', color: '#6D7D8E', fontSize: 24, lineHeight: 1 }}>
+                  <div style={{ display: 'flex', color: '#758195', fontSize: 24, lineHeight: 1 }}>
                     Solves
                   </div>
                 </div>

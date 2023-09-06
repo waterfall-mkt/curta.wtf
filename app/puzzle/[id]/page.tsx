@@ -6,12 +6,7 @@ import PuzzleInfo from './(components)/info';
 import PuzzleProblemDisplay from './(components)/problem-display';
 import PuzzleSolvesTable from './(components)/solves-table';
 
-import {
-  fetchPuzzleById,
-  fetchPuzzleFlagColors,
-  fetchPuzzleSolvesById,
-  getPuzzleTimeLeft,
-} from '@/lib/utils';
+import { fetchPuzzleById, fetchPuzzleSolvesById } from '@/lib/utils';
 
 // -----------------------------------------------------------------------------
 // Metadata
@@ -20,31 +15,10 @@ import {
 const description = 'A CTF protocol, where players create and solve EVM puzzles to earn NFTs.';
 
 export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
-  const [{ data: puzzle }, { colors }] = await Promise.all([
-    fetchPuzzleById(Number(params.id)),
-    fetchPuzzleFlagColors(Number(params.id)),
-  ]);
+  const { data: puzzle } = await fetchPuzzleById(Number(params.id));
   if (!puzzle) return {};
 
-  const queryParams = [
-    `author=${puzzle.author.address}`,
-    `id=${puzzle.id}`,
-    `phase=${getPuzzleTimeLeft(puzzle.firstSolveTimestamp).phase}`,
-    `solves=${puzzle.numberSolved}`,
-    `name=${puzzle.name}`,
-  ];
-
-  if (puzzle.firstSolveTimestamp) {
-    queryParams.push(`firstSolve=${puzzle.solveTime}`);
-  }
-
-  if (colors) {
-    queryParams.push(`colors=${colors}`);
-  }
-
-  const query = queryParams.join('&');
   const title = `Puzzle #${puzzle.id}`;
-  const url = `https://curta.wtf/api/og/puzzle?${query}`;
 
   return {
     title,
@@ -55,14 +29,6 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
       siteName: 'curta.wtf',
       url: 'https://curta.wtf',
       locale: 'en_US',
-      images: [
-        {
-          url,
-          width: 1200,
-          height: 627,
-          alt: `Curta puzzle ${puzzle.id} Open-Graph image`,
-        },
-      ],
     },
     twitter: {
       card: 'summary_large_image',
