@@ -1,6 +1,7 @@
 lockfileVersion: 5.4
 
 specifiers:
+  '@fontsource/inter': ^5.0.8
   '@mdx-js/loader': ^2.3.0
   '@mdx-js/react': ^2.3.0
   '@next/mdx': ^13.4.13
@@ -60,6 +61,7 @@ specifiers:
   webpack: '>=4'
 
 dependencies:
+  '@fontsource/inter': 5.0.8
   '@mdx-js/loader': 2.3.0_webpack@5.88.2
   '@mdx-js/react': 2.3.0_react@18.2.0
   '@next/mdx': 13.4.13_msthxdjvrhmdkfpqqalumiidgq
@@ -351,6 +353,10 @@ packages:
 
   /@floating-ui/utils/0.1.1:
     resolution: {integrity: sha512-m0G6wlnhm/AX0H12IOWtK8gASEMffnX08RtKkCgTdHb9JpHKGloI7icFfLg9ZmQeavcvR0PKmzxClyuFPSjKWw==}
+    dev: false
+
+  /@fontsource/inter/5.0.8:
+    resolution: {integrity: sha512-28knWH1BfOiRalfLs90U4sge5mpQ8ZH6FS0PTT+IZMKrZ7wNHDHRuKa1kQJg+uHcc6axBppnxll+HXM4c7zo/Q==}
     dev: false
 
   /@humanwhocodes/config-array/0.11.10:

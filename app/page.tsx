@@ -5,7 +5,7 @@ import LinksDisplay from './(components)/links-display';
 import PhaseTable from './(components)/phase-table';
 import PuzzleTable from './(components)/puzzles-table';
 
-import { fetchAuthors, fetchPuzzles, fetchSolvesCount } from '@/lib/utils';
+import { fetchAuthors, fetchPuzzles } from '@/lib/utils';
 
 import ContainerLayout from '@/components/layouts/container';
 
@@ -15,43 +15,24 @@ import ContainerLayout from '@/components/layouts/container';
 
 const description = 'A CTF protocol, where players create and solve EVM puzzles to earn NFTs.';
 
-export async function generateMetadata(): Promise<Metadata> {
-  const [{ data: authors }, { data: puzzles }, { data: solvesCount }] = await Promise.all([
-    fetchAuthors(),
-    fetchPuzzles(),
-    fetchSolvesCount(),
-  ]);
-
-  return {
+export const metadata: Metadata = {
+  description,
+  openGraph: {
+    title: 'Curta, a CTF protocol',
     description,
-    openGraph: {
-      title: 'Curta, a CTF protocol',
-      description,
-      siteName: 'curta.wtf',
-      url: 'https://curta.wtf',
-      locale: 'en_US',
-      images: [
-        {
-          url:
-            'https://curta.wtf/api/og?authors=' +
-            `${authors.length}&puzzles=${puzzles.length}&display=1` +
-            `&solvers=${solvesCount.solvers}&solves=${solvesCount.solves}`,
-          width: 1200,
-          height: 600,
-          alt: 'Curta Open-Graph image',
-        },
-      ],
-    },
-    twitter: {
-      card: 'summary_large_image',
-      description,
-      site: '@curta_ctf',
-      siteId: '1604186457165406210',
-      creator: '@waterfall_mkt',
-      creatorId: '1466508083929223176',
-    },
-  };
-}
+    siteName: 'curta.wtf',
+    url: 'https://curta.wtf',
+    locale: 'en_US',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    description,
+    site: '@curta_ctf',
+    siteId: '1604186457165406210',
+    creator: '@waterfall_mkt',
+    creatorId: '1466508083929223176',
+  },
+};
 
 // -----------------------------------------------------------------------------
 // Page
