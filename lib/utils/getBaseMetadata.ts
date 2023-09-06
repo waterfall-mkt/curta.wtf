@@ -11,6 +11,7 @@ const getBaseMetadata = ({
 }): Metadata => {
   return {
     title,
+    description,
     openGraph: {
       title: titleTemplate.replace('%s', title),
       description,

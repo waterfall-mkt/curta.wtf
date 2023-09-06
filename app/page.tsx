@@ -16,6 +16,7 @@ import ContainerLayout from '@/components/layouts/container';
 const description = 'A CTF protocol, where players create and solve EVM puzzles to earn NFTs.';
 
 export const metadata: Metadata = {
+  title: 'Curta',
   description,
   openGraph: {
     title: 'Curta, a CTF protocol',
