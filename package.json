@@ -50,6 +50,7 @@
     "rehype-mdx-code-props": "^1.0.0",
     "remark-gfm": "^3.0.1",
     "remark-math": "^5.1.1",
+    "swr": "^2.2.2",
     "tailwind-merge": "^1.14.0",
     "tailwindcss": "3.3.3",
     "tailwindcss-animate": "^1.0.6",

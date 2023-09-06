@@ -3,6 +3,7 @@
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { type FC, useCallback, useState } from 'react';
 
+import fetchLeaderboardData from './server-action';
 import { ChevronRightCircle } from 'lucide-react';
 
 import { Select } from '@/components/ui';
@@ -53,11 +54,19 @@ const LeaderboardPuzzlesFilters: FC<LeaderboardPuzzlesFiltersProps> = ({ maxSeas
         variant="secondary"
         defaultValue={maxSeason}
         value={season}
-        onChange={(e) => {
+        onChange={async (e) => {
           const newSeason = Number(e.target.value);
 
           setSeason(newSeason);
           updateSearchParams(newSeason);
+          const newMinPuzzleId = newSeason === 0 ? 1 : (newSeason - 1) * 5 + 1;
+          const newMaxPuzzleId = newSeason === 0 ? puzzles : Math.min(puzzles, newSeason * 5);
+          console.log(
+            await fetchLeaderboardData({
+              minPuzzleId: newMinPuzzleId,
+              maxPuzzleId: newMaxPuzzleId,
+            }),
+          );
         }}
       >
         <Select.Item value={0}>All seasons</Select.Item>
