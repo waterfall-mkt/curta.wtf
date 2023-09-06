@@ -22,10 +22,24 @@ type LeaderboardPuzzlesFiltersProps = {
 // -----------------------------------------------------------------------------
 
 const LeaderboardPuzzlesFilters: FC<LeaderboardPuzzlesFiltersProps> = ({ maxSeason, puzzles }) => {
-  const [season, setSeason] = useState<number>(maxSeason);
+  const searchParams = useSearchParams();
+  // Query the `puzzles-season` search param and set the default season to the
+  // value of the search param if it is a valid season number, otherwise set the
+  // default season to the latest season. Additionally, if the search param is
+  // the special keyword `all`, set the default season to 0.
+  const seasonSearchParam = searchParams.get('puzzles-season') ?? maxSeason.toString();
+  const defaultSeason =
+    seasonSearchParam.toLowerCase() === 'all'
+      ? 0
+      : // Check if the search param is not 'all' or a valid season number.
+      Number.isNaN(Number(seasonSearchParam)) ||
+        Number(seasonSearchParam) < 0 ||
+        Number(seasonSearchParam) > maxSeason
+      ? maxSeason
+      : Number(seasonSearchParam);
+  const [season, setSeason] = useState<number>(defaultSeason);
   const router = useRouter();
   const pathname = usePathname();
-  const searchParams = useSearchParams();
   const minPuzzleId = season === 0 ? 1 : (season - 1) * 5 + 1;
   const maxPuzzleId = season === 0 ? puzzles : Math.min(puzzles, season * 5);
 
@@ -36,7 +50,7 @@ const LeaderboardPuzzlesFilters: FC<LeaderboardPuzzlesFiltersProps> = ({ maxSeas
       // Instantiate a new `URLSearchParams` object from the current search and
       // replace the `puzzles-season` with the new page index.
       const newSearchParams = new URLSearchParams(Array.from(searchParams.entries()));
-      newSearchParams.set('puzzles-season', newSeason.toString());
+      newSearchParams.set('puzzles-season', newSeason === 0 ? 'all' : newSeason.toString());
 
       // If the new season is `maxSeason`, we want to remove `puzzles-season`
       // from the search params entirely because the latest season is rendered
@@ -52,7 +66,7 @@ const LeaderboardPuzzlesFilters: FC<LeaderboardPuzzlesFiltersProps> = ({ maxSeas
     <div className="flex items-center gap-2">
       <Select
         variant="secondary"
-        defaultValue={maxSeason}
+        defaultValue={defaultSeason}
         value={season}
         onChange={async (e) => {
           const newSeason = Number(e.target.value);
