@@ -1,12 +1,10 @@
 import type { FC } from 'react';
 
-import LeaderboardPuzzlesFilters from './filters';
-import LeaderboardPuzzlesTable from './table';
-import { ExternalLink } from 'lucide-react';
+import LeaderboardPuzzlesContent from './content';
 
 import { fetchLeaderboardPuzzles } from '@/lib/utils';
 
-import { Button, Card } from '@/components/ui';
+import { Card } from '@/components/ui';
 
 // -----------------------------------------------------------------------------
 // Props
@@ -32,20 +30,7 @@ const LeaderboardPuzzles: FC<LeaderboardPuzzlesProps> = async ({ puzzles }) => {
     <Card>
       <Card.Header>Puzzles</Card.Header>
       <Card.Body noPadding>
-        <div className="flex w-full flex-col gap-2 border-b border-stroke px-3 py-3 md:px-6">
-          <div className="flex items-center justify-between">
-            <LeaderboardPuzzlesFilters maxSeason={maxSeason} puzzles={puzzles} />
-            <Button
-              className="ml-2"
-              variant="outline"
-              intent="neutral"
-              rightIcon={<ExternalLink />}
-            >
-              Learn more
-            </Button>
-          </div>
-        </div>
-        <LeaderboardPuzzlesTable data={data.data} />
+        <LeaderboardPuzzlesContent maxSeason={maxSeason} puzzles={puzzles} defaultData={data} />
       </Card.Body>
     </Card>
   );
