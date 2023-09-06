@@ -1,11 +1,10 @@
 'use client';
 
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { ChangeEvent, type FC, Fragment, type UIEvent, useCallback, useState } from 'react';
+import { ChangeEvent, type FC, Fragment, useCallback, useState } from 'react';
 
 import fetchLeaderboardData from './server-action';
 import LeaderboardPuzzlesTable from './table';
-import clsx from 'clsx';
 import { ChevronRightCircle, ExternalLink } from 'lucide-react';
 
 import type { LeaderboardPuzzlesResponse } from '@/lib/utils/fetchLeaderboardPuzzles';
@@ -49,8 +48,6 @@ const LeaderboardPuzzlesContent: FC<LeaderboardPuzzlesContentProps> = ({
       : Number(seasonSearchParam);
   const [season, setSeason] = useState<number>(defaultSeason);
   const [data, setData] = useState<LeaderboardPuzzlesResponse['data']>();
-  const [scrollIsAtLeft, setScrollIsAtLeft] = useState<boolean>(true);
-  const [scrollIsAtRight, setScrollIsAtRight] = useState<boolean>(false);
   const router = useRouter();
   const pathname = usePathname();
   const minPuzzleId = season === 0 ? 1 : (season - 1) * 5 + 1;
@@ -96,23 +93,11 @@ const LeaderboardPuzzlesContent: FC<LeaderboardPuzzlesContentProps> = ({
     );
   };
 
-  // Function for setting scroll values to conditionally render gradient
-  // overflows.
-  const onScroll = (event: UIEvent<HTMLDivElement>) => {
-    const target = event.target as HTMLDivElement;
-    const scrollLeft = target.scrollLeft;
-    const scrollWidth = target.scrollWidth;
-    const clientWidth = target.clientWidth;
-
-    setScrollIsAtLeft(scrollLeft === 0);
-    setScrollIsAtRight(scrollWidth - scrollLeft === clientWidth);
-  };
-
   return (
     <Fragment>
       <div className="flex w-full flex-col gap-2 border-b border-stroke px-3 py-3 md:px-6">
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2 overflow-x-scroll">
+          <div className="hide-scrollbar relative flex items-center gap-2 overflow-x-scroll">
             <Select
               variant="secondary"
               defaultValue={defaultSeason}
@@ -133,57 +118,38 @@ const LeaderboardPuzzlesContent: FC<LeaderboardPuzzlesContentProps> = ({
               <hr className="absolute left-1.5 top-0 z-0 mx-auto h-8 border-l border-stroke" />
               <ChevronRightCircle className="z-10 h-3 w-3 bg-gray-600 text-gray-200 ring-1 ring-gray-600" />
             </div>
-            <div className="relative">
-              <div
-                className="hide-scrollbar h-6 w-full grow overflow-y-hidden overflow-x-scroll"
-                onScroll={onScroll}
-              >
-                <div className="flex w-fit items-center gap-2">
-                  {[
-                    {
-                      children: (
-                        <Fragment>
-                          {season > 0 ? (
-                            <PhaseTagPing
-                              phase={isSeasonOver ? 3 : 0}
-                              isPinging={!isSeasonOver}
-                              title={
-                                isSeasonOver
-                                  ? 'All puzzles for this season have been added.'
-                                  : 'There are still puzzles to be added for this season.'
-                              }
-                            />
-                          ) : null}
-                          <span className="w-fit whitespace-nowrap">
-                            Puzzles {minPuzzleId}-{season > 0 ? season * 5 : puzzles}
-                          </span>
-                        </Fragment>
-                      ),
-                    },
-                    { children: `${data?.solvers ?? defaultData.solvers} solvers` },
-                    { children: `${data?.solves ?? defaultData.solves} solves` },
-                  ].map((item, index) => (
-                    <div
-                      key={index}
-                      className="relative flex h-6 min-w-fit items-center gap-1.5 whitespace-nowrap rounded-full border border-stroke bg-gray-450 px-2 text-xs font-normal text-gray-100"
-                    >
-                      {item.children}
-                    </div>
-                  ))}
+            <div className="flex w-fit items-center gap-2">
+              {[
+                {
+                  children: (
+                    <Fragment>
+                      {season > 0 ? (
+                        <PhaseTagPing
+                          phase={isSeasonOver ? 3 : 0}
+                          isPinging={!isSeasonOver}
+                          title={
+                            isSeasonOver
+                              ? 'All puzzles for this season have been added.'
+                              : 'There are still puzzles to be added for this season.'
+                          }
+                        />
+                      ) : null}
+                      <span className="w-fit whitespace-nowrap">
+                        Puzzles {minPuzzleId}-{season > 0 ? season * 5 : puzzles}
+                      </span>
+                    </Fragment>
+                  ),
+                },
+                { children: `${data?.solvers ?? defaultData.solvers} solvers` },
+                { children: `${data?.solves ?? defaultData.solves} solves` },
+              ].map((item, index) => (
+                <div
+                  key={index}
+                  className="relative flex h-6 min-w-fit items-center gap-1.5 whitespace-nowrap rounded-full border border-stroke bg-gray-450 px-2 text-xs font-normal text-gray-100"
+                >
+                  {item.children}
                 </div>
-                <div
-                  className={clsx(
-                    'pointer-events-none absolute left-0 top-0 h-6 w-4 bg-gradient-to-r from-gray-600 transition-opacity',
-                    scrollIsAtLeft ? 'opacity-0' : 'opacity-100',
-                  )}
-                />
-                <div
-                  className={clsx(
-                    'pointer-events-none absolute right-0 top-0 h-6 w-4 bg-gradient-to-l from-gray-600 transition-opacity',
-                    scrollIsAtRight ? 'opacity-0' : 'opacity-100',
-                  )}
-                />
-              </div>
+              ))}
             </div>
           </div>
           <Button
