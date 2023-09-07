@@ -4,6 +4,7 @@ import type { FC } from 'react';
 
 import revalidateData from './server-action';
 import { RefreshCw } from 'lucide-react';
+import TimeAgo from 'react-timeago';
 
 import { useToast } from '@/components/ui';
 import { Button } from '@/components/ui';
@@ -49,10 +50,10 @@ export const LeaderboardRevalidate: FC<LeaderboardRevalidateProps> = ({ lastUpda
         Refresh
       </Button>
       <div className="text-sm text-gray-200" title={lastUpdated.toString()}>
-        {`Last updated ${lastUpdated.toLocaleDateString('en-US', {
-          day: 'numeric',
-          month: 'short',
-        })} ${lastUpdated.toLocaleTimeString('en-US', { timeStyle: 'short' })}`}
+        <span>Last updated </span>
+        <span>
+          <TimeAgo date={lastUpdated} />
+        </span>
       </div>
     </div>
   );
