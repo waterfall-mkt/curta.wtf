@@ -10,6 +10,7 @@ import {
   codeBlockHeaderVariants,
   codeBlockLineHighlightedStyles,
   codeBlockLineNumberStyles,
+  codeBlockLineSkeletonStyles,
   codeBlockLineVariants,
   codeBlockPreVariants,
   codeBlockStyles,
@@ -42,6 +43,7 @@ const CodeBlock: FC<CodeBlockProps> = ({
   logo,
   switcher,
   highlightLines = [],
+  skeletonLines,
   showLineNumbers = true,
   breakLines = false,
   roundedTop = true,
@@ -86,46 +88,79 @@ const CodeBlock: FC<CodeBlockProps> = ({
           <CodeBlockActions code={children} switcher={switcher} inHeader />
         </div>
       ) : null}
-      <Highlight prism={Prism} theme={theme} code={children} language={language}>
-        {({ tokens, getLineProps, getTokenProps }) => (
-          <div className="relative">
-            <pre
-              className={codeBlockPreVariants({
-                hasHeader: hasHeader || !roundedTop,
-                breakLines,
-                containerized,
-              })}
-              {...rest}
-            >
-              <code className={codeBlockStyles}>
-                {tokens.map((line, i) => {
-                  const { className, ...restLineProps } = getLineProps({ line });
-
-                  return (
-                    <div
-                      key={i}
-                      className={clsx(
-                        className,
-                        codeBlockLineVariants({ breakLines }),
-                        highlightLines.includes(i + 1) ? codeBlockLineHighlightedStyles : '',
-                      )}
-                      {...restLineProps}
-                    >
-                      {showLineNumbers ? (
-                        <div className={codeBlockLineNumberStyles}>{i + 1}</div>
-                      ) : null}
-                      {line.map((token, key) => (
-                        <span key={key} {...getTokenProps({ token })} />
-                      ))}
-                    </div>
-                  );
+      {!skeletonLines ? (
+        <Highlight prism={Prism} theme={theme} code={children} language={language}>
+          {({ tokens, getLineProps, getTokenProps }) => (
+            <div className="relative">
+              <pre
+                className={codeBlockPreVariants({
+                  hasHeader: hasHeader || !roundedTop,
+                  breakLines,
+                  containerized,
                 })}
-              </code>
+                {...rest}
+              >
+                <code className={codeBlockStyles}>
+                  {tokens.map((line, i) => {
+                    const { className, ...restLineProps } = getLineProps({ line });
+
+                    return (
+                      <div
+                        key={i}
+                        className={clsx(
+                          className,
+                          codeBlockLineVariants({ breakLines }),
+                          highlightLines.includes(i + 1) ? codeBlockLineHighlightedStyles : '',
+                        )}
+                        {...restLineProps}
+                      >
+                        {showLineNumbers ? (
+                          <div className={codeBlockLineNumberStyles}>{i + 1}</div>
+                        ) : null}
+                        {line.map((token, key) => (
+                          <span key={key} {...getTokenProps({ token })} />
+                        ))}
+                      </div>
+                    );
+                  })}
+                </code>
+                {!hasHeader ? <CodeBlockActions code={children} switcher={switcher} /> : null}
+              </pre>
+            </div>
+          )}
+        </Highlight>
+      ) : (
+        <div className="relative">
+          <pre
+            className={codeBlockPreVariants({
+              hasHeader: hasHeader || !roundedTop,
+              breakLines,
+              containerized,
+            })}
+            {...rest}
+          >
+            <code className={codeBlockStyles}>
+              {Array(skeletonLines)
+                .fill(null)
+                .map((_, i) => (
+                  <div
+                    key={i}
+                    className={clsx(
+                      codeBlockLineVariants({ breakLines }),
+                      highlightLines.includes(i + 1) ? codeBlockLineHighlightedStyles : '',
+                    )}
+                  >
+                    {showLineNumbers ? (
+                      <div className={codeBlockLineNumberStyles}>{i + 1}</div>
+                    ) : null}
+                    <div className={codeBlockLineSkeletonStyles} />
+                  </div>
+                ))}
               {!hasHeader ? <CodeBlockActions code={children} switcher={switcher} /> : null}
-            </pre>
-          </div>
-        )}
-      </Highlight>
+            </code>
+          </pre>
+        </div>
+      )}
     </div>
   );
 };

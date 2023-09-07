@@ -60,5 +60,6 @@ export type CodeBlockProps = Omit<JSX.IntrinsicElements['pre'], 'children'> &
       value: string;
       onChange: (value: string) => void;
     };
+    skeletonLines?: number;
     children: string;
   };

@@ -25,7 +25,7 @@ const PuzzleProblemDisplay: FC<PuzzleProblemDisplayProps> = ({ puzzle, languages
   );
 
   const props = {
-    classname: 'min-h-[8.75rem] grow w-full',
+    className: 'min-h-[8.75rem] grow w-full',
     style: { maxHeight: '38.5rem' },
     fileName: 'Puzzle',
     headerLabel: (

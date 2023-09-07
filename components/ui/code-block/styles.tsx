@@ -116,7 +116,9 @@ export const codeBlockLineHighlightedStyles = 'bg-blue-900 shadow-[inset_2px_0] 
 
 export const codeBlockLineNumberStyles = 'mr-4 inline-block w-4 text-end text-gray-150 select-none';
 
-export const codeBlockLineVariants = cva(['px-4 min-w-fit'], {
+export const codeBlockLineSkeletonStyles = 'h-4 w-full animate-pulse rounded-sm bg-gray-350';
+
+export const codeBlockLineVariants = cva(['px-4', 'min-w-fit', 'flex'], {
   variants: {
     breakLines: { true: ['break-all'], false: [] },
   },
