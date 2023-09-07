@@ -141,7 +141,7 @@ const PuzzleTableDesktop: FC<PuzzleTableInternalProps> = ({ data, sorting, setSo
                   }}
                   aria-label={`View puzzle #${row.original.id}'s contract.`}
                 >
-                  <Github />
+                  <ExternalLink />
                 </IconButton>
               }
             </div>
