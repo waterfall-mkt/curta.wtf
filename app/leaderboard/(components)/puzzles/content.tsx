@@ -100,7 +100,6 @@ const LeaderboardPuzzlesContent: FC<LeaderboardPuzzlesContentProps> = ({
           <div className="hide-scrollbar relative flex items-center gap-2 overflow-x-scroll">
             <Select
               variant="secondary"
-              defaultValue={defaultSeason}
               value={season}
               onChange={onSeasonChange}
               aria-label="Select a puzzles season leaderboard to view."
