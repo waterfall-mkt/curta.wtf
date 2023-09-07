@@ -1,0 +1,37 @@
+import { getBaseMetadata } from '@/lib/utils';
+
+export const metadata = getBaseMetadata({
+  title: 'Leaderboard',
+  description: 'Learn how Curta ranks players on the leaderboard from on-chain solve data.',
+  titleTemplate: '%s | Curta Docs'
+});
+
+# Leaderboard
+
+On Curta, anyone can make their own leaderboards because all solve data is on-chain. We designed [our leaderboard](/leaderboard) to rank players by the **Phase** they completed it first (via **Points**), then by how fast their solve was relative to others (via **Speed Score**).
+
+## Points
+
+Our leaderboard weighs solves in earlier [Phases](/docs/phases) higher because it implies a more skilled solve:
+
+- Phase 0 $\rightarrow$ 3 points
+- Phase 1 $\rightarrow$ 2 points
+- Phase 2 $\rightarrow$ 1 points
+
+For example, if a player has $\color{red}{2}$ Phase 0 solves, $\color{green}{4}$ Phase 1 solves, and $\color{orange}{1}$ Phase 2 solves, they'll have 15 points:
+
+$$
+({\color{red}{2}}\cdot3)+({\color{green}{4}}\cdot2)+({\color{orange}{1}}\cdot1) = 15
+$$
+
+## Speed Score
+
+Next, for tiebreakers, the leaderboard sorts by the average rank each player finished in via the following formula:
+
+$$
+100\cdot\left(1-\frac{\sum_{i=0}^{n}\frac{\mathrm{rank}(i)-1}{\max(1, \mathrm{total}(i))}}{n}\right)
+$$
+
+## Seasons
+
+We reset the leaderboard every 5 puzzles to give new players a chance to compete. We call these resets **Seasons**.

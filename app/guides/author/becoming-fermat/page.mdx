@@ -1,0 +1,21 @@
+import { getBaseMetadata } from '@/lib/utils';
+
+export const metadata = getBaseMetadata({
+  title: 'Becoming Fermat',
+  description: 'Learn how to become Fermat on Curta, the author whose puzzle went the longest unsolved.',
+  titleTemplate: '%s | Curta Guides'
+});
+
+# Becoming Fermat
+
+Fermat is the author whose puzzle went the longest unsolved, and Fermat can be identified on-chain as the owner of the Flag Token with token ID #0. Anyone can transfer ownership of the token and promote an author to Fermat by calling `setFermat(uint32 _puzzleId)` on [`Curta`](https://etherscan.io/address/0x0000000006bC8D9e5e9d436217B88De704a9F307):
+
+```solidity showLineNumbers={false}
+/// @notice Burns and mints NFT #0 to the author of the puzzle of ID
+/// `_puzzleId` if it is the puzzle that went longest unsolved.
+/// @dev The puzzle of ID `_puzzleId` must have been solved at least once.
+/// @param _puzzleId The ID of the puzzle.
+function setFermat(uint32 _puzzleId) external;
+```
+
+Note that the puzzle corresponding to `_puzzleId` must have at least 1 solve.

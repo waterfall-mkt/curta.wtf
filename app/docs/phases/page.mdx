@@ -1,0 +1,31 @@
+import { getBaseMetadata } from '@/lib/utils';
+
+export const metadata = getBaseMetadata({
+  title: 'Phases',
+  description: 'Stages with unique mechanisms throughout a puzzle\'s lifespan on Curta.',
+  titleTemplate: '%s | Curta Docs'
+});
+
+# Phases
+Each puzzle's lifespan on Curta contains 4 **Phases**, where each one has a unique mechanism:
+
+| Phase | Meaning                              | Length |
+| :---: | :----------------------------------- | :----: |
+|   0   | No one has solved the puzzle         |   ∞    |
+|   1   | 1 person has solved the puzzle       | 2 days |
+|   2   | Solution revealed (paid submissions) | 3 days |
+|   3   | Submissions closed forever           |   ∞    |
+
+Phases are relative to each puzzle and flow into the next sequentially. The process for some puzzle starts as soon as it is added to the CTF contract. Essentially, there are 2 transactions that alter the lifetime of a puzzle:
+
+- Adding the puzzle (activates Phase 0)
+- First solve (rest of the transition flows are time-determined)
+
+## Phase 2 Fees
+
+During Phase 2, puzzle solvers must pay a minimum fee of 0.02 ETH to submit solutions, which will be paid out as follows:
+
+- 0.01 ETH to the protocol
+- ≥0.01 ETH to the author
+
+By having a _minimum_ fee rather than a fixed fee, players can choose to "tip" authors they respect/to show support.

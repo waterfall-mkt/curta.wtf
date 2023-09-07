@@ -1,0 +1,94 @@
+import { getBaseMetadata } from '@/lib/utils';
+
+export const metadata = getBaseMetadata({
+  title: 'Creating a Puzzle',
+  description: 'Learn how to write, deploy, and add a puzzle to Curta.',
+  titleTemplate: '%s | Curta Guides'
+});
+
+# Creating a Puzzle
+
+## Writing Puzzles
+
+To write a puzzle, inherit `IPuzzle` and implement its 3 functions:
+
+```solidity fileName='IPuzzle.sol' highlightLines={[4, 11, 18]}
+interface IPuzzle {
+    /// @notice Returns the puzzle's name.
+    /// @return The puzzle's name.
+    function name() external pure returns (string memory);
+
+    /// @notice Generates the puzzle's starting position based on a seed.
+    /// @dev The seed is intended to be `msg.sender` of some wrapper function or
+    /// call.
+    /// @param _seed The seed to use to generate the puzzle.
+    /// @return The puzzle's starting position.
+    function generate(address _seed) external returns (uint256);
+
+    /// @notice Verifies that a solution is valid for the puzzle.
+    /// @dev `_start` is intended to be an output from {IPuzzle-generate}.
+    /// @param _start The puzzle's starting position.
+    /// @param _solution The solution to the puzzle.
+    /// @return Whether the solution is valid.
+    function verify(uint256 _start, uint256 _solution) external returns (bool);
+}
+```
+
+## Using your Authorship Token
+
+After obtaining an Authorship Token and deploying your puzzle, you can use it like a ticket to add a puzzle by calling `addPuzzle(IPuzzle _puzzle, uint256 _id)` on Curta:
+
+```solidity showLineNumbers={false}
+/// @notice Adds a puzzle to the contract. Note that an unused Authorship
+/// Token is required to add a puzzle (see {AuthorshipToken}).
+/// @param _puzzle The address of the puzzle.
+/// @param _id The ID of the Authorship Token to burn.
+function addPuzzle(IPuzzle _puzzle, uint256 _id) external;
+```
+
+## Examples
+
+### Text Example: Sorted List
+
+Consider some puzzle where the solution is to take an unsorted list of randomly generated numbers and sort it. In other words:
+
+- `generate` returns a bitpacked `uint256` of 32 random numbers $[0, 255]$.
+- `verify` iterates through 8-bit words of `_solution` and verifies that they are sorted, and each number in `_start` is contained in `_solution`.
+
+### Code Example: Collatz
+
+Consider some puzzle where the solution is to apply the operation from the [Collatz Conjecture](https://en.wikipedia.org/wiki/Collatz_conjecture#Statement_of_the_problem) a random number of times to a randomly generated integer. The code below implements this:
+
+```solidity fileName="CollatzPuzzle.sol"
+contract CollatzPuzzle is IPuzzle {
+    /// @inheritdoc IPuzzle
+    function name() external pure returns (string memory) {
+        return "Collatz";
+    }
+
+    /// @inheritdoc IPuzzle
+    function generate(address _seed) external returns (uint256) {
+        // The last 8 bits denote the number of times to apply the operation.
+        // We want to apply it at least once, hence `| 1`.
+        return uint256(keccak256(abi.encodePacked(_seed))) | 1;
+    }
+
+    /// @inheritdoc IPuzzle
+    function verify(uint256 _start, uint256 _solution) external returns (bool) {
+        // Retrieve the last 8 bits.
+        uint256 iterations = _start & 0xFF;
+
+        for (uint256 i = 0; i < iterations; ) {
+            unchecked {
+                // Collatz Operation
+                if (_start & 1 == 0) _start >>= 1;
+                else                 _start = 3 * _start + 1;
+
+                ++i;
+            }
+        }
+
+        return _start == _solution;
+    }
+}
+```
