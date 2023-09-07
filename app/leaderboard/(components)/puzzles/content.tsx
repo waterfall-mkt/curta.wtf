@@ -145,7 +145,7 @@ const LeaderboardPuzzlesContent: FC<LeaderboardPuzzlesContentProps> = ({
 
   return (
     <Fragment>
-      <div className="flex w-full items-center justify-between gap-2 border-b border-stroke px-3 py-3 md:px-6">
+      <div className="flex w-full items-center justify-between gap-2 border-b border-stroke px-3 py-3 lg:px-6">
         <div className="relative flex grow items-center gap-2 overflow-x-scroll">
           <Select
             variant="secondary"

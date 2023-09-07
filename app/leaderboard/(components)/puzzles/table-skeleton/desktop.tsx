@@ -87,7 +87,7 @@ const LeaderboardPuzzlesTableSkeletonDesktop: FC = () => {
     <Table
       className="hidden md:block"
       columns={columns}
-      data={Array(10).fill(null)}
+      data={Array(11).fill(null)}
       topRounded={false}
       noBorder
     />

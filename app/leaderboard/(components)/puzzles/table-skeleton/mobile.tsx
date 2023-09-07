@@ -55,7 +55,7 @@ const LeaderboardPuzzlesTableSkeletonMobile: FC = () => {
     <Table
       className="md:hidden"
       columns={columns}
-      data={Array(10).fill(null)}
+      data={Array(11).fill(null)}
       topRounded={false}
       noBorder
     />
