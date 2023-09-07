@@ -121,6 +121,8 @@ const LeaderboardPuzzlesContent: FC<LeaderboardPuzzlesContentProps> = ({
           })
         ).data,
       );
+    } else if (newSeason === maxSeason) {
+      setData(defaultData);
     }
   };
 
