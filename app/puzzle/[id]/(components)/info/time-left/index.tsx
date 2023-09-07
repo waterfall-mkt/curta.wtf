@@ -32,16 +32,17 @@ const PuzzleInfoTimeLeft: FC<PuzzleInfoTimeLeftProps> = ({ puzzle }) => {
   //       `y**2 + x**2 = 6**2 => y = sqrt(35)`. Then, since the radius of each
   //       circle is 6, the aforementioned "small gaps" are each `sqrt(35)`
   //       pixels tall.
-  //     * 44 is 6 less than the `y` coordinate of the middle of Phase 1's
-  //       indicator circle.
-  //     * 88 is 6 less than the `y` coordinate of the middle of Phase 2's
-  //       indicator circle.
+  //     * 44 is the height of the Phase 2-3 track, through the Phase 2 circle:
+  //       `44 = (6 - sqrt(35)) + 32 + 12 - (6 - sqrt(35))`.
+  //     * `44 - 2 * sqrt(35)` is the height of the portion of the track in
+  //       in between 2 Phase indicator circles, given by
+  //       `32 + 2 * (6 - sqrt(35))`.
   const unfilledTimelineHeight =
     phase === 2
-      ? 44 - Math.sqrt(35) + (44 - 2 * Math.sqrt(35)) * (1 - timeLeft / 259_200)
+      ? (44 - 2 * Math.sqrt(35)) * (1 - timeLeft / 259_200)
       : phase === 1
-      ? 88 - Math.sqrt(35) + (44 - 2 * Math.sqrt(35)) * (1 - timeLeft / 172_800)
-      : 132; // Entire thing is filled if `phase === 0`.
+      ? 44 + (44 - 2 * Math.sqrt(35)) * (1 - timeLeft / 172_800)
+      : 132 - 2 * Math.sqrt(35); // Entire thing is filled if `phase === 0`.
 
   return (
     <div className="flex grow flex-col items-center gap-2 p-4">
@@ -95,10 +96,10 @@ const PuzzleInfoTimeLeft: FC<PuzzleInfoTimeLeftProps> = ({ puzzle }) => {
               xmlns="http://www.w3.org/2000/svg"
             >
               <defs>
-                {/* Gradient for the filled portion of the timeline with stops to
-              lead into each of the circles properly (i.e. each "gradient"
-              portion completely stops and resumes before/after encountering a
-              circle's boundary). */}
+                {/* Gradient for the filled portion of the timeline with stops
+                to lead into each of the circles properly (i.e. each "gradient"
+                portion completely stops and resumes before/after encountering a
+                circle's boundary). */}
                 <linearGradient id="0" gradientTransform="rotate(90)">
                   {/* Circle 1 middle. */}
                   <stop offset={0} stop-color={COLORS.PHASE_0} />
@@ -125,23 +126,27 @@ const PuzzleInfoTimeLeft: FC<PuzzleInfoTimeLeftProps> = ({ puzzle }) => {
                 </linearGradient>
               </defs>
               {/* Filled portion of the timeline. We position both of the
-            following portions of the timeline at x={5} because we want them
-            horizontally centered.*/}
+              following portions of the timeline at x={5} because we want them
+              horizontally centered.*/}
               <rect x={5} y={10} width={2} height={132} fill="url(#0)" />
               {/* Unfilled portion of the timeline. We position the rectangle at
-            `y={142 - unfilledTimelineHeight}` because we want it offset by both
-            the height of the filled portion of the timeline (given by
-            `132px - unfilledTimelineHeight`) and the 10px top padding required
-            to render it starting from the center of the first circle. Note that
-            we don't render any unfilled portion if `phase >= 3` because this
-            means the puzzle is over. */}
+              `y={142 - Math.sqrt(35) - unfilledTimelineHeight}` because we want
+              it offset by both the height of the filled portion of the timeline
+              (given by `132 - 2 * sqrt(35) - unfilledTimelineHeight`) and the
+              top padding required to render it starting from the end of the
+              first circle (with the small gap adjustment), which is given by
+              `10 + 6 - (6 - sqrt(35)) = 10 + sqrt(35)`. Altogether, we have the
+              following sum for the `y` coordinate:
+              `132 - 2 * sqrt(35) + 10 + sqrt(35) - unfilledTimelineHeight = 142 - sqrt(35) - unfilledTimelineHeight`.
+              Note that we don't render any unfilled portion if `phase >= 3`
+              because this means the puzzle is over. */}
               {phase < 3 ? (
                 <rect
                   className="fill-gray-350"
                   width={2}
                   height={unfilledTimelineHeight}
                   x={5}
-                  y={142 - unfilledTimelineHeight}
+                  y={142 - Math.sqrt(35) - unfilledTimelineHeight}
                 />
               ) : null}
               <circle className="fill-tw-green" cx={6} cy={10} r={6} />
