@@ -3,8 +3,8 @@ The interface for [**Curta**](https://curta.wtf), a CTF protocol, where players 
 ## Running Locally
 
 ```sh
-git clone https://github.com/waterfall-mkt/curta-site.git
-cd curta-site
+git clone https://github.com/waterfall-mkt/curta.wtf.git
+cd curta.wtf
 pnpm install
 pnpm run dev
 ```
