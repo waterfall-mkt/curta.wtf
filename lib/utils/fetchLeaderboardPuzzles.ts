@@ -26,6 +26,7 @@ const fetchLeaderboardPuzzles = async (
     .select('*')
     .gte('puzzleId', minPuzzleId)
     .lte('puzzleId', maxPuzzleId)
+    .order('solveTimestamp', { ascending: true })
     .returns<SupabaseSolve[]>();
 
   if ((error && status !== 406) || !data || (data && data.length === 0)) {
