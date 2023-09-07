@@ -125,7 +125,7 @@ export const codeBlockLineVariants = cva(['px-4 min-w-fit'], {
 export const codeBlockPreVariants = cva(['group', 'py-4', 'px-0', 'my-0', 'hide-scrollbar'], {
   variants: {
     hasHeader: { true: [], false: [] },
-    breakLines: { true: ['whitespace-pre-line'], false: ['overflow-x-scroll'] },
+    breakLines: { true: ['whitespace-pre-line'], false: ['overflow-x-scroll', 'hide-scrollbar'] },
     containerized: { true: ['bg-gray-600'], false: ['bg-gray-450'] },
   },
   compoundVariants: [

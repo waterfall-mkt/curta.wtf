@@ -13,7 +13,7 @@ export default function LoadingPage() {
         <Card.Header>Puzzles</Card.Header>
         <Card.Body noPadding>
           <div className="flex w-full items-center justify-between gap-2 border-b border-stroke px-3 py-3 lg:px-6">
-            <div className="relative flex grow items-center gap-2 overflow-x-scroll">
+            <div className="hide-scrollbar relative flex grow items-center gap-2 overflow-x-scroll">
               {/* Season select skeleton */}
               <div className="relative flex h-8 animate-pulse items-center rounded-lg bg-gray-350 pl-3 pr-9">
                 <div className="h-5 w-[4.75rem] animate-pulse rounded-md bg-gray-200" />

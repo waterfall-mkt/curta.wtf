@@ -146,7 +146,7 @@ const LeaderboardPuzzlesContent: FC<LeaderboardPuzzlesContentProps> = ({
   return (
     <Fragment>
       <div className="flex w-full items-center justify-between gap-2 border-b border-stroke px-3 py-3 lg:px-6">
-        <div className="relative flex grow items-center gap-2 overflow-x-scroll">
+        <div className="hide-scrollbar relative flex grow items-center gap-2 overflow-x-scroll">
           <Select
             variant="secondary"
             value={season}
@@ -166,7 +166,7 @@ const LeaderboardPuzzlesContent: FC<LeaderboardPuzzlesContentProps> = ({
             <hr className="absolute left-1.5 top-0 z-0 mx-auto h-8 border-l border-stroke" />
             <ChevronRightCircle className="z-10 h-3 w-3 bg-gray-600 text-gray-200 ring-1 ring-gray-600" />
           </div>
-          <div className="relative grow overflow-x-scroll">
+          <div className="hide-scrollbar relative grow overflow-x-scroll">
             <div className="hide-scrollbar relative grow overflow-x-scroll" onScroll={onScroll}>
               <div className="flex w-fit items-center gap-2">
                 {!loading
