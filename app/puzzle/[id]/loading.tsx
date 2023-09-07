@@ -233,9 +233,6 @@ export default function LoadingPage() {
           </div>
         </div>
       </div>
-      <div className="mt-4 grow md:mt-10">
-        <h2 className="mb-4 text-xl font-medium text-gray-50 lg:text-display-sm">Solves</h2>
-      </div>
     </div>
   );
 }
