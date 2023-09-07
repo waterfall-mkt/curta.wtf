@@ -5,14 +5,14 @@ import { type FC, Fragment, useMemo, useState } from 'react';
 import PuzzleTableCountdown from './countdown';
 import PuzzleTableInfo from './puzzle-table-info';
 import type { ColumnDef, Row, SortingState } from '@tanstack/react-table';
-import { ExternalLink, File, Github } from 'lucide-react';
+import { ExternalLink, FileCheck } from 'lucide-react';
 
 import type { Puzzle } from '@/lib/types/protocol';
 import { getPuzzleTimeLeft } from '@/lib/utils';
 
 import AddressLinkClient from '@/components/templates/address-link-client';
 import Stat from '@/components/templates/stat';
-import { IconButton, Table } from '@/components/ui';
+import { Button, IconButton, Table } from '@/components/ui';
 import type { TableProps } from '@/components/ui/table/types';
 
 // -----------------------------------------------------------------------------
@@ -110,21 +110,7 @@ const PuzzleTableDesktop: FC<PuzzleTableInternalProps> = ({ data, sorting, setSo
                   }}
                   aria-label={`View puzzle #${row.original.id}'s solution.`}
                 >
-                  <File />
-                </IconButton>
-              ) : null}
-              {row.original.github ? (
-                <IconButton
-                  variant="outline"
-                  intent="neutral"
-                  title={`https://github.com/${row.original.github}`}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    window.open(`https://github.com/${row.original.github}`, '_blank');
-                  }}
-                  aria-label={`View puzzle #${row.original.id}'s GitHub.`}
-                >
-                  <Github />
+                  <FileCheck />
                 </IconButton>
               ) : null}
               {
@@ -239,58 +225,32 @@ const PuzzleTableMobileSubComponent: FC<{ data: Puzzle }> = ({ data }) => {
           )
         }
       />
-      <Stat
-        name="Links"
-        value={
-          <div className="mt-1 flex items-center justify-end gap-1">
-            {data.solution ? (
-              <IconButton
-                variant="outline"
-                intent="neutral"
-                title={data.solution}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  window.open(data.solution, '_blank');
-                }}
-                aria-label={`View puzzle #${data.id}'s solution.`}
-              >
-                <File />
-              </IconButton>
-            ) : null}
-            {data.github ? (
-              <IconButton
-                variant="outline"
-                intent="neutral"
-                title={`https://github.com/${data.github}`}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  window.open(`https://github.com/${data.github}`, '_blank');
-                }}
-                aria-label={`View puzzle #${data.id}'s GitHub.`}
-              >
-                <Github />
-              </IconButton>
-            ) : null}
-            {
-              <IconButton
-                variant="outline"
-                intent="neutral"
-                title={`https://${process.env.NEXT_PUBLIC_BLOCK_EXPLORER}/address/${data.address}`}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  window.open(
-                    `https://${process.env.NEXT_PUBLIC_BLOCK_EXPLORER}/address/${data.address}`,
-                    '_blank',
-                  );
-                }}
-                aria-label={`View puzzle #${data.id}'s contract.`}
-              >
-                <ExternalLink />
-              </IconButton>
-            }
-          </div>
-        }
-      />
+      <div className="col-span-2 flex gap-1">
+        {data.solution ? (
+          <Button
+            className="w-full"
+            size="sm"
+            variant="outline"
+            intent="neutral"
+            rightIcon={<ExternalLink />}
+            href={data.solution}
+            newTab
+          >
+            Solution
+          </Button>
+        ) : null}
+        <Button
+          className="w-full"
+          size="sm"
+          variant="outline"
+          intent="neutral"
+          rightIcon={<ExternalLink />}
+          href={`https://${process.env.NEXT_PUBLIC_BLOCK_EXPLORER}/address/${data.address}`}
+          newTab
+        >
+          Contract
+        </Button>
+      </div>
     </div>
   );
 };

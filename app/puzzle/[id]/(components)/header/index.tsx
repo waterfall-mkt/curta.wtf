@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 
 import PuzzleHeaderPageNav from './page-nav';
-import { ExternalLink, File, Github } from 'lucide-react';
+import { ExternalLink, FileCheck, Github } from 'lucide-react';
 
 import type { Puzzle } from '@/lib/types/protocol';
 import { fetchPuzzleById } from '@/lib/utils';
@@ -71,7 +71,7 @@ const PuzzleHeader: FC<PuzzleHeaderProps> = async ({ puzzle }) => {
                 size="lg"
                 newTab
               >
-                <File />
+                <FileCheck />
               </IconButton>
             </Tooltip>
           ) : null}
