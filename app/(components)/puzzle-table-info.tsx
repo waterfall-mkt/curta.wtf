@@ -25,7 +25,7 @@ type PuzzleTableInfoProps = {
 const PuzzleTableInfo: FC<PuzzleTableInfoProps> = ({ id, phase, name, author }) => {
   return (
     <div className="relative flex items-center space-x-4">
-      <PhaseTagPing phase={phase} isPinging />
+      <PhaseTagPing phase={phase} isPinging={phase < 3} />
       <div>
         <div className="line-clamp-1 overflow-ellipsis text-left text-sm text-gray-100">
           {name ?? `Puzzle #${id}`}
