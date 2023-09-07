@@ -6,7 +6,13 @@ import type { SupabaseSolve } from '@/lib/types/api';
 import type { Phase, Puzzle, Solver } from '@/lib/types/protocol';
 
 export type LeaderboardPuzzlesResponse = {
-  data: { data: Solver[]; solvers: number; solves: number };
+  data: {
+    data: Solver[];
+    solvers: number;
+    solves: number;
+    minPuzzleId: number;
+    maxPuzzleId: number;
+  };
   status: number;
   error: PostgrestError | null;
 };
@@ -26,11 +32,12 @@ const fetchLeaderboardPuzzles = async (
     .select('*')
     .gte('puzzleId', minPuzzleId)
     .lte('puzzleId', maxPuzzleId)
+    .order('solveTimestamp', { ascending: true })
     .returns<SupabaseSolve[]>();
 
   if ((error && status !== 406) || !data || (data && data.length === 0)) {
     return {
-      data: { data: [], solvers: 0, solves: 0 },
+      data: { data: [], solvers: 0, solves: 0, minPuzzleId, maxPuzzleId },
       status,
       error,
     };
@@ -113,6 +120,8 @@ const fetchLeaderboardPuzzles = async (
       data: solvers.slice(0, 100).map((item, index) => ({ ...item, rank: index + 1 })),
       solvers: solvers.length,
       solves: data.length,
+      minPuzzleId,
+      maxPuzzleId,
     },
     status,
     error,
