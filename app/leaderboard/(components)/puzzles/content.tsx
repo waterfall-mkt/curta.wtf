@@ -1,7 +1,7 @@
 'use client';
 
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { ChangeEvent, type FC, Fragment, useCallback, useState } from 'react';
+import { ChangeEvent, type FC, Fragment, useCallback, useEffect, useState } from 'react';
 
 import fetchLeaderboardData from './server-action';
 import LeaderboardPuzzlesTable from './table';
@@ -51,7 +51,22 @@ const LeaderboardPuzzlesContent: FC<LeaderboardPuzzlesContentProps> = ({
   const router = useRouter();
   const pathname = usePathname();
   const minPuzzleId = season === 0 ? 1 : (season - 1) * 5 + 1;
+  const maxPuzzleId = season === 0 ? puzzles : Math.min(puzzles, season * 5);
   const isSeasonOver = season * 5 <= puzzles;
+
+  // Fetch the data for the default season on component mount if it's not the
+  // default season.
+  useEffect(() => {
+    const fetchData = async () => {
+      // Only fetch new data if the new season is not the latest season because
+      // we already have the latest season's data via `defaultData`.
+      if (season !== maxSeason) {
+        setData((await fetchLeaderboardData({ minPuzzleId, maxPuzzleId })).data);
+      }
+    };
+
+    fetchData();
+  }, [maxPuzzleId, maxSeason, minPuzzleId, puzzles, season]);
 
   // A helper function to update the URL search params when a user filters to a
   // new season in the table via the UI to keep URL<>component states synced.
@@ -81,17 +96,28 @@ const LeaderboardPuzzlesContent: FC<LeaderboardPuzzlesContentProps> = ({
 
     setSeason(newSeason);
     updateSearchParams(newSeason);
-    const newMinPuzzleId = newSeason === 0 ? 1 : (newSeason - 1) * 5 + 1;
-    const newMaxPuzzleId = newSeason === 0 ? puzzles : Math.min(puzzles, newSeason * 5);
-    setData(
-      (
-        await fetchLeaderboardData({
-          minPuzzleId: newMinPuzzleId,
-          maxPuzzleId: newMaxPuzzleId,
-        })
-      ).data,
-    );
+    // Only fetch new data if the new season is not the latest season because we
+    // already have the latest season's data via `defaultData`.
+    if (newSeason !== maxSeason) {
+      const newMinPuzzleId = newSeason === 0 ? 1 : (newSeason - 1) * 5 + 1;
+      const newMaxPuzzleId = newSeason === 0 ? puzzles : Math.min(puzzles, newSeason * 5);
+      setData(
+        (
+          await fetchLeaderboardData({
+            minPuzzleId: newMinPuzzleId,
+            maxPuzzleId: newMaxPuzzleId,
+          })
+        ).data,
+      );
+    }
   };
+
+  // `loading` is true if `data` is inconsistent with the selected season. The
+  // `season !== maxSeason` condition is present because we already have the
+  // latest season's data via `defaultData`.
+  const loading =
+    (minPuzzleId !== data?.minPuzzleId || maxPuzzleId !== data?.maxPuzzleId) &&
+    season !== maxSeason;
 
   return (
     <Fragment>
@@ -118,37 +144,45 @@ const LeaderboardPuzzlesContent: FC<LeaderboardPuzzlesContentProps> = ({
               <ChevronRightCircle className="z-10 h-3 w-3 bg-gray-600 text-gray-200 ring-1 ring-gray-600" />
             </div>
             <div className="flex w-fit items-center gap-2">
-              {[
-                {
-                  children: (
-                    <Fragment>
-                      {season > 0 ? (
-                        <PhaseTagPing
-                          phase={isSeasonOver ? 3 : 0}
-                          isPinging={!isSeasonOver}
-                          title={
-                            isSeasonOver
-                              ? 'All puzzles for this season have been added.'
-                              : 'There are still puzzles to be added for this season.'
-                          }
-                        />
-                      ) : null}
-                      <span className="w-fit whitespace-nowrap">
-                        Puzzles {minPuzzleId}-{season > 0 ? season * 5 : puzzles}
-                      </span>
-                    </Fragment>
-                  ),
-                },
-                { children: `${data?.solvers ?? defaultData.solvers} solvers` },
-                { children: `${data?.solves ?? defaultData.solves} solves` },
-              ].map((item, index) => (
-                <div
-                  key={index}
-                  className="relative flex h-6 min-w-fit items-center gap-1.5 whitespace-nowrap rounded-full border border-stroke bg-gray-450 px-2 text-xs font-normal text-gray-100"
-                >
-                  {item.children}
-                </div>
-              ))}
+              {!loading
+                ? [
+                    {
+                      children: (
+                        <Fragment>
+                          {season > 0 ? (
+                            <PhaseTagPing
+                              phase={isSeasonOver ? 3 : 0}
+                              isPinging={!isSeasonOver}
+                              title={
+                                isSeasonOver
+                                  ? 'All puzzles for this season have been added.'
+                                  : 'There are still puzzles to be added for this season.'
+                              }
+                            />
+                          ) : null}
+                          <span className="w-fit whitespace-nowrap">
+                            Puzzles {minPuzzleId}-{season > 0 ? season * 5 : puzzles}
+                          </span>
+                        </Fragment>
+                      ),
+                    },
+                    { children: `${data?.solvers ?? defaultData.solvers} solvers` },
+                    { children: `${data?.solves ?? defaultData.solves} solves` },
+                  ].map((item, index) => (
+                    <div
+                      key={index}
+                      className="relative flex h-6 min-w-fit items-center gap-1.5 whitespace-nowrap rounded-full border border-stroke bg-gray-450 px-2 text-xs font-normal text-gray-100"
+                    >
+                      {item.children}
+                    </div>
+                  ))
+                : [108, 76, 72].map((width, i) => (
+                    <div
+                      key={i}
+                      className="h-6 animate-pulse rounded-full bg-gray-350"
+                      style={{ width }}
+                    />
+                  ))}
             </div>
           </div>
           <Button
