@@ -1,5 +1,7 @@
 import { type FC, Fragment } from 'react';
 
+import { ArrowUpRight } from 'lucide-react';
+
 import { FOOTER_PAGES, SOCIAL_LINKS } from '@/lib/constants/site';
 
 import { Button, IconButton } from '@/components/ui';
@@ -21,6 +23,7 @@ const Footer: FC = () => {
                 variant="text"
                 intent="neutral"
                 newTab={page.slug[0] !== '/'}
+                rightIcon={page.slug[0] !== '/' ? <ArrowUpRight /> : null}
                 className="hidden lg:flex"
               >
                 {page.name}
@@ -31,6 +34,7 @@ const Footer: FC = () => {
                 variant="text"
                 intent="neutral"
                 newTab={page.slug[0] !== '/'}
+                rightIcon={page.slug[0] !== '/' ? <ArrowUpRight /> : null}
                 className="lg:hidden"
               >
                 {page.name}
