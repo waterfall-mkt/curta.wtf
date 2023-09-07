@@ -5,6 +5,7 @@ import { ChangeEvent, type FC, Fragment, useCallback, useEffect, useState } from
 
 import fetchLeaderboardData from './server-action';
 import LeaderboardPuzzlesTable from './table';
+import LeaderboardPuzzlesTableSkeleton from './table-skeleton';
 import { ChevronRightCircle, ExternalLink } from 'lucide-react';
 
 import type { LeaderboardPuzzlesResponse } from '@/lib/utils/fetchLeaderboardPuzzles';
@@ -197,7 +198,11 @@ const LeaderboardPuzzlesContent: FC<LeaderboardPuzzlesContentProps> = ({
           </Button>
         </div>
       </div>
-      <LeaderboardPuzzlesTable data={data ? data.data : defaultData.data} />
+      {!loading ? (
+        <LeaderboardPuzzlesTable data={data ? data.data : defaultData.data} />
+      ) : (
+        <LeaderboardPuzzlesTableSkeleton />
+      )}
     </Fragment>
   );
 };
