@@ -3,7 +3,7 @@
 import { type FC, useEffect, useState } from 'react';
 
 import type { Phase } from '@/lib/types/protocol';
-import { getTimeLeftString } from '@/lib/utils';
+import { getPuzzleTimeLeft, getTimeLeftString } from '@/lib/utils';
 
 // -----------------------------------------------------------------------------
 // Props
@@ -11,7 +11,7 @@ import { getTimeLeftString } from '@/lib/utils';
 
 type PuzzleInfoTimeLeftCountdownProps = {
   phase: Phase;
-  timeLeft: number;
+  firstSolveTimestamp: number;
 };
 
 // -----------------------------------------------------------------------------
@@ -20,8 +20,9 @@ type PuzzleInfoTimeLeftCountdownProps = {
 
 const PuzzleInfoTimeLeftCountdown: FC<PuzzleInfoTimeLeftCountdownProps> = ({
   phase,
-  timeLeft: timePassed,
+  firstSolveTimestamp,
 }) => {
+  const timePassed = getPuzzleTimeLeft(firstSolveTimestamp).timeLeft;
   const totalTime = [0, 172_800, 259_200, 0][phase];
   const [mounted, setMounted] = useState<boolean>(false);
   const [timeLeft, setTimeLeft] = useState<number>(totalTime - timePassed);

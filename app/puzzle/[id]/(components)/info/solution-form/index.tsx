@@ -1,6 +1,6 @@
 'use client';
 
-import { type FC, useState } from 'react';
+import { type FC, useEffect, useState } from 'react';
 
 import PuzzleInfoSolutionFormOptionsForm from './options-form';
 import PuzzleInfoSolutionFormTipForm from './tip-form';
@@ -41,9 +41,13 @@ const PuzzleInfoSolutionForm: FC<PuzzleInfoSolutionFormProps> = ({ puzzle }) => 
   const [simulateTx, setSimulateTx] = useState<boolean>(true);
   const [isTipFormOpen, setIsTipFormOpen] = useState<boolean>(false);
   const [isOptionsFormOpen, setIsOptionsFormOpen] = useState<boolean>(false);
+  const [mounted, setMounted] = useState<boolean>(false);
   const { toast } = useToast();
   const { chain } = useNetwork();
   const { switchNetwork } = useSwitchNetwork();
+
+  // Set `mounted` to true on page load
+  useEffect(() => setMounted(true), []);
 
   const { config } = usePrepareContractWrite({
     address: process.env.NEXT_PUBLIC_CURTA_ADDRESS,
@@ -217,7 +221,7 @@ const PuzzleInfoSolutionForm: FC<PuzzleInfoSolutionFormProps> = ({ puzzle }) => 
           </Popover>
         </div>
       </div>
-      {!chain ? (
+      {!chain || !mounted ? (
         <ConnectButton className="w-full" />
       ) : chain.id !== Number(process.env.NEXT_PUBLIC_CHAIN_ID) ? (
         <Button
