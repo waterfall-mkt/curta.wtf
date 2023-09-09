@@ -9,12 +9,16 @@ type PuzzlesCountResponse = {
 };
 
 const fetchPuzzlesCount = async (): Promise<PuzzlesCountResponse> => {
+  let lastUpdated: number;
   // We fetch this so the request gets cached.
-  const lastUpdated = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL ?? 'https://curta.wtf'}/api/now`,
-  )
-    .then((res) => res.json())
-    .then((res) => res.now);
+  try {
+    lastUpdated = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL ?? 'https://curta.wtf'}/api/now`)
+      .then((res) => res.json())
+      .then((res) => res.now);
+  } catch (err) {
+    console.error(err);
+    lastUpdated = Date.now();
+  }
 
   // Fetch puzzles.
   const { data, status, error } = await supabase.from('puzzles').select('id').returns<number[]>();
