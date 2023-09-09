@@ -4,6 +4,7 @@ declare global {
       // Site config
       NEXT_PUBLIC_BLOCK_EXPLORER: string;
       NEXT_PUBLIC_CHAIN_ID: 1 | 5 | 17;
+      NEXT_PUBLIC_BASE_URL: string;
       CURTA_SITE_API_KEY: string;
       // Chain config
       NEXT_PUBLIC_CURTA_ADDRESS: `0x${string}`;
