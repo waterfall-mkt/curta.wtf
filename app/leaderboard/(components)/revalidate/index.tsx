@@ -38,13 +38,13 @@ export const LeaderboardRevalidate: FC<LeaderboardRevalidateProps> = ({ lastUpda
               description: 'Leaderboard may only be updated every minute.',
             });
           } else {
-            revalidateData();
             toast({
               intent: 'success',
               title: 'Leaderboard refreshed',
               description: 'Data will be updated momentarily!',
             });
           }
+          revalidateData(lastUpdated);
         }}
       >
         Refresh
