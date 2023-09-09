@@ -17,7 +17,7 @@ export async function GET(req: NextRequest) {
   }
 
   try {
-    revalidatePath(pathToRevalidate);
+    await revalidatePath(pathToRevalidate);
     return NextResponse.json({ revalidated: true }, { status: 200 });
   } catch (err) {
     return NextResponse.json({ message: 'Error validating.' }, { status: 500 });
