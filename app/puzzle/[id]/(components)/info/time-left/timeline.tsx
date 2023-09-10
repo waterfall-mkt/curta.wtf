@@ -64,27 +64,27 @@ const PuzzleInfoTimeLeftTimeline: FC<PuzzleInfoTimeLeftTimelineProps> = ({
         boundary). */}
         <linearGradient id="0" gradientTransform="rotate(90)">
           {/* Circle 1 middle. */}
-          <stop offset={0} stop-color={COLORS.PHASE_0} />
+          <stop offset={0} stopColor={COLORS.PHASE_0} />
           {/* Circle 1 end. */}
-          <stop offset={6 / 132} stop-color={COLORS.PHASE_0} />
-          <stop offset={6 / 132} stop-color={COLORS.PHASE_0} />
+          <stop offset={6 / 132} stopColor={COLORS.PHASE_0} />
+          <stop offset={6 / 132} stopColor={COLORS.PHASE_0} />
           {/* Circle 2 start. */}
-          <stop offset={38 / 132} stop-color={COLORS.PHASE_1} />
-          <stop offset={38 / 132} stop-color={COLORS.PHASE_1} />
+          <stop offset={38 / 132} stopColor={COLORS.PHASE_1} />
+          <stop offset={38 / 132} stopColor={COLORS.PHASE_1} />
           {/* Circle 2 end. */}
-          <stop offset={50 / 132} stop-color={COLORS.PHASE_1} />
-          <stop offset={50 / 132} stop-color={COLORS.PHASE_1} />
+          <stop offset={50 / 132} stopColor={COLORS.PHASE_1} />
+          <stop offset={50 / 132} stopColor={COLORS.PHASE_1} />
           {/* Circle 3 start. */}
-          <stop offset={82 / 132} stop-color={COLORS.PHASE_2} />
-          <stop offset={82 / 132} stop-color={COLORS.PHASE_2} />
+          <stop offset={82 / 132} stopColor={COLORS.PHASE_2} />
+          <stop offset={82 / 132} stopColor={COLORS.PHASE_2} />
           {/* Circle 3 end. */}
-          <stop offset={94 / 132} stop-color={COLORS.PHASE_2} />
-          <stop offset={94 / 132} stop-color={COLORS.PHASE_2} />
+          <stop offset={94 / 132} stopColor={COLORS.PHASE_2} />
+          <stop offset={94 / 132} stopColor={COLORS.PHASE_2} />
           {/* Circle 4 start. */}
-          <stop offset={126 / 132} stop-color={COLORS.PHASE_3} />
-          <stop offset={126 / 132} stop-color={COLORS.PHASE_3} />
+          <stop offset={126 / 132} stopColor={COLORS.PHASE_3} />
+          <stop offset={126 / 132} stopColor={COLORS.PHASE_3} />
           {/* Circle 4 middle. */}
-          <stop offset={1} stop-color={COLORS.PHASE_3} />
+          <stop offset={1} stopColor={COLORS.PHASE_3} />
         </linearGradient>
       </defs>
       {/* Filled portion of the timeline. We position both of the following
