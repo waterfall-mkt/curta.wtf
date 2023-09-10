@@ -32,10 +32,13 @@ const PuzzleInfoTimeLeftCountdown: FC<PuzzleInfoTimeLeftCountdownProps> = ({
 
   // Update `timeLeft` every second
   useEffect(() => {
-    const timer = setTimeout(() => setTimeLeft((prevState) => prevState - 1), 1000);
+    const timer = setTimeout(
+      () => setTimeLeft(totalTime - getPuzzleTimeLeft(firstSolveTimestamp).timeLeft),
+      1000,
+    );
 
     return () => clearTimeout(timer);
-  }, [timeLeft]);
+  }, [firstSolveTimestamp, timeLeft, totalTime]);
 
   if (!mounted) {
     return (

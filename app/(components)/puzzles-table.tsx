@@ -65,11 +65,9 @@ const PuzzleTableDesktop: FC<PuzzleTableInternalProps> = ({ data, sorting, setSo
       {
         accessorKey: 'timeLeft',
         header: () => 'Time till next phase',
-        cell: ({ row }) => {
-          const { phase, timeLeft } = getPuzzleTimeLeft(row.original.firstSolveTimestamp);
-
-          return <PuzzleTableCountdown phase={phase} timeLeft={timeLeft} />;
-        },
+        cell: ({ row }) => (
+          <PuzzleTableCountdown firstSolveTimestamp={row.original.firstSolveTimestamp} />
+        ),
         footer: (props) => props.column.id,
       },
       {
@@ -203,13 +201,11 @@ const PuzzleTableMobile: FC<PuzzleTableInternalProps> = ({ data, sorting, setSor
 };
 
 const PuzzleTableMobileSubComponent: FC<{ data: Puzzle }> = ({ data }) => {
-  const { phase, timeLeft } = getPuzzleTimeLeft(data.firstSolveTimestamp);
-
   return (
     <div className="grid grid-cols-2 gap-2 p-3">
       <Stat
         name="Time till next phase"
-        value={<PuzzleTableCountdown phase={phase} timeLeft={timeLeft} />}
+        value={<PuzzleTableCountdown firstSolveTimestamp={data.firstSolveTimestamp} />}
       />
       <Stat
         name="First solver"

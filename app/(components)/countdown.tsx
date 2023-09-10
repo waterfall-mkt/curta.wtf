@@ -4,16 +4,14 @@ import { type FC, useEffect, useState } from 'react';
 
 import clsx from 'clsx';
 
-import type { Phase } from '@/lib/types/protocol';
-import { getTimeLeftString } from '@/lib/utils';
+import { getPuzzleTimeLeft, getTimeLeftString } from '@/lib/utils';
 
 // -----------------------------------------------------------------------------
 // Props
 // -----------------------------------------------------------------------------
 
 type PuzzleTableCountdownProps = {
-  phase: Phase;
-  timeLeft: number;
+  firstSolveTimestamp: number;
 };
 
 // -----------------------------------------------------------------------------
@@ -22,7 +20,8 @@ type PuzzleTableCountdownProps = {
 
 const PHASE_TO_COLOR = ['bg-tw-green', 'bg-tw-yellow', 'bg-tw-orange', 'bg-tw-red'];
 
-const PuzzleTableCountdown: FC<PuzzleTableCountdownProps> = ({ phase, timeLeft: timePassed }) => {
+const PuzzleTableCountdown: FC<PuzzleTableCountdownProps> = ({ firstSolveTimestamp }) => {
+  const { phase, timeLeft: timePassed } = getPuzzleTimeLeft(firstSolveTimestamp);
   const totalTime = [0, 172_800, 259_200, 0][phase];
   const [mounted, setMounted] = useState<boolean>(false);
   const [timeLeft, setTimeLeft] = useState<number>(totalTime - timePassed);
@@ -32,10 +31,13 @@ const PuzzleTableCountdown: FC<PuzzleTableCountdownProps> = ({ phase, timeLeft: 
 
   // Update `timeLeft` every second
   useEffect(() => {
-    const timer = setTimeout(() => setTimeLeft((prevState) => prevState - 1), 1000);
+    const timer = setTimeout(
+      () => setTimeLeft(totalTime - getPuzzleTimeLeft(firstSolveTimestamp).timeLeft),
+      1000,
+    );
 
     return () => clearTimeout(timer);
-  }, [timeLeft]);
+  }, [firstSolveTimestamp, timeLeft, totalTime]);
 
   if (!mounted) {
     return (
