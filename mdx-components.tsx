@@ -1,9 +1,10 @@
 import Link from 'next/link';
 import { isValidElement } from 'react';
 
-import { Link as LinkLucide } from 'lucide-react';
 import type { MDXComponents } from 'mdx/types';
 
+import H2 from '@/components/templates/mdx/h2';
+import H3 from '@/components/templates/mdx/h3';
 import { CodeBlock } from '@/components/ui';
 import type { CodeBlockProps } from '@/components/ui/code-block/types';
 
@@ -50,48 +51,8 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
         </code>
       </span>
     ),
-    h2: ({ children, ...rest }: JSX.IntrinsicElements['h2']) => {
-      if (typeof children === 'string') {
-        const id = children
-          .toLowerCase()
-          .replace(/[^\w\s-]/g, '') // Remove special characters
-          .replace(/\s+/g, '-') // Replace spaces with hyphens
-          .replace(/-+/g, '-') // Replace multiple hyphens with a single hyphen
-          .trim();
-
-        return (
-          <h2 id={id} {...rest}>
-            <a href={`#${id}`} className="group flex w-fit items-center gap-2 no-underline">
-              {children}
-              <LinkLucide className="hidden h-4 w-4 text-gray-200 animate-in fade-in-50 group-hover:flex md:h-5 md:w-5" />
-            </a>
-          </h2>
-        );
-      }
-
-      return <h2 {...rest}>{children}</h2>;
-    },
-    h3: ({ children, ...rest }: JSX.IntrinsicElements['h3']) => {
-      if (typeof children === 'string') {
-        const id = children
-          .toLowerCase()
-          .replace(/[^\w\s-]/g, '') // Remove special characters
-          .replace(/\s+/g, '-') // Replace spaces with hyphens
-          .replace(/-+/g, '-') // Replace multiple hyphens with a single hyphen
-          .trim();
-
-        return (
-          <h3 id={id} {...rest}>
-            <a href={`#${id}`} className="group flex w-fit items-center gap-2 no-underline">
-              {children}
-              <LinkLucide className="hidden h-4 w-4 text-gray-200 animate-in fade-in-50 group-hover:flex" />
-            </a>
-          </h3>
-        );
-      }
-
-      return <h2 {...rest}>{children}</h2>;
-    },
+    h2: (props: JSX.IntrinsicElements['h2']) => <H2 {...props} />,
+    h3: (props: JSX.IntrinsicElements['h3']) => <H3 {...props} />,
     p: ({ children, ...rest }: JSX.IntrinsicElements['p']) => (
       <p
         className="font-light not-italic text-gray-100 before:content-none after:content-none"
