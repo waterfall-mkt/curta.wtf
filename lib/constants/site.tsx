@@ -3,31 +3,6 @@ import { Github, Twitter } from 'lucide-react';
 import type { ExternalLink, Page } from '@/lib/types/site';
 
 /**
- * Guides pages displayed on [**curta.wtf/guides**](https://curta.wtf/guides)'s
- * navigation bar.
- */
-export const GUIDES_PAGES: { name: string; groups: ({ name: string; pages: Page[] } | Page)[] }[] =
-  [
-    {
-      name: 'Player',
-      groups: [
-        { name: 'Getting Started', slug: '/guides/player/getting-started' },
-        { name: 'Submitting Solutions', slug: '/guides/player/submitting-solutions' },
-        { name: 'NFT Rewards', slug: '/guides/player/nft-rewards' },
-      ],
-    },
-    {
-      name: 'Author',
-      groups: [
-        { name: 'Becoming an Author', slug: '/guides/author/becoming-an-author' },
-        { name: 'Creating a Puzzle', slug: '/guides/author/creating-a-puzzle' },
-        { name: 'Customizing Art', slug: '/guides/author/customizing-art' },
-        { name: 'Becoming Fermat', slug: '/guides/author/becoming-fermat' },
-      ],
-    },
-  ];
-
-/**
  * Docs pages displayed on [**curta.wtf/docs**](https://curta.wtf/docs)'s
  * navigation bar.
  */
@@ -41,11 +16,11 @@ export const DOCS_PAGES: {
       {
         name: 'CTF',
         pages: [
-          { name: 'Overview', slug: '/docs' },
-          { name: 'Phases', slug: '/docs/phases' },
-          { name: 'Puzzles', slug: '/docs/puzzles' },
-          { name: 'Authorship Token', slug: '/docs/authorship-token' },
-          { name: 'Flag Token', slug: '/docs/flag-token' },
+          { name: 'Overview', slug: '/docs/ctf/overview' },
+          { name: 'Phases', slug: '/docs/ctf/phases' },
+          { name: 'Puzzles', slug: '/docs/ctf/puzzles' },
+          { name: 'Authorship Token', slug: '/docs/ctf/authorship-token' },
+          { name: 'Flag Token', slug: '/docs/ctf/flag-token' },
         ],
       },
       { name: 'Leaderboard', slug: '/docs/leaderboard' },
@@ -54,8 +29,8 @@ export const DOCS_PAGES: {
   {
     name: 'Resources',
     groups: [
-      { name: 'Contracts', slug: '/docs/resources/contracts' },
-      { name: 'External Links', slug: '/docs/resources/external-links' },
+      { name: 'Contracts', slug: '/docs/contracts' },
+      { name: 'External Links', slug: '/docs/external-links' },
     ],
   },
 ];

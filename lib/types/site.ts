@@ -20,25 +20,17 @@ export type PageSlug =
   | '/legal/tos'
   | '/leaderboard'
   | '/playground'
-  | '/guides'
   // Docs
   | '/docs'
-  | '/docs/phases'
-  | '/docs/puzzles'
-  | '/docs/authorship-token'
-  | '/docs/flag-token'
+  | '/docs/ctf/overview'
+  | '/docs/ctf/phases'
+  | '/docs/ctf/puzzles'
+  | '/docs/ctf/authorship-token'
+  | '/docs/ctf/flag-token'
   | '/docs/leaderboard'
-  | '/docs/resources/glossary'
-  | '/docs/resources/contracts'
-  | '/docs/resources/external-links'
-  // Guides
-  | '/guides/player/getting-started'
-  | '/guides/player/submitting-solutions'
-  | '/guides/player/nft-rewards'
-  | '/guides/author/becoming-an-author'
-  | '/guides/author/creating-a-puzzle'
-  | '/guides/author/customizing-art'
-  | '/guides/author/becoming-fermat';
+  | '/docs/glossary'
+  | '/docs/contracts'
+  | '/docs/external-links';
 
 /**
  * Type for an external page linked on [**curta.wtf**](https://curta.wtf),
