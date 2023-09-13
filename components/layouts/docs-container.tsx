@@ -11,7 +11,7 @@ import ContainerLayout from '@/components/layouts/container';
 // -----------------------------------------------------------------------------
 
 type DocsContainerLayoutProps = {
-  sections: { name: string; pages: Page[] }[];
+  sections: { name: string; groups: ({ name: string; pages: Page[] } | Page)[] }[];
   children: ReactNode;
 };
 

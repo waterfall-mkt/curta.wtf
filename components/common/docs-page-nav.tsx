@@ -13,7 +13,7 @@ import type { Page } from '@/lib/types/site';
 // -----------------------------------------------------------------------------
 
 type DocsPageNavProps = {
-  sections: { name: string; pages: Page[] }[];
+  sections: { name: string; groups: ({ name: string; pages: Page[] } | Page)[] }[];
 };
 
 // -----------------------------------------------------------------------------
@@ -22,7 +22,13 @@ type DocsPageNavProps = {
 
 const DocsPageNav: FC<DocsPageNavProps> = ({ sections }) => {
   const pathname = usePathname();
-  const pages = useMemo(() => sections.flatMap((section) => section.pages), [sections]);
+  const pages = useMemo(
+    () =>
+      sections.flatMap((section) =>
+        section.groups.flatMap((group) => ('pages' in group ? group.pages : [group])),
+      ),
+    [sections],
+  );
   const prevPage = useMemo(() => {
     const index = pages.findIndex((page) => page.slug === pathname);
 

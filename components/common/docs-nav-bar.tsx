@@ -3,6 +3,7 @@
 import { usePathname } from 'next/navigation';
 import { type FC, Fragment, useMemo, useState } from 'react';
 
+import * as Accordion from '@radix-ui/react-accordion';
 import * as Dialog from '@radix-ui/react-dialog';
 import clsx from 'clsx';
 import { ChevronRight } from 'lucide-react';
@@ -17,11 +18,11 @@ import { Button } from '@/components/ui';
 // -----------------------------------------------------------------------------
 
 type DocsNavBarProps = {
-  sections: { name: string; pages: Page[] }[];
+  sections: { name: string; groups: ({ name: string; pages: Page[] } | Page)[] }[];
 };
 
 type DocsNavBarInternalProps = {
-  sections: { name: string; pages: Page[] }[];
+  sections: { name: string; groups: ({ name: string; pages: Page[] } | Page)[] }[];
   selected?: string;
   setIsOpen?: (isOpen: boolean) => void;
 };
@@ -44,7 +45,7 @@ const DocsNavBar: FC<DocsNavBarProps> = ({ sections }) => {
 const DocsNavBarDesktop: FC<DocsNavBarInternalProps> = ({ sections, selected }) => {
   return (
     <nav
-      className="hide-scrollbar sticky top-[6.5rem] -ml-4 hidden min-w-[14rem] max-w-[14rem] flex-col overflow-y-scroll px-0.5 md:flex lg:top-[7.5rem]"
+      className="hide-scrollbar sticky top-[6.5rem] -ml-3 hidden min-w-[14rem] max-w-[14rem] flex-col overflow-y-scroll px-0.5 md:flex lg:top-[7.5rem]"
       style={{ height: 'calc(100vh - 11rem)' }}
     >
       <DocsNavBarInternal sections={sections} selected={selected} />
@@ -58,10 +59,12 @@ const DocsNavBarMobile: FC<DocsNavBarInternalProps> = ({ sections, selected }) =
 
   const [selectedSectionName, selectedPageName] = useMemo(() => {
     for (let i = 0; i < sections.length; ++i) {
-      const category = sections[i];
-      const page = category.pages.find((page) => page.slug === selected);
+      const section = sections[i];
+      const page = section.groups
+        .flatMap((group) => ('pages' in group ? group.pages : [group]))
+        .find((page) => page.slug === selected);
 
-      if (page) return [category.name, page.name];
+      if (page) return [section.name, page.name];
     }
 
     return ['', ''];
@@ -100,39 +103,88 @@ const DocsNavBarMobile: FC<DocsNavBarInternalProps> = ({ sections, selected }) =
   );
 };
 
+// -----------------------------------------------------------------------------
+// Internal components
+// -----------------------------------------------------------------------------
+
 const DocsNavBarInternal: FC<DocsNavBarInternalProps> = ({ sections, selected, setIsOpen }) => {
   return (
     <Fragment>
-      {sections.map((category, index) => (
+      {sections.map((section, index) => (
         <Fragment key={index}>
-          <div className={clsx('ml-4 font-medium text-gray-100', index > 0 ? 'mt-4' : '')}>
-            {category.name}
+          <div className={clsx('ml-3 font-medium text-gray-100', index > 0 ? 'mt-4' : '')}>
+            {section.name}
           </div>
-          {category.pages.map((page) => {
-            const pageSelected = selected === page.slug;
+          {section.groups.map((group, index) => {
+            if ('pages' in group) {
+              return (
+                <Accordion.Root key={index} type="single" collapsible>
+                  <Accordion.Item value={group.name} className="w-full">
+                    <Accordion.Trigger asChild>
+                      <Button
+                        className="group w-full justify-between data-[state='open']:text-gray-100"
+                        variant="text"
+                        intent="neutral"
+                        rightIcon={
+                          <ChevronRight className="transition-transform group-data-[state='open']:rotate-90" />
+                        }
+                      >
+                        {group.name}
+                      </Button>
+                    </Accordion.Trigger>
+                    <Accordion.Content className="overflow-hidden pl-4 data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down">
+                      {group.pages.map((page, index) => (
+                        <DocsNavBarInternalButton
+                          key={index}
+                          page={page}
+                          selected={selected}
+                          setIsOpen={setIsOpen}
+                        />
+                      ))}
+                    </Accordion.Content>
+                  </Accordion.Item>
+                </Accordion.Root>
+              );
+            }
 
             return (
-              <div key={page.slug}>
-                <Button
-                  size="lg"
-                  className={clsx(
-                    'mt-1 w-full justify-start',
-                    pageSelected ? 'cursor-default bg-blue-800 text-blue-200' : '',
-                  )}
-                  variant="text"
-                  intent="neutral"
-                  href={page.slug}
-                  onClick={() => setIsOpen?.(false)}
-                  disabled={pageSelected}
-                >
-                  {page.name}
-                </Button>
-              </div>
+              <DocsNavBarInternalButton
+                key={index}
+                page={group}
+                selected={selected}
+                setIsOpen={setIsOpen}
+              />
             );
           })}
         </Fragment>
       ))}
     </Fragment>
+  );
+};
+
+const DocsNavBarInternalButton: FC<{
+  page: Page;
+  selected?: string;
+  setIsOpen?: (isOpen: boolean) => void;
+}> = ({ page, selected, setIsOpen }) => {
+  const pageSelected = selected === page.slug;
+
+  return (
+    <div>
+      <Button
+        className={clsx(
+          'mt-1 w-full justify-start',
+          pageSelected ? 'cursor-default bg-blue-800 text-blue-200' : '',
+        )}
+        variant="text"
+        intent="neutral"
+        href={page.slug}
+        onClick={() => setIsOpen?.(false)}
+        disabled={pageSelected}
+      >
+        {page.name}
+      </Button>
+    </div>
   );
 };
 
