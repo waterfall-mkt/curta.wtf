@@ -78,7 +78,6 @@ export const NAVBAR_PAGES: Page[] = [
   { name: 'Puzzles', slug: '/' },
   { name: 'Leaderboard', slug: '/leaderboard' },
   { name: 'Docs', slug: '/docs' },
-  { name: 'Guides', slug: '/guides' },
 ];
 
 /**
