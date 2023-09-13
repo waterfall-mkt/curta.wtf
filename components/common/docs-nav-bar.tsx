@@ -134,7 +134,12 @@ const DocsNavBarInternal: FC<DocsNavBarInternalProps> = ({ sections, selected, s
                   <Accordion.Item value={group.name} className="w-full">
                     <Accordion.Trigger asChild>
                       <Button
-                        className="group w-full justify-between data-[state='open']:text-gray-100"
+                        className={clsx(
+                          'group w-full justify-between',
+                          group.pages.find((page) => page.slug === selected) !== undefined
+                            ? 'data-variant-text:text-gray-100'
+                            : '',
+                        )}
                         variant="text"
                         intent="neutral"
                         rightIcon={
