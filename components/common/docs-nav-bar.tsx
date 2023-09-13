@@ -57,17 +57,21 @@ const DocsNavBarMobile: FC<DocsNavBarInternalProps> = ({ sections, selected }) =
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const isSmallScreen = useMediaQuery('(max-width: 768px)'); // `md` breakpoint
 
-  const [selectedSectionName, selectedPageName] = useMemo(() => {
+  const [selectedSectionName, selectedGroupName, selectedPageName] = useMemo(() => {
     for (let i = 0; i < sections.length; ++i) {
       const section = sections[i];
-      const page = section.groups
-        .flatMap((group) => ('pages' in group ? group.pages : [group]))
-        .find((page) => page.slug === selected);
+      for (let j = 0; j < section.groups.length; ++j) {
+        const group = section.groups[j];
+        if ('pages' in group) {
+          const page = group.pages.find((page) => page.slug === selected);
+          if (page) return [section.name, group.name, page.name];
+        }
 
-      if (page) return [section.name, page.name];
+        return [section.name, '', group.name];
+      }
     }
 
-    return ['', ''];
+    return ['', '', ''];
   }, [sections, selected]);
 
   return (
@@ -83,10 +87,18 @@ const DocsNavBarMobile: FC<DocsNavBarInternalProps> = ({ sections, selected }) =
           </button>
         </Dialog.Trigger>
         <ol className="ml-4 flex text-sm">
-          <li className="flex items-center text-gray-200">
-            {selectedSectionName}
-            <ChevronRight className="mx-1 h-4 w-4" />
-          </li>
+          {selectedSectionName.length > 0 ? (
+            <li className="flex items-center text-gray-200">
+              {selectedSectionName}
+              <ChevronRight className="mx-1 h-4 w-4" />
+            </li>
+          ) : null}
+          {selectedGroupName.length > 0 ? (
+            <li className="flex items-center text-gray-200">
+              {selectedGroupName}
+              <ChevronRight className="mx-1 h-4 w-4" />
+            </li>
+          ) : null}
           <li className="font-medium text-gray-100">{selectedPageName}</li>
         </ol>
       </div>
