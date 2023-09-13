@@ -11,12 +11,16 @@ export const DOCS_PAGES: {
   groups: ({ name: string; pages: Page[] } | Page)[];
 }[] = [
   {
+    name: '',
+    groups: [{ name: 'Overview', slug: '/docs' }],
+  },
+  {
     name: 'Credentials',
     groups: [
       {
         name: 'CTF',
         pages: [
-          { name: 'Overview', slug: '/docs/ctf/overview' },
+          { name: 'CTF Overview', slug: '/docs/ctf/overview' },
           { name: 'Phases', slug: '/docs/ctf/phases' },
           { name: 'Puzzles', slug: '/docs/ctf/puzzles' },
           { name: 'Authorship Token', slug: '/docs/ctf/authorship-token' },

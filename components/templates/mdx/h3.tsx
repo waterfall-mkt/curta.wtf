@@ -23,7 +23,7 @@ const H3: FC<JSX.IntrinsicElements['h3']> = ({ children, ...rest }) => {
       <h3 id={id} {...rest}>
         <a
           href={`#${id}`}
-          className="group flex w-fit items-center gap-2 no-underline"
+          className="not-prose group flex w-fit items-center gap-2 font-semibold tracking-tight no-underline"
           onClick={() => {
             navigator.clipboard.writeText(
               `${process.env.NEXT_PUBLIC_BASE_URL ?? 'https://curta.wtf'}${pathname}#${id}`,
