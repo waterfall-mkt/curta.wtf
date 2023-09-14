@@ -99,44 +99,51 @@ const PuzzleFeature: FC = () => {
           <stop stopColor="rgba(117, 129, 149, 1)" />
           <stop offset="1" stopColor="rgba(24, 30, 40, 1)" stopOpacity="0" />
         </motion.linearGradient>
+        {/* Mask for code block skeleton scroll. */}
+        <mask id="code-block-skeleton-scroll-mask">
+          <rect width={WIDTH} height={10 * HEIGHT} y={-5 * HEIGHT} fill="black" />
+          <rect width={flagWidth} height={HEIGHT - 13.5} y="13.5" fill="white" />
+        </mask>
       </defs>
       {/* Code block background. */}
       <rect className="fill-gray-600" width={flagWidth} height={HEIGHT} rx="4" />
       {/* Code block skeleton. */}
-      <g>
-        <rect className="fill-gray-350" width="36" height="6" x="4" y="16" rx="1" />
-        <rect className="fill-gray-350" width={flagWidth - 11} height="6" x="4" y="24" rx="1" />
-        <rect className="fill-gray-350" width="28" height="6" x="4" y="32" rx="1" />
-        <rect className="fill-gray-350" width="36" height="6" x="4" y="40" rx="1" />
-        <rect className="fill-gray-350" width="56" height="6" x="4" y="48" rx="1" />
-        <rect className="fill-gray-350" width={flagWidth - 11} height="6" x="4" y="56" rx="1" />
-        <rect className="fill-gray-350" width="20" height="6" x="4" y="64" rx="1" />
-        <rect className="fill-gray-350" width="64" height="6" x="4" y="72" rx="1" />
-        <rect className="fill-gray-350" width="48" height="6" x="4" y="80" rx="1" />
-        <rect className="fill-gray-350" width="36" height="6" x="4" y="88" rx="1" />
-        <rect className="fill-gray-350" width="20" height="6" x="4" y="96" rx="1" />
-        <rect className="fill-gray-350" width="28" height="6" x="4" y="104" rx="1" />
-        <rect className="fill-gray-350" width="24" height="6" x="4" y="112" rx="1" />
-        <rect className="fill-gray-350" width="16" height="6" x="4" y="120" rx="1" />
-        <rect className="fill-gray-350" width="44" height="6" x="4" y="128" rx="1" />
-        <rect className="fill-gray-350" width="48" height="6" x="4" y="136" rx="1" />
-        <rect className="fill-gray-350" width="36" height="6" x="4" y="144" rx="1" />
-        <rect className="fill-gray-350" width="20" height="6" x="4" y="152" rx="1" />
-        <rect className="fill-gray-350" width="28" height="6" x="4" y="160" rx="1" />
-        <rect className="fill-gray-350" width="24" height="6" x="4" y="168" rx="1" />
-        <rect className="fill-gray-350" width="16" height="6" x="4" y="176" rx="1" />
-        <rect className="fill-gray-350" width="44" height="6" x="4" y="184" rx="1" />
-        <animateTransform
-          attributeName="transform"
-          attributeType="XML"
-          type="translate"
-          values="0 0;0 -66;0 -66;0 0;0 0"
-          keyTimes="0;0.1;0.5;0.6;1"
-          begin="0s"
-          dur="10s"
-          repeatCount="indefinite"
-          fill="freeze"
-        />
+      <g mask="url(#code-block-skeleton-scroll-mask)">
+        <g>
+          <rect className="fill-gray-350" width="36" height="6" x="4" y="16" rx="1" />
+          <rect className="fill-gray-350" width={flagWidth - 11} height="6" x="4" y="24" rx="1" />
+          <rect className="fill-gray-350" width="28" height="6" x="4" y="32" rx="1" />
+          <rect className="fill-gray-350" width="36" height="6" x="4" y="40" rx="1" />
+          <rect className="fill-gray-350" width="56" height="6" x="4" y="48" rx="1" />
+          <rect className="fill-gray-350" width={flagWidth - 11} height="6" x="4" y="56" rx="1" />
+          <rect className="fill-gray-350" width="20" height="6" x="4" y="64" rx="1" />
+          <rect className="fill-gray-350" width="64" height="6" x="4" y="72" rx="1" />
+          <rect className="fill-gray-350" width="48" height="6" x="4" y="80" rx="1" />
+          <rect className="fill-gray-350" width="36" height="6" x="4" y="88" rx="1" />
+          <rect className="fill-gray-350" width="20" height="6" x="4" y="96" rx="1" />
+          <rect className="fill-gray-350" width="28" height="6" x="4" y="104" rx="1" />
+          <rect className="fill-gray-350" width="24" height="6" x="4" y="112" rx="1" />
+          <rect className="fill-gray-350" width="16" height="6" x="4" y="120" rx="1" />
+          <rect className="fill-gray-350" width="44" height="6" x="4" y="128" rx="1" />
+          <rect className="fill-gray-350" width="48" height="6" x="4" y="136" rx="1" />
+          <rect className="fill-gray-350" width="36" height="6" x="4" y="144" rx="1" />
+          <rect className="fill-gray-350" width="20" height="6" x="4" y="152" rx="1" />
+          <rect className="fill-gray-350" width="28" height="6" x="4" y="160" rx="1" />
+          <rect className="fill-gray-350" width="24" height="6" x="4" y="168" rx="1" />
+          <rect className="fill-gray-350" width="16" height="6" x="4" y="176" rx="1" />
+          <rect className="fill-gray-350" width="44" height="6" x="4" y="184" rx="1" />
+          <animateTransform
+            attributeName="transform"
+            attributeType="XML"
+            type="translate"
+            values="0 0;0 -66;0 -66;0 0;0 0"
+            keyTimes="0;0.1;0.5;0.6;1"
+            begin="0s"
+            dur="10s"
+            repeatCount="indefinite"
+            fill="freeze"
+          />
+        </g>
       </g>
       {/* Code block scroll bar. */}
       <rect className="fill-gray-250" width="2" height="72" rx="1" x={flagWidth - 5} y="15.5">
