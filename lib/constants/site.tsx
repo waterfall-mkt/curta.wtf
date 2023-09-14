@@ -18,9 +18,9 @@ export const DOCS_PAGES: {
     name: 'Credentials',
     groups: [
       {
-        name: 'CTF',
+        name: 'Puzzles',
         pages: [
-          { name: 'CTF Overview', slug: '/docs/puzzles/overview' },
+          { name: 'Puzzles Overview', slug: '/docs/puzzles/overview' },
           { name: 'Phases', slug: '/docs/puzzles/phases' },
           { name: 'Puzzles', slug: '/docs/puzzles/puzzles' },
           { name: 'Authorship Token', slug: '/docs/puzzles/authorship-token' },
