@@ -21,29 +21,63 @@ const CTFFeature: FC = () => {
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
-      <rect width={256 - flagX} height="128" fill="rgba(18, 22, 31, 1)" rx="4" />
+      <rect className="fill-gray-600" width={flagWidth} height="128" rx="4" />
       <text className="text-gray-100" x="2" y="12" fontSize="8">
         Puzzle
       </text>
-      <line className="stroke-stroke" x1="0" y1="13" x2={flagWidth} y2="13" />
+      <g>
+        <rect className="fill-gray-350" width="36" height="6" x="4" y="16" rx="1" />
+        <rect className="fill-gray-350" width={flagWidth - 11} height="6" x="4" y="24" rx="1" />
+        <rect className="fill-gray-350" width="28" height="6" x="4" y="32" rx="1" />
+        <rect className="fill-gray-350" width="36" height="6" x="4" y="40" rx="1" />
+        <rect className="fill-gray-350" width="56" height="6" x="4" y="48" rx="1" />
+        <rect className="fill-gray-350" width={flagWidth - 11} height="6" x="4" y="56" rx="1" />
+        <rect className="fill-gray-350" width="20" height="6" x="4" y="64" rx="1" />
+        <rect className="fill-gray-350" width="64" height="6" x="4" y="72" rx="1" />
+        <rect className="fill-gray-350" width="48" height="6" x="4" y="80" rx="1" />
+        <rect className="fill-gray-350" width="36" height="6" x="4" y="88" rx="1" />
+        <rect className="fill-gray-350" width="20" height="6" x="4" y="96" rx="1" />
+        <rect className="fill-gray-350" width="28" height="6" x="4" y="104" rx="1" />
+        <rect className="fill-gray-350" width="24" height="6" x="4" y="112" rx="1" />
+        <rect className="fill-gray-350" width="16" height="6" x="4" y="120" rx="1" />
+        <rect className="fill-gray-350" width="44" height="6" x="4" y="128" rx="1" />
+        <rect className="fill-gray-350" width="48" height="6" x="4" y="136" rx="1" />
+        <rect className="fill-gray-350" width="36" height="6" x="4" y="144" rx="1" />
+        <rect className="fill-gray-350" width="20" height="6" x="4" y="152" rx="1" />
+        <rect className="fill-gray-350" width="28" height="6" x="4" y="160" rx="1" />
+        <rect className="fill-gray-350" width="24" height="6" x="4" y="168" rx="1" />
+        <rect className="fill-gray-350" width="16" height="6" x="4" y="176" rx="1" />
+        <rect className="fill-gray-350" width="44" height="6" x="4" y="184" rx="1" />
+        <animateTransform
+          attributeName="transform"
+          attributeType="XML"
+          type="translate"
+          values="0 0;0 -66;0 -66;0 0;0 0"
+          keyTimes="0;0.1;0.5;0.6;1"
+          begin="0s"
+          dur="10s"
+          repeatCount="indefinite"
+          fill="freeze"
+        />
+      </g>
+      <rect className="fill-gray-250" width="2" height="72" rx="1" x={flagWidth - 5} y="15.5">
+        <animateTransform
+          attributeName="transform"
+          attributeType="XML"
+          type="translate"
+          values="0 0;0 37;0 37;0 0;0 0"
+          keyTimes="0;0.1;0.5;0.6;1"
+          begin="0s"
+          dur="10s"
+          repeatCount="indefinite"
+          fill="freeze"
+        />
+      </rect>
+      <rect className="fill-gray-600" width={flagWidth} height="13" rx="4" />
       <rect className="fill-gray-250" width="6" height="6" x="4" y="4" rx="1" />
       <rect className="fill-gray-250" width="36" height="6" x="12" y="4" rx="1" />
-      <rect className="fill-gray-250" width="6" height="6" x="70" y="4" rx="1" />
-      <rect className="fill-gray-350" width="36" height="6" x="4" y="16" rx="1" />
-      <rect className="fill-gray-350" width={flagWidth - 7.5} height="6" x="4" y="24" rx="1" />
-      <rect className="fill-gray-350" width="28" height="6" x="4" y="32" rx="1" />
-      <rect className="fill-gray-350" width="36" height="6" x="4" y="40" rx="1" />
-      <rect className="fill-gray-350" width="56" height="6" x="4" y="48" rx="1" />
-      <rect className="fill-gray-350" width={flagWidth - 7.5} height="6" x="4" y="56" rx="1" />
-      <rect className="fill-gray-350" width="20" height="6" x="4" y="64" rx="1" />
-      <rect className="fill-gray-350" width="64" height="6" x="4" y="72" rx="1" />
-      <rect className="fill-gray-350" width="48" height="6" x="4" y="80" rx="1" />
-      <rect className="fill-gray-350" width="36" height="6" x="4" y="88" rx="1" />
-      <rect className="fill-gray-350" width="20" height="6" x="4" y="96" rx="1" />
-      <rect className="fill-gray-350" width="28" height="6" x="4" y="104" rx="1" />
-      <rect className="fill-gray-350" width="24" height="6" x="4" y="112" rx="1" />
-      <rect className="fill-gray-350" width="16" height="6" x="4" y="120" rx="1" />
-      <rect className="fill-gray-350" width="44" height="6" x="4" y="128" rx="1" />
+      <rect className="fill-gray-250" width="6" height="6" x={flagWidth - 10} y="4" rx="1" />
+      <line className="stroke-stroke" x1="0" y1="13" x2={flagWidth} y2="13" />
       <rect className="stroke-stroke" width={flagWidth - 1} height="127" x="0.5" y="0.5" rx="4" />
       <line
         className="stroke-stroke"
