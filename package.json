@@ -38,6 +38,7 @@
     "boring-avatars": "^1.10.1",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
+    "framer-motion": "^10.16.4",
     "katex": "^0.16.8",
     "lucide-react": "^0.263.1",
     "next": "13.4.19",
