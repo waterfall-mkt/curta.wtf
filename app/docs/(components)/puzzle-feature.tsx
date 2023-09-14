@@ -5,7 +5,7 @@ import type { FC } from 'react';
 import { motion } from 'framer-motion';
 import { Puzzle } from 'lucide-react';
 
-const CTFFeature: FC = () => {
+const PuzzleFeature: FC = () => {
   // Width of the SVG.
   const WIDTH = 256;
   // Height of the SVG.
@@ -863,4 +863,4 @@ const CTFFeature: FC = () => {
   );
 };
 
-export default CTFFeature;
+export default PuzzleFeature;

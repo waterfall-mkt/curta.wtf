@@ -1,7 +1,7 @@
 import Link from 'next/link';
 
 import CredentialFeature from './(components)/credential-feature';
-import CTFFeature from './(components)/ctf-feature';
+import PuzzleFeature from './(components)/puzzle-feature';
 import Description from '@/components/templates/mdx/description';
 import { getBaseMetadata } from '@/lib/utils';
 
@@ -19,8 +19,8 @@ export const metadata = getBaseMetadata({
     {
       name: 'Puzzles',
       description: 'A CTF protocol, where players create and solve EVM puzzles to earn NFTs.',
-      href: '/docs/ctf/overview',
-      children: <CTFFeature />
+      href: '/docs/puzzles/overview',
+      children: <PuzzleFeature />
     }
   ].map((item) => <CredentialFeature key={item.href} {...item} />)}
 </div>
@@ -34,7 +34,7 @@ Hello
     {
       name: 'CTF',
       description: 'A CTF protocol, where players create and solve EVM puzzles to earn NFTs.',
-      href: '/docs/ctf/overview',
+      href: '/docs/puzzles/overview',
       children: <CTFFeature />
     }
   ].map((item) => <CredentialFeature key={item.href} {...item} />)}

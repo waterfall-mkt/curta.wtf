@@ -20,11 +20,11 @@ export const DOCS_PAGES: {
       {
         name: 'CTF',
         pages: [
-          { name: 'CTF Overview', slug: '/docs/ctf/overview' },
-          { name: 'Phases', slug: '/docs/ctf/phases' },
-          { name: 'Puzzles', slug: '/docs/ctf/puzzles' },
-          { name: 'Authorship Token', slug: '/docs/ctf/authorship-token' },
-          { name: 'Flag Token', slug: '/docs/ctf/flag-token' },
+          { name: 'CTF Overview', slug: '/docs/puzzles/overview' },
+          { name: 'Phases', slug: '/docs/puzzles/phases' },
+          { name: 'Puzzles', slug: '/docs/puzzles/puzzles' },
+          { name: 'Authorship Token', slug: '/docs/puzzles/authorship-token' },
+          { name: 'Flag Token', slug: '/docs/puzzles/flag-token' },
         ],
       },
       { name: 'Leaderboard', slug: '/docs/leaderboard' },
