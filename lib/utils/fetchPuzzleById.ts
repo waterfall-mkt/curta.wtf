@@ -52,7 +52,7 @@ const fetchPuzzleById = async (id: number): Promise<PuzzleResponse> => {
     name: puzzleData.name,
     flagConfig: { ...PRESET_COLORS[0] },
     // Solve
-    firstSolveTimestamp: puzzleData.firstSolveTimestamp,
+    firstSolveTimestamp: 1694635000 - 48200, //puzzleData.firstSolveTimestamp,
     firstSolver: puzzleData.firstSolver,
     firstSolverEnsName: firstSolverEnsName ?? undefined,
     firstSolveBlock: puzzleData.firstSolveBlock,

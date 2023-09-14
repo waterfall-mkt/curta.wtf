@@ -1,3 +1,8 @@
+import Link from 'next/link';
+
+import CredentialFeature from './(components)/credential-feature';
+import CTFFeature from './(components)/ctf-feature';
+import Description from '@/components/templates/mdx/description';
 import { getBaseMetadata } from '@/lib/utils';
 
 export const metadata = getBaseMetadata({
@@ -6,12 +11,31 @@ export const metadata = getBaseMetadata({
 });
 
 # Curta Documentation
-**Curta** is a CTF protocol that involves creating and solving EVM puzzles. By participating, authors can earn fees from the puzzles they create, and players can earn NFT rewards and a place on the [leaderboard](/leaderboard). The format of the puzzles are completely open-ended, so there'll likely be puzzles that are suitable for both seasoned CTF players and those new to the game.
+<Description children='Curta is a talent discovery competition platform and community of protocol engineers.' />
 
-This documentation is a handbook for understanding how Curta works. If you are looking for how to use Curta instead, visit [Guides](/guides).
+## Credentials
+<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 gap-4 lg:grid-cols-3">
+  {[
+    {
+      name: 'CTF',
+      description: 'A CTF protocol, where players create and solve EVM puzzles to earn NFTs.',
+      href: '/docs/ctf/overview',
+      children: <CTFFeature />
+    }
+  ].map((item) => <CredentialFeature key={item.href} {...item} />)}
+</div>
 
-## Motivation
-Curta is built on the belief that many talented developers who contribute to the ecosystem are not sufficiently recognized for their hard work. With Curta, we aim to change that by providing developers with a platform to showcase and monetize their skills, while earning unique NFTs as a reward.
+## Links
 
-## What is a CTF Protocol?
-You may have noticed that we sometimes refer to Curta as a "CTF protocol." CTF stands for "Capture the Flag": a competition where players race to solve puzzles/problems, often to obtain prizes and points. CTFs are a good way to improve cybersecurity skills/knowledge in a fun, entertaining, and competitive format. Curta is a CTF protocol in the sense that it allows anyone to participate and become a player, and anyone with an [Authorship Token](/docs/authorship-token) can upload a CTF puzzle.
+Hello
+
+<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 gap-4 lg:grid-cols-3">
+  {[
+    {
+      name: 'CTF',
+      description: 'A CTF protocol, where players create and solve EVM puzzles to earn NFTs.',
+      href: '/docs/ctf/overview',
+      children: <CTFFeature />
+    }
+  ].map((item) => <CredentialFeature key={item.href} {...item} />)}
+</div>
