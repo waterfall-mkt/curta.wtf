@@ -18,105 +18,54 @@ export const metadata = getBaseMetadata({
 
 ## Introduction
 
-Each puzzle on Curta is written by a curated author, and every puzzle has just 1 constraint:
+A puzzle becomes available for solving by anyone as soon as an author adds it to the [Curta contract](https://etherscan.io/address/0x0000000006bC8D9e5e9d436217B88De704a9F307). Upon valid submissions, a [Flag](https://opensea.io/collection/curta) NFT is minted to the solver, and they earn [points](/docs/leaderboard), which is used to place them on the [leaderboard](/leaderboard).
 
-<Callout>
-  The puzzle's starting position must be seeded with the solver's address.
-</Callout>
+## Submission period
 
-This way, each puzzle is _generative_ and each solution is unique to the solver.
-
-Since the protocol is 100% onchain, every submission is public. The idea is that the generative aspect prevents front-running and allows for multiple winners (within the submitting period): even if you see other someone else's solution, you still have to figure out what the rules/constraints of the puzzle are and solve it from _your_ starting position.
-
-### Phases
-
-Once a puzzle has been added by the author, the puzzle goes through 4 Phases:
+Immediately after a puzzle is added, the puzzle enters **Phase 0**, a period where nobody has solved the puzzle yet. Then, as people solve the puzzle, it progresses through 4 Phases:
 
 <PhaseTable />
 
-<details>
-  <summary children='View source' />
-```sol fileName='IPuzzle.sol' showLineNumbers={false}
-interface IPuzzle {
-    /// @notice Returns the puzzle's name.
-    /// @return The puzzle's name.
-    function name() external pure returns (string memory);
+To simplify, each puzzle's submission period lasts from the time it's added until 5 days after the first valid solution is submitted (aka **First Blood**).
 
-    /// @notice Generates the puzzle's starting position based on a seed.
-    /// @dev The seed is intended to be `msg.sender` of some wrapper function or
-    /// call.
-    /// @param _seed The seed to use to generate the puzzle.
-    /// @return The puzzle's starting position.
-    function generate(address _seed) external returns (uint256);
+## Generative puzzles
 
-    /// @notice Verifies that a solution is valid for the puzzle.
-    /// @dev `_start` is intended to be an output from {IPuzzle-generate}.
-    /// @param _start The puzzle's starting position.
-    /// @param _solution The solution to the puzzle.
-    /// @return Whether the solution is valid.
-    function verify(uint256 _start, uint256 _solution) external returns (bool);
-}
+<Callout>
+  Every puzzle must implement a `generate(address)` function, which takes in the user's address as a seed and returns a unique starting position. This way, each puzzle is _generative_, and each solution is unique to the solver.
+</Callout>
+
+Since the protocol is 100% onchain, every submission is public. The generative aspect prevents front-running and allows for multiple winners: even if you see someone else's solution, you still have to figure out what the rules/constraints of the puzzle are and solve it from _your_ starting position.
+
+To put it more rigorously, the [`solve` function](https://github.com/waterfall-mkt/curta/blob/2d5de33e3e08ff478ad9e33b6a6f00f819224122/src/Curta.sol#L107) on [Curta](https://etherscan.io/address/0x0000000006bC8D9e5e9d436217B88De704a9F307) requires the following to return `true`:
+
+```sol showLineNumbers={false}
+puzzle.verify(
+    puzzle.generate(msg.sender), // Unique starting position, seeded by the address of the solver.
+    _solution
+)
 ```
-</details>
-Once a puzzle has been added, 
+
+## Learn more
 
 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 gap-4 lg:grid-cols-3">
   {[
     {
-      name: 'Phases',
-      description: 'Curta Puzzles contracts.',
-      href: '/',
+      name: 'Submitting Solutions',
+      description: 'Learn how to submit solutions.',
+      href: '/docs/puzzles/submitting-solutions',
       icon: <Github />,
     },
     {
-      name: 'Submitting solutions',
-      description: 'Source for this site.',
-      href: '/',
+      name: 'Writing Puzzles',
+      description: 'Learn how to write a puzzle.',
+      href: '/docs/puzzles/writing-a-puzzle',
       icon: <Github />
     },
     {
-      name: 'Leaderboard',
-      description: 'Funding Curta-curated hackers.',
-      href: '/',
-      icon: <Castle />
+      name: 'Becoming an Author',
+      description: 'Learn how to become an author.',
+      href: '/docs/puzzles/becoming-an-author',
+      icon: <Github />
     },
   ].map((item) => <LinkFeature key={item.href} {...item} />)}
 </div>
-
-
-## On-chain verification
-
-Each puzzle inherits `IPuzzle` and implements its 3 functions:
-
-```sol fileName='IPuzzle.sol' showLineNumbers={false}
-interface IPuzzle {
-    /// @notice Returns the puzzle's name.
-    /// @return The puzzle's name.
-    function name() external pure returns (string memory);
-
-    /// @notice Generates the puzzle's starting position based on a seed.
-    /// @dev The seed is intended to be `msg.sender` of some wrapper function or
-    /// call.
-    /// @param _seed The seed to use to generate the puzzle.
-    /// @return The puzzle's starting position.
-    function generate(address _seed) external returns (uint256);
-
-    /// @notice Verifies that a solution is valid for the puzzle.
-    /// @dev `_start` is intended to be an output from {IPuzzle-generate}.
-    /// @param _start The puzzle's starting position.
-    /// @param _solution The solution to the puzzle.
-    /// @return Whether the solution is valid.
-    function verify(uint256 _start, uint256 _solution) external returns (bool);
-}
-```
-
-Then,
-
-```sol showLineNumbers={false}
-puzzle.verify(puzzle.generate(msg.sender), _solution);
-```
-
-## What is a CTF protocol?
-
-You may have noticed that we sometimes refer to Curta as a "CTF protocol." CTF stands for "Capture the Flag": a competition where players race to solve puzzles/problems, often to obtain prizes and points. CTFs are a good way to improve cybersecurity skills/knowledge in a fun, entertaining, and competitive format. Curta is a CTF protocol in the sense that it allows anyone to participate and become a player, and anyone with an Authorship Token can upload a CTF puzzle.
-
