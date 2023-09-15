@@ -1,6 +1,7 @@
 import Link from 'next/link';
+import Image from 'next/image';
 
-import { Castle, Github, Twitter } from 'lucide-react';
+import { Castle, FileText, Github, MessageCircle, Twitter } from 'lucide-react';
 
 import CredentialFeature from './(components)/credential-feature';
 import LinkFeature from './(components)/link-feature';
@@ -30,44 +31,45 @@ export const metadata = getBaseMetadata({
 
 ## Links
 
-Related links to Curta.
+External links related to Curta: GitHub repos, our [Hacker in Residence](https://twitter.com/curta_ctf/status/1690114460818837507) program, and socials.
 
 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 gap-4 lg:grid-cols-3">
   {[
     {
       name: 'waterfall-mkt/curta',
-      description: 'CTF protocol contracts.',
+      description: 'Curta Puzzles contracts.',
       href: 'https://github.com/waterfall-mkt/curta',
-      icon: <Github />
+      icon: <Github />,
     },
     {
       name: 'waterfall-mkt/curta.wtf',
-      description: 'Website source.',
+      description: 'Source for this site.',
       href: 'https://github.com/waterfall-mkt/curta.wtf',
       icon: <Github />
     },
     {
-      name: '@curta_ctf',
-      href: 'https://github.com/waterfall-mkt/curta',
-      icon: <Twitter />
-    },
-    {
-      name: 'Builder stream',
-      description: 'Curta contracts',
+      name: 'Hacker in Residence Streams',
+      description: 'Funding Curta-curated hackers.',
       href: 'https://optimizooor-streams.buidlguidl.com/',
       icon: <Castle />
     },
     {
-      name: 'waterfall-mkt/curta.wtf',
-      description: 'Curta contracts',
-      href: 'https://github.com/waterfall-mkt/curta.wtf',
-      icon: <Github />
+      name: 'Hacker in Residence Form',
+      description: 'Apply for a 0.5 ETH/mo grant.',
+      href: 'https://forms.gle/BtdxnFXWtdNWtL6C7',
+      icon: <FileText />
     },
     {
-      name: 'waterfall-mkt/curta',
-      description: 'Curta contracts',
-      href: 'https://github.com/waterfall-mkt/curta',
-      icon: <Github />
+      name: '@curta_ctf',
+      description: 'Follow for updates.',
+      href: 'https://twitter.com/curta_ctf',
+      icon: <Twitter />
+    },
+    {
+      name: 'Discord',
+      description: 'Discuss solutions, EVM security, and more.',
+      href: 'https://discord.com/invite/zxerRE2Dn7',
+      icon: <MessageCircle />
     }
   ].map((item) => <LinkFeature key={item.href} {...item} />)}
 </div>
