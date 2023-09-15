@@ -1,6 +1,9 @@
 import Link from 'next/link';
 
+import { Castle, Github, Twitter } from 'lucide-react';
+
 import CredentialFeature from './(components)/credential-feature';
+import LinkFeature from './(components)/link-feature';
 import PuzzleFeature from './(components)/puzzle-feature';
 import Description from '@/components/templates/mdx/description';
 import { getBaseMetadata } from '@/lib/utils';
@@ -27,15 +30,44 @@ export const metadata = getBaseMetadata({
 
 ## Links
 
-Hello
+Related links to Curta.
 
 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 gap-4 lg:grid-cols-3">
   {[
     {
-      name: 'CTF',
-      description: 'A CTF protocol, where players create and solve EVM puzzles to earn NFTs.',
-      href: '/docs/puzzles/overview',
-      children: <PuzzleFeature />
+      name: 'waterfall-mkt/curta',
+      description: 'CTF protocol contracts.',
+      href: 'https://github.com/waterfall-mkt/curta',
+      icon: <Github />
+    },
+    {
+      name: 'waterfall-mkt/curta.wtf',
+      description: 'Website source.',
+      href: 'https://github.com/waterfall-mkt/curta.wtf',
+      icon: <Github />
+    },
+    {
+      name: '@curta_ctf',
+      href: 'https://github.com/waterfall-mkt/curta',
+      icon: <Twitter />
+    },
+    {
+      name: 'Builder stream',
+      description: 'Curta contracts',
+      href: 'https://optimizooor-streams.buidlguidl.com/',
+      icon: <Castle />
+    },
+    {
+      name: 'waterfall-mkt/curta.wtf',
+      description: 'Curta contracts',
+      href: 'https://github.com/waterfall-mkt/curta.wtf',
+      icon: <Github />
+    },
+    {
+      name: 'waterfall-mkt/curta',
+      description: 'Curta contracts',
+      href: 'https://github.com/waterfall-mkt/curta',
+      icon: <Github />
     }
-  ].map((item) => <CredentialFeature key={item.href} {...item} />)}
+  ].map((item) => <LinkFeature key={item.href} {...item} />)}
 </div>

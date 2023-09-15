@@ -28,7 +28,7 @@ const CredentialFeature: FC<CredentialFeatureProps> = ({ href, name, description
         {children}
       </div>
       <div className="p-4">
-        <div className="font-semibold text-gray-100">{name}</div>
+        <div className="font-medium text-gray-100">{name}</div>
         <div className="text-sm font-normal text-gray-200">{description}</div>
       </div>
     </Link>
