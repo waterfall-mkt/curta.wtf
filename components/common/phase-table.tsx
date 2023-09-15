@@ -55,7 +55,7 @@ const PhaseTable: FC = () => {
 
   return (
     <Table
-      className="mx-auto mt-8 w-full sm:min-w-[24rem] sm:max-w-[32rem] lg:ml-32 lg:mt-0"
+      className="not-prose mx-auto mt-8 w-full sm:min-w-[24rem] sm:max-w-[32rem] lg:ml-32 lg:mt-0"
       columns={columns}
       data={data}
     />

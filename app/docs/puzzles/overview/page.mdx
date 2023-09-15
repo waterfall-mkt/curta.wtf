@@ -1,34 +1,122 @@
-import Image from 'next/image';
+import { Castle, FileText, Github, MessageCircle, Twitter } from 'lucide-react';
 
+import LinkFeature from '../../(components)/link-feature';
+import PhaseTable from '@/components/common/phase-table';
+import Callout from '@/components/templates/mdx/callout/index';
+import Description from '@/components/templates/mdx/description';
 import { getBaseMetadata } from '@/lib/utils';
 
 export const metadata = getBaseMetadata({
-  title: 'CTF Overview',
-  description: 'Flag Tokens are ERC-721 tokens that represent valid solutions to a puzzle.',
+  title: 'Puzzles Overview',
+  description: 'Curta Puzzles is a CTF protocol, where players create and solve EVM puzzles to earn NFTs.',
   titleTemplate: '%s | Curta Docs'
 });
 
-# Flag Token
+# Puzzles Overview
 
-**Flag Tokens** are ERC-721 tokens that represent valid solutions to a puzzle and are the base reward for solving a puzzle. The art for each Flag is generated on-chain, and it takes the [Phase](/docs/phases) it was solved in into account. Additionally, each Flag contains the following attributes:
+<Description children="Curta Puzzles is a CTF protocol, where players create and solve EVM puzzles to earn NFTs." />
 
-| Attribute   | Description                                  |
-| ----------- | -------------------------------------------- |
-| Puzzle name | Name of the puzzle                           |
-| Author      | Address that added the puzzle                |
-| Phase       | Phase it was solved in                       |
-| Solver      | Address that minted the Flag                 |
-| Solve time  | Number of seconds since the puzzle was added |
-| Rank        | Solve position within the puzzle             |
+## Introduction
 
-## Customization
+Each puzzle on Curta is written by a curated author, and every puzzle has just 1 constraint:
 
-Authors can customize 5 colors on their Flags' art. See [Customizing Art](/guides/author/customizing-art) for more information, or play around with in the [playground](/playground). To learn more about which stats are displayed, see [NFT Rewards](/guides/player/nft-rewards).
+<Callout>
+  The puzzle's starting position must be seeded with the solver's address.
+</Callout>
 
-<Image
-  className="mx-auto rounded-lg border border-stroke"
-  src="/assets/flag-breakdown.png"
-  alt="Flag Breakdown"
-  width={2216}
-  height={1464}
-/>
+This way, each puzzle is _generative_ and each solution is unique to the solver.
+
+Since the protocol is 100% onchain, every submission is public. The idea is that the generative aspect prevents front-running and allows for multiple winners (within the submitting period): even if you see other someone else's solution, you still have to figure out what the rules/constraints of the puzzle are and solve it from _your_ starting position.
+
+### Phases
+
+Once a puzzle has been added by the author, the puzzle goes through 4 Phases:
+
+<PhaseTable />
+
+<details>
+  <summary children='View source' />
+```sol fileName='IPuzzle.sol' showLineNumbers={false}
+interface IPuzzle {
+    /// @notice Returns the puzzle's name.
+    /// @return The puzzle's name.
+    function name() external pure returns (string memory);
+
+    /// @notice Generates the puzzle's starting position based on a seed.
+    /// @dev The seed is intended to be `msg.sender` of some wrapper function or
+    /// call.
+    /// @param _seed The seed to use to generate the puzzle.
+    /// @return The puzzle's starting position.
+    function generate(address _seed) external returns (uint256);
+
+    /// @notice Verifies that a solution is valid for the puzzle.
+    /// @dev `_start` is intended to be an output from {IPuzzle-generate}.
+    /// @param _start The puzzle's starting position.
+    /// @param _solution The solution to the puzzle.
+    /// @return Whether the solution is valid.
+    function verify(uint256 _start, uint256 _solution) external returns (bool);
+}
+```
+</details>
+Once a puzzle has been added, 
+
+<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 gap-4 lg:grid-cols-3">
+  {[
+    {
+      name: 'Phases',
+      description: 'Curta Puzzles contracts.',
+      href: '/',
+      icon: <Github />,
+    },
+    {
+      name: 'Submitting solutions',
+      description: 'Source for this site.',
+      href: '/',
+      icon: <Github />
+    },
+    {
+      name: 'Leaderboard',
+      description: 'Funding Curta-curated hackers.',
+      href: '/',
+      icon: <Castle />
+    },
+  ].map((item) => <LinkFeature key={item.href} {...item} />)}
+</div>
+
+
+## On-chain verification
+
+Each puzzle inherits `IPuzzle` and implements its 3 functions:
+
+```sol fileName='IPuzzle.sol' showLineNumbers={false}
+interface IPuzzle {
+    /// @notice Returns the puzzle's name.
+    /// @return The puzzle's name.
+    function name() external pure returns (string memory);
+
+    /// @notice Generates the puzzle's starting position based on a seed.
+    /// @dev The seed is intended to be `msg.sender` of some wrapper function or
+    /// call.
+    /// @param _seed The seed to use to generate the puzzle.
+    /// @return The puzzle's starting position.
+    function generate(address _seed) external returns (uint256);
+
+    /// @notice Verifies that a solution is valid for the puzzle.
+    /// @dev `_start` is intended to be an output from {IPuzzle-generate}.
+    /// @param _start The puzzle's starting position.
+    /// @param _solution The solution to the puzzle.
+    /// @return Whether the solution is valid.
+    function verify(uint256 _start, uint256 _solution) external returns (bool);
+}
+```
+
+Then,
+
+```sol showLineNumbers={false}
+puzzle.verify(puzzle.generate(msg.sender), _solution);
+```
+
+## What is a CTF protocol?
+
+You may have noticed that we sometimes refer to Curta as a "CTF protocol." CTF stands for "Capture the Flag": a competition where players race to solve puzzles/problems, often to obtain prizes and points. CTFs are a good way to improve cybersecurity skills/knowledge in a fun, entertaining, and competitive format. Curta is a CTF protocol in the sense that it allows anyone to participate and become a player, and anyone with an Authorship Token can upload a CTF puzzle.
+

@@ -1,3 +1,4 @@
+import PhaseTable from '@/components/common/phase-table';
 import { getBaseMetadata } from '@/lib/utils';
 
 export const metadata = getBaseMetadata({
@@ -9,12 +10,7 @@ export const metadata = getBaseMetadata({
 # Phases
 Each puzzle's lifespan on Curta contains 4 **Phases**, where each one has a unique mechanism:
 
-| Phase | Meaning                              | Length |
-| :---: | :----------------------------------- | :----: |
-|   0   | No one has solved the puzzle         |   ∞    |
-|   1   | 1 person has solved the puzzle       | 2 days |
-|   2   | Solution revealed (paid submissions) | 3 days |
-|   3   | Submissions closed forever           |   ∞    |
+<PhaseTable />
 
 Phases are relative to each puzzle and flow into the next sequentially. The process for some puzzle starts as soon as it is added to the CTF contract. Essentially, there are 2 transactions that alter the lifetime of a puzzle:
 

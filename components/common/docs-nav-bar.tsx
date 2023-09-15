@@ -44,12 +44,12 @@ const DocsNavBar: FC<DocsNavBarProps> = ({ sections }) => {
 
 const DocsNavBarDesktop: FC<DocsNavBarInternalProps> = ({ sections, selected }) => {
   return (
-    <nav
+    <aside
       className="hide-scrollbar sticky top-[6.5rem] -ml-3 hidden min-w-[14rem] max-w-[14rem] flex-col overflow-y-scroll px-0.5 md:flex lg:top-[7.5rem]"
       style={{ height: 'calc(100vh - 11rem)' }}
     >
       <DocsNavBarInternal sections={sections} selected={selected} />
-    </nav>
+    </aside>
   );
 };
 
@@ -124,7 +124,7 @@ const DocsNavBarInternal: FC<DocsNavBarInternalProps> = ({ sections, selected, s
     <Fragment>
       {sections.map((section, index) => (
         <Fragment key={index}>
-          <div className={clsx('ml-3 font-medium text-gray-100', index > 0 ? 'mt-4' : '')}>
+          <div className={clsx('mb-1 ml-3 font-medium text-gray-100', index > 0 ? 'mt-4' : '')}>
             {section.name}
           </div>
           {section.groups.map((group, index) => {

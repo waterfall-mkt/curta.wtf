@@ -54,10 +54,7 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
     h2: (props: JSX.IntrinsicElements['h2']) => <H2 {...props} />,
     h3: (props: JSX.IntrinsicElements['h3']) => <H3 {...props} />,
     p: ({ children, ...rest }: JSX.IntrinsicElements['p']) => (
-      <p
-        className="font-light not-italic text-gray-100 before:content-none after:content-none"
-        {...rest}
-      >
+      <p className="font-light not-italic before:content-none after:content-none" {...rest}>
         {children}
       </p>
     ),
