@@ -3,6 +3,8 @@
 import { type FC, useMemo } from 'react';
 
 import type { ColumnDef } from '@tanstack/react-table';
+import clsx from 'clsx';
+import { twMerge } from 'tailwind-merge';
 
 import type { Phase } from '@/lib/types/protocol';
 
@@ -10,8 +12,12 @@ import PhaseTag from '@/components/templates/phase-tag';
 import { Table } from '@/components/ui';
 
 // ---------------------------------------–-------------------------------------
-// Types
+// Props
 // ---------------------------------------–-------------------------------------
+
+type PhaseTableProps = {
+  className?: string;
+};
 
 type PhaseTableRowType = { phase: Phase; meaning: string; length: string };
 
@@ -19,7 +25,7 @@ type PhaseTableRowType = { phase: Phase; meaning: string; length: string };
 // Component
 // ---------------------------------------–-------------------------------------
 
-const PhaseTable: FC = () => {
+const PhaseTable: FC<PhaseTableProps> = ({ className }) => {
   const columns = useMemo<ColumnDef<PhaseTableRowType>[]>(
     () => [
       {
@@ -55,7 +61,9 @@ const PhaseTable: FC = () => {
 
   return (
     <Table
-      className="not-prose mx-auto mt-8 w-full sm:min-w-[24rem] sm:max-w-[32rem] lg:ml-32 lg:mt-0"
+      className={twMerge(
+        clsx('not-prose mx-auto w-full sm:min-w-[24rem] sm:max-w-[32rem]', className),
+      )}
       columns={columns}
       data={data}
     />

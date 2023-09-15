@@ -75,7 +75,7 @@ export default async function Home() {
               <LinksDisplay />
             </div>
           </div>
-          <PhaseTable />
+          <PhaseTable className="mt-8 lg:ml-32 lg:mt-0" />
         </div>
         <div className="mt-12 w-full md:mt-16">
           <h2 className="mb-4 text-2xl font-bold tracking-tighter text-gray-50">Puzzles</h2>
