@@ -45,7 +45,7 @@ const DocsNavBar: FC<DocsNavBarProps> = ({ sections }) => {
 const DocsNavBarDesktop: FC<DocsNavBarInternalProps> = ({ sections, selected }) => {
   return (
     <aside
-      className="hide-scrollbar sticky top-[6.5rem] -ml-3 hidden min-w-[14rem] max-w-[14rem] flex-col overflow-y-scroll px-0.5 md:flex lg:top-[7.5rem]"
+      className="hide-scrollbar sticky top-[6.5rem] -ml-3 hidden min-w-[14rem] max-w-[14rem] flex-col overflow-y-scroll px-0.5 lg:top-[7.5rem] lg:flex"
       style={{ height: 'calc(100vh - 11rem)' }}
     >
       <DocsNavBarInternal sections={sections} selected={selected} />
@@ -55,7 +55,7 @@ const DocsNavBarDesktop: FC<DocsNavBarInternalProps> = ({ sections, selected }) 
 
 const DocsNavBarMobile: FC<DocsNavBarInternalProps> = ({ sections, selected }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const isSmallScreen = useMediaQuery('(max-width: 768px)'); // `md` breakpoint
+  const isSmallScreen = useMediaQuery('(max-width: 1024px)'); // `lg` breakpoint
 
   const [selectedSectionName, selectedGroupName, selectedPageName] = useMemo(() => {
     for (let i = 0; i < sections.length; ++i) {
@@ -76,7 +76,7 @@ const DocsNavBarMobile: FC<DocsNavBarInternalProps> = ({ sections, selected }) =
 
   return (
     <Dialog.Root open={isOpen && isSmallScreen} onOpenChange={setIsOpen}>
-      <div className="pointer-events-auto sticky top-14 z-popover mb-4 flex h-12 w-full items-center border-b border-stroke bg-gray-900 px-4 md:hidden">
+      <div className="pointer-events-auto sticky top-14 z-popover mb-4 flex h-12 w-full items-center border-b border-stroke bg-gray-900 px-4 lg:hidden">
         <Dialog.Trigger asChild>
           <button
             className="rounded-full bg-gray-450 px-3 py-1.5 text-xs text-gray-100 transition-transform hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-250 active:scale-100"
@@ -104,9 +104,9 @@ const DocsNavBarMobile: FC<DocsNavBarInternalProps> = ({ sections, selected }) =
       </div>
 
       <Dialog.Portal>
-        <Dialog.Overlay className="fixed inset-0 z-overlay outline-none backdrop-brightness-50 animate-in fade-in-50 focus:outline-none md:hidden" />
+        <Dialog.Overlay className="fixed inset-0 z-overlay outline-none backdrop-brightness-50 animate-in fade-in-50 focus:outline-none lg:hidden" />
         <Dialog.Content onOpenAutoFocus={(e: Event) => e.preventDefault()} asChild>
-          <nav className="hide-scrollbar fixed inset-0 z-overlay overflow-y-scroll bg-gray-900 p-4 pt-[7.5rem] animate-in slide-in-from-top-1 md:hidden">
+          <nav className="hide-scrollbar fixed inset-0 z-overlay overflow-y-scroll bg-gray-900 p-4 pt-[7.5rem] animate-in slide-in-from-top-1 lg:hidden">
             <DocsNavBarInternal sections={sections} selected={selected} setIsOpen={setIsOpen} />
           </nav>
         </Dialog.Content>
