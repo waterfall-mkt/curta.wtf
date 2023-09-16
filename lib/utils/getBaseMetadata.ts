@@ -31,6 +31,7 @@ const getBaseMetadata = ({
       siteId: '1604186457165406210',
       creator: '@waterfall_mkt',
       creatorId: '1466508083929223176',
+      card: image ? 'summary_large_image' : undefined,
       images,
     },
   };
