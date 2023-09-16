@@ -1,3 +1,5 @@
+import type { FC, SVGProps } from 'react';
+
 import { calloutVariants } from './styles';
 import type { VariantProps } from 'class-variance-authority';
 
@@ -11,4 +13,7 @@ export type CalloutVariantProps = VariantProps<typeof calloutVariants>;
 // Component props
 // ---------------------------------------–-------------------------------------
 
-export type CalloutProps = CalloutVariantProps & JSX.IntrinsicElements['div'];
+export type CalloutProps = CalloutVariantProps &
+  JSX.IntrinsicElements['div'] & {
+    icon?: FC<SVGProps<SVGSVGElement>>;
+  };

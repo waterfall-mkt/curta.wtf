@@ -1,7 +1,31 @@
 import { cva } from 'class-variance-authority';
 
+export const calloutIconVariants = cva(['h-5', 'w-5'], {
+  variants: {
+    intent: {
+      neutral: ['text-gray-200'],
+      primary: ['text-blue-250'],
+      success: ['text-green-300'],
+      fail: ['text-red-300'],
+      warning: ['text-yellow-250'],
+      orange: ['text-orange-300'],
+    },
+  },
+});
+
 export const calloutVariants = cva(
-  'not-prose border relative flex w-full items-center justify-between space-x-4 overflow-hidden rounded-xl p-3',
+  [
+    'my-4',
+    'not-prose',
+    'border',
+    'relative',
+    'flex',
+    'w-full',
+    'gap-3',
+    'overflow-hidden',
+    'rounded-xl',
+    'p-3',
+  ],
   {
     variants: {
       intent: {
