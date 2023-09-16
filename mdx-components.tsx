@@ -3,8 +3,7 @@ import { isValidElement } from 'react';
 
 import type { MDXComponents } from 'mdx/types';
 
-import H2 from '@/components/templates/mdx/h2';
-import H3 from '@/components/templates/mdx/h3';
+import { H2, H3 } from '@/components/templates/mdx';
 import { CodeBlock } from '@/components/ui';
 import type { CodeBlockProps } from '@/components/ui/code-block/types';
 
