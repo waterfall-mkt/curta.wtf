@@ -1,6 +1,8 @@
+import Image from 'next/image';
+
 import { getBaseMetadata } from '@/lib/utils';
 
-import { Description } from '@/components/templates/mdx';
+import { Callout, Description } from '@/components/templates/mdx';
 
 export const description = 'Learn how to become a puzzle author for Curta.';
 
@@ -13,3 +15,32 @@ export const metadata = getBaseMetadata({
 # Becoming an Author
 
 <Description children={description} />
+
+## Authorship Token
+
+To become an author, you must have an unused Authorship Token and [write + add a puzzle to Curta](/docs/writing-puzzles).
+
+<Image
+  className="mx-auto rounded-2xl md:rounded-3xl border border-stroke"
+  src="/assets/authorship-tokens.webp"
+  alt="Authorship Tokens"
+  width={2250}
+  height={750}
+/>
+
+<Callout intent="warning">
+  After an Authorship Token has been used to add a puzzle, it doesn't get burnt, but it can never be used again.
+</Callout>
+
+## Obtaining Authorship Tokens
+
+There are only 3 ways to obtain Authorship Tokens:
+1. be the first solver to any puzzle,
+2. purchase them on a [secondary marketplace](https://opensea.io/collection/authorship),
+3. or receive from the team.
+
+The Curta contract allows its `owner` to mint an Authorship Token every 3 days (initialized at deploy). Currently, `owner` is the Curta team. If you'd like to receive an Authorship Token to write a puzzle, reach out to us [@curta_ctf](https://twitter.com/curta_ctf).
+
+<Callout intent="neutral">
+  These mechanisms help retain the quality of Curta puzzles as new authors are added.
+</Callout>
