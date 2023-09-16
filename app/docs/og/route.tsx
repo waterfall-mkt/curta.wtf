@@ -74,8 +74,8 @@ export async function GET(req: Request) {
           <div tw="w-10 h-full border-b-2 border-t-2 border-[#27303D]" />
           {/* Main content. */}
           <div tw="grow h-full flex flex-col p-12 bg-[#12161F] border-2 border-[#27303D]">
-            <div tw="flex gap-5">
-              <div tw="flex h-16 w-16 rounded-lg border border-[#27303D]"></div>
+            <div tw="flex items-center">
+              <div tw="flex h-16 w-16 rounded-lg border border-[#27303D] mr-5"></div>
               <span style={{ fontSize: 40 }}>
                 <span
                   style={{
