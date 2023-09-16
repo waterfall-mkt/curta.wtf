@@ -27,7 +27,6 @@ export type PageSlug =
   | '/docs/puzzles/writing-puzzles'
   | '/docs/puzzles/becoming-an-author'
   | '/docs/leaderboard'
-  | '/docs/glossary'
   | '/docs/contracts';
 
 /**
