@@ -70,9 +70,9 @@ const LinkFeatureInternal: FC<LinkFeatureProps> = ({
           ) : null}
         </div>
         <div>
-          <div className="line-clamp-1 flex font-medium leading-5 text-gray-100">{name}</div>
+          <div className="line-clamp-1 flex font-medium leading-tight text-gray-100">{name}</div>
           {description ? (
-            <div className="mt-1 line-clamp-1 text-sm font-normal leading-4 text-gray-200">
+            <div className="mt-1 line-clamp-1 text-sm font-normal leading-tight text-gray-200">
               {description}
             </div>
           ) : null}
