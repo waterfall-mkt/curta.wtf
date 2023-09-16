@@ -2,14 +2,14 @@ import { getBaseMetadata } from '@/lib/utils';
 
 import { Description } from '@/components/templates/mdx';
 
+export const description = 'Learn how to write and add puzzles to Curta.';
+
 export const metadata = getBaseMetadata({
   title: 'Writing Puzzles',
-  description: 'Learn how to write and add puzzles to Curta.',
+  description,
   titleTemplate: '%s | Curta Docs'
 });
 
 # Writing Puzzles
 
-<Description>
-  Learn how to write and add puzzles to Curta.
-</Description>
+<Description children={description} />
