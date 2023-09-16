@@ -65,9 +65,9 @@ const DocsNavBarMobile: FC<DocsNavBarInternalProps> = ({ sections, selected }) =
         if ('pages' in group) {
           const page = group.pages.find((page) => page.slug === selected);
           if (page) return [section.name, group.name, page.name];
+        } else if (group.slug === selected) {
+          return [section.name, '', group.name];
         }
-
-        return [section.name, '', group.name];
       }
     }
 
