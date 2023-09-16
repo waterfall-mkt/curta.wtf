@@ -28,7 +28,7 @@ const LinkFeature: FC<LinkFeatureProps> = (props) => {
   const description = props.description;
 
   // Display tooltip if description is too long.
-  if (description !== undefined && description.length > 36) {
+  if (description !== undefined && description.length >= 36) {
     return (
       <Tooltip content={description}>
         <LinkFeatureInternal {...props} />

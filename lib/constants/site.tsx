@@ -21,10 +21,9 @@ export const DOCS_PAGES: {
         name: 'Puzzles',
         pages: [
           { name: 'Puzzles Overview', slug: '/docs/puzzles/overview' },
-          { name: 'Phases', slug: '/docs/puzzles/phases' },
-          { name: 'Puzzles', slug: '/docs/puzzles/puzzles' },
-          { name: 'Authorship Token', slug: '/docs/puzzles/authorship-token' },
-          { name: 'Flag Token', slug: '/docs/puzzles/flag-token' },
+          { name: 'Submitting Solutions', slug: '/docs/puzzles/submitting-solutions' },
+          { name: 'Writing Puzzles', slug: '/docs/puzzles/writing-puzzles' },
+          { name: 'Becoming an Author', slug: '/docs/puzzles/becoming-an-author' },
         ],
       },
       { name: 'Leaderboard', slug: '/docs/leaderboard' },
@@ -32,10 +31,7 @@ export const DOCS_PAGES: {
   },
   {
     name: 'Resources',
-    groups: [
-      { name: 'Contracts', slug: '/docs/contracts' },
-      { name: 'External Links', slug: '/docs/external-links' },
-    ],
+    groups: [{ name: 'Contracts', slug: '/docs/contracts' }],
   },
 ];
 

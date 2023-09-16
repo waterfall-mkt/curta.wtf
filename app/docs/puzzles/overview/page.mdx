@@ -1,4 +1,4 @@
-import { Castle, FileText, Github, MessageCircle, Twitter } from 'lucide-react';
+import { BadgeCheck, Github, PenTool, PencilRuler } from 'lucide-react';
 
 import { getBaseMetadata } from '@/lib/utils';
 
@@ -14,7 +14,9 @@ export const metadata = getBaseMetadata({
 
 # Puzzles Overview
 
-<Description children="A CTF protocol, where players create and solve EVM puzzles to earn NFTs." />
+<Description>
+  A CTF protocol, where players create and solve EVM puzzles to earn NFTs.
+</Description>
 
 ## Introduction
 
@@ -53,19 +55,19 @@ puzzle.verify(
       name: 'Submitting Solutions',
       description: 'Learn how to submit solutions.',
       href: '/docs/puzzles/submitting-solutions',
-      icon: <Github />,
+      icon: <BadgeCheck />,
     },
     {
       name: 'Writing Puzzles',
-      description: 'Learn how to write a puzzle.',
+      description: 'Learn how to write and add a puzzle.',
       href: '/docs/puzzles/writing-a-puzzle',
-      icon: <Github />
+      icon: <PencilRuler />
     },
     {
       name: 'Becoming an Author',
       description: 'Learn how to become an author.',
       href: '/docs/puzzles/becoming-an-author',
-      icon: <Github />
+      icon: <PenTool />
     },
   ].map((item) => <LinkFeature key={item.href} {...item} />)}
 </div>

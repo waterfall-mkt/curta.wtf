@@ -23,14 +23,12 @@ export type PageSlug =
   // Docs
   | '/docs'
   | '/docs/puzzles/overview'
-  | '/docs/puzzles/phases'
-  | '/docs/puzzles/puzzles'
-  | '/docs/puzzles/authorship-token'
-  | '/docs/puzzles/flag-token'
+  | '/docs/puzzles/submitting-solutions'
+  | '/docs/puzzles/writing-puzzles'
+  | '/docs/puzzles/becoming-an-author'
   | '/docs/leaderboard'
   | '/docs/glossary'
-  | '/docs/contracts'
-  | '/docs/external-links';
+  | '/docs/contracts';
 
 /**
  * Type for an external page linked on [**curta.wtf**](https://curta.wtf),
