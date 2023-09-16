@@ -129,16 +129,22 @@ const DocsNavBarInternal: FC<DocsNavBarInternalProps> = ({ sections, selected, s
           </div>
           {section.groups.map((group, index) => {
             if ('pages' in group) {
+              const groupSelected =
+                group.pages.find((page) => page.slug === selected) !== undefined;
+
               return (
-                <Accordion.Root key={index} type="single" collapsible>
+                <Accordion.Root
+                  key={index}
+                  type="single"
+                  defaultValue={groupSelected ? group.name : undefined}
+                  collapsible
+                >
                   <Accordion.Item value={group.name} className="w-full">
                     <Accordion.Trigger asChild>
                       <Button
                         className={clsx(
                           'group w-full justify-between',
-                          group.pages.find((page) => page.slug === selected) !== undefined
-                            ? 'data-variant-text:text-gray-100'
-                            : '',
+                          groupSelected ? 'data-variant-text:text-gray-100' : '',
                         )}
                         variant="text"
                         intent="neutral"
