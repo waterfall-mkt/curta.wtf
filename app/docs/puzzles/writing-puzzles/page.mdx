@@ -18,7 +18,7 @@ export const metadata = getBaseMetadata({
 
 To write a puzzle, inherit `IPuzzle` and implement its 3 functions:
 
-```solidity fileName='IPuzzle.sol' highlightLines={[4, 11, 18]} showLineNumbers={false}
+```sol fileName='IPuzzle.sol' highlightLines={[4, 11, 18]} showLineNumbers={false}
 interface IPuzzle {
     /// @notice Returns the puzzle's name.
     /// @return The puzzle's name.
@@ -49,7 +49,7 @@ Consider some puzzle where the solution is to take an unsorted list of randomly 
 
 Consider some puzzle where the solution is to apply the operation from the [Collatz Conjecture](https://en.wikipedia.org/wiki/Collatz_conjecture#Statement_of_the_problem) a random number of times to a randomly generated integer. The code below implements this:
 
-```solidity fileName="CollatzPuzzle.sol"
+```sol fileName="CollatzPuzzle.sol"
 contract CollatzPuzzle is IPuzzle {
     /// @inheritdoc IPuzzle
     function name() external pure returns (string memory) {
@@ -81,15 +81,55 @@ contract CollatzPuzzle is IPuzzle {
 ## Adding a puzzle to Curta
 
 <Callout intent="warning">
-  To add a puzzle to Curta, you must first [obtain an unused Authorship Token](/docs/puzzles/becoming-an-author#authorship-token).
+  To add a puzzle to Curta, you must first [obtain an unused Authorship Token](/docs/puzzles/becoming-an-author#obtaining-authorship-tokens).
 </Callout>
 
-After obtaining an Authorship Token and deploying your puzzle contract, you can use it like a ticket to add a puzzle by calling `addPuzzle(IPuzzle,uint256)` on the [Curta contract](https://etherscan.io/address/0x0000000006bC8D9e5e9d436217B88De704a9F307#writeContract):
+After obtaining an Authorship Token and deploying your puzzle contract, you can use it like a ticket to add a puzzle by calling `addPuzzle(IPuzzle,uint256)` on [Curta contract](https://etherscan.io/address/0x0000000006bC8D9e5e9d436217B88De704a9F307#writeContract):
 
-```solidity showLineNumbers={false}
+```sol showLineNumbers={false}
 /// @notice Adds a puzzle to the contract. Note that an unused Authorship
 /// Token is required to add a puzzle (see {AuthorshipToken}).
 /// @param _puzzle The address of the puzzle.
 /// @param _id The ID of the Authorship Token to burn.
 function addPuzzle(IPuzzle _puzzle, uint256 _id) external;
 ```
+
+## Customizing art
+
+Authors can customize 5 colors on their puzzle's [Flag NFTs](/docs/puzzles/submitting-solutions#flag-nfts) art:
+
+| Name           | Description                           |
+| -------------- | ------------------------------------- |
+| Background     | Portion behind the entire card        |
+| Fill           | Background color of the card          |
+| Border         | Stroke that outlines the card         |
+| Primary text   | Main text elements (header and stats) |
+| Secondary text | Secondary text elements (labels)      |
+
+Each color is represented with 24 bits, and the colors for a puzzle's Flag is stored as a single bitpacked `uint256` with the following offsets:
+
+```py showLineNumbers={false}
+bitpackedUint = (background    << 96)
+              | (fill          << 72)
+              | (border        << 48)
+              | (primaryText   << 24)
+              | (secondaryText      )
+```
+
+To set this onchain, call `setPuzzleColors(uint32,uint256)` on the [Curta contract](https://etherscan.io/address/0x0000000006bC8D9e5e9d436217B88De704a9F307#writeContract):
+
+```sol showLineNumbers={false}
+/// @notice Set the colors for a puzzle's Flags.
+/// @dev Only the author of the puzzle of ID `_puzzleId` may set its token
+/// renderer.
+/// @param _puzzleId The ID of the puzzle.
+/// @param _colors A bitpacked `uint120` of 5 24-bit colors for the puzzle's
+/// Flags in the following order (left-most bit to right-most):
+///     * Background
+///     * Fill
+///     * Border
+///     * Primary text
+///     * Secondary text
+function setPuzzleColors(uint32 _puzzleId, uint256 _colors) external;
+```
+
