@@ -262,7 +262,7 @@ export default async function Image({ params }: { params: { id: number } }) {
           </div>
         </div>
 
-        {/* Flag card */}
+        {/* Flag card. */}
         <div
           style={{
             display: 'flex',
@@ -380,7 +380,7 @@ export default async function Image({ params }: { params: { id: number } }) {
                 borderRadius: 9.6893,
               }}
             >
-              {/* Flag token art */}
+              {/* Flag NFT art. */}
             </div>
             <div style={{ display: 'flex', marginTop: 14.534, width: '100%' }}>
               <div style={{ display: 'flex', width: 130.8058, height: 46.0243 }}>
