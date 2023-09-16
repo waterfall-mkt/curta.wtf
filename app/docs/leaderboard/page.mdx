@@ -1,37 +1,77 @@
 import { getBaseMetadata } from '@/lib/utils';
 
+import { Callout, Description } from '@/components/templates/mdx';
+
+export const description = 'See how top performers are ranked on the leaderboard.';
+
 export const metadata = getBaseMetadata({
   title: 'Leaderboard',
-  description: 'Learn how Curta ranks players on the leaderboard from on-chain solve data.',
-  titleTemplate: '%s | Curta Docs'
+  description,
+  titleTemplate: '%s | Curta Docs',
+  image: `/docs/og/?slug=/docs/leaderboard&description=${description}`,
 });
 
 # Leaderboard
 
-On Curta, anyone can make their own leaderboards because all solve data is on-chain. We designed [our leaderboard](/leaderboard) to rank players by the **Phase** they completed it first (via **Points**), then by how fast their solve was relative to others (via **Speed Score**).
+<Description children={description} />
 
-## Points
+## Curta Puzzles
 
-Our leaderboard weighs solves in earlier [Phases](/docs/phases) higher because it implies a more skilled solve:
+<Callout intent="neutral">
+  100% of the solve data is [stored onchain](https://etherscan.io/address/0x0000000006bC8D9e5e9d436217B88De704a9F307#readContract), so anyone can make their own leaderboard.
+</Callout>
 
-- Phase 0 $\rightarrow$ 3 points
-- Phase 1 $\rightarrow$ 2 points
-- Phase 2 $\rightarrow$ 1 points
+This section describes how the leaderboard is ranked for [Curta Puzzles](/docs/puzzles/overview).
 
-For example, if a player has $\color{red}{2}$ Phase 0 solves, $\color{green}{4}$ Phase 1 solves, and $\color{orange}{1}$ Phase 2 solves, they'll have 15 points:
+### Points
+
+Players are first ranked by the [Phase](/docs/puzzles/overview#submission-period) they completed it in. The earlier the Phase, the more points awarded:
+
+- Phase 0 <span className='text-gray-200'>-></span> 3 points
+- Phase 1 <span className='text-gray-200'>-></span> 2 points
+- Phase 2 <span className='text-gray-200'>-></span> 1 points
+
+For example if a player has 2 Phase 0 solves, 4 Phase 1 solves, and 1 Phase 2 solve, they'll have 15 points:
+```none showLineNumbers={false}
+┏━━━━━━━━━━━━━━━━━━━━━━ 2 Phase 0 solves
+┃     ┏━━━━━━━━━━━━━━━━ 4 Phase 1 solves
+┃     ┃     ┏━━━━━━━━━━ 1 Phase 2 solve
+2*3 + 4*2 + 1*1 = 15
+  ┃     ┃     ┗━━━━━━━━ 1 point
+  ┃     ┗━━━━━━━━━━━━━━ 2 points
+  ┗━━━━━━━━━━━━━━━━━━━━ 3 points
+```
+
+<Callout intent="primary">
+  You can find the implementation [here](https://github.com/waterfall-mkt/curta.wtf/blob/57d850f4ff1c60ee9f40907c62beccafe9c16d11/lib/utils/fetchLeaderboardPuzzles.ts#L73-L86).
+</Callout>
+
+### Speed Score
+
+Next, for tiebreakers, the leaderboard sorts by the average rank each player finished in with the following formula:
 
 $$
-({\color{red}{2}}\cdot3)+({\color{green}{4}}\cdot2)+({\color{orange}{1}}\cdot1) = 15
+100\cdot\left(1-\frac{\sum_{i=1}^{n}\frac{\mathrm{rank}(i)-1}{\max(1,\max(1, \mathrm{total\_solves}(i))-1)}}{n}\right)
 $$
 
-## Speed Score
+<Callout intent="primary">
+  You can find the implementation [here](https://github.com/waterfall-mkt/curta.wtf/blob/57d850f4ff1c60ee9f40907c62beccafe9c16d11/lib/utils/fetchLeaderboardPuzzles.ts#L104-L115).
+</Callout>
 
-Next, for tiebreakers, the leaderboard sorts by the average rank each player finished in via the following formula:
+### Seasons
 
-$$
-100\cdot\left(1-\frac{\sum_{i=0}^{n}\frac{\mathrm{rank}(i)-1}{\max(1, \mathrm{total}(i))}}{n}\right)
-$$
+The leaderboard resets with a new **season** every 5 puzzles to allow newcomers to be competitive and reduce the stress of maintaining a position on the all-time leaderboard. The UI displays the current season by default, but it has options to view all [past seasons](/leaderboard?puzzles-season=1), as well as the [all-time leaderboard](/leaderboard?puzzles-season=all):
 
-## Seasons
-
-We reset the leaderboard every 5 puzzles to give new players a chance to compete. We call these resets **Seasons**.
+<video
+  className="not-prose mx-auto rounded-2xl md:rounded-3xl border bg-gray-600 border-stroke"
+  alt="Demo of switching seasons on the leaderboard."
+  style={{ width: '100%', aspectRatio: '1592 / 1080' }}
+  width={1592}
+  height={1080}
+  playsinline={""}
+  autoplay={""}
+  muted
+  loop
+>
+  <source src="/assets/leaderboard-seasons-3x.mp4" type="video/mp4" />
+</video>

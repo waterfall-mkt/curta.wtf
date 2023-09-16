@@ -185,7 +185,7 @@ const PuzzleInfoSolutionForm: FC<PuzzleInfoSolutionFormProps> = ({ puzzle }) => 
                 <span>Gas limit</span>
               </div>
             </div>
-            <hr className="h-9 w-[1px] border-l border-stroke" role="separator" />
+            <hr className="not-prose my-0 h-9 w-[1px] border-l border-stroke" role="separator" />
             <div>
               <div className="text-sm text-gray-100">{simulateTx ? 'True' : 'False'}</div>
               <div className="flex items-center gap-1 text-xs text-gray-200">

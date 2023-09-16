@@ -1,0 +1,73 @@
+import { getBaseMetadata } from '@/lib/utils';
+
+import LinkFeature from '@/components/templates/link-feature';
+import { Callout, Description } from '@/components/templates/mdx';
+
+export const description = 'Deployments of Curta contracts.';
+
+export const metadata = getBaseMetadata({
+  title: 'Contracts',
+  description,
+  titleTemplate: '%s | Curta Docs',
+  image: `/docs/og/?slug=/docs/contracts&description=${description}`,
+});
+
+# Contracts
+
+<Description children={description} />
+
+## Curta Puzzles
+
+Below are the deployments of the contracts for [Curta Puzzles](/docs/puzzles/overview).
+
+<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-4 min-[1120px]:grid-cols-2 min-[1420px]:grid-cols-3">
+  {[
+    {
+      name: 'Curta Puzzles/Flag',
+      description: 'Puzzles + Flag NFT contract.',
+      href: 'https://etherscan.io/address/0x0000000006bC8D9e5e9d436217B88De704a9F307',
+      icon: <EthereumIcon />,
+    },
+    {
+      name: 'Authorship Token',
+      description: 'Authorship Token NFT contract.',
+      href: 'https://etherscan.io/address/0xC0ffeEb30F5aAA18Cd0a799F6dA1bdcb46f63C44',
+      icon: <EthereumIcon />
+    },
+    {
+      name: 'Flag renderer',
+      description: 'Flag metadata renderer.',
+      href: 'https://etherscan.io/address/0xf1a9000013303D5641f887C8E1b08D8D60101846',
+      icon: <EthereumIcon />
+    },
+  ].map((item) => <LinkFeature key={item.href} {...item} />)}
+</div>
+
+<Callout intent='primary'>
+  The contracts are open-sourced on GitHub: [waterfall-mkt/curta](https://github.com/waterfall-mkt/curta).
+</Callout>
+
+export const EthereumIcon = () => {
+  return (
+    <svg
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      role="img"
+    >
+      <title>Ethereum</title>
+      <desc>Ethereum&apos;s logo.</desc>
+      <path d="m11.997 1-.147.501v14.545l.147.147 6.752-3.99z" fill="currentColor" />
+      <path
+        d="M11.997 1 5.246 12.202l6.751 3.991v-7.06zm0 16.471-.083.102v5.18l.083.243 6.756-9.513z"
+        fill="currentColor"
+      />
+      <path
+        d="M11.997 22.996v-5.525l-6.751-3.988zm0-6.803 6.752-3.99-6.752-3.07zm-6.751-3.99 6.751 3.99v-7.06z"
+        fill="currentColor"
+      />
+    </svg>
+  );
+};

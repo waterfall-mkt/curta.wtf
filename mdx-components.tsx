@@ -3,6 +3,7 @@ import { isValidElement } from 'react';
 
 import type { MDXComponents } from 'mdx/types';
 
+import { H2, H3 } from '@/components/templates/mdx';
 import { CodeBlock } from '@/components/ui';
 import type { CodeBlockProps } from '@/components/ui/code-block/types';
 
@@ -49,11 +50,10 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
         </code>
       </span>
     ),
+    h2: (props: JSX.IntrinsicElements['h2']) => <H2 {...props} />,
+    h3: (props: JSX.IntrinsicElements['h3']) => <H3 {...props} />,
     p: ({ children, ...rest }: JSX.IntrinsicElements['p']) => (
-      <p
-        className="font-light not-italic text-gray-100 before:content-none after:content-none"
-        {...rest}
-      >
+      <p className="font-light not-italic before:content-none after:content-none" {...rest}>
         {children}
       </p>
     ),

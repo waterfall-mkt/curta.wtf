@@ -1,0 +1,63 @@
+import Image from 'next/image';
+
+import { getBaseMetadata } from '@/lib/utils';
+
+import { Callout, Description } from '@/components/templates/mdx';
+
+export const description = 'Learn how to become a puzzle author for Curta.';
+
+export const metadata = getBaseMetadata({
+  title: 'Becoming an Author',
+  description,
+  titleTemplate: '%s | Curta Docs',
+  image: `/docs/og/?slug=/docs/puzzles/becoming-an-author&description=${description}`,
+});
+
+# Becoming an Author
+
+<Description children={description} />
+
+## Authorship Token
+
+To become an author, you must have an unused Authorship Token and [write + add a puzzle to Curta](/docs/writing-puzzles).
+
+<Image
+  className="mx-auto rounded-2xl md:rounded-3xl border border-stroke"
+  src="/assets/authorship-tokens.webp"
+  alt="Authorship Tokens"
+  width={2250}
+  height={750}
+/>
+
+<Callout intent="warning">
+  After an Authorship Token has been used to add a puzzle, it doesn't get burnt, but it can never be used again.
+</Callout>
+
+## Obtaining Authorship Tokens
+
+There are only 3 ways to obtain Authorship Tokens:
+1. be the first solver to any puzzle,
+2. purchase them on a [secondary marketplace](https://opensea.io/collection/authorship),
+3. or receive from the team.
+
+The Curta contract allows its `owner` to mint an Authorship Token every 3 days (initialized at deploy). Currently, `owner` is the Curta team. If you'd like to receive an Authorship Token to write a puzzle, reach out to us [@curta_ctf](https://twitter.com/curta_ctf).
+
+<Callout intent="neutral">
+  These mechanisms help retain the quality of Curta puzzles as new authors are added.
+</Callout>
+
+## Becoming Fermat
+
+Fermat is the author whose puzzle goes the longest unsolved, and Fermat can be identified onchain as the [owner of the Flag NFT with token ID #0](https://opensea.io/assets/ethereum/0x0000000006bc8d9e5e9d436217b88de704a9f307/0). Anyone can transfer ownership of the token and promote an author to Fermat by calling `setFermat(uint32)` on the [Curta contract](https://etherscan.io/address/0x0000000006bC8D9e5e9d436217B88De704a9F307#writeContract):
+
+```sol showLineNumbers={false}
+/// @notice Burns and mints NFT #0 to the author of the puzzle of ID `_puzzleId`
+/// if it is the puzzle that went longest unsolved.
+/// @dev The puzzle of ID `_puzzleId` must have been solved at least once.
+/// @param _puzzleId The ID of the puzzle.
+function setFermat(uint32 _puzzleId) external;
+```
+
+<Callout intent="primary">
+  Note that the puzzle corresponding to `_puzzleId` must have at least 1 solve.
+</Callout>
