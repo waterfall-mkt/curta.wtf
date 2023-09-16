@@ -1,6 +1,8 @@
 import { getBaseMetadata } from '@/lib/utils';
 
-import { Description } from '@/components/templates/mdx';
+import ComponentsDisplay from '@/components/templates/components-display';
+import { Callout, Description } from '@/components/templates/mdx';
+import PuzzleInfoSolutionForm from '@/app/puzzle/[id]/(components)/info/solution-form';
 
 export const description = 'Learn how to submit solutions and earn NFTs on Curta.';
 
@@ -13,3 +15,54 @@ export const metadata = getBaseMetadata({
 # Submitting Solutions
 
 <Description children={description} />
+
+## Using the UI
+
+First, locate the solution form on the puzzle page:
+
+<ComponentsDisplay>
+  <div className='max-w-[20rem] bg-gray-600 rounded-[1.25rem] border border-stroke'>
+    <PuzzleInfoSolutionForm
+      puzzle={{
+        firstSolveTimestamp: Date.now() / 1000 - 86400,
+        author: {
+          address: '0xA85572Cd96f1643458f17340b6f0D6549Af482F5',
+          ensName: 'fiveoutofnine.eth',
+        },
+      }}
+    />
+  </div>
+</ComponentsDisplay>
+
+Then, paste your solution into the input box and click **Submit**. Although this should be enough for most puzzles, the UI also provides advanced options to configure the amount of ETH and gas limit sent with the solve transaction.
+
+### Tipping the author
+
+The **Tip author** button lets you configure the amount of ETH sent with the submission. Initially, the form autopopulates with the minimum amount required to submit a solution: 0.02 ETH during Phase 2; 0 ETH during all other Phases.
+
+<Callout intent="neutral">
+  By having a _minimum_ fee rather than a fixed fee, players can choose to "tip" authors they respect/to show support.
+</Callout>
+
+### Configuring the transaction
+
+The **Edit** button lets you configure the gas limit and whether to simulate the transaction before enabling the submit button.
+
+<Callout intent="neutral">
+  Disabling means the UI will let you submit the transaction regardless of the results fetched via [`usePrepareContractWrite`](https://wagmi.sh/react/prepare-hooks/usePrepareContractWrite).
+</Callout>
+
+## Calling the contract
+
+To submit a solution by directly interacting with the [Curta contract](https://etherscan.io/address/0x0000000006bC8D9e5e9d436217B88De704a9F307#writeContract), call `solve(uint32,uint256)`. This is helpful when the solution is complex (e.g. requires specific block number, multiple transactions/contract deploys, etc.) and more easily accomplished via a script.
+
+```sol showLineNumbers={false}
+/// @notice Mints an NFT if the provided solution solves the puzzle.
+/// @param _puzzleId The ID of the puzzle.
+/// @param _solution The solution.
+function solve(uint32 _puzzleId, uint256 _solution) external;
+```
+
+<Callout intent="primary">
+  Note that the transaction must be sent with a value of at least 0.02 ETH if the puzzle is in [Phase 2](/docs/puzzles/overview#submission-period).
+</Callout>
