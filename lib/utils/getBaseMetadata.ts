@@ -4,11 +4,15 @@ const getBaseMetadata = ({
   title,
   description = 'Curta is a CTF protocol, where players create and solve EVM puzzles to earn NFTs.',
   titleTemplate = '%s | Curta',
+  image,
 }: {
   title: string;
   description?: string;
   titleTemplate?: string;
+  image?: string;
 }): Metadata => {
+  const images = image ? [{ url: image, width: 1200, height: 630 }] : undefined;
+
   return {
     title,
     description,
@@ -18,6 +22,7 @@ const getBaseMetadata = ({
       siteName: 'curta.wtf',
       url: 'https://curta.wtf',
       locale: 'en_US',
+      images,
     },
     twitter: {
       title: titleTemplate.replace('%s', title),
@@ -26,6 +31,7 @@ const getBaseMetadata = ({
       siteId: '1604186457165406210',
       creator: '@waterfall_mkt',
       creatorId: '1466508083929223176',
+      images,
     },
   };
 };
