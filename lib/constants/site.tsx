@@ -22,8 +22,8 @@ export const DOCS_PAGES: {
         pages: [
           { name: 'Puzzles Overview', slug: '/docs/puzzles/overview' },
           { name: 'Submitting Solutions', slug: '/docs/puzzles/submitting-solutions' },
-          { name: 'Writing Puzzles', slug: '/docs/puzzles/writing-puzzles' },
           { name: 'Becoming an Author', slug: '/docs/puzzles/becoming-an-author' },
+          { name: 'Writing Puzzles', slug: '/docs/puzzles/writing-puzzles' },
         ],
       },
       { name: 'Leaderboard', slug: '/docs/leaderboard' },

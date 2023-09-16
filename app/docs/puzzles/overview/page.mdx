@@ -20,15 +20,15 @@ export const metadata = getBaseMetadata({
 
 ## Introduction
 
-A puzzle becomes available for solving by anyone as soon as an author adds it to the [Curta contract](https://etherscan.io/address/0x0000000006bC8D9e5e9d436217B88De704a9F307). Upon valid submissions, a [Flag](/docs/puzzles/submitting-solutions#flag-nfts) NFT is minted to the solver, and they earn [points](/docs/leaderboard), which is used to place them on the [leaderboard](/leaderboard).
+A puzzle becomes available to solve by anyone as soon as an author adds it to the [Curta contract](https://etherscan.io/address/0x0000000006bC8D9e5e9d436217B88De704a9F307). When a player submits a valid submission, a [Flag](/docs/puzzles/submitting-solutions#flag-nfts) NFT is minted to the solver, and they earn [points](/docs/leaderboard), which is used to place them on the [leaderboard](/leaderboard).
 
 ## Submission period
 
-Immediately after a puzzle is added, the puzzle enters **Phase 0**, a period where nobody has solved the puzzle yet. Then, as people solve the puzzle, it progresses through 4 Phases:
+Immediately after a puzzle is added, the puzzle enters **Phase 0**, the period where nobody has solved the puzzle yet. Then, as players solve the puzzle, it progresses through 4 Phases:
 
 <PhaseTable />
 
-To simplify, each puzzle's submission period lasts from the time it's added to 5 days after the first valid solution is submitted (aka **First Blood**).
+Simply put, each puzzle's submission period lasts from the time it's added until 5 days after the first valid solution is submitted (aka **First Blood**).
 
 ## Generative puzzles
 
@@ -58,16 +58,16 @@ puzzle.verify(
       icon: <BadgeCheck />,
     },
     {
-      name: 'Writing Puzzles',
-      description: 'Learn how to write and add a puzzle.',
-      href: '/docs/puzzles/writing-a-puzzle',
-      icon: <PencilRuler />
-    },
-    {
       name: 'Becoming an Author',
       description: 'Learn how to become an author.',
       href: '/docs/puzzles/becoming-an-author',
       icon: <PenTool />
+    },
+    {
+      name: 'Writing Puzzles',
+      description: 'Learn how to write and add a puzzle.',
+      href: '/docs/puzzles/writing-a-puzzle',
+      icon: <PencilRuler />
     },
   ].map((item) => <LinkFeature key={item.href} {...item} />)}
 </div>
