@@ -110,7 +110,7 @@ export async function GET(req: Request) {
             <div tw="flex flex-col mt-auto">
               <div
                 tw="flex grow items-center"
-                style={{ maxWidth: 1024 }} // 1200 - 2*40 - 2*48
+                style={{ maxWidth: 1020 }} // 1200 - 2*40 - 2*48 - 2*2
               >
                 {groupName.length > 0 ? (
                   <div
@@ -171,7 +171,7 @@ export async function GET(req: Request) {
                     lineHeight: 1.5,
                     color: '#94A3B3',
                     fontFamily: 'Inter 400',
-                    maxWidth: 1024, // 1200 - 2*40 - 2*48
+                    maxWidth: 1020, // 1200 - 2*40 - 2*48 - 2*2
                   }}
                 >
                   {description}
