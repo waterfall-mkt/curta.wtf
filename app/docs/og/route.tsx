@@ -107,7 +107,7 @@ export async function GET(req: Request) {
                 </span>
               </span>
             </div>
-            <div tw="flex flex-col mt-auto gap-8">
+            <div tw="flex flex-col mt-auto">
               <div tw="flex grow items-center">
                 {groupName.length > 0 ? (
                   <div
@@ -162,7 +162,7 @@ export async function GET(req: Request) {
               </div>
               {description && description.length > 0 ? (
                 <div
-                  tw="flex"
+                  tw="flex mt-8"
                   style={{
                     fontSize: 40,
                     lineHeight: 1.5,
