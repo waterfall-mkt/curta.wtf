@@ -101,7 +101,7 @@ const DocsNavBarMobile: FC<DocsNavBarInternalProps> = ({ sections, selected }) =
             Menu
           </button>
         </Dialog.Trigger>
-        <div className="hide-scrollbar relative ml-4 overflow-x-scroll">
+        <div className="hide-scrollbar relative ml-4 grow overflow-x-scroll">
           <div className="hide-scrollbar relative grow overflow-x-scroll" onScroll={onScroll}>
             <ol className="flex text-sm">
               {selectedSectionName.length > 0 ? (
