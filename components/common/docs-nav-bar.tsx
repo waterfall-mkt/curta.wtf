@@ -1,7 +1,7 @@
 'use client';
 
 import { usePathname } from 'next/navigation';
-import { type FC, Fragment, useMemo, useState } from 'react';
+import { type FC, Fragment, type UIEvent, useMemo, useState } from 'react';
 
 import * as Accordion from '@radix-ui/react-accordion';
 import * as Dialog from '@radix-ui/react-dialog';
@@ -47,6 +47,7 @@ const DocsNavBarDesktop: FC<DocsNavBarInternalProps> = ({ sections, selected }) 
     <aside
       className="hide-scrollbar sticky top-[6.5rem] -ml-3 hidden min-w-[14rem] max-w-[14rem] flex-col overflow-y-scroll px-0.5 lg:top-[7.5rem] lg:flex"
       style={{ height: 'calc(100vh - 11rem)' }}
+      tabIndex={-1}
     >
       <DocsNavBarInternal sections={sections} selected={selected} />
     </aside>
@@ -55,6 +56,8 @@ const DocsNavBarDesktop: FC<DocsNavBarInternalProps> = ({ sections, selected }) 
 
 const DocsNavBarMobile: FC<DocsNavBarInternalProps> = ({ sections, selected }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [scrollIsAtLeft, setScrollIsAtLeft] = useState<boolean>(true);
+  const [scrollIsAtRight, setScrollIsAtRight] = useState<boolean>(false);
   const isSmallScreen = useMediaQuery('(max-width: 1024px)'); // `lg` breakpoint
 
   const [selectedSectionName, selectedGroupName, selectedPageName] = useMemo(() => {
@@ -74,6 +77,18 @@ const DocsNavBarMobile: FC<DocsNavBarInternalProps> = ({ sections, selected }) =
     return ['', '', ''];
   }, [sections, selected]);
 
+  // Function for setting scroll values to conditionally render gradient
+  // overflows.
+  const onScroll = (event: UIEvent<HTMLDivElement>) => {
+    const target = event.target as HTMLDivElement;
+    const scrollLeft = target.scrollLeft;
+    const scrollWidth = target.scrollWidth;
+    const clientWidth = target.clientWidth;
+
+    setScrollIsAtLeft(scrollLeft === 0);
+    setScrollIsAtRight(scrollWidth - scrollLeft < clientWidth);
+  };
+
   return (
     <Dialog.Root open={isOpen && isSmallScreen} onOpenChange={setIsOpen}>
       <div className="pointer-events-auto sticky top-14 z-popover mb-4 flex h-12 w-full items-center border-b border-stroke bg-gray-900 px-4 lg:hidden">
@@ -86,21 +101,37 @@ const DocsNavBarMobile: FC<DocsNavBarInternalProps> = ({ sections, selected }) =
             Menu
           </button>
         </Dialog.Trigger>
-        <ol className="ml-4 flex text-sm">
-          {selectedSectionName.length > 0 ? (
-            <li className="flex items-center text-gray-200">
-              {selectedSectionName}
-              <ChevronRight className="mx-1 h-4 w-4" />
-            </li>
-          ) : null}
-          {selectedGroupName.length > 0 ? (
-            <li className="flex items-center text-gray-200">
-              {selectedGroupName}
-              <ChevronRight className="mx-1 h-4 w-4" />
-            </li>
-          ) : null}
-          <li className="font-medium text-gray-100">{selectedPageName}</li>
-        </ol>
+        <div className="hide-scrollbar relative ml-4 grow overflow-x-scroll">
+          <div className="hide-scrollbar relative grow overflow-x-scroll" onScroll={onScroll}>
+            <ol className="flex text-sm">
+              {selectedSectionName.length > 0 ? (
+                <li className="flex items-center text-gray-200">
+                  {selectedSectionName}
+                  <ChevronRight className="mx-1 h-4 w-4" />
+                </li>
+              ) : null}
+              {selectedGroupName.length > 0 ? (
+                <li className="flex items-center text-gray-200">
+                  {selectedGroupName}
+                  <ChevronRight className="mx-1 h-4 w-4" />
+                </li>
+              ) : null}
+              <li className="whitespace-nowrap font-medium text-gray-100">{selectedPageName}</li>
+            </ol>
+          </div>
+          <div
+            className={clsx(
+              'pointer-events-none absolute left-0 top-0 h-5 w-4 bg-gradient-to-r from-gray-900 transition-opacity',
+              scrollIsAtLeft ? 'opacity-0' : 'opacity-100',
+            )}
+          />
+          <div
+            className={clsx(
+              'pointer-events-none absolute right-0 top-0 h-5 w-4 bg-gradient-to-l from-gray-900 transition-opacity',
+              scrollIsAtRight ? 'opacity-0' : 'opacity-100',
+            )}
+          />
+        </div>
       </div>
 
       <Dialog.Portal>
@@ -155,7 +186,7 @@ const DocsNavBarInternal: FC<DocsNavBarInternalProps> = ({ sections, selected, s
                         {group.name}
                       </Button>
                     </Accordion.Trigger>
-                    <Accordion.Content className="overflow-hidden pl-4 data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down">
+                    <Accordion.Content className="-mb-1 -mr-1 overflow-hidden pb-1 pl-4 pr-1 data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down">
                       {group.pages.map((page, index) => (
                         <DocsNavBarInternalButton
                           key={index}

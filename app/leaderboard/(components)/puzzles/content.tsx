@@ -148,7 +148,7 @@ const LeaderboardPuzzlesContent: FC<LeaderboardPuzzlesContentProps> = ({
   return (
     <Fragment>
       <div className="flex w-full items-center justify-between gap-2 border-b border-stroke px-3 py-3 lg:px-6">
-        <div className="hide-scrollbar relative flex grow items-center gap-2 overflow-x-scroll">
+        <div className="hide-scrollbar relative -m-1 flex grow items-center gap-2 overflow-x-scroll p-1">
           <Select
             variant="secondary"
             value={season}
