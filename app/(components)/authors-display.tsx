@@ -3,12 +3,13 @@ import { cache, type FC, useId } from 'react';
 import AuthorAvatar from './author-avatar';
 import AuthorsModal from './authors-modal';
 import clsx from 'clsx';
-import { Github, Twitter } from 'lucide-react';
+import { Github } from 'lucide-react';
 
 import { publicClient } from '@/lib/client';
 import type { Author } from '@/lib/types/protocol';
 import { getShortenedAddress } from '@/lib/utils';
 
+import LogoIcon from '@/components/common/logo-icon';
 import AddressLink from '@/components/templates/address-link';
 import Avatar from '@/components/templates/avatar';
 import ENSAvatar from '@/components/templates/ens-avatar';
@@ -88,7 +89,7 @@ const AuthorsDisplay: FC<AuthorsDisplayProps> = ({ data }) => {
                         href={`https://twitter.com/${author.twitter}`}
                         newTab
                       >
-                        <Twitter />
+                        <LogoIcon.X />
                       </IconButton>
                     ) : null}
                     {author.github ? (

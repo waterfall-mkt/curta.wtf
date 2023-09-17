@@ -1,6 +1,8 @@
-import { Github, Twitter } from 'lucide-react';
+import { Github } from 'lucide-react';
 
 import type { ExternalLink, Page } from '@/lib/types/site';
+
+import LogoIcon from '@/components/common/logo-icon';
 
 /**
  * Docs pages displayed on [**curta.wtf/docs**](https://curta.wtf/docs)'s
@@ -60,7 +62,7 @@ export const NAVBAR_PAGES: Page[] = [
  * [**Waterfall**](https://twitter.com/waterfall-mkt).
  */
 export const SOCIAL_LINKS: ExternalLink[] = [
-  { name: 'Curta Twitter', href: 'https://twitter.com/curta_ctf', icon: <Twitter /> },
-  { name: 'Waterfall Twitter', href: 'https://twitter.com/waterfall_mkt', icon: <Twitter /> },
+  { name: 'Curta Twitter', href: 'https://twitter.com/curta_ctf', icon: <LogoIcon.X /> },
+  { name: 'Waterfall Twitter', href: 'https://twitter.com/waterfall_mkt', icon: <LogoIcon.X /> },
   { name: 'GitHub', href: 'https://github.com/waterfall-mkt', icon: <Github /> },
 ];

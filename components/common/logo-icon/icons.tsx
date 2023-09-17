@@ -63,7 +63,7 @@ export const XIcon: FC<JSX.IntrinsicElements['svg']> = ({ className, ...rest }) 
       className={className}
       {...rest}
     >
-      <title>X, formerly known as Twitter.</title>
+      <title>X, formerly known as Twitter</title>
       <desc>X, formerly known as Twitter&apos;s logo.</desc>
       <path
         d="M14.047 10.31 22.057 1h-1.898l-6.955 8.084L7.649 1H1.242l8.4 12.225-8.4 9.764H3.14l7.345-8.538 5.866 8.538h6.407L14.046 10.31Zm-2.6 3.023-.851-1.218L3.824 2.43H6.74l5.465 7.817.85 1.218 7.105 10.16h-2.916l-5.797-8.29v-.001Z"

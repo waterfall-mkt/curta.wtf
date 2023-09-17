@@ -2,10 +2,11 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 import PuzzleFeature from './(components)/puzzle-feature';
-import { Castle, FileText, Github, MessageCircle, Twitter } from 'lucide-react';
+import { Castle, FileText, Github, MessageCircle } from 'lucide-react';
 
 import { getBaseMetadata } from '@/lib/utils';
 
+import LogoIcon from '@/components/common/logo-icon';
 import CredentialFeature from '@/components/templates/credential-feature';
 import LinkFeature from '@/components/templates/link-feature';
 import { Description } from '@/components/templates/mdx';
@@ -70,7 +71,7 @@ External links related to Curta: GitHub repos, our [Hacker in Residence](https:/
       name: '@curta_ctf',
       description: 'Follow for updates.',
       href: 'https://twitter.com/curta_ctf',
-      icon: <Twitter />
+      icon: <LogoIcon.X />
     },
     {
       name: 'Discord',
