@@ -63,6 +63,5 @@ export const NAVBAR_PAGES: Page[] = [
  */
 export const SOCIAL_LINKS: ExternalLink[] = [
   { name: 'Curta Twitter', href: 'https://twitter.com/curta_ctf', icon: <LogoIcon.X /> },
-  { name: 'Waterfall Twitter', href: 'https://twitter.com/waterfall_mkt', icon: <LogoIcon.X /> },
   { name: 'GitHub', href: 'https://github.com/waterfall-mkt', icon: <Github /> },
 ];
