@@ -155,7 +155,7 @@ const DocsNavBarInternal: FC<DocsNavBarInternalProps> = ({ sections, selected, s
                         {group.name}
                       </Button>
                     </Accordion.Trigger>
-                    <Accordion.Content className="overflow-hidden pl-4 data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down">
+                    <Accordion.Content className="-mb-1 -mr-1 overflow-hidden pb-1 pl-4 pr-1 data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down">
                       {group.pages.map((page, index) => (
                         <DocsNavBarInternalButton
                           key={index}
