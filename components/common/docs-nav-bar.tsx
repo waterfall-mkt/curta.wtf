@@ -47,6 +47,7 @@ const DocsNavBarDesktop: FC<DocsNavBarInternalProps> = ({ sections, selected }) 
     <aside
       className="hide-scrollbar sticky top-[6.5rem] -ml-3 hidden min-w-[14rem] max-w-[14rem] flex-col overflow-y-scroll px-0.5 lg:top-[7.5rem] lg:flex"
       style={{ height: 'calc(100vh - 11rem)' }}
+      tabIndex={-1}
     >
       <DocsNavBarInternal sections={sections} selected={selected} />
     </aside>
