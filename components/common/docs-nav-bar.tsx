@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { type FC, Fragment, type UIEvent, useMemo, useState } from 'react';
 
@@ -45,11 +46,25 @@ const DocsNavBar: FC<DocsNavBarProps> = ({ sections }) => {
 const DocsNavBarDesktop: FC<DocsNavBarInternalProps> = ({ sections, selected }) => {
   return (
     <aside
-      className="hide-scrollbar sticky top-[6.5rem] -ml-3 hidden min-w-[14rem] max-w-[14rem] flex-col overflow-y-scroll px-0.5 lg:top-[7.5rem] lg:flex"
+      className="hide-scrollbar sticky top-[6.5rem] -mx-0.5 -ml-3 hidden min-w-[14rem] max-w-[14rem] flex-col overflow-x-hidden overflow-y-scroll px-0.5 focus-visible:outline-none lg:top-[7.5rem] lg:flex"
       style={{ height: 'calc(100vh - 11rem)' }}
       tabIndex={-1}
     >
-      <DocsNavBarInternal sections={sections} selected={selected} />
+      <div className="relative flex grow flex-col">
+        <div className="sticky top-0 z-30 mb-2 bg-gray-900">
+          <Link className="pl-3 text-lg no-underline" href="/docs">
+            <span className="font-semibold tracking-tighter text-gray-50">Curta</span>{' '}
+            <span className="text-gray-150">| Docs</span>
+          </Link>
+          <div className="px-3">
+            <hr
+              className="mt-2 h-[1px] w-full rounded-full border-t border-stroke"
+              role="separator"
+            />
+          </div>
+        </div>
+        <DocsNavBarInternal sections={sections} selected={selected} />
+      </div>
     </aside>
   );
 };
@@ -155,17 +170,19 @@ const DocsNavBarInternal: FC<DocsNavBarInternalProps> = ({ sections, selected, s
     <Fragment>
       {sections.map((section, index) => (
         <Fragment key={index}>
-          <div className={clsx('mb-1 ml-3 font-medium text-gray-100', index > 0 ? 'mt-4' : '')}>
-            {section.name}
-          </div>
-          {section.groups.map((group, index) => {
+          {section.name.length > 0 ? (
+            <div className={clsx('ml-3 font-medium text-gray-100', index > 0 ? 'mt-4' : '')}>
+              {section.name}
+            </div>
+          ) : null}
+          {section.groups.map((group, groupIndex) => {
             if ('pages' in group) {
               const groupSelected =
                 group.pages.find((page) => page.slug === selected) !== undefined;
 
               return (
                 <Accordion.Root
-                  key={index}
+                  key={groupIndex}
                   type="single"
                   defaultValue={groupSelected ? group.name : undefined}
                   collapsible
@@ -176,6 +193,7 @@ const DocsNavBarInternal: FC<DocsNavBarInternalProps> = ({ sections, selected, s
                         className={clsx(
                           'group w-full justify-between',
                           groupSelected ? 'data-variant-text:text-gray-100' : '',
+                          section.name.length > 0 || groupIndex > 0 ? 'mt-1' : '',
                         )}
                         variant="text"
                         intent="neutral"
@@ -187,9 +205,9 @@ const DocsNavBarInternal: FC<DocsNavBarInternalProps> = ({ sections, selected, s
                       </Button>
                     </Accordion.Trigger>
                     <Accordion.Content className="-mb-1 -mr-1 overflow-hidden pb-1 pl-4 pr-1 data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down">
-                      {group.pages.map((page, index) => (
+                      {group.pages.map((page, pageIndex) => (
                         <DocsNavBarInternalButton
-                          key={index}
+                          key={pageIndex}
                           page={page}
                           selected={selected}
                           setIsOpen={setIsOpen}
@@ -205,6 +223,7 @@ const DocsNavBarInternal: FC<DocsNavBarInternalProps> = ({ sections, selected, s
               <DocsNavBarInternalButton
                 key={index}
                 page={group}
+                marginTop={section.name.length > 0 || groupIndex > 0}
                 selected={selected}
                 setIsOpen={setIsOpen}
               />
@@ -218,16 +237,17 @@ const DocsNavBarInternal: FC<DocsNavBarInternalProps> = ({ sections, selected, s
 
 const DocsNavBarInternalButton: FC<{
   page: Page;
+  marginTop?: boolean;
   selected?: string;
   setIsOpen?: (isOpen: boolean) => void;
-}> = ({ page, selected, setIsOpen }) => {
+}> = ({ page, marginTop = true, selected, setIsOpen }) => {
   const pageSelected = selected === page.slug;
 
   return (
-    <div>
+    <div className={marginTop ? 'mt-1' : undefined}>
       <Button
         className={clsx(
-          'mt-1 w-full justify-start',
+          'w-full justify-start',
           pageSelected ? 'cursor-default bg-blue-800 text-blue-200' : '',
         )}
         variant="text"
