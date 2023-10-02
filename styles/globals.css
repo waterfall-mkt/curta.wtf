@@ -11,7 +11,7 @@ html,
 body,
 main {
   font-weight: 300;
-  @apply scroll-pt-28 md:scroll-pt-20 lg:scroll-pt-24;
+  @apply font-sans scroll-pt-28 md:scroll-pt-20 lg:scroll-pt-24;
 }
 
 a {

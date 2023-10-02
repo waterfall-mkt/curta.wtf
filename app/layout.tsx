@@ -21,6 +21,7 @@ import { Toaster } from '@/components/ui';
 const inter = Inter({
   variable: '--inter-font',
   subsets: ['latin'],
+  display: 'swap',
 });
 
 const poppins = Poppins({
