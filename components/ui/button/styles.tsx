@@ -76,7 +76,7 @@ export const buttonVariants = cva(
         ],
         success: [
           // Primary
-          'data-primary:bg-green-250',
+          'data-primary:bg-green-350',
           'data-primary:hover:bg-green-200',
           // Secondary
           'data-secondary:text-green-200',
