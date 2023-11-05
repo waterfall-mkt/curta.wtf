@@ -1,3 +1,4 @@
+import Badge from './badge';
 import Button from './button';
 import Card from './card';
 import CodeBlock from './code-block';
@@ -13,6 +14,7 @@ import { useToast } from './toaster/useToast';
 import Tooltip from './tooltip';
 
 export {
+  Badge,
   Button,
   Card,
   CodeBlock,
