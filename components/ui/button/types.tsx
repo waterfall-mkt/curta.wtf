@@ -13,6 +13,8 @@ export type ButtonVariantProps = VariantProps<typeof buttonVariants>;
 // Component props
 // ---------------------------------------–-------------------------------------
 
+export type ButtonGroupProps = JSX.IntrinsicElements['div'];
+
 export type ButtonProps = JSX.IntrinsicElements['button'] &
   ButtonVariantProps & {
     href?: string;
