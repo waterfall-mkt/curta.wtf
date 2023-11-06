@@ -42,7 +42,6 @@ const Button = forwardRef(
         ),
       ),
       title: title || href || undefined,
-      'data-size': size,
       'data-variant': variant,
       'data-disabled': disabled,
       'aria-disabled': disabled,
