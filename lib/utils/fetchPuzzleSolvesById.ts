@@ -27,6 +27,7 @@ const fetchPuzzleSolvesById = async (id: number): Promise<PuzzleSolvesResponse> 
     const solve = data[i];
 
     solves.push({
+      chainId: 1, // TODO: use fetched data from new database.
       solver: solve.solver,
       solveTimestamp: solve.solveTimestamp,
       puzzleId: solve.puzzleId,
