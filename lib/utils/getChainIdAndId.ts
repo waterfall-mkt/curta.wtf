@@ -8,7 +8,7 @@
  * `{ chainId: number, id: number }` or `null` if the slug is invalid.
  */
 const getChainIdAndId = (slug: string): { chainId: number; id: number } | null => {
-  const [x, y] = slug.split(':');
+  const [x, y] = decodeURIComponent(slug).split(':');
   const [numX, numY] = [Number(x), Number(y)];
 
   // `slug` is in the form `${id}`
