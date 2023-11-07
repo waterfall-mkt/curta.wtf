@@ -4,6 +4,7 @@ import { PRESET_COLORS } from '@/lib/constants/presetColors';
 import {
   fetchPuzzleById,
   fetchPuzzleFlagColors,
+  getChainIdAndId,
   getPuzzleTimeLeft,
   getShortenedAddress,
   getTimeLeftString,
@@ -13,7 +14,7 @@ import {
 // Image
 // -----------------------------------------------------------------------------
 
-export default async function Image({ params }: { params: { id: number } }) {
+export default async function Image({ params }: { params: { slug: string } }) {
   const inter400 = fetch(
     new URL(
       '../../../node_modules/@fontsource/inter/files/inter-latin-400-normal.woff',
@@ -28,10 +29,14 @@ export default async function Image({ params }: { params: { id: number } }) {
     ),
   ).then((res) => res.arrayBuffer());
 
-  const id = params.id;
+  const ids = getChainIdAndId(params.slug);
+  // Return empty image if `slug` is an invalid format.
+  if (!ids) return null;
+
+  const { chainId, id } = ids;
   const [{ data: puzzle }, { colors }] = await Promise.all([
-    fetchPuzzleById(Number(id)),
-    fetchPuzzleFlagColors(Number(id)),
+    fetchPuzzleById(id, chainId),
+    fetchPuzzleFlagColors(id),
   ]);
   if (!puzzle) return null;
 
