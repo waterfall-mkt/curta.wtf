@@ -10,7 +10,6 @@ declare global {
       // Supabase
       NEXT_PUBLIC_SUPABASE_URL: string;
       NEXT_PUBLIC_SUPABASE_ANON_KEY: string;
-      NEXT_PUBLIC_SUPABASE_SCHEMA: `${'mainnet' | 'goerli' | 'constellation'}_${'test' | 'prod'}`;
       // Services
       NEXT_PUBLIC_ALCHEMY_ID: string;
       NEXT_PUBLIC_WALLETCONNECT_ID: string;
