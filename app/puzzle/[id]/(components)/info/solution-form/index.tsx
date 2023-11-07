@@ -16,7 +16,7 @@ import {
 
 import { CURTA_ABI } from '@/lib/constants/abi';
 import type { Puzzle } from '@/lib/types/protocol';
-import { formatValueToPrecision, getPuzzleTimeLeft } from '@/lib/utils';
+import { formatValueToPrecision, getPuzzlesAddress, getPuzzleTimeLeft } from '@/lib/utils';
 
 import ConnectButton from '@/components/common/connect-button';
 import { Button, Input, Popover, useToast } from '@/components/ui';
@@ -50,7 +50,7 @@ const PuzzleInfoSolutionForm: FC<PuzzleInfoSolutionFormProps> = ({ puzzle }) => 
   useEffect(() => setMounted(true), []);
 
   const { config } = usePrepareContractWrite({
-    address: process.env.NEXT_PUBLIC_CURTA_ADDRESS,
+    address: getPuzzlesAddress(puzzle.chainId),
     abi: CURTA_ABI,
     functionName: 'solve',
     args: [puzzle.id, solution],
