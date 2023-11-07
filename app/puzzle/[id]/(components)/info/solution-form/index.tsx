@@ -163,6 +163,7 @@ const PuzzleInfoSolutionForm: FC<PuzzleInfoSolutionFormProps> = ({ puzzle }) => 
               <PuzzleInfoSolutionFormTipForm
                 phase={phase}
                 author={puzzle.author}
+                chainId={puzzle.chainId}
                 onChange={setTip}
                 onOpenChange={setIsTipFormOpen}
               />
