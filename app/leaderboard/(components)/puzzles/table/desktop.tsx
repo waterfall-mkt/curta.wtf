@@ -242,7 +242,7 @@ const LeaderboardPuzzlesTableDesktopSubComponent: FC<{ data: Solve[] }> = ({ dat
                     '_blank',
                   );
                 }}
-                aria-label={`View ${row.original.solver}'s solution of puzzle ${row.original.puzzleId}.`}
+                aria-label={`View ${row.original.solver}'s solution of puzzle ${row.original.puzzleId} on chain ${row.original.chainId}.`}
               >
                 <ExternalLink />
               </IconButton>

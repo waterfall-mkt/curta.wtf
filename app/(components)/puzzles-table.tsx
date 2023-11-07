@@ -106,7 +106,7 @@ const PuzzleTableDesktop: FC<PuzzleTableInternalProps> = ({ data, sorting, setSo
                     e.stopPropagation();
                     window.open(row.original.solution, '_blank');
                   }}
-                  aria-label={`View puzzle #${row.original.id}'s solution.`}
+                  aria-label={`View chain ${row.original.chainId} puzzle #${row.original.id}'s solution.`}
                 >
                   <FileCheck />
                 </IconButton>
@@ -127,7 +127,7 @@ const PuzzleTableDesktop: FC<PuzzleTableInternalProps> = ({ data, sorting, setSo
                       '_blank',
                     );
                   }}
-                  aria-label={`View puzzle #${row.original.id}'s contract.`}
+                  aria-label={`View chain ${row.original.chainId} puzzle #${row.original.id}'s contract.`}
                 >
                   <ExternalLink />
                 </IconButton>
