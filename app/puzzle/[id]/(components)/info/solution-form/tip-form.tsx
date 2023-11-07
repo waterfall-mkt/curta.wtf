@@ -1,7 +1,7 @@
 import { type FC, useState } from 'react';
 
 import type { Author, Phase } from '@/lib/types/protocol';
-import { getShortenedAddress } from '@/lib/utils';
+import { getBlockExplorerDomain, getShortenedAddress } from '@/lib/utils';
 
 import { Button, Input } from '@/components/ui';
 
@@ -12,6 +12,7 @@ import { Button, Input } from '@/components/ui';
 type PuzzleInfoSolutionFormTipFormProps = {
   phase: Phase;
   author: Author;
+  chainId: number;
   onChange: (value: string) => void;
   onOpenChange: (open: boolean) => void;
 };
@@ -23,6 +24,7 @@ type PuzzleInfoSolutionFormTipFormProps = {
 const PuzzleInfoSolutionFormTipForm: FC<PuzzleInfoSolutionFormTipFormProps> = ({
   phase,
   author,
+  chainId,
   onChange,
   onOpenChange,
 }) => {
@@ -48,7 +50,7 @@ const PuzzleInfoSolutionFormTipForm: FC<PuzzleInfoSolutionFormTipFormProps> = ({
         ill be transferred to{' '}
         <a
           className="font-medium text-gray-100 no-underline hover:underline"
-          href={`https://${process.env.NEXT_PUBLIC_BLOCK_EXPLORER}/address/${author.address}`}
+          href={`https://${getBlockExplorerDomain(chainId)}/address/${author.address}`}
           target="_blank"
           rel="noopener noreferrer"
         >

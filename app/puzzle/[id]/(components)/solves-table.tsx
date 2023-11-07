@@ -7,7 +7,7 @@ import type { ColumnDef } from '@tanstack/react-table';
 import { ExternalLink } from 'lucide-react';
 
 import type { Solve } from '@/lib/types/protocol';
-import { getTimeLeftString } from '@/lib/utils';
+import { getBlockExplorerDomain, getTimeLeftString } from '@/lib/utils';
 
 import AddressLinkClient from '@/components/templates/address-link-client';
 import ENSAvatarClient from '@/components/templates/ens-avatar-client';
@@ -118,15 +118,17 @@ const PuzzleSolvesTableDesktop: FC<PuzzleSolvesTableInternalProps> = ({
               <IconButton
                 variant="outline"
                 intent="neutral"
-                title={`https://${process.env.NEXT_PUBLIC_BLOCK_EXPLORER}/tx/${row.original.tx}`}
+                title={`https://${getBlockExplorerDomain(row.original.chainId)}/tx/${
+                  row.original.tx
+                }`}
                 onClick={(e) => {
                   e.stopPropagation();
                   window.open(
-                    `https://${process.env.NEXT_PUBLIC_BLOCK_EXPLORER}/tx/${row.original.tx}`,
+                    `https://${getBlockExplorerDomain(row.original.chainId)}/tx/${row.original.tx}`,
                     '_blank',
                   );
                 }}
-                aria-label={`View ${row.original.solver}'s solution of puzzle ${row.original.puzzleId}.`}
+                aria-label={`View ${row.original.solver}'s solution of puzzle ${row.original.puzzleId} on chain ${row.original.chainId}.`}
               >
                 <ExternalLink />
               </IconButton>

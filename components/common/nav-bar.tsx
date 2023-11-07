@@ -12,7 +12,7 @@ import { useAccount, useDisconnect, useEnsName } from 'wagmi';
 
 import { NAVBAR_PAGES, SOCIAL_LINKS } from '@/lib/constants/site';
 import { useMediaQuery } from '@/lib/hooks/useMediaQuery';
-import { getShortenedAddress } from '@/lib/utils';
+import { getBlockExplorerDomain, getShortenedAddress } from '@/lib/utils';
 
 import { Button, IconButton, Modal } from '@/components/ui';
 
@@ -139,7 +139,8 @@ const NavBarMobile: FC<NavBarInternalProps> = ({ yScroll }) => {
                   <a
                     id="connected-address-link"
                     className="line-clamp-1 text-ellipsis font-medium text-gray-100 transition-colors hover:underline"
-                    href={`https://${process.env.NEXT_PUBLIC_BLOCK_EXPLORER}/address/${address}`}
+                    // Always link to Ethereum's block explorer
+                    href={`https://${getBlockExplorerDomain(1)}/address/${address}`}
                     target="_blank"
                     rel="noopener noreferrer"
                   >
@@ -153,7 +154,8 @@ const NavBarMobile: FC<NavBarInternalProps> = ({ yScroll }) => {
                 <div className="flex gap-2">
                   {[
                     {
-                      href: `https://${process.env.NEXT_PUBLIC_BLOCK_EXPLORER}/address/${address}`,
+                      // Always link to Ethereum's block explorer
+                      href: `https://${getBlockExplorerDomain(1)}/address/${address}`,
                       newTab: true,
                       children: <ExternalLink />,
                     },

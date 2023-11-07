@@ -5,7 +5,7 @@ import { twMerge } from 'tailwind-merge';
 import type { Address } from 'viem';
 
 import { publicClient } from '@/lib/client';
-import { getShortenedAddress } from '@/lib/utils';
+import { getBlockExplorerDomain, getShortenedAddress } from '@/lib/utils';
 
 // ---------------------------------------–-------------------------------------
 // Props
@@ -14,6 +14,7 @@ import { getShortenedAddress } from '@/lib/utils';
 export type AddressLinkProps = {
   className?: string;
   address?: Address;
+  chainId?: number;
   href?: string;
 };
 
@@ -21,7 +22,7 @@ export type AddressLinkProps = {
 // Component
 // ---------------------------------------–-------------------------------------
 
-const AddressLink: FC<AddressLinkProps> = async ({ className, address, href }) => {
+const AddressLink: FC<AddressLinkProps> = async ({ className, address, chainId = 1, href }) => {
   const ensName = address
     ? await cache(async () => await publicClient.getEnsName({ address }))()
     : undefined;
@@ -35,7 +36,7 @@ const AddressLink: FC<AddressLinkProps> = async ({ className, address, href }) =
           className,
         ),
       )}
-      href={href ?? `https://${process.env.NEXT_PUBLIC_BLOCK_EXPLORER}/address/${address}`}
+      href={href ?? `https://${getBlockExplorerDomain(chainId)}/address/${address}`}
       target="_blank"
       rel="noopener noreferrer"
     >

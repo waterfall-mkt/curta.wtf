@@ -7,7 +7,7 @@ import type { ColumnDef } from '@tanstack/react-table';
 import { ChevronRight, Crown, ExternalLink } from 'lucide-react';
 
 import type { Solver } from '@/lib/types/protocol';
-import { getTimeLeftString } from '@/lib/utils';
+import { getBlockExplorerDomain, getTimeLeftString } from '@/lib/utils';
 
 import AddressLinkClient from '@/components/templates/address-link-client';
 import ENSAvatarClient from '@/components/templates/ens-avatar-client';
@@ -154,7 +154,7 @@ const LeaderboardPuzzlesTableMobileSubComponent: FC<{ data: Solver }> = ({ data 
                 variant="outline"
                 intent="neutral"
                 rightIcon={<ExternalLink />}
-                href={`https://${process.env.NEXT_PUBLIC_BLOCK_EXPLORER}/tx/${solve.tx}`}
+                href={`https://${getBlockExplorerDomain(solve.chainId)}/tx/${solve.tx}`}
                 newTab
               >
                 View solution

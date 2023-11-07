@@ -50,6 +50,7 @@ export type Puzzle = {
 };
 
 export type Solve = {
+  chainId: number;
   solver: `0x${string}`;
   solverEnsName?: string;
   solverEnsAvatar?: string;

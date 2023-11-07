@@ -9,6 +9,8 @@ import {
   ToggleRight,
 } from 'lucide-react';
 
+import { getBlockExplorerDomain } from '@/lib/utils';
+
 import { Button, CodeBlock, IconButton, Input } from '@/components/ui';
 
 export default function LoadingPage() {
@@ -71,7 +73,10 @@ export default function LoadingPage() {
             <div className="flex items-center gap-1 text-sm">
               <a
                 className="font-medium text-gray-100 hover:underline"
-                href={`https://${process.env.NEXT_PUBLIC_BLOCK_EXPLORER}/address/${process.env.NEXT_PUBLIC_CURTA_ADDRESS}`}
+                // Default to Curta Puzzles on Ethereum
+                href={`https://${getBlockExplorerDomain(1)}/address/${
+                  process.env.NEXT_PUBLIC_CURTA_ADDRESS
+                }`}
                 target="_blank"
                 rel="noreferrer"
               >
