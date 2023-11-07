@@ -105,7 +105,7 @@ const NavBarMobile: FC<NavBarInternalProps> = ({ yScroll }) => {
 
   const { data, isError, isLoading } = useEnsName({
     address,
-    chainId: Number(process.env.NEXT_PUBLIC_CHAIN_ID),
+    chainId: 1, // Always fetch name from Ethereum
   });
 
   return (

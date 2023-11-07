@@ -28,6 +28,7 @@ const fetchPuzzles = async (): Promise<PuzzlesResponse> => {
     puzzles.push({
       // Protocol
       id: puzzle.id,
+      chainId: 1, // TODO: use fetched data from new database.
       address: puzzle.address,
       author: { ...puzzle.author } as Author,
       addedTx: puzzle.addedTx,

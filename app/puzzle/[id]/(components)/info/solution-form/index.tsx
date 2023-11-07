@@ -54,7 +54,7 @@ const PuzzleInfoSolutionForm: FC<PuzzleInfoSolutionFormProps> = ({ puzzle }) => 
     abi: CURTA_ABI,
     functionName: 'solve',
     args: [puzzle.id, solution],
-    chainId: Number(process.env.NEXT_PUBLIC_CHAIN_ID),
+    chainId: puzzle.chainId,
     value: tip ? parseEther(tip) : undefined,
     gas: gasLimit && BigInt(gasLimit) > 0 ? BigInt(gasLimit) : undefined,
   });
@@ -223,12 +223,12 @@ const PuzzleInfoSolutionForm: FC<PuzzleInfoSolutionFormProps> = ({ puzzle }) => 
       </div>
       {!chain || !mounted ? (
         <ConnectButton className="w-full" />
-      ) : chain.id !== Number(process.env.NEXT_PUBLIC_CHAIN_ID) ? (
+      ) : chain.id !== puzzle.chainId ? (
         <Button
           className="w-full"
           size="lg"
           type="button"
-          onClick={() => switchNetwork?.(Number(process.env.NEXT_PUBLIC_CHAIN_ID))}
+          onClick={() => switchNetwork?.(puzzle.chainId)}
         >
           Switch network
         </Button>

@@ -20,6 +20,7 @@ export type Phase = 0 | 1 | 2 | 3;
 export type Puzzle = {
   // Protocol
   id: number;
+  chainId: number;
   address: `0x${string}`;
   author: Author;
   addedTx: `0x${string}`;

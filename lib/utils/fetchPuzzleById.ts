@@ -40,6 +40,7 @@ const fetchPuzzleById = async (id: number): Promise<PuzzleResponse> => {
   const puzzle: Puzzle = {
     // Protocol
     id: puzzleData.id,
+    chainId: 1, // TODO: use fetched data from new database.
     address: puzzleData.address,
     author: {
       ...puzzleData.author,
