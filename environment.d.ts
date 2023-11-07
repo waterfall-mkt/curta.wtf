@@ -2,7 +2,6 @@ declare global {
   namespace NodeJS {
     interface ProcessEnv {
       // Site config
-      NEXT_PUBLIC_BLOCK_EXPLORER: string;
       NEXT_PUBLIC_BASE_URL: string;
       CURTA_SITE_API_KEY: string;
       // Chain config

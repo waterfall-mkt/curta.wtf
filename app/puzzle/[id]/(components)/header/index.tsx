@@ -4,7 +4,7 @@ import PuzzleHeaderPageNav from './page-nav';
 import { ExternalLink, FileCheck, Github } from 'lucide-react';
 
 import type { Puzzle } from '@/lib/types/protocol';
-import { fetchPuzzleById } from '@/lib/utils';
+import { fetchPuzzleById, getBlockExplorerDomain } from '@/lib/utils';
 
 import AddressLink from '@/components/templates/address-link';
 import Avatar from '@/components/templates/avatar';
@@ -58,6 +58,7 @@ const PuzzleHeader: FC<PuzzleHeaderProps> = async ({ puzzle }) => {
             <AddressLink
               className="max-w-[13rem] overflow-hidden text-ellipsis text-xl font-medium text-gray-50 md:text-2xl"
               address={puzzle.author.address}
+              chainId={puzzle.chainId}
             />
           </div>
         </div>
@@ -90,7 +91,7 @@ const PuzzleHeader: FC<PuzzleHeaderProps> = async ({ puzzle }) => {
           ) : null}
           <Tooltip content="Contract">
             <IconButton
-              href={`https://${process.env.NEXT_PUBLIC_BLOCK_EXPLORER}/address/${puzzle.address}`}
+              href={`https://${getBlockExplorerDomain(puzzle.chainId)}/address/${puzzle.address}`}
               variant="outline"
               intent="neutral"
               size="lg"

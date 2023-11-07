@@ -79,7 +79,7 @@ const AuthorsDisplay: FC<AuthorsDisplayProps> = ({ data }) => {
                   </div>
                   <div className="ml-3.5 grow">
                     <div className="text-gray-100">{displayName}</div>
-                    <AddressLink className="w-fit text-sm" address={author.address} />
+                    <AddressLink className="w-fit text-sm" address={author.address} chainId={1} />
                   </div>
                   <div className="flex items-center gap-2">
                     {author.twitter ? (

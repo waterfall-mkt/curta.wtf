@@ -6,7 +6,7 @@ import PuzzleInfoTimeLeftTimeline from './timeline';
 import { ArrowUpRight, Box } from 'lucide-react';
 
 import type { Puzzle } from '@/lib/types/protocol';
-import { getPuzzleTimeLeft, getShortenedAddress } from '@/lib/utils';
+import { getBlockExplorerDomain, getPuzzleTimeLeft, getShortenedAddress } from '@/lib/utils';
 
 // -----------------------------------------------------------------------------
 // Props
@@ -59,7 +59,7 @@ const PuzzleInfoTimeLeft: FC<PuzzleInfoTimeLeftProps> = ({ puzzle }) => {
                 <a
                   key={blockNumber}
                   className="flex h-4 items-center gap-0.5 text-xs text-gray-100 hover:underline"
-                  href={`https://${process.env.NEXT_PUBLIC_BLOCK_EXPLORER}/block/${blockNumber}`}
+                  href={`https://${getBlockExplorerDomain(puzzle.chainId)}/block/${blockNumber}`}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -91,13 +91,13 @@ const PuzzleInfoTimeLeft: FC<PuzzleInfoTimeLeftProps> = ({ puzzle }) => {
                 value: `Added by ${
                   puzzle.author.ensName ?? getShortenedAddress(puzzle.author.address)
                 }`,
-                href: `https://${process.env.NEXT_PUBLIC_BLOCK_EXPLORER}/tx/${puzzle.addedTx}`,
+                href: `https://${getBlockExplorerDomain(puzzle.chainId)}/tx/${puzzle.addedTx}`,
               },
               {
                 name: 'Phase 1',
                 value: 'First blood',
                 href: puzzle.solveTx
-                  ? `https://${process.env.NEXT_PUBLIC_BLOCK_EXPLORER}/tx/${puzzle.solveTx}`
+                  ? `https://${getBlockExplorerDomain(puzzle.chainId)}/tx/${puzzle.solveTx}`
                   : undefined,
               },
               {
