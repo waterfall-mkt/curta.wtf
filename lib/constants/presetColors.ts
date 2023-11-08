@@ -1,10 +1,10 @@
 import type { FlagColorConfig } from '@/lib/types/protocol';
 
-export type PresetColor = FlagColorConfig & {
+export type FlagPresetColorConfig = FlagColorConfig & {
   name: string;
 };
 
-export const PRESET_COLORS: PresetColor[] = [
+export const PRESET_FLAG_COLOR_CONFIGS: FlagPresetColorConfig[] = [
   {
     name: 'Waterfall',
     border: '#27303D',

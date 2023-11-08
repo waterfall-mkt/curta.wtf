@@ -1,6 +1,6 @@
 import { ImageResponse } from 'next/server';
 
-import { PRESET_COLORS } from '@/lib/constants/presetColors';
+import { PRESET_FLAG_COLOR_CONFIGS } from '@/lib/constants/presetColors';
 import {
   fetchPuzzleById,
   fetchPuzzleFlagColors,
@@ -47,7 +47,7 @@ export default async function Image({ params }: { params: { slug: string } }) {
   const firstSolveTimestamp = puzzle.firstSolveTimestamp
     ? getTimeLeftString(puzzle.solveTime ?? 0)
     : '–';
-  const defaultColors = PRESET_COLORS[0]; // Default to the first preset color which is Waterfall
+  const defaultColors = PRESET_FLAG_COLOR_CONFIGS[0]; // Default to the first preset color which is Waterfall
   const flagColors = colors
     ? {
         bg: `#${((BigInt(colors) >> BigInt(72)) & BigInt(0xffffff)).toString(16).padStart(6, '0')}`,
