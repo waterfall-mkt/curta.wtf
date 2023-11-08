@@ -2,7 +2,7 @@
 
 import type { FC, KeyboardEventHandler, ReactNode } from 'react';
 
-import type { Author } from '@/lib/types/protocol';
+import type { User } from '@/lib/types/protocol';
 import { getBlockExplorerDomain } from '@/lib/utils';
 
 // ---------------------------------------–-------------------------------------
@@ -10,7 +10,7 @@ import { getBlockExplorerDomain } from '@/lib/utils';
 // ---------------------------------------–-------------------------------------
 
 type AuthorAvatarProps = {
-  author: Author;
+  author: User;
   index: number;
   children: ReactNode;
 };

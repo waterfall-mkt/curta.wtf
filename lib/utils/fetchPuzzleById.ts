@@ -6,7 +6,7 @@ import { publicClient } from '@/lib/client';
 import { PRESET_COLORS } from '@/lib/constants/presetColors';
 import supabase from '@/lib/services/supabase';
 import type { SupabasePuzzle } from '@/lib/types/api';
-import type { Author, Puzzle } from '@/lib/types/protocol';
+import type { Puzzle, User } from '@/lib/types/protocol';
 
 type PuzzleResponse = {
   data: Puzzle | null;
@@ -46,7 +46,7 @@ const fetchPuzzleById = async (id: number, chainId: number): Promise<PuzzleRespo
     author: {
       ...puzzleData.author,
       ensName: authorEnsName || undefined,
-    } as Author,
+    } as User,
     addedTx: puzzleData.addedTx,
     addedTimestamp: puzzleData.addedTimestamp,
     addedBlock: puzzleData.addedBlock,

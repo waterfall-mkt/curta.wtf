@@ -34,7 +34,7 @@ export type DbUser = {
 };
 
 // -----------------------------------------------------------------------------
-// Puzzles-specific types
+// Curta Puzzles types
 // -----------------------------------------------------------------------------
 
 /**
@@ -134,18 +134,10 @@ export type Error = {
   message: string;
 };
 
-export type SupabaseAuthor = {
-  address: `0x${string}`;
-  avatar?: string;
-  name?: string;
-  github?: string;
-  twitter?: string;
-};
-
 export type SupabasePuzzle = {
   id: number;
   address: `0x${string}`;
-  author: SupabaseAuthor;
+  author: DbUser;
   firstSolveTimestamp: number;
   firstSolver?: `0x${string}`;
   solution?: string;
