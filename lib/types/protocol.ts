@@ -58,12 +58,21 @@ export type User = {
  */
 export type Author = Partial<User> & Pick<User, 'address'>;
 
-export type FlagConfig = {
-  border: string;
-  bg: string;
-  text: string;
-  subtext: string;
-  canvas: string;
+/**
+ * Type for an object containing information about a [**Flag NFT**](https://www.curta.wtf/docs/puzzles/writing-puzzles#customizing-art)'s
+ * color scheme.
+ * @param border The color of the stroke that outlines the card.
+ * @param bg The color of the card's backgorund color.
+ * @param text The color of the main text elements (header and stats).
+ * @param subtext The color of the secondary text elements (labels).
+ * @param canvas The color of the portion behind the card
+ */
+export type FlagColorConfig = {
+  border: `#${string}`;
+  bg: `#${string}`;
+  text: `#${string}`;
+  subtext: `#${string}`;
+  canvas: `#${string}`;
 };
 
 export type Phase = 0 | 1 | 2 | 3;
@@ -79,7 +88,7 @@ export type Puzzle = {
   addedBlock: number;
   // Metadata
   name: string;
-  flagConfig: FlagConfig;
+  flagColorConfig: FlagColorConfig;
   // Solve
   firstSolveTimestamp: number;
   firstSolver?: `0x${string}`;

@@ -36,7 +36,7 @@ const fetchPuzzles = async (): Promise<PuzzlesResponse> => {
       addedBlock: puzzle.addedBlock,
       // Metadata
       name: puzzle.name,
-      flagConfig: { ...PRESET_COLORS[0] },
+      flagColorConfig: { ...PRESET_COLORS[0] },
       // Solve
       firstSolveTimestamp: puzzle.firstSolveTimestamp,
       firstSolver: puzzle.firstSolver,

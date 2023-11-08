@@ -52,7 +52,7 @@ const fetchPuzzleById = async (id: number, chainId: number): Promise<PuzzleRespo
     addedBlock: puzzleData.addedBlock,
     // Metadata
     name: puzzleData.name,
-    flagConfig: { ...PRESET_COLORS[0] },
+    flagColorConfig: { ...PRESET_COLORS[0] },
     // Solve
     firstSolveTimestamp: puzzleData.firstSolveTimestamp,
     firstSolver: puzzleData.firstSolver,

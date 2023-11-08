@@ -5,8 +5,8 @@ import type { Address, Hash } from 'viem';
 // -----------------------------------------------------------------------------
 
 /**
- * Type for a user object representing a Curta user stored in the database's
- * `users` table.
+ * Type for an object representing a Curta user stored in the database's `users`
+ * table.
  * @param address The user's Ethereum address (hex, should be all lowercase).
  * @param username The user's unique username. If the user never set a username,
  * it will be a randomly generated `uuid`.
@@ -38,7 +38,7 @@ export type DbUser = {
 // -----------------------------------------------------------------------------
 
 /**
- * Type for a puzzle object representing a Curta Puzzle stored in the database's
+ * Type for an object representing a Curta Puzzle stored in the database's
  * `puzzles` table.
  * @param id The puzzle's ID.
  * @param chainId The ID of the chain the puzzle is on.
@@ -99,8 +99,8 @@ export type DbPuzzle = {
 };
 
 /**
- * Type for a puzzle solve object representing an onchain solve on a Curta
- * Puzzle solve stored in the database's `puzzles_solves` table.
+ * Type for an object representing an onchain solve on a [**Curta Puzzle**](https://curta.wtf/docs/puzzles/overview)
+ * solve stored in the database's `puzzles_solves` table.
  * @param puzzleId The ID of the puzzle the solve is for.
  * @param chainId The ID of the chain the puzzle is on.
  * @param solver The user that solved the puzzle.

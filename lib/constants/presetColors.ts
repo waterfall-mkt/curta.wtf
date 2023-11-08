@@ -1,6 +1,6 @@
-import type { FlagConfig } from '@/lib/types/protocol';
+import type { FlagColorConfig } from '@/lib/types/protocol';
 
-export type PresetColor = FlagConfig & {
+export type PresetColor = FlagColorConfig & {
   name: string;
 };
 
