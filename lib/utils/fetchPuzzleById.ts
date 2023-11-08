@@ -14,7 +14,8 @@ type PuzzleResponse = {
   error: PostgrestError | null;
 };
 
-const fetchPuzzleById = async (id: number): Promise<PuzzleResponse> => {
+const fetchPuzzleById = async (id: number, chainId: number): Promise<PuzzleResponse> => {
+  console.log(chainId); // TODO: put into query
   const { data, status, error } = await supabase
     .from('puzzles')
     .select('*, author:authors(*)')

@@ -9,6 +9,7 @@ import fetchSolvesCount from './fetchSolvesCount';
 import formatValueToPrecision from './formatValueToPrecision';
 import getBaseMetadata from './getBaseMetadata';
 import getBlockExplorerDomain from './getBlockExplorerDomain';
+import getChainIdAndId from './getChainIdAndId';
 import getPuzzlesAddress from './getPuzzlesAddress';
 import getPuzzleTimeLeft from './getPuzzleTimeLeft';
 import getShortenedAddress from './getShortenedAddress';
@@ -26,6 +27,7 @@ export {
   formatValueToPrecision,
   getBaseMetadata,
   getBlockExplorerDomain,
+  getChainIdAndId,
   getPuzzlesAddress,
   getPuzzleTimeLeft,
   getShortenedAddress,
