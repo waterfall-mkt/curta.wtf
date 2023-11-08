@@ -52,7 +52,7 @@ const PuzzleHeader: FC<PuzzleHeaderProps> = async ({ puzzle }) => {
               {puzzle.author.ensName ? (
                 <ENSAvatar size={30} name={puzzle.author.ensName} />
               ) : (
-                <Avatar size={30} src={puzzle.author.avatar ?? ''} alt={puzzle.author.address} />
+                <Avatar size={30} src="" alt={puzzle.author.address} />
               )}
             </div>
             <AddressLink
