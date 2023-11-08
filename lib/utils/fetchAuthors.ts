@@ -2,10 +2,10 @@ import type { PostgrestError } from '@supabase/supabase-js';
 
 import supabase from '@/lib/services/supabase';
 import type { DbUser } from '@/lib/types/api';
-import type { User } from '@/lib/types/protocol';
+import type { Author } from '@/lib/types/protocol';
 
 type AuthorsResponse = {
-  data: User[];
+  data: Author[];
   status: number;
   error: PostgrestError | null;
 };
@@ -17,15 +17,13 @@ const fetchAuthors = async (): Promise<AuthorsResponse> => {
     return { data: [], status, error };
   }
 
-  const authors: User[] = data.map((item) => {
+  const authors: Author[] = data.map((item) => {
     return {
       address: item.address,
       username: item.username,
       displayName: item.displayName,
       twitter: item.twitter,
       github: item.github,
-      puzzlesSolved: item.puzzlesSolved,
-      isPuzzleAuthor: item.isPuzzleAuthor,
     };
   });
 

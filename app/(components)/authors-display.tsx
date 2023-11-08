@@ -6,7 +6,7 @@ import clsx from 'clsx';
 import { Github } from 'lucide-react';
 
 import { publicClient } from '@/lib/client';
-import type { User } from '@/lib/types/protocol';
+import type { Author } from '@/lib/types/protocol';
 import { getShortenedAddress } from '@/lib/utils';
 
 import LogoIcon from '@/components/common/logo-icon';
@@ -20,7 +20,7 @@ import { IconButton } from '@/components/ui';
 // ---------------------------------------–-------------------------------------
 
 type AuthorsDisplayProps = {
-  data: User[];
+  data: Author[];
 };
 
 // ---------------------------------------–-------------------------------------

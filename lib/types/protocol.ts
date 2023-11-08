@@ -5,7 +5,7 @@ import type { Address } from 'viem';
 // -----------------------------------------------------------------------------
 
 /**
- * Type for a user object representing a Curta user.
+ * Type for an object representing a Curta user.
  * @param address The user's Ethereum address (hex, should be all lowercase).
  * @param username The user's unique username. If the user never set a username,
  * it will be a randomly generated `uuid`.
@@ -39,6 +39,25 @@ export type User = {
 // Curta Puzzles types
 // -----------------------------------------------------------------------------
 
+/**
+ * Type for an object representing a [**Curta Puzzles author**](https://www.curta.wtf/docs/puzzles/becoming-an-author).
+ * @dev The type is the same as the `User` type, except every field is optional,
+ * except for `address`.
+ * @param address The user's Ethereum address (hex, should be all lowercase).
+ * @param username The user's unique username. If the user never set a username,
+ * it will be a randomly generated `uuid`.
+ * @param bio A short description about the user.
+ * @param displayName The user's display name/nickname.
+ * @param twitter The user's Twitter username.
+ * @param github The user's GitHub username.
+ * @param puzzlesSolved The number of [**Curta Puzzles**](https://curta.wtf/docs/puzzles/overview)
+ * the user has solved.
+ * @param isPuzzleAuthor Whether or not the user has authored and added any
+ * [**Curta Puzzles**](https://curta.wtf/docs/puzzles/overview).
+ * @param ensName User's prefetched ENS name.
+ */
+export type Author = Partial<User> & Pick<User, 'address'>;
+
 export type FlagConfig = {
   border: string;
   bg: string;
@@ -54,7 +73,7 @@ export type Puzzle = {
   id: number;
   chainId: number;
   address: `0x${string}`;
-  author: User;
+  author: Author;
   addedTx: `0x${string}`;
   addedTimestamp: number;
   addedBlock: number;

@@ -3,7 +3,7 @@ import type { PostgrestError } from '@supabase/supabase-js';
 import { PRESET_COLORS } from '@/lib/constants/presetColors';
 import supabase from '@/lib/services/supabase';
 import type { SupabasePuzzle } from '@/lib/types/api';
-import type { Puzzle, User } from '@/lib/types/protocol';
+import type { Author, Puzzle } from '@/lib/types/protocol';
 
 type PuzzlesResponse = {
   data: Puzzle[];
@@ -30,7 +30,7 @@ const fetchPuzzles = async (): Promise<PuzzlesResponse> => {
       id: puzzle.id,
       chainId: 1, // TODO: use fetched data from new database.
       address: puzzle.address,
-      author: { ...puzzle.author } as User,
+      author: { ...puzzle.author } as Author,
       addedTx: puzzle.addedTx,
       addedTimestamp: puzzle.addedTimestamp,
       addedBlock: puzzle.addedBlock,

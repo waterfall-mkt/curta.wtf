@@ -1,6 +1,6 @@
 import { type FC, useState } from 'react';
 
-import type { Phase, User } from '@/lib/types/protocol';
+import type { Author, Phase } from '@/lib/types/protocol';
 import { getBlockExplorerDomain, getShortenedAddress } from '@/lib/utils';
 
 import { Button, Input } from '@/components/ui';
@@ -11,7 +11,7 @@ import { Button, Input } from '@/components/ui';
 
 type PuzzleInfoSolutionFormTipFormProps = {
   phase: Phase;
-  author: User;
+  author: Author;
   chainId: number;
   onChange: (value: string) => void;
   onOpenChange: (open: boolean) => void;
