@@ -4,7 +4,7 @@ import type { PostgrestError } from '@supabase/supabase-js';
 
 import { publicClient } from '@/lib/client';
 import supabase from '@/lib/services/supabase';
-import type { SupabasePuzzle } from '@/lib/types/api';
+import type { DbPuzzle } from '@/lib/types/api';
 import type { Author, Puzzle } from '@/lib/types/protocol';
 
 type PuzzleResponse = {
@@ -13,14 +13,21 @@ type PuzzleResponse = {
   error: PostgrestError | null;
 };
 
+/**
+ * Returns a Puzzle from the database with the given ID and chain ID.
+ * @param id The ID of the puzzle.
+ * @param chainId The ID of the chain the puzzle is on.
+ * @returns An objecting containing data for the Puzzle, the status code, and
+ * the error in the shape `{ data: Puzzle | null, status: number, error: PostgrestError | null }`.
+ */
 const fetchPuzzleById = async (id: number, chainId: number): Promise<PuzzleResponse> => {
-  console.log(chainId); // TODO: put into query
   const { data, status, error } = await supabase
     .from('puzzles')
-    .select('*, author:authors(*)')
+    .select('*, author:users(*)')
     .eq('id', id)
+    .eq('chainId', chainId)
     .limit(1)
-    .returns<SupabasePuzzle[]>();
+    .returns<DbPuzzle[]>();
 
   if ((error && status !== 406) || !data || (data && data.length === 0)) {
     return { data: null, status, error };
@@ -38,38 +45,39 @@ const fetchPuzzleById = async (id: number, chainId: number): Promise<PuzzleRespo
   ]);
 
   const puzzle: Puzzle = {
-    // Protocol
+    // Identifier
     id: puzzleData.id,
-    chainId: 1, // TODO: use fetched data from new database.
+    chainId: puzzleData.chainId,
+    // Puzzle static information
     address: puzzleData.address,
     author: {
       ...puzzleData.author,
       ensName: authorEnsName || undefined,
     } as Author,
-    addedTx: puzzleData.addedTx,
-    addedTimestamp: puzzleData.addedTimestamp,
-    addedBlock: puzzleData.addedBlock,
-    // Metadata
     name: puzzleData.name,
-    // Solve
-    firstSolveTimestamp: puzzleData.firstSolveTimestamp,
-    firstSolver: puzzleData.firstSolver,
-    firstSolverEnsName: firstSolverEnsName ?? undefined,
-    firstSolveBlock: puzzleData.firstSolveBlock,
-    firstSolveTime: puzzleData.firstSolveTimestamp
-      ? puzzleData.firstSolveTimestamp - puzzleData.addedTimestamp
-      : 0,
+    // Puzzle dynamic information
     numberSolved: puzzleData.numberSolved,
-    firstSolveTx: puzzleData.solveTx,
-    // Problem
+    solution: puzzleData.solution,
+    github: puzzleData.github,
+    disabled: puzzleData.disabled,
+    isEvent: puzzleData.isEvent,
+    // Puzzle source code
     bytecode: puzzleData.bytecode,
     solidity: puzzleData.solidity,
     huff: puzzleData.huff,
-    // Solution
-    github: puzzleData.github,
-    solution: puzzleData.solution,
-    // Misc
-    disabled: puzzleData.disabled,
+    // Added information
+    addedBlock: puzzleData.addedBlock,
+    addedTimestamp: puzzleData.addedTimestamp,
+    addedTx: puzzleData.addedTx,
+    // First solve information
+    firstSolveBlock: puzzleData.firstSolveBlock,
+    firstSolver: puzzleData.firstSolver,
+    firstSolverEnsName: firstSolverEnsName ?? undefined,
+    firstSolveTime: puzzleData.firstSolveTimestamp
+      ? puzzleData.firstSolveTimestamp - puzzleData.addedTimestamp
+      : 0,
+    firstSolveTimestamp: puzzleData.firstSolveTimestamp,
+    firstSolveTx: puzzleData.firstSolveTx,
   };
 
   return { data: puzzle, status: 200, error: null };

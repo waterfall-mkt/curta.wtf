@@ -134,28 +134,6 @@ export type Error = {
   message: string;
 };
 
-export type SupabasePuzzle = {
-  id: number;
-  address: `0x${string}`;
-  author: DbUser;
-  firstSolveTimestamp: number;
-  firstSolver?: `0x${string}`;
-  solution?: string;
-  addedTx: `0x${string}`;
-  solveTx?: `0x${string}`;
-  firstSolveBlock?: number;
-  name: string;
-  addedTimestamp: number;
-  addedBlock: number;
-  numberSolved: number;
-  bytecode: string;
-  solidity?: string;
-  huff?: string;
-  github?: string;
-  created_at: number;
-  disabled?: boolean;
-};
-
 export type SupabaseSolve = {
   id: string; // string because it's a hex-string
   puzzleId: number;
