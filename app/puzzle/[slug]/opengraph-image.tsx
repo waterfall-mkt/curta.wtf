@@ -36,7 +36,7 @@ export default async function Image({ params }: { params: { slug: string } }) {
   const { chainId, id } = ids;
   const [{ data: puzzle }, { colors }] = await Promise.all([
     fetchPuzzleById(id, chainId),
-    fetchPuzzleFlagColors(id),
+    fetchPuzzleFlagColors(id, chainId),
   ]);
   if (!puzzle) return null;
 
