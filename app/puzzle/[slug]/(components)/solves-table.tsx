@@ -75,14 +75,14 @@ const PuzzleSolvesTableDesktop: FC<PuzzleSolvesTableInternalProps> = ({
           <div className="flex items-center gap-3.5">
             <div className="overflow-hidden rounded-full">
               <ENSAvatarClient
-                nameOrAddress={row.original.solverEnsName ?? row.original.solver}
+                nameOrAddress={row.original.solverEnsName ?? row.original.solver.address}
                 size={40}
                 prefetchedEnsAvatar={row.original.solverEnsAvatar}
               />
             </div>
             <AddressLinkClient
               className="text-gray-100"
-              address={row.original.solver}
+              address={row.original.solver.address}
               prefetchedEnsName={row.original.solverEnsName}
             />
           </div>
@@ -110,7 +110,7 @@ const PuzzleSolvesTableDesktop: FC<PuzzleSolvesTableInternalProps> = ({
         size: 105,
       },
       {
-        accessorKey: 'tx',
+        accessorKey: 'solveTx',
         header: () => 'Solution',
         cell: ({ row }) => {
           return (
@@ -119,12 +119,14 @@ const PuzzleSolvesTableDesktop: FC<PuzzleSolvesTableInternalProps> = ({
                 variant="outline"
                 intent="neutral"
                 title={`https://${getBlockExplorerDomain(row.original.chainId)}/tx/${
-                  row.original.tx
+                  row.original.solveTx
                 }`}
                 onClick={(e) => {
                   e.stopPropagation();
                   window.open(
-                    `https://${getBlockExplorerDomain(row.original.chainId)}/tx/${row.original.tx}`,
+                    `https://${getBlockExplorerDomain(row.original.chainId)}/tx/${
+                      row.original.solveTx
+                    }`,
                     '_blank',
                   );
                 }}
@@ -175,14 +177,14 @@ const PuzzleSolvesTableMobile: FC<PuzzleSolvesTableInternalProps> = ({
           <div className="flex items-center gap-3.5">
             <div className="overflow-hidden rounded-full">
               <ENSAvatarClient
-                nameOrAddress={row.original.solverEnsName ?? row.original.solver}
+                nameOrAddress={row.original.solverEnsName ?? row.original.solver.address}
                 size={40}
                 prefetchedEnsAvatar={row.original.solverEnsAvatar}
               />
             </div>
             <AddressLinkClient
               className="text-gray-100"
-              address={row.original.solver}
+              address={row.original.solver.address}
               prefetchedEnsName={row.original.solverEnsName}
             />
           </div>

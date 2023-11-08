@@ -108,9 +108,9 @@ export type DbPuzzle = {
  * @param phase The [**Phase**](https://curta.wtf/docs/puzzles/overview#submission-period)
  * the puzzle was solved in.
  * @param solution The solution the solver submitted as a hexstring.
+ * @param solveTimestamp The blockchain timestamp the puzzle was solved at.
  * @param solveTx The transaction hash of the transaction that solved the
  * puzzle.
- * @param solveTimestamp The blockchain timestamp the puzzle was solved at.
  */
 export type DbPuzzleSolve = {
   // Primary key
@@ -122,8 +122,8 @@ export type DbPuzzleSolve = {
   phase: number;
   solution: Hash;
   // Solve transaction information
-  solveTx: Hash;
   solveTimestamp: number;
+  solveTx: Hash;
 };
 
 // -----------------------------------------------------------------------------
@@ -135,13 +135,16 @@ export type Error = {
 };
 
 export type SupabaseSolve = {
+  // Primary key
   id: string; // string because it's a hex-string
   puzzleId: number;
   solver: `0x${string}`;
+  // Solve information
+  phase: number;
+  solution: `0x${string}`;
+  // Solve transaction information
+  solveTimestamp: number;
   solveTx: `0x${string}`;
   tokenImage: string;
-  solution: `0x${string}`;
-  phase: number;
   created_at: number;
-  solveTimestamp: number;
 };

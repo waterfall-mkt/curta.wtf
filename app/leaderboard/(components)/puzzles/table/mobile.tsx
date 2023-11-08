@@ -154,7 +154,7 @@ const LeaderboardPuzzlesTableMobileSubComponent: FC<{ data: Solver }> = ({ data 
                 variant="outline"
                 intent="neutral"
                 rightIcon={<ExternalLink />}
-                href={`https://${getBlockExplorerDomain(solve.chainId)}/tx/${solve.tx}`}
+                href={`https://${getBlockExplorerDomain(solve.chainId)}/tx/${solve.solveTx}`}
                 newTab
               >
                 View solution

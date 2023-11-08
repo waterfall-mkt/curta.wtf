@@ -28,12 +28,13 @@ const fetchPuzzleSolvesById = async (id: number): Promise<PuzzleSolvesResponse> 
 
     solves.push({
       chainId: 1, // TODO: use fetched data from new database.
-      solver: solve.solver,
+      solver: { address: solve.solver },
       solveTimestamp: solve.solveTimestamp,
+      solution: '0x', // TODO: use fetched data from new database.
       puzzleId: solve.puzzleId,
       phase: solve.phase as Phase,
       rank: i + 1,
-      tx: solve.solveTx,
+      solveTx: solve.solveTx,
     });
   }
 

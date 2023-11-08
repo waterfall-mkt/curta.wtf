@@ -224,7 +224,7 @@ const LeaderboardPuzzlesTableDesktopSubComponent: FC<{ data: Solve[] }> = ({ dat
         size: 65,
       },
       {
-        accessorKey: 'tx',
+        accessorKey: 'solveTx',
         header: () => 'Solution',
         cell: ({ row }) => {
           return (
@@ -233,12 +233,14 @@ const LeaderboardPuzzlesTableDesktopSubComponent: FC<{ data: Solve[] }> = ({ dat
                 variant="outline"
                 intent="neutral"
                 title={`https://${getBlockExplorerDomain(row.original.chainId)}/tx/${
-                  row.original.tx
+                  row.original.solveTx
                 }`}
                 onClick={(e) => {
                   e.stopPropagation();
                   window.open(
-                    `https://${getBlockExplorerDomain(row.original.chainId)}/tx/${row.original.tx}`,
+                    `https://${getBlockExplorerDomain(row.original.chainId)}/tx/${
+                      row.original.solveTx
+                    }`,
                     '_blank',
                   );
                 }}

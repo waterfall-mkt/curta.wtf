@@ -87,11 +87,12 @@ const fetchLeaderboardPuzzles = async (
     solversObject[solver].count.total++;
     solversObject[solver].solves.push({
       chainId: 1, // TODO: use fetched data from new database.
-      solver: item.solver,
+      solver: { address: item.solver },
+      solution: '0x', // TODO: use fetched data from new database.
       solveTimestamp: item.solveTimestamp,
       puzzleId: item.puzzleId,
       phase: item.phase as Phase,
-      tx: item.solveTx,
+      solveTx: item.solveTx,
       rank,
       puzzle,
     });

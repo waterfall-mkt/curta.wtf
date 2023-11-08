@@ -103,6 +103,7 @@ export type Phase = 0 | 1 | 2 | 3;
  * @param addedTx The transaction hash of the transaction that added the puzzle.
  * @param firstSolveBlock The block number the puzzle was first solved at.
  * @param firstSolver The address of the first solver.
+ * @param firstSolverEnsName Prefetched ENS name of the first solver.
  * @param firstSolveTime The time (in seconds) it took for the puzzle to first
  * be solved.
  * @param firstSolveTimestamp The blockchain timestamp the puzzle was first
@@ -141,17 +142,36 @@ export type Puzzle = {
   firstSolveTx?: Hash;
 };
 
+/**
+ * Type for an object representing an onchain solve on a [**Curta Puzzle**](https://curta.wtf/docs/puzzles/overview).
+ * @param puzzleId The ID of the puzzle the solve is for.
+ * @param chainId The ID of the chain the puzzle is on.
+ * @param solver The user that solved the puzzle.
+ * @param solverEnsName Prefetched ENS name of the solver.
+ * @param solverEnsAvatar Prefetched ENS avatar of the solver.
+ * @param rank The finishing position of the solve on the Puzzle.
+ * @param phase The [**Phase**](https://curta.wtf/docs/puzzles/overview#submission-period)
+ * the Puzzle was solved in.
+ * @param solution The solution the solver submitted (as a hex-string).
+ * @param puzzle Partial information about the Puzzle the solve is for.
+ * @param solveTimestamp The blockchain timestamp the puzzle was solved at.
+ * @param solveTx The transaction hash of the transaction that solved the puzzle.
+ */
 export type Solve = {
+  // Primary key
+  puzzleId: number;
   chainId: number;
-  solver: `0x${string}`;
+  solver: Pick<User, 'address'> & Partial<User>;
   solverEnsName?: string;
   solverEnsAvatar?: string;
-  solveTimestamp: number;
-  puzzleId: number;
-  phase: Phase;
+  // Solve information
   rank: number;
-  tx: `0x${string}`;
+  phase: Phase;
+  solution: Hash;
   puzzle?: Pick<Puzzle, 'id' | 'name' | 'author' | 'numberSolved' | 'addedTimestamp'>;
+  // Solve transaction information
+  solveTimestamp: number;
+  solveTx: Hash;
 };
 
 export type Solver = {
