@@ -90,7 +90,7 @@ const PuzzleSolvesTableDesktop: FC<PuzzleSolvesTableInternalProps> = ({
         footer: (props) => props.column.id,
       },
       {
-        accessorKey: 'solveTime',
+        accessorKey: 'firstSolveTime',
         header: () => 'Time taken',
         cell: ({ row }) => (
           <div title={new Date(1000 * row.original.solveTimestamp).toString()}>
@@ -190,7 +190,7 @@ const PuzzleSolvesTableMobile: FC<PuzzleSolvesTableInternalProps> = ({
         footer: (props) => props.column.id,
       },
       {
-        accessorKey: 'solveTime',
+        accessorKey: 'firstSolveTime',
         header: () => <div className="ml-auto">Time taken</div>,
         cell: ({ row }) => (
           <div

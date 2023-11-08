@@ -96,8 +96,8 @@ const PuzzleInfoTimeLeft: FC<PuzzleInfoTimeLeftProps> = ({ puzzle }) => {
               {
                 name: 'Phase 1',
                 value: 'First blood',
-                href: puzzle.solveTx
-                  ? `https://${getBlockExplorerDomain(puzzle.chainId)}/tx/${puzzle.solveTx}`
+                href: puzzle.firstSolveTx
+                  ? `https://${getBlockExplorerDomain(puzzle.chainId)}/tx/${puzzle.firstSolveTx}`
                   : undefined,
               },
               {

@@ -39,8 +39,8 @@ const fetchPuzzles = async (): Promise<PuzzlesResponse> => {
       firstSolveTimestamp: puzzle.firstSolveTimestamp,
       firstSolver: puzzle.firstSolver,
       firstSolveBlock: puzzle.firstSolveBlock,
-      solveTx: puzzle.solveTx,
-      solveTime: puzzle.firstSolveTimestamp
+      firstSolveTx: puzzle.solveTx,
+      firstSolveTime: puzzle.firstSolveTimestamp
         ? puzzle.firstSolveTimestamp - puzzle.addedTimestamp
         : 0,
       numberSolved: puzzle.numberSolved,

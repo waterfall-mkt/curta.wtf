@@ -38,8 +38,8 @@ export type DbUser = {
 // -----------------------------------------------------------------------------
 
 /**
- * Type for an object representing a Curta Puzzle stored in the database's
- * `puzzles` table.
+ * Type for an object representing a [**Curta Puzzle**](https://curta.wtf/docs/puzzles/overview)
+ * stored in the database's `puzzles` table.
  * @param id The puzzle's ID.
  * @param chainId The ID of the chain the puzzle is on.
  * @param address The puzzle's contract address.
@@ -94,7 +94,7 @@ export type DbPuzzle = {
   // First solve information
   firstSolveBlock?: number;
   firstSolver?: Address;
-  firstSolveTimestamp?: number;
+  firstSolveTimestamp: number;
   firstSolveTx?: Hash;
 };
 

@@ -45,7 +45,7 @@ export default async function Image({ params }: { params: { slug: string } }) {
   const solves = puzzle.numberSolved;
   const name = puzzle.name;
   const firstSolveTimestamp = puzzle.firstSolveTimestamp
-    ? getTimeLeftString(puzzle.solveTime ?? 0)
+    ? getTimeLeftString(puzzle.firstSolveTime ?? 0)
     : '–';
   const defaultColors = PRESET_FLAG_COLOR_CONFIGS[0]; // Default to the first preset color which is Waterfall
   const flagColors = colors

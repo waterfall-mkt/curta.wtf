@@ -164,7 +164,7 @@ const LeaderboardPuzzlesTableDesktopSubComponent: FC<{ data: Solve[] }> = ({ dat
         size: 182,
       },
       {
-        accessorKey: 'solveTime',
+        accessorKey: 'firstSolveTime',
         header: () => 'Time taken',
         cell: ({ row }) => (
           <div title={new Date(1000 * row.original.solveTimestamp).toString()}>

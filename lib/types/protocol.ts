@@ -1,4 +1,4 @@
-import type { Address } from 'viem';
+import type { Address, Hash } from 'viem';
 
 // -----------------------------------------------------------------------------
 // General types
@@ -56,7 +56,7 @@ export type User = {
  * [**Curta Puzzles**](https://curta.wtf/docs/puzzles/overview).
  * @param ensName User's prefetched ENS name.
  */
-export type Author = Partial<User> & Pick<User, 'address'>;
+export type Author = Pick<User, 'address'> & Partial<User>;
 
 /**
  * Type for an object containing information about a [**Flag NFT**](https://www.curta.wtf/docs/puzzles/writing-puzzles#customizing-art)'s
@@ -75,37 +75,70 @@ export type FlagColorConfig = {
   canvas: `#${string}`;
 };
 
+/**
+ * Type for the [**Phase**](https://www.curta.wtf/docs/puzzles/overview#submission-period)
+ * a [**Puzzle**](https://www.curta.wtf/docs/puzzles/overview) is in.
+ */
 export type Phase = 0 | 1 | 2 | 3;
 
+/**
+ * Type for an object representing a [**Curta Puzzle**](https://curta.wtf/docs/puzzles/overview).
+ * @param id The puzzle's ID.
+ * @param chainId The ID of the chain the puzzle is on.
+ * @param address The puzzle's contract address.
+ * @param author The puzzle's author.
+ * @param name The puzzle's name.
+ * @param numberSolved The number of addresses that have solved the puzzle.
+ * @param solution A link to the the author's provided solution/write-up for the
+ * puzzle.
+ * @param github A link to the puzzle's GitHub repository.
+ * @param disabled Whether or not the puzzle should be displayed on the
+ * frontend.
+ * @param isEvent Whether or not the puzzle is part of an event.
+ * @param bytecode The puzzle's contract bytecode.
+ * @param solidity The puzzle's Solidity source code.
+ * @param huff The puzzle's Huff source code.
+ * @param addedBlock The block number the puzzle was added at.
+ * @param addedTimestamp The blockchain timestamp the puzzle was added at.
+ * @param addedTx The transaction hash of the transaction that added the puzzle.
+ * @param firstSolveBlock The block number the puzzle was first solved at.
+ * @param firstSolver The address of the first solver.
+ * @param firstSolveTime The time (in seconds) it took for the puzzle to first
+ * be solved.
+ * @param firstSolveTimestamp The blockchain timestamp the puzzle was first
+ * solved at.
+ * @param firstSolveTx The transaction hash of the transaction that first solved
+ * the puzzle.
+ */
 export type Puzzle = {
-  // Protocol
+  // Identifier
   id: number;
   chainId: number;
-  address: `0x${string}`;
+  // Puzzle static information
+  address: Address;
   author: Author;
-  addedTx: `0x${string}`;
-  addedTimestamp: number;
-  addedBlock: number;
-  // Metadata
   name: string;
-  // Solve
-  firstSolveTimestamp: number;
-  firstSolver?: `0x${string}`;
-  firstSolverEnsName?: string;
-  firstSolveBlock?: number;
-  solveTx?: `0x${string}`;
-  solveTime?: number;
+  // Puzzle dynamic information
   numberSolved: number;
-  // Problem
+  solution?: string;
+  github?: string;
+  disabled?: boolean;
+  isEvent?: boolean;
+  // Puzzle source code
   bytecode: string;
   solidity?: string;
   huff?: string;
-  tokenRenderer?: string;
-  // Solution
-  github?: string;
-  solution?: string;
-  // Misc
-  disabled?: boolean;
+  // Added information
+  addedBlock: number;
+  addedTimestamp: number;
+  addedTx: Hash;
+  // First solve information
+  firstSolveBlock?: number;
+  firstSolver?: Address;
+  firstSolverEnsName?: string;
+  firstSolveTime?: number;
+  firstSolveTimestamp: number;
+  firstSolveTx?: Hash;
 };
 
 export type Solve = {

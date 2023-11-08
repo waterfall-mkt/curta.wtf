@@ -56,11 +56,11 @@ const fetchPuzzleById = async (id: number, chainId: number): Promise<PuzzleRespo
     firstSolver: puzzleData.firstSolver,
     firstSolverEnsName: firstSolverEnsName ?? undefined,
     firstSolveBlock: puzzleData.firstSolveBlock,
-    solveTime: puzzleData.firstSolveTimestamp
+    firstSolveTime: puzzleData.firstSolveTimestamp
       ? puzzleData.firstSolveTimestamp - puzzleData.addedTimestamp
       : 0,
     numberSolved: puzzleData.numberSolved,
-    solveTx: puzzleData.solveTx,
+    firstSolveTx: puzzleData.solveTx,
     // Problem
     bytecode: puzzleData.bytecode,
     solidity: puzzleData.solidity,
