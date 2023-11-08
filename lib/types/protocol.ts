@@ -88,7 +88,6 @@ export type Puzzle = {
   addedBlock: number;
   // Metadata
   name: string;
-  flagColorConfig: FlagColorConfig;
   // Solve
   firstSolveTimestamp: number;
   firstSolver?: `0x${string}`;

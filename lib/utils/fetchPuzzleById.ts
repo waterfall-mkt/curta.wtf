@@ -3,7 +3,6 @@ import { cache } from 'react';
 import type { PostgrestError } from '@supabase/supabase-js';
 
 import { publicClient } from '@/lib/client';
-import { PRESET_COLORS } from '@/lib/constants/presetColors';
 import supabase from '@/lib/services/supabase';
 import type { SupabasePuzzle } from '@/lib/types/api';
 import type { Author, Puzzle } from '@/lib/types/protocol';
@@ -52,7 +51,6 @@ const fetchPuzzleById = async (id: number, chainId: number): Promise<PuzzleRespo
     addedBlock: puzzleData.addedBlock,
     // Metadata
     name: puzzleData.name,
-    flagColorConfig: { ...PRESET_COLORS[0] },
     // Solve
     firstSolveTimestamp: puzzleData.firstSolveTimestamp,
     firstSolver: puzzleData.firstSolver,
