@@ -23,7 +23,7 @@ export async function generateMetadata({
   // Return empty object if `slug` is an invalid format.
   if (!ids) return {};
 
-  const { data: puzzle } = await fetchPuzzleById(ids.chainId, ids.id);
+  const { data: puzzle } = await fetchPuzzleById(ids.id, ids.chainId);
   if (!puzzle) return {};
 
   const title = `Puzzle #${puzzle.id}`;
