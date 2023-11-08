@@ -12,7 +12,7 @@ import { publicProvider } from 'wagmi/providers/public';
 // RainbowKit + Wagmi config
 // -----------------------------------------------------------------------------
 
-const { chains, ethereumClient, webSocketPublicClient } = configureChains(
+const { chains, publicClient, webSocketPublicClient } = configureChains(
   [mainnet],
   [alchemyProvider({ apiKey: process.env.NEXT_PUBLIC_ALCHEMY_ID }), publicProvider()],
 );
@@ -26,7 +26,7 @@ const { connectors } = getDefaultWallets({
 export const config = createConfig({
   autoConnect: true,
   connectors,
-  ethereumClient,
+  publicClient,
   webSocketPublicClient,
 });
 
