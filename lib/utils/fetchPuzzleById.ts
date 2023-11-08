@@ -2,7 +2,7 @@ import { cache } from 'react';
 
 import type { PostgrestError } from '@supabase/supabase-js';
 
-import { publicClient } from '@/lib/client';
+import { ethereumClient } from '@/lib/client';
 import supabase from '@/lib/services/supabase';
 import type { DbPuzzle } from '@/lib/types/api';
 import type { Author, Puzzle } from '@/lib/types/protocol';
@@ -36,10 +36,10 @@ const fetchPuzzleById = async (id: number, chainId: number): Promise<PuzzleRespo
   const puzzleData = data[0];
 
   const [authorEnsName, firstSolverEnsName] = await Promise.all([
-    cache(async () => await publicClient.getEnsName({ address: puzzleData.author.address }))(),
+    cache(async () => await ethereumClient.getEnsName({ address: puzzleData.author.address }))(),
     cache(async () =>
       puzzleData.firstSolver
-        ? await publicClient.getEnsName({ address: puzzleData.firstSolver })
+        ? await ethereumClient.getEnsName({ address: puzzleData.firstSolver })
         : undefined,
     )(),
   ]);

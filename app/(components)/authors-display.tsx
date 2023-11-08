@@ -5,7 +5,7 @@ import AuthorsModal from './authors-modal';
 import clsx from 'clsx';
 import { Github } from 'lucide-react';
 
-import { publicClient } from '@/lib/client';
+import { ethereumClient } from '@/lib/client';
 import type { Author } from '@/lib/types/protocol';
 import { getShortenedAddress } from '@/lib/utils';
 
@@ -41,7 +41,7 @@ const AuthorsDisplay: FC<AuthorsDisplayProps> = ({ data }) => {
       >
         {data.slice(0, 7).map(async (author, index) => {
           const ensName = await cache(
-            async () => await publicClient.getEnsName({ address: author.address }),
+            async () => await ethereumClient.getEnsName({ address: author.address }),
           )();
 
           return (
@@ -58,7 +58,7 @@ const AuthorsDisplay: FC<AuthorsDisplayProps> = ({ data }) => {
           <AuthorsModal data={data}>
             {data.map(async (author, index) => {
               const ensName = await cache(
-                async () => await publicClient.getEnsName({ address: author.address }),
+                async () => await ethereumClient.getEnsName({ address: author.address }),
               )();
               const displayName =
                 author.displayName ?? ensName ?? getShortenedAddress(author.address);

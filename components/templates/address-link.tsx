@@ -4,7 +4,7 @@ import clsx from 'clsx';
 import { twMerge } from 'tailwind-merge';
 import type { Address } from 'viem';
 
-import { publicClient } from '@/lib/client';
+import { ethereumClient } from '@/lib/client';
 import { getBlockExplorerDomain, getShortenedAddress } from '@/lib/utils';
 
 // ---------------------------------------–-------------------------------------
@@ -24,7 +24,7 @@ export type AddressLinkProps = {
 
 const AddressLink: FC<AddressLinkProps> = async ({ className, address, chainId = 1, href }) => {
   const ensName = address
-    ? await cache(async () => await publicClient.getEnsName({ address }))()
+    ? await cache(async () => await ethereumClient.getEnsName({ address }))()
     : undefined;
   const addressDisplay = ensName ?? (address ? getShortenedAddress(address) : '–');
 

@@ -1,6 +1,6 @@
 import { cache } from 'react';
 
-import { publicClient } from '@/lib/client';
+import { ethereumClient } from '@/lib/client';
 
 import Avatar from '@/components/templates/avatar';
 
@@ -19,7 +19,7 @@ type ENSAvatarProps = {
 // ---------------------------------------–-------------------------------------
 
 export default async function ENSAvatar({ className, name, size = 40 }: ENSAvatarProps) {
-  const data = await cache(async () => await publicClient.getEnsAvatar({ name }))();
+  const data = await cache(async () => await ethereumClient.getEnsAvatar({ name }))();
 
   return (
     <Avatar className={className} src={data ?? ''} alt={`ENS avatar for ${name}`} size={size} />
