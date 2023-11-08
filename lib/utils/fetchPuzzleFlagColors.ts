@@ -1,11 +1,10 @@
-import { ethereumClient } from '@/lib/client';
 import { CURTA_ABI } from '@/lib/constants/abi';
-import { getPuzzlesAddress } from '@/lib/utils';
+import { getPublicClient, getPuzzlesAddress } from '@/lib/utils';
 
-const fetchPuzzleFlagColors = async (id: number) => {
+const fetchPuzzleFlagColors = async (id: number, chainId: number) => {
   try {
-    const data = (await ethereumClient.readContract({
-      address: getPuzzlesAddress(1), // TODO: fetch chain ID and add as a param
+    const data = (await getPublicClient(chainId).readContract({
+      address: getPuzzlesAddress(chainId),
       abi: CURTA_ABI,
       functionName: 'getPuzzleColorsAndSolves',
       args: [id.toString()],
