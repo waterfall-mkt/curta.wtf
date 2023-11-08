@@ -5,7 +5,7 @@ import fetchPuzzleFlagColors from './fetchPuzzleFlagColors';
 import fetchPuzzles from './fetchPuzzles';
 import fetchPuzzlesCount from './fetchPuzzlesCount';
 import fetchPuzzleSolvesById from './fetchPuzzleSolvesById';
-import fetchSolvesCount from './fetchSolvesCount';
+import fetchPuzzlesSolvesCount from './fetchPuzzlesSolvesCount';
 import formatValueToPrecision from './formatValueToPrecision';
 import getBaseMetadata from './getBaseMetadata';
 import getBlockExplorerDomain from './getBlockExplorerDomain';
@@ -24,7 +24,7 @@ export {
   fetchPuzzles,
   fetchPuzzlesCount,
   fetchPuzzleSolvesById,
-  fetchSolvesCount,
+  fetchPuzzlesSolvesCount,
   formatValueToPrecision,
   getBaseMetadata,
   getBlockExplorerDomain,
