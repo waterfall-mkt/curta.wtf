@@ -13,7 +13,7 @@ type SolvesCountResponse = {
 const fetchPuzzlesSolvesCount = async (): Promise<SolvesCountResponse> => {
   const { data, status, error } = await supabase
     .from('puzzles_solves')
-    .select('*')
+    .select('*, solver:users(address)')
     .returns<DbPuzzleSolve[]>();
 
   if ((error && status !== 406) || !data || (data && data.length === 0)) {
@@ -26,6 +26,7 @@ const fetchPuzzlesSolvesCount = async (): Promise<SolvesCountResponse> => {
       uniqueSolvers.add(getAddress(solve.solver.address));
       return acc + 1;
     }
+
     return acc;
   }, 0);
 
