@@ -64,7 +64,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
 
   const [{ data: puzzle, error }, { data: solves }] = await Promise.all([
     fetchPuzzleById(id, chainId),
-    fetchPuzzleSolvesById(id),
+    fetchPuzzleSolvesById(id, chainId),
   ]);
 
   // Return 404 if `puzzle` is `null` or there was an `error` in fetching the

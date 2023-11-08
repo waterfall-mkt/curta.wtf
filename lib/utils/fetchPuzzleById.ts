@@ -17,8 +17,8 @@ type PuzzleResponse = {
  * Returns a Puzzle from the database with the given ID and chain ID.
  * @param id The ID of the puzzle.
  * @param chainId The ID of the chain the puzzle is on.
- * @returns An objecting containing data for the Puzzle, the status code, and
- * the error in the shape `{ data: Puzzle | null, status: number, error: PostgrestError | null }`.
+ * @returns An object containing data for the Puzzle, the status code, and the
+ * error in the shape `{ data: Puzzle | null, status: number, error: PostgrestError | null }`.
  */
 const fetchPuzzleById = async (id: number, chainId: number): Promise<PuzzleResponse> => {
   const { data, status, error } = await supabase
