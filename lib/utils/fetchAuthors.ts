@@ -10,8 +10,17 @@ type AuthorsResponse = {
   error: PostgrestError | null;
 };
 
+/**
+ * Fetches and returns all Puzzle authors from all chains from the database.
+ * @return An object containing data for the authors, the status code, and the
+ * error in the shape `{ data: Author[], status: number, error: PostgrestError | null }`.
+ */
 const fetchAuthors = async (): Promise<AuthorsResponse> => {
-  const { data, status, error } = await supabase.from('authors').select('*').returns<DbUser[]>();
+  const { data, status, error } = await supabase
+    .from('users')
+    .select('*')
+    .filter('isPuzzleAuthor', 'is', 'true')
+    .returns<DbUser[]>();
 
   if ((error && status !== 406) || !data || (data && data.length === 0)) {
     return { data: [], status, error };
