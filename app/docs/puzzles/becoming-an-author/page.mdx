@@ -48,7 +48,7 @@ The Curta contract allows its `owner` to mint an Authorship Token every 3 days (
 
 ## Becoming Fermat
 
-Fermat is the author whose puzzle goes the longest unsolved, and Fermat can be identified onchain as the [owner of the Flag NFT with token ID #0](https://opensea.io/assets/ethereum/0x0000000006bc8d9e5e9d436217b88de704a9f307/0). Anyone can transfer ownership of the token and promote an author to Fermat by calling `setFermat(uint32)` on the [Curta contract](https://etherscan.io/address/0x0000000006bC8D9e5e9d436217B88De704a9F307#writeContract):
+Fermat is the author whose puzzle goes the longest unsolved, and Fermat can be identified onchain as the [owner of the Flag NFT with token ID #0](https://opensea.io/assets/ethereum/0x0000000006bc8d9e5e9d436217b88de704a9f307/0). Anyone can transfer ownership of the token and promote an author to Fermat by calling `setFermat(uint32)` on the [Curta contract](/docs/contracts#curta-puzzles):
 
 ```sol showLineNumbers={false}
 /// @notice Burns and mints NFT #0 to the author of the puzzle of ID `_puzzleId`

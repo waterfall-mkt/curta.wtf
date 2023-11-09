@@ -21,7 +21,7 @@ export const metadata = getBaseMetadata({
 
 ## Introduction
 
-A puzzle becomes available to solve by anyone as soon as an author adds it to the [Curta contract](https://etherscan.io/address/0x0000000006bC8D9e5e9d436217B88De704a9F307). When a player submits a valid solution, a [Flag](/docs/puzzles/submitting-solutions#flag-nfts) NFT is minted to the solver, and they earn [points](/docs/leaderboard), which are used to place them on the [leaderboard](/leaderboard).
+A puzzle becomes available to solve by anyone as soon as an author adds it to the [Curta contract](/docs/contracts#curta-puzzles). When a player submits a valid solution, a [Flag](/docs/puzzles/submitting-solutions#flag-nfts) NFT is minted to the solver, and they earn [points](/docs/leaderboard), which are used to place them on the [leaderboard](/leaderboard).
 
 ## Submission period
 
@@ -39,7 +39,7 @@ Simply put, each puzzle's submission period lasts from the time it's added until
 
 Since the protocol is 100% onchain, every submission is public. The generative aspect prevents front-running and allows for multiple winners: even if you see someone else's solution, you still have to figure out what the rules/constraints of the puzzle are and solve it from _your_ starting position.
 
-To put it more rigorously, the [`solve` function](https://github.com/waterfall-mkt/curta/blob/2d5de33e3e08ff478ad9e33b6a6f00f819224122/src/Curta.sol#L107) on [Curta](https://etherscan.io/address/0x0000000006bC8D9e5e9d436217B88De704a9F307) requires the following to return `true`:
+To put it more rigorously, the [`solve` function](https://github.com/waterfall-mkt/curta/blob/2d5de33e3e08ff478ad9e33b6a6f00f819224122/src/Curta.sol#L107) on [Curta](/docs/contracts#curta-puzzles) requires the following to return `true`:
 
 ```sol showLineNumbers={false}
 puzzle.verify(

@@ -55,7 +55,7 @@ The **Edit** button lets you configure the gas limit and whether to simulate the
 
 ## Calling the contract
 
-To submit a solution by directly interacting with the [Curta contract](https://etherscan.io/address/0x0000000006bC8D9e5e9d436217B88De704a9F307#writeContract), call `solve(uint32,uint256)`. This is helpful when the solution is complex (e.g. requires specific block number, multiple transactions/contract deploys, etc.) and more easily accomplished via a script.
+To submit a solution by directly interacting with the [Curta contract](/docs/contracts#curta-puzzles), call `solve(uint32,uint256)`. This is helpful when the solution is complex (e.g. requires specific block number, multiple transactions/contract deploys, etc.) and more easily accomplished via a script.
 
 ```sol showLineNumbers={false}
 /// @notice Mints an NFT if the provided solution solves the puzzle.
