@@ -36,7 +36,7 @@ const LeaderboardPuzzlesTable: FC<LeaderboardPuzzlesTableProps> = ({ data }) => 
 };
 
 export const getPuzzleRowRoute = ({ row }: { row: Row<PuzzleSolve> }): `/${string}` => {
-  return `/puzzle/${row.original.puzzleId}`;
+  return `/puzzle/${row.original.chainId}:${row.original.puzzleId}`;
 };
 
 export default LeaderboardPuzzlesTable;

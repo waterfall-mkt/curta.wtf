@@ -24,7 +24,7 @@ export default function LoadingPage() {
               className="flex h-8 w-8 items-center justify-center rounded-full md:h-10 md:w-10"
               intent="neutral"
               disabled={true}
-              aria-label="Navigate to previous puzzle."
+              aria-label="Navigate to previous puzzle on the same chain."
             >
               <ArrowLeft />
             </IconButton>
@@ -32,7 +32,7 @@ export default function LoadingPage() {
               className="flex h-8 w-8 items-center justify-center rounded-full md:h-10 md:w-10"
               intent="neutral"
               disabled={true}
-              aria-label="Navigate to previous puzzle."
+              aria-label="Navigate to previous puzzle on the same chain."
             >
               <ArrowRight />
             </IconButton>

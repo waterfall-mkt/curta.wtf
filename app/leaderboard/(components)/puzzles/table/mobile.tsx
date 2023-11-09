@@ -143,7 +143,7 @@ const LeaderboardPuzzlesTableMobileSubComponent: FC<{ data: PuzzleSolver }> = ({
                 size="sm"
                 variant="outline"
                 intent="neutral"
-                href={`/puzzle/${solve.puzzleId}`}
+                href={`/puzzle/${solve.chainId}:${solve.puzzleId}`}
                 rightIcon={<ChevronRight />}
               >
                 View puzzle

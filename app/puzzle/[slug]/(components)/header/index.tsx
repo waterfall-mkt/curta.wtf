@@ -25,8 +25,8 @@ type PuzzleHeaderProps = {
 
 const PuzzleHeader: FC<PuzzleHeaderProps> = async ({ puzzle }) => {
   const [{ data: prevPuzzle }, { data: nextPuzzle }] = await Promise.all([
-    fetchPuzzleById(puzzle.id - 1, 1), // TODO: incorporate `chainId`
-    fetchPuzzleById(puzzle.id + 1, 1), // TODO: incorporate `chainId`
+    fetchPuzzleById(puzzle.id - 1, puzzle.chainId),
+    fetchPuzzleById(puzzle.id + 1, puzzle.chainId),
   ]);
 
   return (
