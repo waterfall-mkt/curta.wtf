@@ -168,7 +168,7 @@ export type PuzzleSolve = {
   rank: number;
   phase: Phase;
   solution: Hash;
-  puzzle?: Pick<Puzzle, 'id' | 'name' | 'author' | 'numberSolved' | 'addedTimestamp'>;
+  puzzle?: Pick<Puzzle, 'id' | 'chainId' | 'name' | 'author' | 'numberSolved' | 'addedTimestamp'>;
   // Solve transaction information
   solveTimestamp: number;
   solveTx: Hash;

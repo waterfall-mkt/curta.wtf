@@ -62,8 +62,8 @@ const LeaderboardPuzzlesContent: FC<LeaderboardPuzzlesContentProps> = ({
   const [scrollIsAtRight, setScrollIsAtRight] = useState<boolean>(false);
   const router = useRouter();
   const pathname = usePathname();
-  const minPuzzleId = season === 0 ? 1 : (season - 1) * 5 + 1;
-  const maxPuzzleId = season === 0 ? puzzles : Math.min(puzzles, season * 5);
+  const minPuzzleIndex = season === 0 ? 1 : (season - 1) * 5 + 1;
+  const maxPuzzleIndex = season === 0 ? puzzles : Math.min(puzzles, season * 5);
   const isSeasonOver = season * 5 <= puzzles;
 
   // Fetch the data for the default season on component mount if it's not the
@@ -73,12 +73,12 @@ const LeaderboardPuzzlesContent: FC<LeaderboardPuzzlesContentProps> = ({
       // Only fetch new data if the new season is not the latest season because
       // we already have the latest season's data via `defaultData`.
       if (season !== maxSeason) {
-        setData((await fetchLeaderboardData({ minPuzzleId, maxPuzzleId })).data);
+        setData((await fetchLeaderboardData({ minPuzzleIndex, maxPuzzleIndex })).data);
       }
     };
 
     fetchData();
-  }, [maxPuzzleId, maxSeason, minPuzzleId, puzzles, season]);
+  }, [maxPuzzleIndex, maxSeason, minPuzzleIndex, puzzles, season]);
 
   // A helper function to update the URL search params when a user filters to a
   // new season in the table via the UI to keep URL<>component states synced.
@@ -116,8 +116,8 @@ const LeaderboardPuzzlesContent: FC<LeaderboardPuzzlesContentProps> = ({
       setData(
         (
           await fetchLeaderboardData({
-            minPuzzleId: newMinPuzzleId,
-            maxPuzzleId: newMaxPuzzleId,
+            minPuzzleIndex: newMinPuzzleId,
+            maxPuzzleIndex: newMaxPuzzleId,
           })
         ).data,
       );
@@ -142,7 +142,7 @@ const LeaderboardPuzzlesContent: FC<LeaderboardPuzzlesContentProps> = ({
   // `season !== maxSeason` condition is present because we already have the
   // latest season's data via `defaultData`.
   const loading =
-    (minPuzzleId !== data?.minPuzzleId || maxPuzzleId !== data?.maxPuzzleId) &&
+    (minPuzzleIndex !== data?.minPuzzleIndex || maxPuzzleIndex !== data?.maxPuzzleIndex) &&
     season !== maxSeason;
 
   return (
@@ -153,7 +153,7 @@ const LeaderboardPuzzlesContent: FC<LeaderboardPuzzlesContentProps> = ({
             variant="secondary"
             value={season}
             onChange={onSeasonChange}
-            aria-label="Select a puzzles season leaderboard to view."
+            aria-label="Select a Puzzles season leaderboard to view."
           >
             <Select.Item value={0}>All seasons</Select.Item>
             {Array(maxSeason)
@@ -188,7 +188,7 @@ const LeaderboardPuzzlesContent: FC<LeaderboardPuzzlesContentProps> = ({
                               />
                             ) : null}
                             <span className="w-fit whitespace-nowrap">
-                              Puzzles {minPuzzleId}-{season > 0 ? season * 5 : puzzles}
+                              Puzzles {minPuzzleIndex}-{season > 0 ? season * 5 : puzzles}
                             </span>
                           </Fragment>
                         ),

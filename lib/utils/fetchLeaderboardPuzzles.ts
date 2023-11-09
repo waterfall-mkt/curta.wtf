@@ -2,7 +2,7 @@ import type { PostgrestError } from '@supabase/supabase-js';
 import type { Address } from 'viem';
 
 import supabase from '@/lib/services/supabase';
-import type { SupabaseSolve } from '@/lib/types/api';
+import type { DbPuzzleSolve } from '@/lib/types/api';
 import type { Phase, Puzzle, PuzzleSolver } from '@/lib/types/protocol';
 
 export type LeaderboardPuzzlesResponse = {
@@ -10,34 +10,41 @@ export type LeaderboardPuzzlesResponse = {
     data: PuzzleSolver[];
     solvers: number;
     solves: number;
-    minPuzzleId: number;
-    maxPuzzleId: number;
+    minPuzzleIndex: number;
+    maxPuzzleIndex: number;
   };
   status: number;
   error: PostgrestError | null;
 };
 
+/**
+ * Returns leaderboard results for [**Curta Puzzles**](https://curta.wtf/docs/puzzles/overview),
+ * across all chains ranked by the method described [**here**](https://www.curta.wtf/docs/leaderboard#curta-puzzles).
+ * @param param0 An object containing the minimum and maximum puzzle IDs to
+ * fetch solves for i the shape `{ minPuzzleIndex?: number, maxPuzzleIndex?: number }`.
+ * @returns An object containing data for the solves, the status code, and the
+ * error in the shape `{ data: { data: PuzzleSolve[], solvers: number, solves: number, minPuzzleIndex: number, maxPuzzleIndex: number }, status: number, error: PostgrestError | null }`.
+ */
 const fetchLeaderboardPuzzles = async (
   {
-    minPuzzleId = 0,
-    maxPuzzleId = Number.MAX_SAFE_INTEGER,
+    minPuzzleIndex = 0,
+    maxPuzzleIndex = Number.MAX_SAFE_INTEGER,
   }: {
-    minPuzzleId?: number;
-    maxPuzzleId?: number;
-  } = { minPuzzleId: 0, maxPuzzleId: Number.MAX_SAFE_INTEGER },
+    minPuzzleIndex?: number;
+    maxPuzzleIndex?: number;
+  } = { minPuzzleIndex: 0, maxPuzzleIndex: Number.MAX_SAFE_INTEGER },
 ): Promise<LeaderboardPuzzlesResponse> => {
   // Fetch solves.
   const { data, status, error } = await supabase
-    .from('solves')
-    .select('*')
-    .gte('puzzleId', minPuzzleId)
-    .lte('puzzleId', maxPuzzleId)
+    .from('puzzles_solves')
+    .select('*, solver:users(*)')
     .order('solveTimestamp', { ascending: true })
-    .returns<SupabaseSolve[]>();
+    .range(minPuzzleIndex, maxPuzzleIndex)
+    .returns<DbPuzzleSolve[]>();
 
   if ((error && status !== 406) || !data || (data && data.length === 0)) {
     return {
-      data: { data: [], solvers: 0, solves: 0, minPuzzleId, maxPuzzleId },
+      data: { data: [], solvers: 0, solves: 0, minPuzzleIndex, maxPuzzleIndex },
       status,
       error,
     };
@@ -46,16 +53,17 @@ const fetchLeaderboardPuzzles = async (
   // Fetch puzzles.
   const { data: puzzles } = await supabase
     .from('puzzles')
-    .select('id, name, author:authors(*), numberSolved, addedTimestamp')
-    .returns<Pick<Puzzle, 'id' | 'name' | 'author' | 'numberSolved' | 'addedTimestamp'>[]>();
+    .select('id, chainId, name, author:users(*), numberSolved, addedTimestamp')
+    .returns<
+      Pick<Puzzle, 'id' | 'chainId' | 'name' | 'author' | 'numberSolved' | 'addedTimestamp'>[]
+    >();
 
   const solversObject: { [key: string]: PuzzleSolver } = {};
-  const puzzleSolveRanks: Map<number, number> = new Map();
+  const solveCounts: Map<string, number> = new Map();
 
   data.forEach((item) => {
-    const solver = item.solver.toLowerCase() as Address;
-    const puzzle = puzzles?.find((p) => p.id === item.puzzleId);
-    const rank = (puzzleSolveRanks.get(item.puzzleId) ?? 0) + 1;
+    const solver = item.solver.address.toLowerCase() as Address;
+    const puzzle = puzzles?.find((p) => p.id === item.puzzleId && p.chainId === item.chainId);
 
     // Initialize solver object if it doesn't exist.
     if (!solversObject[solver]) {
@@ -86,26 +94,30 @@ const fetchLeaderboardPuzzles = async (
     }
     solversObject[solver].count.total++;
     solversObject[solver].solves.push({
-      chainId: 1, // TODO: use fetched data from new database.
-      solver: { address: item.solver },
-      solution: '0x', // TODO: use fetched data from new database.
-      solveTimestamp: item.solveTimestamp,
+      // Identifier
       puzzleId: item.puzzleId,
+      chainId: item.chainId,
+      solver: item.solver,
+      // Solve information
+      rank: item.rank,
       phase: item.phase as Phase,
-      solveTx: item.solveTx,
-      rank,
+      solution: item.solution,
       puzzle,
+      // Solve transaction information
+      solveTimestamp: item.solveTimestamp,
+      solveTx: item.solveTx,
     });
 
-    // Increment puzzle solve rank.
-    puzzleSolveRanks.set(item.puzzleId, rank);
+    // Set puzzle solve count.
+    solveCounts.set(`${item.puzzleId}|${item.chainId}`, item.rank);
   });
 
   // Sort solvers by speed score, then rank, then return the top 100.
   const solvers: PuzzleSolver[] = Object.values(solversObject)
     .map((item) => {
       const sum = item.solves.reduce(
-        (a, b) => a + (b.rank - 1) / Math.max(1, (puzzleSolveRanks.get(b.puzzleId) ?? 1) - 1),
+        (a, b) =>
+          a + (b.rank - 1) / Math.max(1, (solveCounts.get(`${b.puzzleId}|${b.chainId}`) ?? 1) - 1),
         0,
       );
 
@@ -115,15 +127,17 @@ const fetchLeaderboardPuzzles = async (
       };
     })
     .sort((a, b) => b.speedScore - a.speedScore)
-    .sort((a, b) => b.points - a.points);
+    .sort((a, b) => b.points - a.points)
+    .slice(0, 100)
+    .map((item, index) => ({ ...item, rank: index + 1 }));
 
   return {
     data: {
-      data: solvers.slice(0, 100).map((item, index) => ({ ...item, rank: index + 1 })),
+      data: solvers,
       solvers: solvers.length,
       solves: data.length,
-      minPuzzleId,
-      maxPuzzleId,
+      minPuzzleIndex,
+      maxPuzzleIndex,
     },
     status,
     error,
