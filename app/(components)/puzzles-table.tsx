@@ -260,7 +260,7 @@ const PuzzleTableMobileSubComponent: FC<{ data: Puzzle }> = ({ data }) => {
 // -----------------------------------------------------------------------------
 
 export const getRowRoute = ({ row }: { row: Row<Puzzle> }): `/${string}` => {
-  return `/puzzle/${row.original.id}`;
+  return `/puzzle/${row.original.chainId}:${row.original.id}`;
 };
 
 export default PuzzleTable;
