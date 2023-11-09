@@ -3,11 +3,11 @@ import type { Address } from 'viem';
 
 import supabase from '@/lib/services/supabase';
 import type { SupabaseSolve } from '@/lib/types/api';
-import type { Phase, Puzzle, Solver } from '@/lib/types/protocol';
+import type { Phase, Puzzle, PuzzleSolver } from '@/lib/types/protocol';
 
 export type LeaderboardPuzzlesResponse = {
   data: {
-    data: Solver[];
+    data: PuzzleSolver[];
     solvers: number;
     solves: number;
     minPuzzleId: number;
@@ -49,7 +49,7 @@ const fetchLeaderboardPuzzles = async (
     .select('id, name, author:authors(*), numberSolved, addedTimestamp')
     .returns<Pick<Puzzle, 'id' | 'name' | 'author' | 'numberSolved' | 'addedTimestamp'>[]>();
 
-  const solversObject: { [key: string]: Solver } = {};
+  const solversObject: { [key: string]: PuzzleSolver } = {};
   const puzzleSolveRanks: Map<number, number> = new Map();
 
   data.forEach((item) => {
@@ -102,7 +102,7 @@ const fetchLeaderboardPuzzles = async (
   });
 
   // Sort solvers by speed score, then rank, then return the top 100.
-  const solvers: Solver[] = Object.values(solversObject)
+  const solvers: PuzzleSolver[] = Object.values(solversObject)
     .map((item) => {
       const sum = item.solves.reduce(
         (a, b) => a + (b.rank - 1) / Math.max(1, (puzzleSolveRanks.get(b.puzzleId) ?? 1) - 1),

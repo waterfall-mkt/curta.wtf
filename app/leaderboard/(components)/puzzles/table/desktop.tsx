@@ -6,7 +6,7 @@ import { getPuzzleRowRoute, type LeaderboardPuzzlesTableInternalProps } from '.'
 import type { ColumnDef } from '@tanstack/react-table';
 import { Crown, ExternalLink } from 'lucide-react';
 
-import type { Solve, Solver } from '@/lib/types/protocol';
+import type { PuzzleSolve, PuzzleSolver } from '@/lib/types/protocol';
 import { getBlockExplorerDomain, getTimeLeftString } from '@/lib/utils';
 
 import AddressLinkClient from '@/components/templates/address-link-client';
@@ -21,7 +21,7 @@ const LeaderboardPuzzlesTableDesktop: FC<LeaderboardPuzzlesTableInternalProps> =
   sorting,
   setSorting,
 }) => {
-  const columns: ColumnDef<Solver>[] = useMemo(
+  const columns: ColumnDef<PuzzleSolver>[] = useMemo(
     () => [
       {
         accessorKey: 'rank',
@@ -129,8 +129,8 @@ const LeaderboardPuzzlesTableDesktop: FC<LeaderboardPuzzlesTableInternalProps> =
   );
 };
 
-const LeaderboardPuzzlesTableDesktopSubComponent: FC<{ data: Solve[] }> = ({ data }) => {
-  const columns = useMemo<ColumnDef<Solve>[]>(
+const LeaderboardPuzzlesTableDesktopSubComponent: FC<{ data: PuzzleSolve[] }> = ({ data }) => {
+  const columns = useMemo<ColumnDef<PuzzleSolve>[]>(
     () => [
       {
         accessorKey: 'puzzle.id',

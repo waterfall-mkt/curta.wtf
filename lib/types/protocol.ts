@@ -157,8 +157,8 @@ export type Puzzle = {
  * @param solveTimestamp The blockchain timestamp the puzzle was solved at.
  * @param solveTx The transaction hash of the transaction that solved the puzzle.
  */
-export type Solve = {
-  // Primary key
+export type PuzzleSolve = {
+  // Identifier
   puzzleId: number;
   chainId: number;
   solver: Pick<User, 'address'> & Partial<User>;
@@ -174,11 +174,24 @@ export type Solve = {
   solveTx: Hash;
 };
 
-export type Solver = {
+/**
+ * Type for an object representing a [**Curta Puzzle**](https://curta.wtf/docs/puzzles/overview)
+ * solver.
+ * @param solver The user that solved the puzzle.
+ * @param rank The player's position on the [**Curta Puzzles leaderboard**](https://www.curta.wtf/docs/leaderboard#curta-puzzles).
+ * @param count An object containing the breakdown of the player's solves by
+ * [**Phase**](https://curta.wtf/docs/puzzles/overview#submission-period).
+ * @param points The player's total [**points**](https://www.curta.wtf/docs/leaderboard#points).
+ * @param speedScore The player's [**speed score**](https://www.curta.wtf/docs/leaderboard#speed-score).
+ * @param solverEnsName Prefetched ENS name of the solver.
+ * @param solverEnsAvatar Prefetched ENS avatar of the solver.
+ * @param solves An array of the player's solves.
+ */
+export type PuzzleSolver = {
+  // Identifier
+  solver: Address;
+  // Leaderboard information
   rank: number;
-  solver: `0x${string}`;
-  solverEnsName?: string;
-  solverEnsAvatar?: string;
   count: {
     phase0: number;
     phase1: number;
@@ -187,5 +200,8 @@ export type Solver = {
   };
   points: number;
   speedScore: number;
-  solves: Solve[];
+  // Miscellanous information
+  solverEnsName?: string;
+  solverEnsAvatar?: string;
+  solves: PuzzleSolve[];
 };

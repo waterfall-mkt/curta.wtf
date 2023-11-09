@@ -6,7 +6,7 @@ import type { LeaderboardPuzzlesTableInternalProps } from '.';
 import type { ColumnDef } from '@tanstack/react-table';
 import { ChevronRight, Crown, ExternalLink } from 'lucide-react';
 
-import type { Solver } from '@/lib/types/protocol';
+import type { PuzzleSolver } from '@/lib/types/protocol';
 import { getBlockExplorerDomain, getTimeLeftString } from '@/lib/utils';
 
 import AddressLinkClient from '@/components/templates/address-link-client';
@@ -21,7 +21,7 @@ const LeaderboardPuzzlesTableMobile: FC<LeaderboardPuzzlesTableInternalProps> = 
   sorting,
   setSorting,
 }) => {
-  const columns = useMemo<ColumnDef<Solver>[]>(
+  const columns = useMemo<ColumnDef<PuzzleSolver>[]>(
     () => [
       {
         accessorKey: 'rank',
@@ -94,7 +94,7 @@ const LeaderboardPuzzlesTableMobile: FC<LeaderboardPuzzlesTableInternalProps> = 
   );
 };
 
-const LeaderboardPuzzlesTableMobileSubComponent: FC<{ data: Solver }> = ({ data }) => {
+const LeaderboardPuzzlesTableMobileSubComponent: FC<{ data: PuzzleSolver }> = ({ data }) => {
   return (
     <div className="flex flex-col">
       <div className="grid grid-cols-2 gap-2 p-3">
