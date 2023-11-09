@@ -3,7 +3,7 @@ import type { Address } from 'viem';
 
 import supabase from '@/lib/services/supabase';
 import type { DbPuzzleSolve } from '@/lib/types/api';
-import type { Phase, Puzzle, PuzzleSolver } from '@/lib/types/protocol';
+import type { Phase, PuzzleSolve, PuzzleSolver } from '@/lib/types/protocol';
 
 export type LeaderboardPuzzlesResponse = {
   data: {
@@ -39,7 +39,6 @@ const fetchLeaderboardPuzzles = async (
     .from('puzzles_solves')
     .select('*, solver:users(*)')
     .order('solveTimestamp', { ascending: true })
-    .range(minPuzzleIndex, maxPuzzleIndex)
     .returns<DbPuzzleSolve[]>();
 
   if ((error && status !== 406) || !data || (data && data.length === 0)) {
@@ -54,70 +53,82 @@ const fetchLeaderboardPuzzles = async (
   const { data: puzzles } = await supabase
     .from('puzzles')
     .select('id, chainId, name, author:users(*), numberSolved, addedTimestamp')
-    .returns<
-      Pick<Puzzle, 'id' | 'chainId' | 'name' | 'author' | 'numberSolved' | 'addedTimestamp'>[]
-    >();
+    .order('addedTimestamp', { ascending: true })
+    .returns<Required<PuzzleSolve>['puzzle'][]>();
 
   const solversObject: { [key: string]: PuzzleSolver } = {};
-  const solveCounts: Map<string, number> = new Map();
+  const puzzleMap: Map<string, Required<PuzzleSolve>['puzzle'] & { index: number }> = new Map();
 
-  data.forEach((item) => {
-    const solver = item.solver.address.toLowerCase() as Address;
-    const puzzle = puzzles?.find((p) => p.id === item.puzzleId && p.chainId === item.chainId);
-
-    // Initialize solver object if it doesn't exist.
-    if (!solversObject[solver]) {
-      solversObject[solver] = {
-        rank: 0,
-        solver,
-        count: { phase0: 0, phase1: 0, phase2: 0, total: 0 },
-        points: 0,
-        speedScore: 0,
-        solves: [],
-      };
-    }
-
-    // Increment solves count, points, and solves.
-    switch (item.phase) {
-      case 0:
-        solversObject[solver].count.phase0++;
-        solversObject[solver].points += 3;
-        break;
-      case 1:
-        solversObject[solver].count.phase1++;
-        solversObject[solver].points += 2;
-        break;
-      case 2:
-        solversObject[solver].count.phase2++;
-        solversObject[solver].points += 1;
-        break;
-    }
-    solversObject[solver].count.total++;
-    solversObject[solver].solves.push({
-      // Identifier
-      puzzleId: item.puzzleId,
-      chainId: item.chainId,
-      solver: item.solver,
-      // Solve information
-      rank: item.rank,
-      phase: item.phase as Phase,
-      solution: item.solution,
-      puzzle,
-      // Solve transaction information
-      solveTimestamp: item.solveTimestamp,
-      solveTx: item.solveTx,
-    });
-
+  // Go through the list of puzzles to make them addressable via puzzle ID and
+  // chain ID.
+  puzzles?.forEach((puzzle, index) => {
     // Set puzzle solve count.
-    solveCounts.set(`${item.puzzleId}|${item.chainId}`, item.rank);
+    puzzleMap.set(`${puzzle.id}|${puzzle.chainId}`, { ...puzzle, index: index + 1 });
   });
+
+  data
+    .filter((item) => {
+      const puzzleIndex =
+        // Include all solves within range; exclude any puzzle not found in the
+        // map.
+        puzzleMap.get(`${item.puzzleId}|${item.chainId}`)?.index ?? Number.MAX_SAFE_INTEGER;
+      return puzzleIndex >= minPuzzleIndex && puzzleIndex <= maxPuzzleIndex;
+    })
+    .forEach((item) => {
+      const solver = item.solver.address.toLowerCase() as Address;
+
+      // Initialize solver object if it doesn't exist.
+      if (!solversObject[solver]) {
+        solversObject[solver] = {
+          rank: 0,
+          solver,
+          count: { phase0: 0, phase1: 0, phase2: 0, total: 0 },
+          points: 0,
+          speedScore: 0,
+          solves: [],
+        };
+      }
+
+      // Increment solves count, points, and solves.
+      switch (item.phase) {
+        case 0:
+          solversObject[solver].count.phase0++;
+          solversObject[solver].points += 3;
+          break;
+        case 1:
+          solversObject[solver].count.phase1++;
+          solversObject[solver].points += 2;
+          break;
+        case 2:
+          solversObject[solver].count.phase2++;
+          solversObject[solver].points += 1;
+          break;
+      }
+      solversObject[solver].count.total++;
+      solversObject[solver].solves.push({
+        // Identifier
+        puzzleId: item.puzzleId,
+        chainId: item.chainId,
+        solver: item.solver,
+        // Solve information
+        rank: item.rank,
+        phase: item.phase as Phase,
+        solution: item.solution,
+        puzzle: puzzleMap.get(`${item.puzzleId}|${item.chainId}`),
+        // Solve transaction information
+        solveTimestamp: item.solveTimestamp,
+        solveTx: item.solveTx,
+      });
+    });
 
   // Sort solvers by speed score, then rank, then return the top 100.
   const solvers: PuzzleSolver[] = Object.values(solversObject)
     .map((item) => {
       const sum = item.solves.reduce(
         (a, b) =>
-          a + (b.rank - 1) / Math.max(1, (solveCounts.get(`${b.puzzleId}|${b.chainId}`) ?? 1) - 1),
+          a +
+          (b.rank - 1) /
+            Math.max(1, (puzzleMap.get(`${b.puzzleId}|${b.chainId}`)?.numberSolved ?? 1) - 1),
         0,
       );
 
