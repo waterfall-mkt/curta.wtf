@@ -1,7 +1,7 @@
 import type { PostgrestError } from '@supabase/supabase-js';
 
 import supabase from '@/lib/services/supabase';
-import type { SupabaseAuthor } from '@/lib/types/api';
+import type { DbUser } from '@/lib/types/api';
 import type { Author } from '@/lib/types/protocol';
 
 type AuthorsResponse = {
@@ -10,11 +10,17 @@ type AuthorsResponse = {
   error: PostgrestError | null;
 };
 
+/**
+ * Fetches and returns all Puzzle authors from all chains from the database.
+ * @return An object containing data for the authors, the status code, and the
+ * error in the shape `{ data: Author[], status: number, error: PostgrestError | null }`.
+ */
 const fetchAuthors = async (): Promise<AuthorsResponse> => {
   const { data, status, error } = await supabase
-    .from('authors')
+    .from('users')
     .select('*')
-    .returns<SupabaseAuthor[]>();
+    .filter('isPuzzleAuthor', 'is', 'true')
+    .returns<DbUser[]>();
 
   if ((error && status !== 406) || !data || (data && data.length === 0)) {
     return { data: [], status, error };
@@ -23,8 +29,8 @@ const fetchAuthors = async (): Promise<AuthorsResponse> => {
   const authors: Author[] = data.map((item) => {
     return {
       address: item.address,
-      avatar: item.avatar,
-      name: item.name,
+      username: item.username,
+      displayName: item.displayName,
       twitter: item.twitter,
       github: item.github,
     };

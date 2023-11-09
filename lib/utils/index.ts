@@ -5,11 +5,13 @@ import fetchPuzzleFlagColors from './fetchPuzzleFlagColors';
 import fetchPuzzles from './fetchPuzzles';
 import fetchPuzzlesCount from './fetchPuzzlesCount';
 import fetchPuzzleSolvesById from './fetchPuzzleSolvesById';
-import fetchSolvesCount from './fetchSolvesCount';
+import fetchPuzzlesSolvesCount from './fetchPuzzlesSolvesCount';
 import formatValueToPrecision from './formatValueToPrecision';
 import getBaseMetadata from './getBaseMetadata';
 import getBlockExplorerDomain from './getBlockExplorerDomain';
 import getChainIdAndId from './getChainIdAndId';
+import getNetworkName from './getNetworkName';
+import getPublicClient from './getPublicClient';
 import getPuzzlesAddress from './getPuzzlesAddress';
 import getPuzzleTimeLeft from './getPuzzleTimeLeft';
 import getShortenedAddress from './getShortenedAddress';
@@ -23,11 +25,13 @@ export {
   fetchPuzzles,
   fetchPuzzlesCount,
   fetchPuzzleSolvesById,
-  fetchSolvesCount,
+  fetchPuzzlesSolvesCount,
   formatValueToPrecision,
   getBaseMetadata,
   getBlockExplorerDomain,
   getChainIdAndId,
+  getNetworkName,
+  getPublicClient,
   getPuzzlesAddress,
   getPuzzleTimeLeft,
   getShortenedAddress,

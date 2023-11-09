@@ -23,7 +23,7 @@ export async function generateMetadata({
   // Return empty object if `slug` is an invalid format.
   if (!ids) return {};
 
-  const { data: puzzle } = await fetchPuzzleById(ids.chainId, ids.id);
+  const { data: puzzle } = await fetchPuzzleById(ids.id, ids.chainId);
   if (!puzzle) return {};
 
   const title = `Puzzle #${puzzle.id}`;
@@ -64,7 +64,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
 
   const [{ data: puzzle, error }, { data: solves }] = await Promise.all([
     fetchPuzzleById(id, chainId),
-    fetchPuzzleSolvesById(id),
+    fetchPuzzleSolvesById(id, chainId),
   ]);
 
   // Return 404 if `puzzle` is `null` or there was an `error` in fetching the

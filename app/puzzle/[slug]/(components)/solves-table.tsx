@@ -6,7 +6,7 @@ import type { SortingState } from '@tanstack/react-table';
 import type { ColumnDef } from '@tanstack/react-table';
 import { ExternalLink } from 'lucide-react';
 
-import type { Solve } from '@/lib/types/protocol';
+import type { PuzzleSolve } from '@/lib/types/protocol';
 import { getBlockExplorerDomain, getTimeLeftString } from '@/lib/utils';
 
 import AddressLinkClient from '@/components/templates/address-link-client';
@@ -20,11 +20,11 @@ import type { TableProps } from '@/components/ui/table/types';
 // -----------------------------------------------------------------------------
 
 type PuzzleSolvesTableProps = {
-  data: Solve[];
+  data: PuzzleSolve[];
   puzzleAddedTimestamp: number;
 };
 
-type PuzzleSolvesTableInternalProps = Omit<TableProps<Solve>, 'columns'> & {
+type PuzzleSolvesTableInternalProps = Omit<TableProps<PuzzleSolve>, 'columns'> & {
   puzzleAddedTimestamp: number;
 };
 
@@ -59,7 +59,7 @@ const PuzzleSolvesTableDesktop: FC<PuzzleSolvesTableInternalProps> = ({
   sorting,
   setSorting,
 }) => {
-  const columns: ColumnDef<Solve>[] = useMemo(
+  const columns: ColumnDef<PuzzleSolve>[] = useMemo(
     () => [
       {
         accessorKey: 'rank',
@@ -75,14 +75,14 @@ const PuzzleSolvesTableDesktop: FC<PuzzleSolvesTableInternalProps> = ({
           <div className="flex items-center gap-3.5">
             <div className="overflow-hidden rounded-full">
               <ENSAvatarClient
-                nameOrAddress={row.original.solverEnsName ?? row.original.solver}
+                nameOrAddress={row.original.solverEnsName ?? row.original.solver.address}
                 size={40}
                 prefetchedEnsAvatar={row.original.solverEnsAvatar}
               />
             </div>
             <AddressLinkClient
               className="text-gray-100"
-              address={row.original.solver}
+              address={row.original.solver.address}
               prefetchedEnsName={row.original.solverEnsName}
             />
           </div>
@@ -90,7 +90,7 @@ const PuzzleSolvesTableDesktop: FC<PuzzleSolvesTableInternalProps> = ({
         footer: (props) => props.column.id,
       },
       {
-        accessorKey: 'solveTime',
+        accessorKey: 'firstSolveTime',
         header: () => 'Time taken',
         cell: ({ row }) => (
           <div title={new Date(1000 * row.original.solveTimestamp).toString()}>
@@ -110,7 +110,7 @@ const PuzzleSolvesTableDesktop: FC<PuzzleSolvesTableInternalProps> = ({
         size: 105,
       },
       {
-        accessorKey: 'tx',
+        accessorKey: 'solveTx',
         header: () => 'Solution',
         cell: ({ row }) => {
           return (
@@ -119,12 +119,14 @@ const PuzzleSolvesTableDesktop: FC<PuzzleSolvesTableInternalProps> = ({
                 variant="outline"
                 intent="neutral"
                 title={`https://${getBlockExplorerDomain(row.original.chainId)}/tx/${
-                  row.original.tx
+                  row.original.solveTx
                 }`}
                 onClick={(e) => {
                   e.stopPropagation();
                   window.open(
-                    `https://${getBlockExplorerDomain(row.original.chainId)}/tx/${row.original.tx}`,
+                    `https://${getBlockExplorerDomain(row.original.chainId)}/tx/${
+                      row.original.solveTx
+                    }`,
                     '_blank',
                   );
                 }}
@@ -159,7 +161,7 @@ const PuzzleSolvesTableMobile: FC<PuzzleSolvesTableInternalProps> = ({
   sorting,
   setSorting,
 }) => {
-  const columns: ColumnDef<Solve>[] = useMemo(
+  const columns: ColumnDef<PuzzleSolve>[] = useMemo(
     () => [
       {
         accessorKey: 'rank',
@@ -175,14 +177,14 @@ const PuzzleSolvesTableMobile: FC<PuzzleSolvesTableInternalProps> = ({
           <div className="flex items-center gap-3.5">
             <div className="overflow-hidden rounded-full">
               <ENSAvatarClient
-                nameOrAddress={row.original.solverEnsName ?? row.original.solver}
+                nameOrAddress={row.original.solverEnsName ?? row.original.solver.address}
                 size={40}
                 prefetchedEnsAvatar={row.original.solverEnsAvatar}
               />
             </div>
             <AddressLinkClient
               className="text-gray-100"
-              address={row.original.solver}
+              address={row.original.solver.address}
               prefetchedEnsName={row.original.solverEnsName}
             />
           </div>
@@ -190,7 +192,7 @@ const PuzzleSolvesTableMobile: FC<PuzzleSolvesTableInternalProps> = ({
         footer: (props) => props.column.id,
       },
       {
-        accessorKey: 'solveTime',
+        accessorKey: 'firstSolveTime',
         header: () => <div className="ml-auto">Time taken</div>,
         cell: ({ row }) => (
           <div

@@ -1,9 +1,19 @@
 import { createPublicClient, fallback, http } from 'viem';
-import { mainnet } from 'viem/chains';
+import { base, mainnet } from 'viem/chains';
 
-const alchemy = http(`https://eth-mainnet.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_ID}`);
+const alchemyBase = http(
+  `https://base-mainnet.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_ID}`,
+);
+const alchemyEthereum = http(
+  `https://eth-mainnet.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_ID}`,
+);
 
-export const publicClient = createPublicClient({
+export const baseClient = createPublicClient({
+  chain: base,
+  transport: fallback([alchemyBase, http()]),
+});
+
+export const ethereumClient = createPublicClient({
   chain: mainnet,
-  transport: fallback([alchemy, http()]),
+  transport: fallback([alchemyEthereum, http()]),
 });

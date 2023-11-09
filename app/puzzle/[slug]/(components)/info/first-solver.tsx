@@ -23,7 +23,7 @@ const PuzzleInfoFirstSolver: FC<PuzzleInfoFirstSolverProps> = ({ puzzle }) => {
       {puzzle.firstSolver ? (
         <a
           className="relative flex w-full flex-col items-center justify-center rounded-lg bg-tw-green py-2.5"
-          href={`https://${getBlockExplorerDomain(puzzle.chainId)}/tx/${puzzle.solveTx}`}
+          href={`https://${getBlockExplorerDomain(puzzle.chainId)}/tx/${puzzle.firstSolveTx}`}
           target="_blank"
           rel="noopener noreferrer"
         >
@@ -42,7 +42,7 @@ const PuzzleInfoFirstSolver: FC<PuzzleInfoFirstSolverProps> = ({ puzzle }) => {
       {[
         {
           name: 'Solve Time',
-          value: puzzle.solveTime ? getTimeLeftString(puzzle.solveTime) : '—',
+          value: puzzle.firstSolveTime ? getTimeLeftString(puzzle.firstSolveTime) : '—',
           title: puzzle.firstSolveTimestamp
             ? new Date(puzzle.firstSolveTimestamp * 1000).toString()
             : '',

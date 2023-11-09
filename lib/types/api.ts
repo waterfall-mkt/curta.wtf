@@ -5,8 +5,8 @@ import type { Address, Hash } from 'viem';
 // -----------------------------------------------------------------------------
 
 /**
- * Type for a user object representing a Curta user stored in the database's
- * `users` table.
+ * Type for an object representing a Curta user stored in the database's `users`
+ * table.
  * @param address The user's Ethereum address (hex, should be all lowercase).
  * @param username The user's unique username. If the user never set a username,
  * it will be a randomly generated `uuid`.
@@ -34,12 +34,12 @@ export type DbUser = {
 };
 
 // -----------------------------------------------------------------------------
-// Puzzles-specific types
+// Curta Puzzles types
 // -----------------------------------------------------------------------------
 
 /**
- * Type for a puzzle object representing a Curta Puzzle stored in the database's
- * `puzzles` table.
+ * Type for an object representing a [**Curta Puzzle**](https://curta.wtf/docs/puzzles/overview)
+ * stored in the database's `puzzles` table.
  * @param id The puzzle's ID.
  * @param chainId The ID of the chain the puzzle is on.
  * @param address The puzzle's contract address.
@@ -94,13 +94,13 @@ export type DbPuzzle = {
   // First solve information
   firstSolveBlock?: number;
   firstSolver?: Address;
-  firstSolveTimestamp?: number;
+  firstSolveTimestamp: number;
   firstSolveTx?: Hash;
 };
 
 /**
- * Type for a puzzle solve object representing an onchain solve on a Curta
- * Puzzle solve stored in the database's `puzzles_solves` table.
+ * Type for an object representing an onchain solve on a [**Curta Puzzle**](https://curta.wtf/docs/puzzles/overview)
+ * solve stored in the database's `puzzles_solves` table.
  * @param puzzleId The ID of the puzzle the solve is for.
  * @param chainId The ID of the chain the puzzle is on.
  * @param solver The user that solved the puzzle.
@@ -108,9 +108,9 @@ export type DbPuzzle = {
  * @param phase The [**Phase**](https://curta.wtf/docs/puzzles/overview#submission-period)
  * the puzzle was solved in.
  * @param solution The solution the solver submitted as a hexstring.
+ * @param solveTimestamp The blockchain timestamp the puzzle was solved at.
  * @param solveTx The transaction hash of the transaction that solved the
  * puzzle.
- * @param solveTimestamp The blockchain timestamp the puzzle was solved at.
  */
 export type DbPuzzleSolve = {
   // Primary key
@@ -122,8 +122,8 @@ export type DbPuzzleSolve = {
   phase: number;
   solution: Hash;
   // Solve transaction information
-  solveTx: Hash;
   solveTimestamp: number;
+  solveTx: Hash;
 };
 
 // -----------------------------------------------------------------------------
@@ -134,44 +134,17 @@ export type Error = {
   message: string;
 };
 
-export type SupabaseAuthor = {
-  address: `0x${string}`;
-  avatar?: string;
-  name?: string;
-  github?: string;
-  twitter?: string;
-};
-
-export type SupabasePuzzle = {
-  id: number;
-  address: `0x${string}`;
-  author: SupabaseAuthor;
-  firstSolveTimestamp: number;
-  firstSolver?: `0x${string}`;
-  solution?: string;
-  addedTx: `0x${string}`;
-  solveTx?: `0x${string}`;
-  firstSolveBlock?: number;
-  name: string;
-  addedTimestamp: number;
-  addedBlock: number;
-  numberSolved: number;
-  bytecode: string;
-  solidity?: string;
-  huff?: string;
-  github?: string;
-  created_at: number;
-  disabled?: boolean;
-};
-
 export type SupabaseSolve = {
+  // Primary key
   id: string; // string because it's a hex-string
   puzzleId: number;
   solver: `0x${string}`;
+  // Solve information
+  phase: number;
+  solution: `0x${string}`;
+  // Solve transaction information
+  solveTimestamp: number;
   solveTx: `0x${string}`;
   tokenImage: string;
-  solution: `0x${string}`;
-  phase: number;
   created_at: number;
-  solveTimestamp: number;
 };
