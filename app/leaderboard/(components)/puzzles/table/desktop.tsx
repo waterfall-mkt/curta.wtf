@@ -180,7 +180,7 @@ const LeaderboardPuzzlesTableDesktopSubComponent: FC<{ data: PuzzleSolve[] }> = 
         accessorKey: 'rank',
         header: () => (
           <div className="flex items-center space-x-1">
-            <div>Puzzle Rank</div>
+            <div>Puzzle rank</div>
             <InfoTooltip term="PUZZLE_RANK" />
           </div>
         ),
