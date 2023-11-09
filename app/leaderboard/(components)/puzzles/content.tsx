@@ -111,13 +111,13 @@ const LeaderboardPuzzlesContent: FC<LeaderboardPuzzlesContentProps> = ({
     // Only fetch new data if the new season is not the latest season because we
     // already have the latest season's data via `defaultData`.
     if (newSeason !== maxSeason) {
-      const newMinPuzzleId = newSeason === 0 ? 1 : (newSeason - 1) * 5 + 1;
-      const newMaxPuzzleId = newSeason === 0 ? puzzles : Math.min(puzzles, newSeason * 5);
+      const newMinPuzzleIndex = newSeason === 0 ? 1 : (newSeason - 1) * 5 + 1;
+      const newMaxPuzzleIndex = newSeason === 0 ? puzzles : Math.min(puzzles, newSeason * 5);
       setData(
         (
           await fetchLeaderboardData({
-            minPuzzleIndex: newMinPuzzleId,
-            maxPuzzleIndex: newMaxPuzzleId,
+            minPuzzleIndex: newMinPuzzleIndex,
+            maxPuzzleIndex: newMaxPuzzleIndex,
           })
         ).data,
       );
