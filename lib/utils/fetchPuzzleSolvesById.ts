@@ -2,10 +2,10 @@ import type { PostgrestError } from '@supabase/supabase-js';
 
 import supabase from '@/lib/services/supabase';
 import type { DbPuzzleSolve } from '@/lib/types/api';
-import type { Phase, Solve } from '@/lib/types/protocol';
+import type { Phase, PuzzleSolve } from '@/lib/types/protocol';
 
 type PuzzleSolvesResponse = {
-  data: Solve[];
+  data: PuzzleSolve[];
   status: number;
   error: PostgrestError | null;
 };
@@ -16,7 +16,7 @@ type PuzzleSolvesResponse = {
  * @param id The ID of the puzzle.
  * @param chainId The ID of the chain the puzzle is on.
  * @returns An object containing data for the solves, the status code, and the
- * error in the shape `{ data: Solve[], status: number, error: PostgrestError | null }`.
+ * error in the shape `{ data: PuzzleSolve[], status: number, error: PostgrestError | null }`.
  */
 const fetchPuzzleSolvesById = async (
   id: number,
@@ -34,7 +34,7 @@ const fetchPuzzleSolvesById = async (
     return { data: [], status, error };
   }
 
-  const solves: Solve[] = data.map((solve) => ({
+  const solves: PuzzleSolve[] = data.map((solve) => ({
     // Primary key
     puzzleId: solve.puzzleId,
     chainId: solve.chainId,

@@ -6,7 +6,7 @@ import type { SortingState } from '@tanstack/react-table';
 import type { ColumnDef } from '@tanstack/react-table';
 import { ExternalLink } from 'lucide-react';
 
-import type { Solve } from '@/lib/types/protocol';
+import type { PuzzleSolve } from '@/lib/types/protocol';
 import { getBlockExplorerDomain, getTimeLeftString } from '@/lib/utils';
 
 import AddressLinkClient from '@/components/templates/address-link-client';
@@ -20,11 +20,11 @@ import type { TableProps } from '@/components/ui/table/types';
 // -----------------------------------------------------------------------------
 
 type PuzzleSolvesTableProps = {
-  data: Solve[];
+  data: PuzzleSolve[];
   puzzleAddedTimestamp: number;
 };
 
-type PuzzleSolvesTableInternalProps = Omit<TableProps<Solve>, 'columns'> & {
+type PuzzleSolvesTableInternalProps = Omit<TableProps<PuzzleSolve>, 'columns'> & {
   puzzleAddedTimestamp: number;
 };
 
@@ -59,7 +59,7 @@ const PuzzleSolvesTableDesktop: FC<PuzzleSolvesTableInternalProps> = ({
   sorting,
   setSorting,
 }) => {
-  const columns: ColumnDef<Solve>[] = useMemo(
+  const columns: ColumnDef<PuzzleSolve>[] = useMemo(
     () => [
       {
         accessorKey: 'rank',
@@ -161,7 +161,7 @@ const PuzzleSolvesTableMobile: FC<PuzzleSolvesTableInternalProps> = ({
   sorting,
   setSorting,
 }) => {
-  const columns: ColumnDef<Solve>[] = useMemo(
+  const columns: ColumnDef<PuzzleSolve>[] = useMemo(
     () => [
       {
         accessorKey: 'rank',
