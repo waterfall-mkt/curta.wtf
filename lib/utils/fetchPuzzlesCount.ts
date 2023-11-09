@@ -21,7 +21,11 @@ const fetchPuzzlesCount = async (): Promise<PuzzlesCountResponse> => {
   }
 
   // Fetch puzzles.
-  const { data, status, error } = await supabase.from('puzzles').select('id').returns<number[]>();
+  const { data, status, error } = await supabase
+    .from('puzzles')
+    .select('id')
+    .not('address', 'is', null)
+    .returns<number[]>();
 
   if ((error && status !== 406) || !data || (data && data.length === 0)) {
     return { data: { count: 0, lastUpdated }, status, error };

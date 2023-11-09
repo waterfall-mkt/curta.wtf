@@ -24,6 +24,7 @@ const fetchPuzzleById = async (id: number, chainId: number): Promise<PuzzleRespo
   const { data, status, error } = await supabase
     .from('puzzles')
     .select('*, author:users(*)')
+    .not('address', 'is', null)
     .eq('id', id)
     .eq('chainId', chainId)
     .limit(1)

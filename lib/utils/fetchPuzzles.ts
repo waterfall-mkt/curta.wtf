@@ -19,6 +19,7 @@ const fetchPuzzles = async (): Promise<PuzzlesResponse> => {
   const { data, status, error } = await supabase
     .from('puzzles')
     .select('*, author:users(*)')
+    .not('address', 'is', null)
     .filter('disabled', 'not.is', 'true')
     .order('addedTimestamp', { ascending: false })
     .returns<DbPuzzle[]>();

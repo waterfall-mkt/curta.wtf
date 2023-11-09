@@ -53,6 +53,7 @@ const fetchLeaderboardPuzzles = async (
   const { data: puzzles } = await supabase
     .from('puzzles')
     .select('id, chainId, name, author:users(*), numberSolved, addedTimestamp')
+    .not('address', 'is', null)
     .order('addedTimestamp', { ascending: true })
     .returns<Required<PuzzleSolve>['puzzle'][]>();
 
