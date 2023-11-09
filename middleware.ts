@@ -1,6 +1,6 @@
 import { type NextRequest, NextResponse } from 'next/server';
 
-import { getChainIdAndId } from './lib/utils';
+import { getChainIdAndId, getNetworkName } from './lib/utils';
 
 // This function can be marked `async` if using `await` inside
 export function middleware(request: NextRequest) {
@@ -15,7 +15,9 @@ export function middleware(request: NextRequest) {
     if (ids.chainId === 1) {
       return NextResponse.rewrite(new URL(`/puzzle/${ids.id}`, request.url));
     }
-    return NextResponse.rewrite(new URL(`/puzzle/${ids.chainId}:${ids.id}`, request.url));
+    return NextResponse.rewrite(
+      new URL(`/puzzle/${getNetworkName(ids.chainId)}:${ids.id}`, request.url),
+    );
   }
 }
 
