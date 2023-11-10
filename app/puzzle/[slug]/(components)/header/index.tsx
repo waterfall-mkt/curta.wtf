@@ -31,19 +31,19 @@ const PuzzleHeader: FC<PuzzleHeaderProps> = async ({ puzzle }) => {
 
   const links = [
     {
-      tooltipContent: 'Solution',
+      name: 'Solution',
       href: puzzle.solution,
       icon: <FileCheck />,
       disabled: !puzzle.solution,
     },
     {
-      tooltipContent: 'Source',
+      name: 'Source',
       href: `https://github.com/${puzzle.github}`,
       icon: <Github />,
       disabled: !puzzle.github,
     },
     {
-      tooltipContent: 'Contract',
+      name: 'Contract',
       href: `https://${getBlockExplorerDomain(puzzle.chainId)}/address/${puzzle.address}`,
       icon: <ExternalLink />,
       disabled: false,
@@ -94,7 +94,7 @@ const PuzzleHeader: FC<PuzzleHeaderProps> = async ({ puzzle }) => {
       </div>
       <ButtonGroup className="ml-auto hidden sm:flex">
         {links.map((item, index) => (
-          <Tooltip content={item.tooltipContent} key={index} inPortal>
+          <Tooltip content={item.name} key={index} inPortal>
             <IconButton href={item.href} variant="outline" intent="neutral" size="lg" newTab>
               {item.icon}
             </IconButton>
@@ -112,7 +112,7 @@ const PuzzleHeader: FC<PuzzleHeaderProps> = async ({ puzzle }) => {
             rightIcon={item.icon}
             newTab
           >
-            {item.tooltipContent}
+            {item.name}
           </Button>
         ))}
       </ButtonGroup>
