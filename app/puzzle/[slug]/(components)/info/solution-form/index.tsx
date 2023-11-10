@@ -16,7 +16,12 @@ import {
 
 import { CURTA_ABI } from '@/lib/constants/abi';
 import type { Puzzle } from '@/lib/types/protocol';
-import { formatValueToPrecision, getPuzzlesAddress, getPuzzleTimeLeft } from '@/lib/utils';
+import {
+  formatValueToPrecision,
+  getBlockExplorerDomain,
+  getPuzzlesAddress,
+  getPuzzleTimeLeft,
+} from '@/lib/utils';
 
 import ConnectButton from '@/components/common/connect-button';
 import { Button, Input, Popover, useToast } from '@/components/ui';
@@ -71,7 +76,7 @@ const PuzzleInfoSolutionForm: FC<PuzzleInfoSolutionFormProps> = ({ puzzle }) => 
         action: (
           <Button
             size="sm"
-            href={`https://etherscan.io/tx/${data.hash}`}
+            href={`https://${getBlockExplorerDomain(puzzle.chainId)}/tx/${data.hash}`}
             rightIcon={<ExternalLink />}
             intent="primary"
             newTab
@@ -91,7 +96,7 @@ const PuzzleInfoSolutionForm: FC<PuzzleInfoSolutionFormProps> = ({ puzzle }) => 
         action: data ? (
           <Button
             size="sm"
-            href={`https://etherscan.io/tx/${data.hash}`}
+            href={`https://${getBlockExplorerDomain(puzzle.chainId)}/tx/${data.hash}`}
             rightIcon={<ExternalLink />}
             intent="fail"
             newTab
@@ -109,7 +114,7 @@ const PuzzleInfoSolutionForm: FC<PuzzleInfoSolutionFormProps> = ({ puzzle }) => 
         action: data ? (
           <Button
             size="sm"
-            href={`https://etherscan.io/tx/${data.transactionHash}`}
+            href={`https://${getBlockExplorerDomain(puzzle.chainId)}/tx/${data.transactionHash}`}
             rightIcon={<ExternalLink />}
             intent="success"
             newTab
