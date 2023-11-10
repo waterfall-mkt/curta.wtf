@@ -9,6 +9,7 @@ specifiers:
   '@radix-ui/react-avatar': ^1.0.4
   '@radix-ui/react-dialog': ^1.0.5
   '@radix-ui/react-popover': ^1.0.7
+  '@radix-ui/react-slot': ^1.0.2
   '@radix-ui/react-switch': ^1.0.3
   '@radix-ui/react-toast': ^1.1.5
   '@radix-ui/react-tooltip': ^1.0.7
@@ -72,6 +73,7 @@ dependencies:
   '@radix-ui/react-avatar': 1.0.4_fnrvimhhml6lvqlvghdjxbhtmm
   '@radix-ui/react-dialog': 1.0.5_fnrvimhhml6lvqlvghdjxbhtmm
   '@radix-ui/react-popover': 1.0.7_fnrvimhhml6lvqlvghdjxbhtmm
+  '@radix-ui/react-slot': 1.0.2_fzrd6ivowi4azn3madm57eamia
   '@radix-ui/react-switch': 1.0.3_fnrvimhhml6lvqlvghdjxbhtmm
   '@radix-ui/react-toast': 1.1.5_fnrvimhhml6lvqlvghdjxbhtmm
   '@radix-ui/react-tooltip': 1.0.7_fnrvimhhml6lvqlvghdjxbhtmm
@@ -805,6 +807,7 @@ packages:
     dependencies:
       is-glob: 4.0.3
       micromatch: 4.0.5
+      napi-wasm: 1.1.0
     dev: false
     bundledDependencies:
       - napi-wasm
@@ -6178,6 +6181,10 @@ packages:
     resolution: {integrity: sha512-eSRppjcPIatRIMC1U6UngP8XFcz8MQWGQdt1MTBQ7NaAmvXDfvNxbvWV3x2y6CdEUciCSsDHDQZbhYaB8QEo2g==}
     engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
     hasBin: true
+    dev: false
+
+  /napi-wasm/1.1.0:
+    resolution: {integrity: sha512-lHwIAJbmLSjF9VDRm9GoVOy9AGp3aIvkjv+Kvz9h16QR3uSVYH78PNQUnT2U4X53mhlnV2M7wrhibQ3GHicDmg==}
     dev: false
 
   /natural-compare/1.4.0:
