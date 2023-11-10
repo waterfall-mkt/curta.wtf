@@ -11,6 +11,7 @@ import type { Puzzle } from '@/lib/types/protocol';
 import { getBlockExplorerDomain, getPuzzleTimeLeft } from '@/lib/utils';
 
 import AddressLinkClient from '@/components/templates/address-link-client';
+import IdWithChainLogo from '@/components/templates/id-with-chain-logo';
 import Stat from '@/components/templates/stat';
 import { Button, IconButton, Table } from '@/components/ui';
 import type { TableProps } from '@/components/ui/table/types';
@@ -44,9 +45,9 @@ const PuzzleTableDesktop: FC<PuzzleTableInternalProps> = ({ data, sorting, setSo
   const columns: ColumnDef<Puzzle>[] = useMemo(
     () => [
       {
-        accessorKey: 'id',
+        accessorKey: 'addedTimestamp',
         header: () => 'ID',
-        cell: ({ row }) => row.original.id,
+        cell: ({ row }) => <IdWithChainLogo id={row.original.id} chainId={row.original.chainId} />,
         footer: (props) => props.column.id,
       },
       {
@@ -157,9 +158,9 @@ const PuzzleTableMobile: FC<PuzzleTableInternalProps> = ({ data, sorting, setSor
   const columns = useMemo<ColumnDef<Puzzle>[]>(
     () => [
       {
-        accessorKey: 'id',
+        accessorKey: 'addedTimestamp',
         header: () => 'ID',
-        cell: ({ row }) => row.original.id,
+        cell: ({ row }) => <IdWithChainLogo id={row.original.id} chainId={row.original.chainId} />,
         footer: (props) => props.column.id,
       },
       {

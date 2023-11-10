@@ -2,7 +2,7 @@
  * Return the name of the network for a given chain.
  * @dev If the chain is not supported, the function returns the network name for
  * Ethereum (`eth`).
- * @param chainId The ID of the chain
+ * @param chainId The ID of the chain.
  * @returns The network name.
  */
 const getNetworkName = (chainId: number): string => {

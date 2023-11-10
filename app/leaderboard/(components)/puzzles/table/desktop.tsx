@@ -11,6 +11,7 @@ import { getBlockExplorerDomain, getTimeLeftString } from '@/lib/utils';
 
 import AddressLinkClient from '@/components/templates/address-link-client';
 import ENSAvatarClient from '@/components/templates/ens-avatar-client';
+import IdWithChainLogo from '@/components/templates/id-with-chain-logo';
 import InfoTooltip from '@/components/templates/info-tooltip';
 import PhaseTag from '@/components/templates/phase-tag';
 import ProgressBar from '@/components/templates/progress-bar';
@@ -135,7 +136,9 @@ const LeaderboardPuzzlesTableDesktopSubComponent: FC<{ data: PuzzleSolve[] }> = 
       {
         accessorKey: 'puzzle.id',
         header: () => 'ID',
-        cell: ({ row }) => row.original.puzzleId,
+        cell: ({ row }) => (
+          <IdWithChainLogo id={row.original.puzzleId} chainId={row.original.chainId} />
+        ),
         footer: (props) => props.column.id,
         size: 55,
       },

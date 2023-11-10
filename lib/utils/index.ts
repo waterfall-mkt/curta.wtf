@@ -10,6 +10,7 @@ import formatValueToPrecision from './formatValueToPrecision';
 import getBaseMetadata from './getBaseMetadata';
 import getBlockExplorerDomain from './getBlockExplorerDomain';
 import getChainIdAndId from './getChainIdAndId';
+import getChainName from './getChainName';
 import getNetworkName from './getNetworkName';
 import getPublicClient from './getPublicClient';
 import getPuzzlesAddress from './getPuzzlesAddress';
@@ -30,6 +31,7 @@ export {
   getBaseMetadata,
   getBlockExplorerDomain,
   getChainIdAndId,
+  getChainName,
   getNetworkName,
   getPublicClient,
   getPuzzlesAddress,
