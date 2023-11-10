@@ -9,7 +9,7 @@ import { fetchPuzzleById, getBlockExplorerDomain } from '@/lib/utils';
 import AddressLink from '@/components/templates/address-link';
 import Avatar from '@/components/templates/avatar';
 import ENSAvatar from '@/components/templates/ens-avatar';
-import { IconButton, Tooltip } from '@/components/ui';
+import { Button, ButtonGroup, IconButton, Tooltip } from '@/components/ui';
 
 // -----------------------------------------------------------------------------
 // Props
@@ -29,79 +29,93 @@ const PuzzleHeader: FC<PuzzleHeaderProps> = async ({ puzzle }) => {
     fetchPuzzleById(puzzle.id + 1, puzzle.chainId),
   ]);
 
+  const links = [
+    {
+      name: 'Solution',
+      href: puzzle.solution,
+      icon: <FileCheck />,
+      disabled: !puzzle.solution,
+    },
+    {
+      name: 'Source',
+      href: `https://github.com/${puzzle.github}`,
+      icon: <Github />,
+      disabled: !puzzle.github,
+    },
+    {
+      name: 'Contract',
+      href: `https://${getBlockExplorerDomain(puzzle.chainId)}/address/${puzzle.address}`,
+      icon: <ExternalLink />,
+      disabled: false,
+    },
+  ];
+
   return (
-    <div className="flex flex-col justify-center md:flex-row">
-      <div className="flex items-center">
+    <div className="flex flex-col justify-center gap-3 sm:flex-row sm:gap-0">
+      <div className="flex items-center gap-4">
         <PuzzleHeaderPageNav prevPuzzle={prevPuzzle} nextPuzzle={nextPuzzle} />
-        <div className="ml-4">
-          <div className="text-sm font-book text-gray-150">Puzzle #{puzzle.id}</div>
-          <div className="max-w-[13rem] overflow-hidden text-ellipsis whitespace-nowrap text-xl font-medium text-gray-50 md:text-2xl">
-            {puzzle.name ?? `Puzzle ${puzzle.id}`}
-          </div>
-        </div>
-        <hr
-          className="mx-4 hidden h-full w-[1px] border-l border-stroke md:block"
-          role="separator"
-        />
-      </div>
-      <div className="flex grow items-end justify-between">
-        <div>
-          <div className="text-sm font-book text-gray-150">Author</div>
-          <div className="flex grow items-center gap-2">
-            <div className="h-[1.875rem] w-[1.875rem] rounded-full">
-              {puzzle.author.ensName ? (
-                <ENSAvatar size={30} name={puzzle.author.ensName} />
-              ) : (
-                <Avatar size={30} src="" alt={puzzle.author.address} />
-              )}
-            </div>
-            <AddressLink
-              className="max-w-[13rem] overflow-hidden text-ellipsis text-xl font-medium text-gray-50 md:text-2xl"
-              address={puzzle.author.address}
-              chainId={puzzle.chainId}
-            />
-          </div>
-        </div>
-        <div className="flex gap-2">
-          {puzzle.solution ? (
-            <Tooltip content="Solution">
-              <IconButton
-                href={puzzle.solution}
-                variant="outline"
-                intent="neutral"
-                size="lg"
-                newTab
-              >
-                <FileCheck />
-              </IconButton>
-            </Tooltip>
-          ) : null}
-          {puzzle.github ? (
-            <Tooltip content="Source">
-              <IconButton
-                href={`https://github.com/${puzzle.github}`}
-                variant="outline"
-                intent="neutral"
-                size="lg"
-                newTab
-              >
-                <Github />
-              </IconButton>
-            </Tooltip>
-          ) : null}
-          <Tooltip content="Contract">
-            <IconButton
-              href={`https://${getBlockExplorerDomain(puzzle.chainId)}/address/${puzzle.address}`}
-              variant="outline"
-              intent="neutral"
-              size="lg"
-              newTab
+        <div className="flex grow items-center justify-between sm:gap-4">
+          {[
+            {
+              name: `Puzzle #${puzzle.id}`,
+              value: puzzle.name ?? `Puzzle ${puzzle.id}`,
+            },
+            {
+              name: 'Author',
+              value: (
+                <div className="flex grow items-center gap-1.5">
+                  <div className="h-5 w-5 rounded-full">
+                    {puzzle.author.ensName ? (
+                      <ENSAvatar size={20} name={puzzle.author.ensName} />
+                    ) : (
+                      <Avatar size={20} src="" alt={puzzle.author.address} />
+                    )}
+                  </div>
+                  <AddressLink
+                    className="max-w-[13rem] overflow-hidden text-ellipsis font-medium text-gray-50"
+                    address={puzzle.author.address}
+                    chainId={puzzle.chainId}
+                  />
+                </div>
+              ),
+            },
+          ].map((item, index) => (
+            <div
+              className="flex flex-col items-center gap-1 first:items-start last:items-end sm:items-start sm:last:items-start"
+              key={index}
             >
-              <ExternalLink />
+              <div className="text-sm leading-4 text-gray-150">{item.name}</div>
+              <div className="max-w-[13rem] overflow-hidden text-ellipsis whitespace-nowrap font-medium leading-5 text-gray-50">
+                {item.value}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+      <ButtonGroup className="ml-auto hidden sm:flex">
+        {links.map((item, index) => (
+          <Tooltip content={item.name} key={index} inPortal>
+            <IconButton href={item.href} variant="outline" intent="neutral" size="lg" newTab>
+              {item.icon}
             </IconButton>
           </Tooltip>
-        </div>
-      </div>
+        ))}
+      </ButtonGroup>
+      <ButtonGroup className="sm:hidden">
+        {links.map((item, index) => (
+          <Button
+            className="grow"
+            key={index}
+            href={item.href}
+            variant="outline"
+            intent="neutral"
+            rightIcon={item.icon}
+            newTab
+          >
+            {item.name}
+          </Button>
+        ))}
+      </ButtonGroup>
     </div>
   );
 };

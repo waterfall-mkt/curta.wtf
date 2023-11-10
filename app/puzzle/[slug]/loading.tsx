@@ -1,7 +1,7 @@
 import {
-  ArrowLeft,
-  ArrowRight,
   ChevronDown,
+  ChevronLeft,
+  ChevronRight,
   Edit,
   ExternalLink,
   Fuel,
@@ -11,55 +11,74 @@ import {
 
 import { getBlockExplorerDomain, getPuzzlesAddress } from '@/lib/utils';
 
-import { Button, CodeBlock, IconButton, Input } from '@/components/ui';
+import { Button, ButtonGroup, CodeBlock, IconButton, Input } from '@/components/ui';
 
 export default function LoadingPage() {
   return (
     <div className="flex flex-col">
       {/* Puzzle header */}
-      <div className="flex flex-col justify-center md:flex-row">
-        <div className="flex items-center">
-          <div className="flex w-fit gap-2">
+      <div className="flex flex-col justify-center gap-3 sm:flex-row sm:gap-0">
+        <div className="flex items-center gap-4">
+          <ButtonGroup className="hidden sm:flex">
             <IconButton
-              className="flex h-8 w-8 items-center justify-center rounded-full md:h-10 md:w-10"
+              className="z-[2]"
+              size="lg"
               intent="neutral"
+              variant="outline"
               disabled={true}
               aria-label="Navigate to previous puzzle on the same chain."
             >
-              <ArrowLeft />
+              <ChevronLeft />
             </IconButton>
             <IconButton
-              className="flex h-8 w-8 items-center justify-center rounded-full md:h-10 md:w-10"
+              size="lg"
               intent="neutral"
+              variant="outline"
               disabled={true}
               aria-label="Navigate to previous puzzle on the same chain."
             >
-              <ArrowRight />
+              <ChevronRight />
             </IconButton>
-          </div>
-          <div className="ml-4">
-            <div className="h-5 w-[4.75rem] animate-pulse rounded-md bg-gray-350" />
-            <div className="h-8 w-32 animate-pulse rounded-md bg-gray-350" />
-          </div>
-          <hr
-            className="mx-4 hidden h-full w-[1px] border-l border-stroke md:block"
-            role="separator"
-          />
-        </div>
-        <div className="flex grow items-end justify-between">
-          <div>
-            <div className="text-sm font-book text-gray-150">Author</div>
-            <div className="flex grow items-center gap-2">
-              <div className="h-[1.875rem] w-[1.875rem] animate-pulse rounded-full bg-gray-350" />
-              <div className="h-8 w-32 animate-pulse rounded-md bg-gray-350" />
+          </ButtonGroup>
+          <div className="flex grow items-center justify-between sm:gap-4">
+            <div className="flex flex-col items-center gap-1 first:items-start last:items-end sm:items-start sm:last:items-start">
+              <div className="h-4 w-[4.75rem] animate-pulse rounded bg-gray-350" />
+              <div className="h-5 w-32 animate-pulse rounded-md bg-gray-350" />
+            </div>
+            <div className="flex flex-col items-center gap-1 first:items-start last:items-end sm:items-start sm:last:items-start">
+              <div className="text-sm leading-4 text-gray-150">Author</div>
+              <div className="flex items-center gap-1.5">
+                <div className="h-5 w-5 animate-pulse rounded-full bg-gray-350" />
+                <div className="h-5 w-24 animate-pulse rounded-md bg-gray-350" />
+              </div>
             </div>
           </div>
+        </div>
+        <IconButton
+          className="ml-auto hidden sm:flex"
+          size="lg"
+          variant="outline"
+          intent="neutral"
+          disabled={true}
+        >
+          <ExternalLink />
+        </IconButton>
+        <Button
+          className="sm:hidden"
+          variant="outline"
+          intent="neutral"
+          disabled={true}
+          rightIcon={<ExternalLink />}
+        >
+          Contract
+        </Button>
+        {/* <div className="flex grow items-end justify-between">
           <div className="flex gap-2">
             <IconButton variant="outline" intent="neutral" size="lg" disabled={true}>
               <ExternalLink />
             </IconButton>
           </div>
-        </div>
+        </div> */}
       </div>
       {/* Puzzle content */}
       <div className="mt-4 flex flex-col gap-4 md:flex-row md:gap-6">

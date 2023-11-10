@@ -9,4 +9,5 @@ export type TooltipProps = Omit<
   content: ReactNode;
   hasArrow?: boolean;
   noDelay?: boolean;
+  inPortal?: boolean;
 };
