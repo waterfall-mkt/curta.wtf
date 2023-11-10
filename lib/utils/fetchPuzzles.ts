@@ -1,8 +1,7 @@
 import type { PostgrestError } from '@supabase/supabase-js';
 
-import { PRESET_COLORS } from '@/lib/constants/presetColors';
 import supabase from '@/lib/services/supabase';
-import type { SupabasePuzzle } from '@/lib/types/api';
+import type { DbPuzzle } from '@/lib/types/api';
 import type { Author, Puzzle } from '@/lib/types/protocol';
 
 type PuzzlesResponse = {
@@ -11,13 +10,19 @@ type PuzzlesResponse = {
   error: PostgrestError | null;
 };
 
+/**
+ * Fetches and returns all Puzzles from all chains from the database.
+ * @returns An object containing data for the Puzzles, the status code, and the
+ * error in the shape `{ data: Puzzle[], status: number, error: PostgrestError | null }`.
+ */
 const fetchPuzzles = async (): Promise<PuzzlesResponse> => {
   const { data, status, error } = await supabase
     .from('puzzles')
-    .select('*, author:authors(*)')
+    .select('*, author:users(*)')
+    .not('address', 'is', null)
     .filter('disabled', 'not.is', 'true')
-    .order('id', { ascending: false })
-    .returns<SupabasePuzzle[]>();
+    .order('addedTimestamp', { ascending: false })
+    .returns<DbPuzzle[]>();
 
   if ((error && status !== 406) || !data || (data && data.length === 0)) {
     return { data: [], status, error };
@@ -26,34 +31,35 @@ const fetchPuzzles = async (): Promise<PuzzlesResponse> => {
   const puzzles: Puzzle[] = [];
   for (const puzzle of data) {
     puzzles.push({
-      // Protocol
+      // Identifier
       id: puzzle.id,
+      chainId: puzzle.chainId,
+      // Puzzle static information
       address: puzzle.address,
       author: { ...puzzle.author } as Author,
-      addedTx: puzzle.addedTx,
-      addedTimestamp: puzzle.addedTimestamp,
-      addedBlock: puzzle.addedBlock,
-      // Metadata
       name: puzzle.name,
-      flagConfig: { ...PRESET_COLORS[0] },
-      // Solve
-      firstSolveTimestamp: puzzle.firstSolveTimestamp,
-      firstSolver: puzzle.firstSolver,
-      firstSolveBlock: puzzle.firstSolveBlock,
-      solveTx: puzzle.solveTx,
-      solveTime: puzzle.firstSolveTimestamp
-        ? puzzle.firstSolveTimestamp - puzzle.addedTimestamp
-        : 0,
+      // Puzzle dynamic information
       numberSolved: puzzle.numberSolved,
-      // Problem
+      solution: puzzle.solution,
+      github: puzzle.github,
+      disabled: puzzle.disabled,
+      isEvent: puzzle.isEvent,
+      // Puzzle source code
       bytecode: puzzle.bytecode,
       solidity: puzzle.solidity,
       huff: puzzle.huff,
-      // Solution
-      github: puzzle.github,
-      solution: puzzle.solution,
-      // Misc
-      disabled: puzzle.disabled,
+      // Added information
+      addedBlock: puzzle.addedBlock,
+      addedTimestamp: puzzle.addedTimestamp,
+      addedTx: puzzle.addedTx,
+      // First solve information
+      firstSolveBlock: puzzle.firstSolveBlock,
+      firstSolver: puzzle.firstSolver,
+      firstSolveTime: puzzle.firstSolveTimestamp
+        ? puzzle.firstSolveTimestamp - puzzle.addedTimestamp
+        : 0,
+      firstSolveTimestamp: puzzle.firstSolveTimestamp,
+      firstSolveTx: puzzle.firstSolveTx,
     });
   }
 

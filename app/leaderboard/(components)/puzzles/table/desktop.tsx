@@ -6,11 +6,12 @@ import { getPuzzleRowRoute, type LeaderboardPuzzlesTableInternalProps } from '.'
 import type { ColumnDef } from '@tanstack/react-table';
 import { Crown, ExternalLink } from 'lucide-react';
 
-import type { Solve, Solver } from '@/lib/types/protocol';
-import { getTimeLeftString } from '@/lib/utils';
+import type { PuzzleSolve, PuzzleSolver } from '@/lib/types/protocol';
+import { getBlockExplorerDomain, getTimeLeftString } from '@/lib/utils';
 
 import AddressLinkClient from '@/components/templates/address-link-client';
 import ENSAvatarClient from '@/components/templates/ens-avatar-client';
+import IdWithChainLogo from '@/components/templates/id-with-chain-logo';
 import InfoTooltip from '@/components/templates/info-tooltip';
 import PhaseTag from '@/components/templates/phase-tag';
 import ProgressBar from '@/components/templates/progress-bar';
@@ -21,7 +22,7 @@ const LeaderboardPuzzlesTableDesktop: FC<LeaderboardPuzzlesTableInternalProps> =
   sorting,
   setSorting,
 }) => {
-  const columns: ColumnDef<Solver>[] = useMemo(
+  const columns: ColumnDef<PuzzleSolver>[] = useMemo(
     () => [
       {
         accessorKey: 'rank',
@@ -129,13 +130,15 @@ const LeaderboardPuzzlesTableDesktop: FC<LeaderboardPuzzlesTableInternalProps> =
   );
 };
 
-const LeaderboardPuzzlesTableDesktopSubComponent: FC<{ data: Solve[] }> = ({ data }) => {
-  const columns = useMemo<ColumnDef<Solve>[]>(
+const LeaderboardPuzzlesTableDesktopSubComponent: FC<{ data: PuzzleSolve[] }> = ({ data }) => {
+  const columns = useMemo<ColumnDef<PuzzleSolve>[]>(
     () => [
       {
-        accessorKey: 'puzzle.id',
+        accessorKey: 'puzzle.addedTimestamp',
         header: () => 'ID',
-        cell: ({ row }) => row.original.puzzleId,
+        cell: ({ row }) => (
+          <IdWithChainLogo id={row.original.puzzleId} chainId={row.original.chainId} />
+        ),
         footer: (props) => props.column.id,
         size: 55,
       },
@@ -164,7 +167,7 @@ const LeaderboardPuzzlesTableDesktopSubComponent: FC<{ data: Solve[] }> = ({ dat
         size: 182,
       },
       {
-        accessorKey: 'solveTime',
+        accessorKey: 'firstSolveTime',
         header: () => 'Time taken',
         cell: ({ row }) => (
           <div title={new Date(1000 * row.original.solveTimestamp).toString()}>
@@ -180,7 +183,7 @@ const LeaderboardPuzzlesTableDesktopSubComponent: FC<{ data: Solve[] }> = ({ dat
         accessorKey: 'rank',
         header: () => (
           <div className="flex items-center space-x-1">
-            <div>Puzzle Rank</div>
+            <div>Puzzle rank</div>
             <InfoTooltip term="PUZZLE_RANK" />
           </div>
         ),
@@ -224,7 +227,7 @@ const LeaderboardPuzzlesTableDesktopSubComponent: FC<{ data: Solve[] }> = ({ dat
         size: 65,
       },
       {
-        accessorKey: 'tx',
+        accessorKey: 'solveTx',
         header: () => 'Solution',
         cell: ({ row }) => {
           return (
@@ -232,15 +235,19 @@ const LeaderboardPuzzlesTableDesktopSubComponent: FC<{ data: Solve[] }> = ({ dat
               <IconButton
                 variant="outline"
                 intent="neutral"
-                title={`https://${process.env.NEXT_PUBLIC_BLOCK_EXPLORER}/tx/${row.original.tx}`}
+                title={`https://${getBlockExplorerDomain(row.original.chainId)}/tx/${
+                  row.original.solveTx
+                }`}
                 onClick={(e) => {
                   e.stopPropagation();
                   window.open(
-                    `https://${process.env.NEXT_PUBLIC_BLOCK_EXPLORER}/tx/${row.original.tx}`,
+                    `https://${getBlockExplorerDomain(row.original.chainId)}/tx/${
+                      row.original.solveTx
+                    }`,
                     '_blank',
                   );
                 }}
-                aria-label={`View ${row.original.solver}'s solution of puzzle ${row.original.puzzleId}.`}
+                aria-label={`View ${row.original.solver}'s solution of puzzle ${row.original.puzzleId} on chain ${row.original.chainId}.`}
               >
                 <ExternalLink />
               </IconButton>

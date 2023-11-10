@@ -31,8 +31,12 @@ const PuzzleHeaderPageNav: FC<PuzzleHeaderPageNavProps> = ({ prevPuzzle, nextPuz
         className="flex h-8 w-8 items-center justify-center rounded-full md:h-10 md:w-10"
         intent="neutral"
         disabled={!prevPuzzle}
-        onClick={prevPuzzle ? () => router.push(`/puzzle/${prevPuzzle.id}`) : undefined}
-        aria-label="Navigate to previous puzzle."
+        onClick={
+          prevPuzzle
+            ? () => router.push(`/puzzle/${prevPuzzle.chainId}:${prevPuzzle.id}`)
+            : undefined
+        }
+        aria-label="Navigate to previous puzzle on the same chain."
       >
         <ArrowLeft />
       </IconButton>
@@ -40,8 +44,12 @@ const PuzzleHeaderPageNav: FC<PuzzleHeaderPageNavProps> = ({ prevPuzzle, nextPuz
         className="ml-2 flex h-8 w-8 items-center justify-center rounded-full md:h-10 md:w-10"
         intent="neutral"
         disabled={!nextPuzzle}
-        onClick={nextPuzzle ? () => router.push(`/puzzle/${nextPuzzle.id}`) : undefined}
-        aria-label="Navigate to next puzzle."
+        onClick={
+          nextPuzzle
+            ? () => router.push(`/puzzle/${nextPuzzle.chainId}:${nextPuzzle.id}`)
+            : undefined
+        }
+        aria-label="Navigate to next puzzle on the same chain."
       >
         <ArrowRight />
       </IconButton>

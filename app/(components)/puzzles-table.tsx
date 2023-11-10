@@ -8,9 +8,10 @@ import type { ColumnDef, Row, SortingState } from '@tanstack/react-table';
 import { ExternalLink, FileCheck } from 'lucide-react';
 
 import type { Puzzle } from '@/lib/types/protocol';
-import { getPuzzleTimeLeft } from '@/lib/utils';
+import { getBlockExplorerDomain, getPuzzleTimeLeft } from '@/lib/utils';
 
 import AddressLinkClient from '@/components/templates/address-link-client';
+import IdWithChainLogo from '@/components/templates/id-with-chain-logo';
 import Stat from '@/components/templates/stat';
 import { Button, IconButton, Table } from '@/components/ui';
 import type { TableProps } from '@/components/ui/table/types';
@@ -44,9 +45,9 @@ const PuzzleTableDesktop: FC<PuzzleTableInternalProps> = ({ data, sorting, setSo
   const columns: ColumnDef<Puzzle>[] = useMemo(
     () => [
       {
-        accessorKey: 'id',
+        accessorKey: 'addedTimestamp',
         header: () => 'ID',
-        cell: ({ row }) => row.original.id,
+        cell: ({ row }) => <IdWithChainLogo id={row.original.id} chainId={row.original.chainId} />,
         footer: (props) => props.column.id,
       },
       {
@@ -106,7 +107,7 @@ const PuzzleTableDesktop: FC<PuzzleTableInternalProps> = ({ data, sorting, setSo
                     e.stopPropagation();
                     window.open(row.original.solution, '_blank');
                   }}
-                  aria-label={`View puzzle #${row.original.id}'s solution.`}
+                  aria-label={`View chain ${row.original.chainId} puzzle #${row.original.id}'s solution.`}
                 >
                   <FileCheck />
                 </IconButton>
@@ -115,15 +116,19 @@ const PuzzleTableDesktop: FC<PuzzleTableInternalProps> = ({ data, sorting, setSo
                 <IconButton
                   variant="outline"
                   intent="neutral"
-                  title={`https://${process.env.NEXT_PUBLIC_BLOCK_EXPLORER}/address/${row.original.address}`}
+                  title={`https://${getBlockExplorerDomain(row.original.chainId)}/address/${
+                    row.original.address
+                  }`}
                   onClick={(e) => {
                     e.stopPropagation();
                     window.open(
-                      `https://${process.env.NEXT_PUBLIC_BLOCK_EXPLORER}/address/${row.original.address}`,
+                      `https://${getBlockExplorerDomain(row.original.chainId)}/address/${
+                        row.original.address
+                      }`,
                       '_blank',
                     );
                   }}
-                  aria-label={`View puzzle #${row.original.id}'s contract.`}
+                  aria-label={`View chain ${row.original.chainId} puzzle #${row.original.id}'s contract.`}
                 >
                   <ExternalLink />
                 </IconButton>
@@ -153,9 +158,9 @@ const PuzzleTableMobile: FC<PuzzleTableInternalProps> = ({ data, sorting, setSor
   const columns = useMemo<ColumnDef<Puzzle>[]>(
     () => [
       {
-        accessorKey: 'id',
+        accessorKey: 'addedTimestamp',
         header: () => 'ID',
-        cell: ({ row }) => row.original.id,
+        cell: ({ row }) => <IdWithChainLogo id={row.original.id} chainId={row.original.chainId} />,
         footer: (props) => props.column.id,
       },
       {
@@ -241,7 +246,7 @@ const PuzzleTableMobileSubComponent: FC<{ data: Puzzle }> = ({ data }) => {
           variant="outline"
           intent="neutral"
           rightIcon={<ExternalLink />}
-          href={`https://${process.env.NEXT_PUBLIC_BLOCK_EXPLORER}/address/${data.address}`}
+          href={`https://${getBlockExplorerDomain(data.chainId)}/address/${data.address}`}
           newTab
         >
           Contract
@@ -256,7 +261,7 @@ const PuzzleTableMobileSubComponent: FC<{ data: Puzzle }> = ({ data }) => {
 // -----------------------------------------------------------------------------
 
 export const getRowRoute = ({ row }: { row: Row<Puzzle> }): `/${string}` => {
-  return `/puzzle/${row.original.id}`;
+  return `/puzzle/${row.original.chainId}:${row.original.id}`;
 };
 
 export default PuzzleTable;

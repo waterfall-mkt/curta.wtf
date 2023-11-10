@@ -4,7 +4,7 @@ import PuzzleHeaderPageNav from './page-nav';
 import { ExternalLink, FileCheck, Github } from 'lucide-react';
 
 import type { Puzzle } from '@/lib/types/protocol';
-import { fetchPuzzleById } from '@/lib/utils';
+import { fetchPuzzleById, getBlockExplorerDomain } from '@/lib/utils';
 
 import AddressLink from '@/components/templates/address-link';
 import Avatar from '@/components/templates/avatar';
@@ -25,8 +25,8 @@ type PuzzleHeaderProps = {
 
 const PuzzleHeader: FC<PuzzleHeaderProps> = async ({ puzzle }) => {
   const [{ data: prevPuzzle }, { data: nextPuzzle }] = await Promise.all([
-    fetchPuzzleById(puzzle.id - 1),
-    fetchPuzzleById(puzzle.id + 1),
+    fetchPuzzleById(puzzle.id - 1, puzzle.chainId),
+    fetchPuzzleById(puzzle.id + 1, puzzle.chainId),
   ]);
 
   return (
@@ -52,12 +52,13 @@ const PuzzleHeader: FC<PuzzleHeaderProps> = async ({ puzzle }) => {
               {puzzle.author.ensName ? (
                 <ENSAvatar size={30} name={puzzle.author.ensName} />
               ) : (
-                <Avatar size={30} src={puzzle.author.avatar ?? ''} alt={puzzle.author.address} />
+                <Avatar size={30} src="" alt={puzzle.author.address} />
               )}
             </div>
             <AddressLink
               className="max-w-[13rem] overflow-hidden text-ellipsis text-xl font-medium text-gray-50 md:text-2xl"
               address={puzzle.author.address}
+              chainId={puzzle.chainId}
             />
           </div>
         </div>
@@ -90,7 +91,7 @@ const PuzzleHeader: FC<PuzzleHeaderProps> = async ({ puzzle }) => {
           ) : null}
           <Tooltip content="Contract">
             <IconButton
-              href={`https://${process.env.NEXT_PUBLIC_BLOCK_EXPLORER}/address/${puzzle.address}`}
+              href={`https://${getBlockExplorerDomain(puzzle.chainId)}/address/${puzzle.address}`}
               variant="outline"
               intent="neutral"
               size="lg"

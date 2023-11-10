@@ -6,7 +6,7 @@ import PuzzleInfo from './(components)/info';
 import PuzzleProblemDisplay from './(components)/problem-display';
 import PuzzleSolvesTable from './(components)/solves-table';
 
-import { fetchPuzzleById, fetchPuzzleSolvesById } from '@/lib/utils';
+import { fetchPuzzleById, fetchPuzzleSolvesById, getChainIdAndId } from '@/lib/utils';
 
 // -----------------------------------------------------------------------------
 // Metadata
@@ -14,8 +14,16 @@ import { fetchPuzzleById, fetchPuzzleSolvesById } from '@/lib/utils';
 
 const description = 'A CTF protocol, where players create and solve EVM puzzles to earn NFTs.';
 
-export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
-  const { data: puzzle } = await fetchPuzzleById(Number(params.id));
+export async function generateMetadata({
+  params,
+}: {
+  params: { slug: string };
+}): Promise<Metadata> {
+  const ids = getChainIdAndId(params.slug);
+  // Return empty object if `slug` is an invalid format.
+  if (!ids) return {};
+
+  const { data: puzzle } = await fetchPuzzleById(ids.id, ids.chainId);
   if (!puzzle) return {};
 
   const title = `Puzzle #${puzzle.id}`;
@@ -46,14 +54,17 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
 // Page
 // -----------------------------------------------------------------------------
 
-export default async function Page({ params }: { params: { id: string } }) {
-  const id = Number(params.id);
-  // Return 404 if `id` is not a number.
-  if (isNaN(id)) return notFound();
+export default async function Page({ params }: { params: { slug: string } }) {
+  const ids = getChainIdAndId(params.slug);
+
+  // Return 404 if `slug` is an invalid format.
+  if (!ids) return notFound();
+
+  const { chainId, id } = ids;
 
   const [{ data: puzzle, error }, { data: solves }] = await Promise.all([
-    fetchPuzzleById(id),
-    fetchPuzzleSolvesById(id),
+    fetchPuzzleById(id, chainId),
+    fetchPuzzleSolvesById(id, chainId),
   ]);
 
   // Return 404 if `puzzle` is `null` or there was an `error` in fetching the

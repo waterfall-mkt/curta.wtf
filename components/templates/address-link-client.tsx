@@ -7,7 +7,7 @@ import { twMerge } from 'tailwind-merge';
 import type { Address } from 'viem';
 import { useEnsName } from 'wagmi';
 
-import { getShortenedAddress } from '@/lib/utils';
+import { getBlockExplorerDomain, getShortenedAddress } from '@/lib/utils';
 
 // ---------------------------------------–-------------------------------------
 // Props
@@ -16,6 +16,7 @@ import { getShortenedAddress } from '@/lib/utils';
 type AddressLinkClientProps = {
   className?: string;
   address: Address;
+  chainId?: number;
   prefetchedEnsName?: string;
 };
 
@@ -26,6 +27,7 @@ type AddressLinkClientProps = {
 const AddressLinkClient: FC<AddressLinkClientProps> = ({
   className,
   address,
+  chainId = 1,
   prefetchedEnsName,
 }) => {
   const [mounted, setMounted] = useState<boolean>(false);
@@ -45,7 +47,7 @@ const AddressLinkClient: FC<AddressLinkClientProps> = ({
           className,
         ),
       )}
-      href={`https://${process.env.NEXT_PUBLIC_BLOCK_EXPLORER}/address/${address}`}
+      href={`https://${getBlockExplorerDomain(chainId)}/address/${address}`}
       target="_blank"
       rel="noopener noreferrer"
       onClick={(e) => e.stopPropagation()}

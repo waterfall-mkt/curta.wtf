@@ -1,4 +1,5 @@
-import Button from './button';
+import Badge from './badge';
+import Button, { ButtonGroup } from './button';
 import Card from './card';
 import CodeBlock from './code-block';
 import IconButton from './icon-button';
@@ -13,7 +14,9 @@ import { useToast } from './toaster/useToast';
 import Tooltip from './tooltip';
 
 export {
+  Badge,
   Button,
+  ButtonGroup,
   Card,
   CodeBlock,
   IconButton,

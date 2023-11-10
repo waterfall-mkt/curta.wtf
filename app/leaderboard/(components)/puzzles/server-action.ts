@@ -4,14 +4,14 @@ import { fetchLeaderboardPuzzles } from '@/lib/utils';
 
 export default async function action(
   {
-    minPuzzleId = 0,
-    maxPuzzleId = Number.MAX_SAFE_INTEGER,
+    minPuzzleIndex = 0,
+    maxPuzzleIndex = Number.MAX_SAFE_INTEGER,
   }: {
-    minPuzzleId?: number;
-    maxPuzzleId?: number;
-  } = { minPuzzleId: 0, maxPuzzleId: Number.MAX_SAFE_INTEGER },
+    minPuzzleIndex?: number;
+    maxPuzzleIndex?: number;
+  } = { minPuzzleIndex: 0, maxPuzzleIndex: Number.MAX_SAFE_INTEGER },
 ) {
-  const puzzles = await fetchLeaderboardPuzzles({ minPuzzleId, maxPuzzleId });
+  const puzzles = await fetchLeaderboardPuzzles({ minPuzzleIndex, maxPuzzleIndex });
 
   return puzzles;
 }

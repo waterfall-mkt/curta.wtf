@@ -16,7 +16,7 @@ import {
 
 import { CURTA_ABI } from '@/lib/constants/abi';
 import type { Puzzle } from '@/lib/types/protocol';
-import { formatValueToPrecision, getPuzzleTimeLeft } from '@/lib/utils';
+import { formatValueToPrecision, getPuzzlesAddress, getPuzzleTimeLeft } from '@/lib/utils';
 
 import ConnectButton from '@/components/common/connect-button';
 import { Button, Input, Popover, useToast } from '@/components/ui';
@@ -50,11 +50,11 @@ const PuzzleInfoSolutionForm: FC<PuzzleInfoSolutionFormProps> = ({ puzzle }) => 
   useEffect(() => setMounted(true), []);
 
   const { config } = usePrepareContractWrite({
-    address: process.env.NEXT_PUBLIC_CURTA_ADDRESS,
+    address: getPuzzlesAddress(puzzle.chainId),
     abi: CURTA_ABI,
     functionName: 'solve',
     args: [puzzle.id, solution],
-    chainId: Number(process.env.NEXT_PUBLIC_CHAIN_ID),
+    chainId: puzzle.chainId,
     value: tip ? parseEther(tip) : undefined,
     gas: gasLimit && BigInt(gasLimit) > 0 ? BigInt(gasLimit) : undefined,
   });
@@ -163,6 +163,7 @@ const PuzzleInfoSolutionForm: FC<PuzzleInfoSolutionFormProps> = ({ puzzle }) => 
               <PuzzleInfoSolutionFormTipForm
                 phase={phase}
                 author={puzzle.author}
+                chainId={puzzle.chainId}
                 onChange={setTip}
                 onOpenChange={setIsTipFormOpen}
               />
@@ -223,12 +224,12 @@ const PuzzleInfoSolutionForm: FC<PuzzleInfoSolutionFormProps> = ({ puzzle }) => 
       </div>
       {!chain || !mounted ? (
         <ConnectButton className="w-full" />
-      ) : chain.id !== Number(process.env.NEXT_PUBLIC_CHAIN_ID) ? (
+      ) : chain.id !== puzzle.chainId ? (
         <Button
           className="w-full"
           size="lg"
           type="button"
-          onClick={() => switchNetwork?.(Number(process.env.NEXT_PUBLIC_CHAIN_ID))}
+          onClick={() => switchNetwork?.(puzzle.chainId)}
         >
           Switch network
         </Button>

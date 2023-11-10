@@ -1,5 +1,7 @@
 import { cva } from 'class-variance-authority';
 
+export const buttonGroupStyles = 'button--group group flex -space-x-[1px]';
+
 export const buttonIconVariants = cva(['flex', 'items-center', 'justify-center'], {
   variants: {
     size: {
@@ -18,6 +20,7 @@ export const buttonVariants = cva(
     'justify-center',
     'items-center',
     'outline-none',
+    'hover:z-10',
     'focus-visible:outline-none',
     'focus-visible:ring-2',
     'focus-visible:ring-blue-250',
@@ -25,9 +28,36 @@ export const buttonVariants = cva(
   {
     variants: {
       size: {
-        lg: ['rounded-xl', 'px-4', 'h-10', 'space-x-2', 'text-base'],
-        md: ['rounded-lg', 'px-3', 'h-8', 'space-x-1.5', 'text-sm'],
-        sm: ['rounded-lg', 'px-2.5', 'h-7', 'space-x-1.5', 'text-xs'],
+        lg: [
+          'group-[.button--group]:rounded-none',
+          'group-[.button--group]:first:rounded-l-xl',
+          'group-[.button--group]:last:rounded-r-xl',
+          'rounded-xl',
+          'px-4',
+          'h-10',
+          'space-x-2',
+          'text-base',
+        ],
+        md: [
+          'group-[.button--group]:rounded-none',
+          'group-[.button--group]:first:rounded-l-lg',
+          'group-[.button--group]:last:rounded-r-lg',
+          'rounded-lg',
+          'px-3',
+          'h-8',
+          'space-x-1.5',
+          'text-sm',
+        ],
+        sm: [
+          'group-[.button--group]:rounded-none',
+          'group-[.button--group]:first:rounded-l-lg',
+          'group-[.button--group]:last:rounded-r-lg',
+          'rounded-lg',
+          'px-2.5',
+          'h-7',
+          'space-x-1.5',
+          'text-xs',
+        ],
       },
       variant: {
         primary: ['text-gray-50'],
@@ -76,7 +106,7 @@ export const buttonVariants = cva(
         ],
         success: [
           // Primary
-          'data-primary:bg-green-250',
+          'data-primary:bg-green-350',
           'data-primary:hover:bg-green-200',
           // Secondary
           'data-secondary:text-green-200',

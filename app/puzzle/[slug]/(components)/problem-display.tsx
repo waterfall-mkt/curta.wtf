@@ -1,8 +1,9 @@
 'use client';
 
-import { FC, useState } from 'react';
+import { type FC, useState } from 'react';
 
 import type { Puzzle } from '@/lib/types/protocol';
+import { getBlockExplorerDomain, getPuzzlesAddress } from '@/lib/utils';
 
 import { CodeBlock } from '@/components/ui';
 
@@ -32,7 +33,9 @@ const PuzzleProblemDisplay: FC<PuzzleProblemDisplayProps> = ({ puzzle, languages
       <div className="flex items-center gap-1 text-sm">
         <a
           className="font-medium text-gray-100 hover:underline"
-          href={`https://${process.env.NEXT_PUBLIC_BLOCK_EXPLORER}/address/${process.env.NEXT_PUBLIC_CURTA_ADDRESS}`}
+          href={`https://${getBlockExplorerDomain(puzzle.chainId)}/address/${getPuzzlesAddress(
+            puzzle.chainId,
+          )}`}
           target="_blank"
           rel="noreferrer"
         >

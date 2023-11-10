@@ -6,7 +6,7 @@ import LeaderboardPuzzlesTableDesktop from './desktop';
 import LeaderboardPuzzlesTableMobile from './mobile';
 import type { Row, SortingState } from '@tanstack/react-table';
 
-import type { Solve, Solver } from '@/lib/types/protocol';
+import type { PuzzleSolve, PuzzleSolver } from '@/lib/types/protocol';
 
 import type { TableProps } from '@/components/ui/table/types';
 
@@ -15,10 +15,10 @@ import type { TableProps } from '@/components/ui/table/types';
 // -----------------------------------------------------------------------------
 
 type LeaderboardPuzzlesTableProps = {
-  data: Solver[];
+  data: PuzzleSolver[];
 };
 
-export type LeaderboardPuzzlesTableInternalProps = Omit<TableProps<Solver>, 'columns'>;
+export type LeaderboardPuzzlesTableInternalProps = Omit<TableProps<PuzzleSolver>, 'columns'>;
 
 // -----------------------------------------------------------------------------
 // Component
@@ -35,8 +35,8 @@ const LeaderboardPuzzlesTable: FC<LeaderboardPuzzlesTableProps> = ({ data }) => 
   );
 };
 
-export const getPuzzleRowRoute = ({ row }: { row: Row<Solve> }): `/${string}` => {
-  return `/puzzle/${row.original.puzzleId}`;
+export const getPuzzleRowRoute = ({ row }: { row: Row<PuzzleSolve> }): `/${string}` => {
+  return `/puzzle/${row.original.chainId}:${row.original.puzzleId}`;
 };
 
 export default LeaderboardPuzzlesTable;

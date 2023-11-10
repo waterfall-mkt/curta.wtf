@@ -9,6 +9,8 @@ import {
   ToggleRight,
 } from 'lucide-react';
 
+import { getBlockExplorerDomain, getPuzzlesAddress } from '@/lib/utils';
+
 import { Button, CodeBlock, IconButton, Input } from '@/components/ui';
 
 export default function LoadingPage() {
@@ -22,7 +24,7 @@ export default function LoadingPage() {
               className="flex h-8 w-8 items-center justify-center rounded-full md:h-10 md:w-10"
               intent="neutral"
               disabled={true}
-              aria-label="Navigate to previous puzzle."
+              aria-label="Navigate to previous puzzle on the same chain."
             >
               <ArrowLeft />
             </IconButton>
@@ -30,7 +32,7 @@ export default function LoadingPage() {
               className="flex h-8 w-8 items-center justify-center rounded-full md:h-10 md:w-10"
               intent="neutral"
               disabled={true}
-              aria-label="Navigate to previous puzzle."
+              aria-label="Navigate to previous puzzle on the same chain."
             >
               <ArrowRight />
             </IconButton>
@@ -71,7 +73,8 @@ export default function LoadingPage() {
             <div className="flex items-center gap-1 text-sm">
               <a
                 className="font-medium text-gray-100 hover:underline"
-                href={`https://${process.env.NEXT_PUBLIC_BLOCK_EXPLORER}/address/${process.env.NEXT_PUBLIC_CURTA_ADDRESS}`}
+                // Default to Curta Puzzles on Ethereum
+                href={`https://${getBlockExplorerDomain(1)}/address/${getPuzzlesAddress(1)}`}
                 target="_blank"
                 rel="noreferrer"
               >

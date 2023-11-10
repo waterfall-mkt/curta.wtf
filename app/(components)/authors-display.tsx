@@ -5,7 +5,7 @@ import AuthorsModal from './authors-modal';
 import clsx from 'clsx';
 import { Github } from 'lucide-react';
 
-import { publicClient } from '@/lib/client';
+import { ethereumClient } from '@/lib/client';
 import type { Author } from '@/lib/types/protocol';
 import { getShortenedAddress } from '@/lib/utils';
 
@@ -41,7 +41,7 @@ const AuthorsDisplay: FC<AuthorsDisplayProps> = ({ data }) => {
       >
         {data.slice(0, 7).map(async (author, index) => {
           const ensName = await cache(
-            async () => await publicClient.getEnsName({ address: author.address }),
+            async () => await ethereumClient.getEnsName({ address: author.address }),
           )();
 
           return (
@@ -49,7 +49,7 @@ const AuthorsDisplay: FC<AuthorsDisplayProps> = ({ data }) => {
               {ensName ? (
                 <ENSAvatar name={ensName} size={52} />
               ) : (
-                <Avatar src={author.avatar ?? ''} alt={author.address} size={52} />
+                <Avatar src="" alt={author.address} size={52} />
               )}
             </AuthorAvatar>
           );
@@ -58,9 +58,10 @@ const AuthorsDisplay: FC<AuthorsDisplayProps> = ({ data }) => {
           <AuthorsModal data={data}>
             {data.map(async (author, index) => {
               const ensName = await cache(
-                async () => await publicClient.getEnsName({ address: author.address }),
+                async () => await ethereumClient.getEnsName({ address: author.address }),
               )();
-              const displayName = author.name ?? ensName ?? getShortenedAddress(author.address);
+              const displayName =
+                author.displayName ?? ensName ?? getShortenedAddress(author.address);
 
               return (
                 <div
@@ -74,12 +75,12 @@ const AuthorsDisplay: FC<AuthorsDisplayProps> = ({ data }) => {
                     {ensName ? (
                       <ENSAvatar name={ensName} size={40} />
                     ) : (
-                      <Avatar src={author.avatar ?? ''} alt={author.address} size={40} />
+                      <Avatar src="" alt={author.address} size={40} />
                     )}
                   </div>
                   <div className="ml-3.5 grow">
                     <div className="text-gray-100">{displayName}</div>
-                    <AddressLink className="w-fit text-sm" address={author.address} />
+                    <AddressLink className="w-fit text-sm" address={author.address} chainId={1} />
                   </div>
                   <div className="flex items-center gap-2">
                     {author.twitter ? (

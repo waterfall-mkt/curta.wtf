@@ -6,8 +6,8 @@ import type { LeaderboardPuzzlesTableInternalProps } from '.';
 import type { ColumnDef } from '@tanstack/react-table';
 import { ChevronRight, Crown, ExternalLink } from 'lucide-react';
 
-import type { Solver } from '@/lib/types/protocol';
-import { getTimeLeftString } from '@/lib/utils';
+import type { PuzzleSolver } from '@/lib/types/protocol';
+import { getBlockExplorerDomain, getChainName, getTimeLeftString } from '@/lib/utils';
 
 import AddressLinkClient from '@/components/templates/address-link-client';
 import ENSAvatarClient from '@/components/templates/ens-avatar-client';
@@ -21,7 +21,7 @@ const LeaderboardPuzzlesTableMobile: FC<LeaderboardPuzzlesTableInternalProps> = 
   sorting,
   setSorting,
 }) => {
-  const columns = useMemo<ColumnDef<Solver>[]>(
+  const columns = useMemo<ColumnDef<PuzzleSolver>[]>(
     () => [
       {
         accessorKey: 'rank',
@@ -94,7 +94,7 @@ const LeaderboardPuzzlesTableMobile: FC<LeaderboardPuzzlesTableInternalProps> = 
   );
 };
 
-const LeaderboardPuzzlesTableMobileSubComponent: FC<{ data: Solver }> = ({ data }) => {
+const LeaderboardPuzzlesTableMobileSubComponent: FC<{ data: PuzzleSolver }> = ({ data }) => {
   return (
     <div className="flex flex-col">
       <div className="grid grid-cols-2 gap-2 p-3">
@@ -118,6 +118,7 @@ const LeaderboardPuzzlesTableMobileSubComponent: FC<{ data: Solver }> = ({ data 
                 </div>
               }
             />
+            <Stat name="Chain" value={getChainName(solve.chainId)} />
             <Stat
               name="Time taken"
               value={getTimeLeftString(solve.solveTimestamp - (solve.puzzle?.addedTimestamp ?? 0))}
@@ -143,7 +144,7 @@ const LeaderboardPuzzlesTableMobileSubComponent: FC<{ data: Solver }> = ({ data 
                 size="sm"
                 variant="outline"
                 intent="neutral"
-                href={`/puzzle/${solve.puzzleId}`}
+                href={`/puzzle/${solve.chainId}:${solve.puzzleId}`}
                 rightIcon={<ChevronRight />}
               >
                 View puzzle
@@ -154,7 +155,7 @@ const LeaderboardPuzzlesTableMobileSubComponent: FC<{ data: Solver }> = ({ data 
                 variant="outline"
                 intent="neutral"
                 rightIcon={<ExternalLink />}
-                href={`https://${process.env.NEXT_PUBLIC_BLOCK_EXPLORER}/tx/${solve.tx}`}
+                href={`https://${getBlockExplorerDomain(solve.chainId)}/tx/${solve.solveTx}`}
                 newTab
               >
                 View solution

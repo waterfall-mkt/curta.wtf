@@ -1,10 +1,10 @@
 'use client';
 
 import Link from 'next/link';
-import { type ForwardedRef, forwardRef } from 'react';
+import { type FC, type ForwardedRef, forwardRef } from 'react';
 
-import { buttonIconVariants, buttonVariants } from './styles';
-import type { ButtonProps } from './types';
+import { buttonGroupStyles, buttonIconVariants, buttonVariants } from './styles';
+import type { ButtonGroupProps, ButtonProps } from './types';
 import { cx } from 'class-variance-authority';
 import { twMerge } from 'tailwind-merge';
 
@@ -73,6 +73,15 @@ const Button = forwardRef(
   },
 );
 
+export const ButtonGroup: FC<ButtonGroupProps> = ({ children, ...rest }) => {
+  return (
+    <div className={buttonGroupStyles} {...rest}>
+      {children}
+    </div>
+  );
+};
+
 Button.displayName = 'Button';
+ButtonGroup.displayName = 'ButtonGroup';
 
 export default Button;

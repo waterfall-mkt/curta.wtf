@@ -18,6 +18,7 @@ export const iconButtonVariants = cva(
     'justify-center',
     'items-center',
     'outline-none',
+    'hover:z-10',
     'focus-visible:outline-none',
     'focus-visible:ring-2',
     'focus-visible:ring-blue-250',
@@ -25,9 +26,30 @@ export const iconButtonVariants = cva(
   {
     variants: {
       size: {
-        lg: ['rounded-xl', 'w-10', 'h-10'],
-        md: ['rounded-lg', 'w-8', 'h-8'],
-        sm: ['rounded-lg', 'w-7', 'h-7'],
+        lg: [
+          'group-[.button--group]:rounded-none',
+          'group-[.button--group]:first:rounded-l-xl',
+          'group-[.button--group]:last:rounded-r-xl',
+          'rounded-xl',
+          'w-10',
+          'h-10',
+        ],
+        md: [
+          'group-[.button--group]:rounded-none',
+          'group-[.button--group]:first:rounded-l-lg',
+          'group-[.button--group]:last:rounded-r-lg',
+          'rounded-lg',
+          'w-8',
+          'h-8',
+        ],
+        sm: [
+          'group-[.button--group]:rounded-none',
+          'group-[.button--group]:first:rounded-l-lg',
+          'group-[.button--group]:last:rounded-r-lg',
+          'rounded-lg',
+          'w-7',
+          'h-7',
+        ],
       },
       variant: {
         primary: ['text-gray-50'],
