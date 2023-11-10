@@ -144,7 +144,7 @@ const PuzzleInfoSolutionForm: FC<PuzzleInfoSolutionFormProps> = ({ puzzle }) => 
                   className="bg-gray-600 active:bg-gray-450"
                   rightIcon={
                     Number(tip) > (phase > 1 ? 0.02 : 0) ? (
-                      <Heart className="ease-[cubic-bezier(.34,.99,.71,1.42)] fill-red-400 text-red-400" />
+                      <Heart className="ease-[cubic-bezier(0.34,0.99,0.71,1.42)] fill-red-400 text-red-400" />
                     ) : (
                       <Heart />
                     )
