@@ -9,7 +9,7 @@ import { fetchPuzzleById, getBlockExplorerDomain } from '@/lib/utils';
 import AddressLink from '@/components/templates/address-link';
 import Avatar from '@/components/templates/avatar';
 import ENSAvatar from '@/components/templates/ens-avatar';
-import { IconButton, Tooltip } from '@/components/ui';
+import { ButtonGroup, IconButton, Tooltip } from '@/components/ui';
 
 // -----------------------------------------------------------------------------
 // Props
@@ -62,9 +62,9 @@ const PuzzleHeader: FC<PuzzleHeaderProps> = async ({ puzzle }) => {
             />
           </div>
         </div>
-        <div className="flex gap-2">
+        <ButtonGroup>
           {puzzle.solution ? (
-            <Tooltip content="Solution">
+            <Tooltip content="Solution" inPortal>
               <IconButton
                 href={puzzle.solution}
                 variant="outline"
@@ -77,7 +77,7 @@ const PuzzleHeader: FC<PuzzleHeaderProps> = async ({ puzzle }) => {
             </Tooltip>
           ) : null}
           {puzzle.github ? (
-            <Tooltip content="Source">
+            <Tooltip content="Source" inPortal>
               <IconButton
                 href={`https://github.com/${puzzle.github}`}
                 variant="outline"
@@ -89,7 +89,7 @@ const PuzzleHeader: FC<PuzzleHeaderProps> = async ({ puzzle }) => {
               </IconButton>
             </Tooltip>
           ) : null}
-          <Tooltip content="Contract">
+          <Tooltip content="Contract" inPortal>
             <IconButton
               href={`https://${getBlockExplorerDomain(puzzle.chainId)}/address/${puzzle.address}`}
               variant="outline"
@@ -100,7 +100,7 @@ const PuzzleHeader: FC<PuzzleHeaderProps> = async ({ puzzle }) => {
               <ExternalLink />
             </IconButton>
           </Tooltip>
-        </div>
+        </ButtonGroup>
       </div>
     </div>
   );

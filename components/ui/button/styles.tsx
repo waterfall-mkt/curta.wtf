@@ -21,6 +21,7 @@ export const buttonVariants = cva(
     'items-center',
     'outline-none',
     'hover:z-10',
+    'focus:z-10',
     'focus-visible:outline-none',
     'focus-visible:ring-2',
     'focus-visible:ring-blue-250',

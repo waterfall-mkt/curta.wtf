@@ -73,9 +73,9 @@ const Button = forwardRef(
   },
 );
 
-export const ButtonGroup: FC<ButtonGroupProps> = ({ children, ...rest }) => {
+export const ButtonGroup: FC<ButtonGroupProps> = ({ className, children, ...rest }) => {
   return (
-    <div className={buttonGroupStyles} {...rest}>
+    <div className={twMerge(cx(buttonGroupStyles, className))} {...rest}>
       {children}
     </div>
   );
