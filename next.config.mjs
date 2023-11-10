@@ -20,7 +20,6 @@ const nextConfig = {
   },
   reactStrictMode: true,
   swcMinify: false,
-  webpack5: true,
   pageExtensions: ['ts', 'tsx', 'js', 'jsx', 'md', 'mdx'],
   webpack: (config) => {
     config.externals.push('pino-pretty', 'lokijs', 'encoding');

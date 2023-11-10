@@ -1,5 +1,3 @@
-import type { PublicClient } from 'viem';
-
 import { baseClient, ethereumClient } from '@/lib/client';
 
 /**
@@ -9,7 +7,7 @@ import { baseClient, ethereumClient } from '@/lib/client';
  * @param chainId The ID of the chain.
  * @returns The public client.
  */
-const getPublicClient = (chainId: number): PublicClient => {
+const getPublicClient = (chainId: number) => {
   if (chainId === 8453) return baseClient;
 
   // Return a public client for Ethereum.
