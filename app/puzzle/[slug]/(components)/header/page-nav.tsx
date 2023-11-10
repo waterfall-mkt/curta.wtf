@@ -3,11 +3,11 @@
 import { useRouter } from 'next/navigation';
 import type { FC } from 'react';
 
-import { ArrowLeft, ArrowRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 import type { Puzzle } from '@/lib/types/protocol';
 
-import { IconButton } from '@/components/ui';
+import { ButtonGroup, IconButton } from '@/components/ui';
 
 // -----------------------------------------------------------------------------
 // Props
@@ -26,10 +26,12 @@ const PuzzleHeaderPageNav: FC<PuzzleHeaderPageNavProps> = ({ prevPuzzle, nextPuz
   const router = useRouter();
 
   return (
-    <div className="flex w-fit">
+    <ButtonGroup className="hidden md:flex">
       <IconButton
-        className="flex h-8 w-8 items-center justify-center rounded-full md:h-10 md:w-10"
+        className="z-[2]"
+        size="lg"
         intent="neutral"
+        variant="outline"
         disabled={!prevPuzzle}
         onClick={
           prevPuzzle
@@ -38,11 +40,12 @@ const PuzzleHeaderPageNav: FC<PuzzleHeaderPageNavProps> = ({ prevPuzzle, nextPuz
         }
         aria-label="Navigate to previous puzzle on the same chain."
       >
-        <ArrowLeft />
+        <ChevronLeft />
       </IconButton>
       <IconButton
-        className="ml-2 flex h-8 w-8 items-center justify-center rounded-full md:h-10 md:w-10"
         intent="neutral"
+        size="lg"
+        variant="outline"
         disabled={!nextPuzzle}
         onClick={
           nextPuzzle
@@ -51,9 +54,9 @@ const PuzzleHeaderPageNav: FC<PuzzleHeaderPageNavProps> = ({ prevPuzzle, nextPuz
         }
         aria-label="Navigate to next puzzle on the same chain."
       >
-        <ArrowRight />
+        <ChevronRight />
       </IconButton>
-    </div>
+    </ButtonGroup>
   );
 };
 
