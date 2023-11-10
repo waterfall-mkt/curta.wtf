@@ -67,62 +67,62 @@ const fetchLeaderboardPuzzles = async (
     puzzleMap.set(`${puzzle.id}|${puzzle.chainId}`, { ...puzzle, index: index + 1 });
   });
 
-  data
-    .filter((item) => {
-      const puzzleIndex =
-        // Include all solves within range; exclude any puzzle not found in the
-        // map.
-        puzzleMap.get(`${item.puzzleId}|${item.chainId}`)?.index ?? Number.MAX_SAFE_INTEGER;
-      return puzzleIndex >= minPuzzleIndex && puzzleIndex <= maxPuzzleIndex;
-    })
-    .forEach((item) => {
-      const solver = item.solver.address.toLowerCase() as Address;
+  // Filter solves within the queried range.
+  const filteredData = data.filter((item) => {
+    const puzzleIndex =
+      // Include all solves within range; exclude any puzzle not found in the
+      // map.
+      puzzleMap.get(`${item.puzzleId}|${item.chainId}`)?.index ?? Number.MAX_SAFE_INTEGER;
+    return puzzleIndex >= minPuzzleIndex && puzzleIndex <= maxPuzzleIndex;
+  });
+  filteredData.forEach((item) => {
+    const solver = item.solver.address.toLowerCase() as Address;
 
-      // Initialize solver object if it doesn't exist.
-      if (!solversObject[solver]) {
-        solversObject[solver] = {
-          rank: 0,
-          solver,
-          count: { phase0: 0, phase1: 0, phase2: 0, total: 0 },
-          points: 0,
-          speedScore: 0,
-          solves: [],
-        };
-      }
+    // Initialize solver object if it doesn't exist.
+    if (!solversObject[solver]) {
+      solversObject[solver] = {
+        rank: 0,
+        solver,
+        count: { phase0: 0, phase1: 0, phase2: 0, total: 0 },
+        points: 0,
+        speedScore: 0,
+        solves: [],
+      };
+    }
 
-      // Increment solves count, points, and solves.
-      switch (item.phase) {
-        case 0:
-          solversObject[solver].count.phase0++;
-          solversObject[solver].points += 3;
-          break;
-        case 1:
-          solversObject[solver].count.phase1++;
-          solversObject[solver].points += 2;
-          break;
-        case 2:
-          solversObject[solver].count.phase2++;
-          solversObject[solver].points += 1;
-          break;
-      }
-      solversObject[solver].count.total++;
-      solversObject[solver].solves.push({
-        // Identifier
-        puzzleId: item.puzzleId,
-        chainId: item.chainId,
-        solver: item.solver,
-        // Solve information
-        rank: item.rank,
-        phase: item.phase as Phase,
-        solution: item.solution,
-        puzzle: puzzleMap.get(`${item.puzzleId}|${item.chainId}`),
-        // Solve transaction information
-        solveTimestamp: item.solveTimestamp,
-        solveTx: item.solveTx,
-      });
+    // Increment solves count, points, and solves.
+    switch (item.phase) {
+      case 0:
+        solversObject[solver].count.phase0++;
+        solversObject[solver].points += 3;
+        break;
+      case 1:
+        solversObject[solver].count.phase1++;
+        solversObject[solver].points += 2;
+        break;
+      case 2:
+        solversObject[solver].count.phase2++;
+        solversObject[solver].points += 1;
+        break;
+    }
+    solversObject[solver].count.total++;
+    solversObject[solver].solves.push({
+      // Identifier
+      puzzleId: item.puzzleId,
+      chainId: item.chainId,
+      solver: item.solver,
+      // Solve information
+      rank: item.rank,
+      phase: item.phase as Phase,
+      solution: item.solution,
+      puzzle: puzzleMap.get(`${item.puzzleId}|${item.chainId}`),
+      // Solve transaction information
+      solveTimestamp: item.solveTimestamp,
+      solveTx: item.solveTx,
     });
+  });
 
-  // Sort solvers by speed score, then rank, then return the top 100.
+  // Sort solvers by speed score, then by points.
   const solvers: PuzzleSolver[] = Object.values(solversObject)
     .map((item) => {
       const sum = item.solves.reduce(
@@ -139,15 +139,14 @@ const fetchLeaderboardPuzzles = async (
       };
     })
     .sort((a, b) => b.speedScore - a.speedScore)
-    .sort((a, b) => b.points - a.points)
-    .slice(0, 100)
-    .map((item, index) => ({ ...item, rank: index + 1 }));
+    .sort((a, b) => b.points - a.points);
 
   return {
     data: {
-      data: solvers,
+      // Return the top 100 solvers w/ rank.
+      data: solvers.slice(0, 100).map((item, index) => ({ ...item, rank: index + 1 })),
       solvers: solvers.length,
-      solves: data.length,
+      solves: filteredData.length,
       minPuzzleIndex,
       maxPuzzleIndex,
     },
