@@ -26,7 +26,7 @@ const PuzzleHeaderPageNav: FC<PuzzleHeaderPageNavProps> = ({ prevPuzzle, nextPuz
   const router = useRouter();
 
   return (
-    <ButtonGroup className="hidden md:flex">
+    <ButtonGroup className="hidden sm:flex">
       <IconButton
         className="z-[2]"
         size="lg"

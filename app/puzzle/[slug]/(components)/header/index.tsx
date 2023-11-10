@@ -51,10 +51,10 @@ const PuzzleHeader: FC<PuzzleHeaderProps> = async ({ puzzle }) => {
   ];
 
   return (
-    <div className="flex flex-col justify-center gap-3 md:flex-row md:gap-0">
+    <div className="flex flex-col justify-center gap-3 sm:flex-row sm:gap-0">
       <div className="flex items-center gap-4">
         <PuzzleHeaderPageNav prevPuzzle={prevPuzzle} nextPuzzle={nextPuzzle} />
-        <div className="flex grow items-center justify-between md:gap-4">
+        <div className="flex grow items-center justify-between sm:gap-4">
           {[
             {
               name: `Puzzle #${puzzle.id}`,
@@ -81,7 +81,7 @@ const PuzzleHeader: FC<PuzzleHeaderProps> = async ({ puzzle }) => {
             },
           ].map((item, index) => (
             <div
-              className="flex flex-col items-center gap-1 first:items-start last:items-end md:items-start md:last:items-start"
+              className="flex flex-col items-center gap-1 first:items-start last:items-end sm:items-start sm:last:items-start"
               key={index}
             >
               <div className="text-sm leading-4 text-gray-150">{item.name}</div>
@@ -92,7 +92,7 @@ const PuzzleHeader: FC<PuzzleHeaderProps> = async ({ puzzle }) => {
           ))}
         </div>
       </div>
-      <ButtonGroup className="ml-auto hidden md:flex">
+      <ButtonGroup className="ml-auto hidden sm:flex">
         {links.map((item, index) => (
           <Tooltip content={item.tooltipContent} key={index} inPortal>
             <IconButton href={item.href} variant="outline" intent="neutral" size="lg" newTab>
@@ -101,7 +101,7 @@ const PuzzleHeader: FC<PuzzleHeaderProps> = async ({ puzzle }) => {
           </Tooltip>
         ))}
       </ButtonGroup>
-      <ButtonGroup className="md:hidden">
+      <ButtonGroup className="sm:hidden">
         {links.map((item, index) => (
           <Button
             className="grow"
