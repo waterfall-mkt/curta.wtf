@@ -1,7 +1,8 @@
-import { EthereumIcon, OpenSeaIcon, XIcon } from './icons';
+import { BaseIcon, EthereumIcon, OpenSeaIcon, XIcon } from './icons';
 
 const LogoIcon = () => null;
 
+LogoIcon.Base = BaseIcon;
 LogoIcon.Ethereum = EthereumIcon;
 LogoIcon.OpenSea = OpenSeaIcon;
 LogoIcon.X = XIcon;

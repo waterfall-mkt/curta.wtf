@@ -1,5 +1,27 @@
 import type { FC } from 'react';
 
+export const BaseIcon: FC<JSX.IntrinsicElements['svg']> = ({ className, ...rest }) => {
+  return (
+    <svg
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      role="img"
+      className={className}
+      {...rest}
+    >
+      <title>Base</title>
+      <desc>Base&apos;s logo.</desc>
+      <path
+        d="M11.885 22.809c6.033 0 10.924-4.882 10.924-10.905S17.919 1 11.885 1C6.162 1 1.466 5.394 1 10.988h14.438v1.833H1c.466 5.593 5.162 9.988 10.885 9.988Z"
+        fill="currentColor"
+      />
+    </svg>
+  );
+};
+
 export const EthereumIcon: FC<JSX.IntrinsicElements['svg']> = ({ className, ...rest }) => {
   return (
     <svg
