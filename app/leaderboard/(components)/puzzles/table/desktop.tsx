@@ -134,7 +134,7 @@ const LeaderboardPuzzlesTableDesktopSubComponent: FC<{ data: PuzzleSolve[] }> = 
   const columns = useMemo<ColumnDef<PuzzleSolve>[]>(
     () => [
       {
-        accessorKey: 'puzzle.id',
+        accessorKey: 'puzzle.addedTimestamp',
         header: () => 'ID',
         cell: ({ row }) => (
           <IdWithChainLogo id={row.original.puzzleId} chainId={row.original.chainId} />
