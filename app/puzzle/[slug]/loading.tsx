@@ -47,7 +47,7 @@ export default function LoadingPage() {
             </div>
             <div className="flex flex-col items-center gap-1 first:items-start last:items-end sm:items-start sm:last:items-start">
               <div className="text-sm leading-4 text-gray-150">Author</div>
-              <div className="flex items-center gap-1">
+              <div className="flex items-center gap-1.5">
                 <div className="h-5 w-5 animate-pulse rounded-full bg-gray-350" />
                 <div className="h-5 w-24 animate-pulse rounded-md bg-gray-350" />
               </div>

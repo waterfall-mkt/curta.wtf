@@ -63,12 +63,12 @@ const PuzzleHeader: FC<PuzzleHeaderProps> = async ({ puzzle }) => {
             {
               name: 'Author',
               value: (
-                <div className="flex grow items-center gap-1">
-                  <div className="h-4 w-4 rounded-full">
+                <div className="flex grow items-center gap-1.5">
+                  <div className="h-5 w-5 rounded-full">
                     {puzzle.author.ensName ? (
-                      <ENSAvatar size={16} name={puzzle.author.ensName} />
+                      <ENSAvatar size={20} name={puzzle.author.ensName} />
                     ) : (
-                      <Avatar size={16} src="" alt={puzzle.author.address} />
+                      <Avatar size={20} src="" alt={puzzle.author.address} />
                     )}
                   </div>
                   <AddressLink
