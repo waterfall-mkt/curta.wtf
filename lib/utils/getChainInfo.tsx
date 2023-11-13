@@ -1,10 +1,15 @@
+import type { FC, SVGProps } from 'react';
+
 import { type Address, zeroAddress } from 'viem';
+
+import LogoIcon from '@/components/common/logo-icon';
 
 /**
  * Type to contain static information about a chain.
  * @param name The name of the chain.
  * @param id The ID of the chain.
  * @param network The network name of the chain.
+ * @param logo The logo of the chain (formatted to be an icon).
  * @param blockExplorer The block explorer domain of the chain (without the
  * `https://` prefix).
  * @param puzzles The Curta Puzzles contract address on the chain (`address(0)`
@@ -14,6 +19,7 @@ type ChainInfo = {
   name: string;
   id: number;
   network: string;
+  logo: FC<SVGProps<SVGSVGElement>>;
   blockExplorer: string;
   // Curta Puzzles-specific
   puzzles: Address;
@@ -32,6 +38,7 @@ const getChainInfo = (chainId: number): ChainInfo => {
       name: 'Base',
       id: 8453,
       network: 'base',
+      logo: LogoIcon.Base,
       blockExplorer: 'basescan.org',
       // Curta Puzzles-specific
       puzzles: zeroAddress,
@@ -43,6 +50,7 @@ const getChainInfo = (chainId: number): ChainInfo => {
     name: 'Ethereum',
     id: 1,
     network: 'eth',
+    logo: LogoIcon.Ethereum,
     blockExplorer: 'etherscan.io',
     // Curta Puzzles-specific
     puzzles: '0x0000000006bC8D9e5e9d436217B88De704a9F307',
