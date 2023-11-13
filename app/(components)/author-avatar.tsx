@@ -3,7 +3,7 @@
 import type { FC, KeyboardEventHandler, ReactNode } from 'react';
 
 import type { Author } from '@/lib/types/protocol';
-import { getBlockExplorerDomain } from '@/lib/utils';
+import { getChainInfo } from '@/lib/utils';
 
 // ---------------------------------------–-------------------------------------
 // Props
@@ -22,7 +22,7 @@ type AuthorAvatarProps = {
 const AuthorAvatar: FC<AuthorAvatarProps> = ({ author, index, children }) => {
   const href = author.twitter
     ? `https://twitter.com/${author.twitter}`
-    : `https://${getBlockExplorerDomain(1)}/address/${author.address}`;
+    : `https://${getChainInfo(1).blockExplorer}/address/${author.address}`;
 
   const onKeyDown: KeyboardEventHandler<HTMLButtonElement> = (e) => {
     if (e.key === 'ArrowLeft' && index > 0) {

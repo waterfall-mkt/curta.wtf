@@ -7,7 +7,7 @@ import type { ColumnDef } from '@tanstack/react-table';
 import { ChevronRight, Crown, ExternalLink } from 'lucide-react';
 
 import type { PuzzleSolver } from '@/lib/types/protocol';
-import { getBlockExplorerDomain, getChainName, getTimeLeftString } from '@/lib/utils';
+import { getChainInfo, getTimeLeftString } from '@/lib/utils';
 
 import AddressLinkClient from '@/components/templates/address-link-client';
 import ENSAvatarClient from '@/components/templates/ens-avatar-client';
@@ -118,7 +118,7 @@ const LeaderboardPuzzlesTableMobileSubComponent: FC<{ data: PuzzleSolver }> = ({
                 </div>
               }
             />
-            <Stat name="Chain" value={getChainName(solve.chainId)} />
+            <Stat name="Chain" value={getChainInfo(solve.chainId).name} />
             <Stat
               name="Time taken"
               value={getTimeLeftString(solve.solveTimestamp - (solve.puzzle?.addedTimestamp ?? 0))}
@@ -155,7 +155,7 @@ const LeaderboardPuzzlesTableMobileSubComponent: FC<{ data: PuzzleSolver }> = ({
                 variant="outline"
                 intent="neutral"
                 rightIcon={<ExternalLink />}
-                href={`https://${getBlockExplorerDomain(solve.chainId)}/tx/${solve.solveTx}`}
+                href={`https://${getChainInfo(solve.chainId).blockExplorer}/tx/${solve.solveTx}`}
                 newTab
               >
                 View solution

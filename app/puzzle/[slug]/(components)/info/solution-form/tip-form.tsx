@@ -1,7 +1,7 @@
 import { type FC, useState } from 'react';
 
 import type { Author, Phase } from '@/lib/types/protocol';
-import { getBlockExplorerDomain, getShortenedAddress } from '@/lib/utils';
+import { getChainInfo, getShortenedAddress } from '@/lib/utils';
 
 import { Button, Input } from '@/components/ui';
 
@@ -50,7 +50,7 @@ const PuzzleInfoSolutionFormTipForm: FC<PuzzleInfoSolutionFormTipFormProps> = ({
         ill be transferred to{' '}
         <a
           className="font-medium text-gray-100 no-underline hover:underline"
-          href={`https://${getBlockExplorerDomain(chainId)}/address/${author.address}`}
+          href={`https://${getChainInfo(chainId).blockExplorer}/address/${author.address}`}
           target="_blank"
           rel="noopener noreferrer"
         >

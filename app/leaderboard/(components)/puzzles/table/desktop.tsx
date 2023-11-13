@@ -7,7 +7,7 @@ import type { ColumnDef } from '@tanstack/react-table';
 import { Crown, ExternalLink } from 'lucide-react';
 
 import type { PuzzleSolve, PuzzleSolver } from '@/lib/types/protocol';
-import { getBlockExplorerDomain, getTimeLeftString } from '@/lib/utils';
+import { getChainInfo, getTimeLeftString } from '@/lib/utils';
 
 import AddressLinkClient from '@/components/templates/address-link-client';
 import ENSAvatarClient from '@/components/templates/ens-avatar-client';
@@ -235,13 +235,13 @@ const LeaderboardPuzzlesTableDesktopSubComponent: FC<{ data: PuzzleSolve[] }> = 
               <IconButton
                 variant="outline"
                 intent="neutral"
-                title={`https://${getBlockExplorerDomain(row.original.chainId)}/tx/${
+                title={`https://${getChainInfo(row.original.chainId).blockExplorer}/tx/${
                   row.original.solveTx
                 }`}
                 onClick={(e) => {
                   e.stopPropagation();
                   window.open(
-                    `https://${getBlockExplorerDomain(row.original.chainId)}/tx/${
+                    `https://${getChainInfo(row.original.chainId).blockExplorer}/tx/${
                       row.original.solveTx
                     }`,
                     '_blank',

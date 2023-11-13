@@ -16,12 +16,7 @@ import {
 
 import { CURTA_ABI } from '@/lib/constants/abi';
 import type { Puzzle } from '@/lib/types/protocol';
-import {
-  formatValueToPrecision,
-  getBlockExplorerDomain,
-  getPuzzlesAddress,
-  getPuzzleTimeLeft,
-} from '@/lib/utils';
+import { formatValueToPrecision, getChainInfo, getPuzzleTimeLeft } from '@/lib/utils';
 
 import ConnectButton from '@/components/common/connect-button';
 import { Button, Input, Popover, useToast } from '@/components/ui';
@@ -55,7 +50,7 @@ const PuzzleInfoSolutionForm: FC<PuzzleInfoSolutionFormProps> = ({ puzzle }) => 
   useEffect(() => setMounted(true), []);
 
   const { config } = usePrepareContractWrite({
-    address: getPuzzlesAddress(puzzle.chainId),
+    address: getChainInfo(puzzle.chainId).puzzlesAddress,
     abi: CURTA_ABI,
     functionName: 'solve',
     args: [puzzle.id, solution],
@@ -76,7 +71,7 @@ const PuzzleInfoSolutionForm: FC<PuzzleInfoSolutionFormProps> = ({ puzzle }) => 
         action: (
           <Button
             size="sm"
-            href={`https://${getBlockExplorerDomain(puzzle.chainId)}/tx/${data.hash}`}
+            href={`https://${getChainInfo(puzzle.chainId).blockExplorer}/tx/${data.hash}`}
             rightIcon={<ExternalLink />}
             intent="primary"
             newTab
@@ -96,7 +91,7 @@ const PuzzleInfoSolutionForm: FC<PuzzleInfoSolutionFormProps> = ({ puzzle }) => 
         action: data ? (
           <Button
             size="sm"
-            href={`https://${getBlockExplorerDomain(puzzle.chainId)}/tx/${data.hash}`}
+            href={`https://${getChainInfo(puzzle.chainId).blockExplorer}/tx/${data.hash}`}
             rightIcon={<ExternalLink />}
             intent="fail"
             newTab
@@ -114,7 +109,9 @@ const PuzzleInfoSolutionForm: FC<PuzzleInfoSolutionFormProps> = ({ puzzle }) => 
         action: data ? (
           <Button
             size="sm"
-            href={`https://${getBlockExplorerDomain(puzzle.chainId)}/tx/${data.transactionHash}`}
+            href={`https://${getChainInfo(puzzle.chainId).blockExplorer}/tx/${
+              data.transactionHash
+            }`}
             rightIcon={<ExternalLink />}
             intent="success"
             newTab

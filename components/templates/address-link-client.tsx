@@ -7,7 +7,7 @@ import { twMerge } from 'tailwind-merge';
 import type { Address } from 'viem';
 import { useEnsName } from 'wagmi';
 
-import { getBlockExplorerDomain, getShortenedAddress } from '@/lib/utils';
+import { getChainInfo, getShortenedAddress } from '@/lib/utils';
 
 // ---------------------------------------–-------------------------------------
 // Props
@@ -47,7 +47,7 @@ const AddressLinkClient: FC<AddressLinkClientProps> = ({
           className,
         ),
       )}
-      href={`https://${getBlockExplorerDomain(chainId)}/address/${address}`}
+      href={`https://${getChainInfo(chainId).blockExplorer}/address/${address}`}
       target="_blank"
       rel="noopener noreferrer"
       onClick={(e) => e.stopPropagation()}
