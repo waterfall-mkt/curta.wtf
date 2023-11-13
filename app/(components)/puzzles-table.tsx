@@ -8,7 +8,7 @@ import type { ColumnDef, Row, SortingState } from '@tanstack/react-table';
 import { ExternalLink, FileCheck } from 'lucide-react';
 
 import type { Puzzle } from '@/lib/types/protocol';
-import { getBlockExplorerDomain, getPuzzleTimeLeft } from '@/lib/utils';
+import { getChainInfo, getPuzzleTimeLeft } from '@/lib/utils';
 
 import AddressLinkClient from '@/components/templates/address-link-client';
 import IdWithChainLogo from '@/components/templates/id-with-chain-logo';
@@ -116,13 +116,13 @@ const PuzzleTableDesktop: FC<PuzzleTableInternalProps> = ({ data, sorting, setSo
                 <IconButton
                   variant="outline"
                   intent="neutral"
-                  title={`https://${getBlockExplorerDomain(row.original.chainId)}/address/${
+                  title={`https://${getChainInfo(row.original.chainId).blockExplorer}/address/${
                     row.original.address
                   }`}
                   onClick={(e) => {
                     e.stopPropagation();
                     window.open(
-                      `https://${getBlockExplorerDomain(row.original.chainId)}/address/${
+                      `https://${getChainInfo(row.original.chainId).blockExplorer}/address/${
                         row.original.address
                       }`,
                       '_blank',
@@ -246,7 +246,7 @@ const PuzzleTableMobileSubComponent: FC<{ data: Puzzle }> = ({ data }) => {
           variant="outline"
           intent="neutral"
           rightIcon={<ExternalLink />}
-          href={`https://${getBlockExplorerDomain(data.chainId)}/address/${data.address}`}
+          href={`https://${getChainInfo(data.chainId).blockExplorer}/address/${data.address}`}
           newTab
         >
           Contract

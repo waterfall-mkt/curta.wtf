@@ -6,7 +6,7 @@ import PuzzleInfoTimeLeftTimeline from './timeline';
 import { ArrowUpRight, Box } from 'lucide-react';
 
 import type { Puzzle } from '@/lib/types/protocol';
-import { getBlockExplorerDomain, getPuzzleTimeLeft, getShortenedAddress } from '@/lib/utils';
+import { getChainInfo, getPuzzleTimeLeft, getShortenedAddress } from '@/lib/utils';
 
 // -----------------------------------------------------------------------------
 // Props
@@ -59,7 +59,9 @@ const PuzzleInfoTimeLeft: FC<PuzzleInfoTimeLeftProps> = ({ puzzle }) => {
                 <a
                   key={blockNumber}
                   className="flex h-4 items-center gap-0.5 text-xs text-gray-100 hover:underline"
-                  href={`https://${getBlockExplorerDomain(puzzle.chainId)}/block/${blockNumber}`}
+                  href={`https://${
+                    getChainInfo(puzzle.chainId).blockExplorer
+                  }/block/${blockNumber}`}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -91,13 +93,15 @@ const PuzzleInfoTimeLeft: FC<PuzzleInfoTimeLeftProps> = ({ puzzle }) => {
                 value: `Added by ${
                   puzzle.author.ensName ?? getShortenedAddress(puzzle.author.address)
                 }`,
-                href: `https://${getBlockExplorerDomain(puzzle.chainId)}/tx/${puzzle.addedTx}`,
+                href: `https://${getChainInfo(puzzle.chainId).blockExplorer}/tx/${puzzle.addedTx}`,
               },
               {
                 name: 'Phase 1',
                 value: 'First blood',
                 href: puzzle.firstSolveTx
-                  ? `https://${getBlockExplorerDomain(puzzle.chainId)}/tx/${puzzle.firstSolveTx}`
+                  ? `https://${getChainInfo(puzzle.chainId).blockExplorer}/tx/${
+                      puzzle.firstSolveTx
+                    }`
                   : undefined,
               },
               {

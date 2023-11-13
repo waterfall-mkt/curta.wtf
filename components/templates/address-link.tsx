@@ -5,7 +5,7 @@ import { twMerge } from 'tailwind-merge';
 import type { Address } from 'viem';
 
 import { ethereumClient } from '@/lib/client';
-import { getBlockExplorerDomain, getShortenedAddress } from '@/lib/utils';
+import { getChainInfo, getShortenedAddress } from '@/lib/utils';
 
 // ---------------------------------------–-------------------------------------
 // Props
@@ -36,7 +36,7 @@ const AddressLink: FC<AddressLinkProps> = async ({ className, address, chainId =
           className,
         ),
       )}
-      href={href ?? `https://${getBlockExplorerDomain(chainId)}/address/${address}`}
+      href={href ?? `https://${getChainInfo(chainId).blockExplorer}/address/${address}`}
       target="_blank"
       rel="noopener noreferrer"
     >

@@ -1,6 +1,6 @@
 import { type NextRequest, NextResponse } from 'next/server';
 
-import { getChainIdAndId, getNetworkName } from './lib/utils';
+import { getChainIdAndId, getChainInfo } from './lib/utils';
 
 // This function can be marked `async` if using `await` inside
 export function middleware(request: NextRequest) {
@@ -16,7 +16,7 @@ export function middleware(request: NextRequest) {
       return NextResponse.redirect(new URL(`/puzzle/${ids.id}`, request.url));
     }
     return NextResponse.redirect(
-      new URL(`/puzzle/${getNetworkName(ids.chainId)}:${ids.id}`, request.url),
+      new URL(`/puzzle/${getChainInfo(ids.chainId).network}:${ids.id}`, request.url),
     );
   } else if (request.nextUrl.pathname === '/attend') {
     // Temporary redirect to Curta Cup form

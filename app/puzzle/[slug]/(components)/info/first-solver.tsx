@@ -3,7 +3,7 @@ import type { FC } from 'react';
 import { ExternalLink } from 'lucide-react';
 
 import type { Puzzle } from '@/lib/types/protocol';
-import { getBlockExplorerDomain, getShortenedAddress, getTimeLeftString } from '@/lib/utils';
+import { getChainInfo, getShortenedAddress, getTimeLeftString } from '@/lib/utils';
 
 // -----------------------------------------------------------------------------
 // Props
@@ -23,7 +23,7 @@ const PuzzleInfoFirstSolver: FC<PuzzleInfoFirstSolverProps> = ({ puzzle }) => {
       {puzzle.firstSolver ? (
         <a
           className="relative flex w-full flex-col items-center justify-center rounded-lg bg-tw-green py-2.5"
-          href={`https://${getBlockExplorerDomain(puzzle.chainId)}/tx/${puzzle.firstSolveTx}`}
+          href={`https://${getChainInfo(puzzle.chainId).blockExplorer}/tx/${puzzle.firstSolveTx}`}
           target="_blank"
           rel="noopener noreferrer"
         >

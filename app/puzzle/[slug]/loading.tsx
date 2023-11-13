@@ -9,7 +9,7 @@ import {
   ToggleRight,
 } from 'lucide-react';
 
-import { getBlockExplorerDomain, getPuzzlesAddress } from '@/lib/utils';
+import { getChainInfo } from '@/lib/utils';
 
 import { Button, ButtonGroup, CodeBlock, IconButton, Input } from '@/components/ui';
 
@@ -93,7 +93,7 @@ export default function LoadingPage() {
               <a
                 className="font-medium text-gray-100 hover:underline"
                 // Default to Curta Puzzles on Ethereum
-                href={`https://${getBlockExplorerDomain(1)}/address/${getPuzzlesAddress(1)}`}
+                href={`https://${getChainInfo(1).blockExplorer}/address/${getChainInfo(1).puzzles}`}
                 target="_blank"
                 rel="noreferrer"
               >

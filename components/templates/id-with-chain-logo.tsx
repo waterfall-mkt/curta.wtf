@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 
-import LogoIcon from '@/components/common/logo-icon';
+import { getChainInfo } from '@/lib/utils';
 
 // ---------------------------------------–-------------------------------------
 // Props
@@ -16,8 +16,7 @@ type IdWithChainLogoProps = {
 // ---------------------------------------–-------------------------------------
 
 const IdWithChainLogo: FC<IdWithChainLogoProps> = ({ id, chainId }) => {
-  // Default to Ethereum logo
-  const Logo = chainId === 8453 ? LogoIcon.Base : LogoIcon.Ethereum;
+  const Logo = getChainInfo(chainId).logo;
 
   return (
     <div className="flex items-center space-x-1.5">

@@ -4,7 +4,7 @@ import PuzzleHeaderPageNav from './page-nav';
 import { ExternalLink, FileCheck, Github } from 'lucide-react';
 
 import type { Puzzle } from '@/lib/types/protocol';
-import { fetchPuzzleById, getBlockExplorerDomain } from '@/lib/utils';
+import { fetchPuzzleById, getChainInfo } from '@/lib/utils';
 
 import AddressLink from '@/components/templates/address-link';
 import Avatar from '@/components/templates/avatar';
@@ -44,7 +44,7 @@ const PuzzleHeader: FC<PuzzleHeaderProps> = async ({ puzzle }) => {
     },
     {
       name: 'Contract',
-      href: `https://${getBlockExplorerDomain(puzzle.chainId)}/address/${puzzle.address}`,
+      href: `https://${getChainInfo(puzzle.chainId).blockExplorer}/address/${puzzle.address}`,
       icon: <ExternalLink />,
       disabled: false,
     },

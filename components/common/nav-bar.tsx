@@ -12,7 +12,7 @@ import { useAccount, useDisconnect, useEnsName } from 'wagmi';
 
 import { NAVBAR_PAGES, SOCIAL_LINKS } from '@/lib/constants/site';
 import { useMediaQuery } from '@/lib/hooks/useMediaQuery';
-import { getBlockExplorerDomain, getShortenedAddress } from '@/lib/utils';
+import { getChainInfo, getShortenedAddress } from '@/lib/utils';
 
 import { Button, IconButton, Modal } from '@/components/ui';
 
@@ -140,7 +140,7 @@ const NavBarMobile: FC<NavBarInternalProps> = ({ yScroll }) => {
                     id="connected-address-link"
                     className="line-clamp-1 text-ellipsis font-medium text-gray-100 transition-colors hover:underline"
                     // Always link to Ethereum's block explorer
-                    href={`https://${getBlockExplorerDomain(1)}/address/${address}`}
+                    href={`https://${getChainInfo(1).blockExplorer}/address/${address}`}
                     target="_blank"
                     rel="noopener noreferrer"
                   >
@@ -155,7 +155,7 @@ const NavBarMobile: FC<NavBarInternalProps> = ({ yScroll }) => {
                   {[
                     {
                       // Always link to Ethereum's block explorer
-                      href: `https://${getBlockExplorerDomain(1)}/address/${address}`,
+                      href: `https://${getChainInfo(1).blockExplorer}/address/${address}`,
                       newTab: true,
                       children: <ExternalLink />,
                     },

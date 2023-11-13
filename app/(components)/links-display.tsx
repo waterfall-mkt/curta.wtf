@@ -1,6 +1,6 @@
 import { type FC, useId } from 'react';
 
-import { getBlockExplorerDomain, getPuzzlesAddress, getShortenedAddress } from '@/lib/utils';
+import { getChainInfo, getShortenedAddress } from '@/lib/utils';
 
 import PillLinkButton from '@/components/templates/pill-link-button';
 
@@ -19,9 +19,9 @@ const LinksDisplay: FC = () => {
         <PillLinkButton
           site="etherscan"
           // Always show Curta Puzzles on Ethereum
-          href={`https://${getBlockExplorerDomain(1)}/address/${getPuzzlesAddress(1)}`}
+          href={`https://${getChainInfo(1).blockExplorer}/address/${getChainInfo(1).puzzles}`}
         >
-          {getShortenedAddress(getPuzzlesAddress(1))}
+          {getShortenedAddress(getChainInfo(1).puzzles)}
         </PillLinkButton>
       </div>
     </div>

@@ -1,10 +1,10 @@
 import { CURTA_ABI } from '@/lib/constants/abi';
-import { getPublicClient, getPuzzlesAddress } from '@/lib/utils';
+import { getChainInfo, getPublicClient } from '@/lib/utils';
 
 const fetchPuzzleFlagColors = async (id: number, chainId: number) => {
   try {
     const data = (await getPublicClient(chainId).readContract({
-      address: getPuzzlesAddress(chainId),
+      address: getChainInfo(chainId).puzzles,
       abi: CURTA_ABI,
       functionName: 'getPuzzleColorsAndSolves',
       args: [id.toString()],
