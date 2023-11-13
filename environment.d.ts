@@ -3,6 +3,7 @@ declare global {
     interface ProcessEnv {
       // Site config
       NEXT_PUBLIC_BASE_URL: string;
+      NEXT_PUBLIC_IS_TESTNET: string;
       CURTA_SITE_API_KEY: string;
       // Supabase
       NEXT_PUBLIC_SUPABASE_URL: string;
