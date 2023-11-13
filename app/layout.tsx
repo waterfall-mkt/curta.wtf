@@ -8,7 +8,7 @@ import clsx from 'clsx';
 
 import '@/styles/globals.css';
 
-import Web3Provider from '@/lib/providers/Web3Provider';
+import Web3Provider from '@/lib/providers/web3-provider';
 
 import Footer from '@/components/common/footer';
 import NavBar from '@/components/common/nav-bar';
