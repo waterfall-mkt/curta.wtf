@@ -1,5 +1,4 @@
 import type { Address } from 'viem';
-import { base, mainnet } from 'wagmi/chains';
 
 type ChainInfo = {
   name: string;
@@ -13,10 +12,10 @@ type ChainInfo = {
 const getChainInfo = (chainId: number): ChainInfo => {
   if (chainId === 8453) {
     return {
-      name: base.name,
-      id: base.id,
-      network: base.network,
-      blockExplorer: base.blockExplorers.etherscan.url,
+      name: 'Base',
+      id: 8453,
+      network: 'base',
+      blockExplorer: 'basescan.org',
       // Curta Puzzles-specific
       puzzlesAddress: undefined,
     };
@@ -24,10 +23,10 @@ const getChainInfo = (chainId: number): ChainInfo => {
 
   // Return Ethereum by default.
   return {
-    name: mainnet.name,
-    id: mainnet.id,
-    network: mainnet.network,
-    blockExplorer: mainnet.blockExplorers.etherscan.url,
+    name: 'Ethereum',
+    id: 1,
+    network: 'eth',
+    blockExplorer: 'etherscan.io',
     puzzlesAddress: '0x0000000006bC8D9e5e9d436217B88De704a9F307',
     // Curta Puzzles-specific
   };
