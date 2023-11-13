@@ -51,7 +51,7 @@ const getChainInfo = (chainId: number): ChainInfo => {
       logo: LogoIcon.Base,
       blockExplorer: 'goerli.basescan.org',
       // Curta Puzzles-specific
-      puzzles: zeroAddress,
+      puzzles: '0x0000000041968e6fB76560021ee7D83175ed7eD1',
     };
   } else if (chainId === 11155111) {
     return {

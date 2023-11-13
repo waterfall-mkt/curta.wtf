@@ -1,8 +1,7 @@
 /**
  * A helper function to parse a chain ID and ID from a slug in the form
  * `${chainId}:${id}`, `${chainName}:${id}`, or `${id}`.
- * @dev Returns `null` if the slug is invalid. Also, valid shortforms for chain
- * names are `eth` (1) and `base` (8453).
+ * @dev Returns `null` if the slug is invalid.
  * @param slug The slug to parse either in the form `${chainId}:${id}`,
  * `${chainName}:${id}`, or `${id}`.
  * @returns An object containing the chain ID `chainId` and `id` in the form
