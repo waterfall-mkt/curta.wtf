@@ -1,4 +1,4 @@
-import { baseClient, ethereumClient } from '@/lib/client';
+import { baseClient, baseGoerliClient, ethereumClient, sepoliaClient } from '@/lib/client';
 
 /**
  * Return a public client for interfacing with a given chain.
@@ -9,6 +9,8 @@ import { baseClient, ethereumClient } from '@/lib/client';
  */
 const getPublicClient = (chainId: number) => {
   if (chainId === 8453) return baseClient;
+  else if (chainId === 84531) return baseGoerliClient;
+  else if (chainId === 11155111) return sepoliaClient;
 
   // Return a public client for Ethereum.
   return ethereumClient;

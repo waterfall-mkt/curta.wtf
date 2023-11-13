@@ -12,7 +12,12 @@ const getChainIdAndId = (slug: string): { chainId: number; id: number } | null =
   // Note: if any chain's name is a substring of another chain's name, replace
   // the longer chain's name first.
   const [x, y] = decodeURIComponent(
-    slug.toLowerCase().replace('eth', '1').replace('base', '8453'),
+    slug
+      .toLowerCase()
+      .replace('base-goerli', '84531')
+      .replace('sepolia', '11155111')
+      .replace('eth', '1')
+      .replace('base', '8453'),
   ).split(':');
   const [numX, numY] = [Number(x), Number(y)];
 
