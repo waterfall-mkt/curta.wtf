@@ -19,11 +19,9 @@ const LinksDisplay: FC = () => {
         <PillLinkButton
           site="etherscan"
           // Always show Curta Puzzles on Ethereum
-          href={`https://${getChainInfo(1).blockExplorer}/address/${
-            getChainInfo(1).puzzlesAddress
-          }`}
+          href={`https://${getChainInfo(1).blockExplorer}/address/${getChainInfo(1).puzzles}`}
         >
-          {getShortenedAddress(getChainInfo(1).puzzlesAddress ?? '0x')}
+          {getShortenedAddress(getChainInfo(1).puzzles)}
         </PillLinkButton>
       </div>
     </div>

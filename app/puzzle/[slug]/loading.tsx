@@ -93,9 +93,7 @@ export default function LoadingPage() {
               <a
                 className="font-medium text-gray-100 hover:underline"
                 // Default to Curta Puzzles on Ethereum
-                href={`https://${getChainInfo(1).blockExplorer}/address/${
-                  getChainInfo(1).puzzlesAddress
-                }`}
+                href={`https://${getChainInfo(1).blockExplorer}/address/${getChainInfo(1).puzzles}`}
                 target="_blank"
                 rel="noreferrer"
               >

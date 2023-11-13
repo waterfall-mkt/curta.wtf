@@ -34,7 +34,7 @@ const PuzzleProblemDisplay: FC<PuzzleProblemDisplayProps> = ({ puzzle, languages
         <a
           className="font-medium text-gray-100 hover:underline"
           href={`https://${getChainInfo(puzzle.chainId).blockExplorer}/address/${
-            getChainInfo(puzzle.chainId).puzzlesAddress
+            getChainInfo(puzzle.chainId).puzzles
           }`}
           target="_blank"
           rel="noreferrer"

@@ -1,4 +1,4 @@
-import type { Address } from 'viem';
+import { type Address, zeroAddress } from 'viem';
 
 type ChainInfo = {
   name: string;
@@ -6,7 +6,7 @@ type ChainInfo = {
   network: string;
   blockExplorer: string;
   // Curta Puzzles-specific
-  puzzlesAddress?: Address;
+  puzzles: Address;
 };
 
 const getChainInfo = (chainId: number): ChainInfo => {
@@ -17,7 +17,7 @@ const getChainInfo = (chainId: number): ChainInfo => {
       network: 'base',
       blockExplorer: 'basescan.org',
       // Curta Puzzles-specific
-      puzzlesAddress: undefined,
+      puzzles: zeroAddress,
     };
   }
 
@@ -27,7 +27,7 @@ const getChainInfo = (chainId: number): ChainInfo => {
     id: 1,
     network: 'eth',
     blockExplorer: 'etherscan.io',
-    puzzlesAddress: '0x0000000006bC8D9e5e9d436217B88De704a9F307',
+    puzzles: '0x0000000006bC8D9e5e9d436217B88De704a9F307',
     // Curta Puzzles-specific
   };
 };

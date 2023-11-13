@@ -50,7 +50,7 @@ const PuzzleInfoSolutionForm: FC<PuzzleInfoSolutionFormProps> = ({ puzzle }) => 
   useEffect(() => setMounted(true), []);
 
   const { config } = usePrepareContractWrite({
-    address: getChainInfo(puzzle.chainId).puzzlesAddress,
+    address: getChainInfo(puzzle.chainId).puzzles,
     abi: CURTA_ABI,
     functionName: 'solve',
     args: [puzzle.id, solution],

@@ -4,7 +4,7 @@ import { getChainInfo, getPublicClient } from '@/lib/utils';
 const fetchPuzzleFlagColors = async (id: number, chainId: number) => {
   try {
     const data = (await getPublicClient(chainId).readContract({
-      address: getChainInfo(chainId).puzzlesAddress ?? '0x',
+      address: getChainInfo(chainId).puzzles,
       abi: CURTA_ABI,
       functionName: 'getPuzzleColorsAndSolves',
       args: [id.toString()],
