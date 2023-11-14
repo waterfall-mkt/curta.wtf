@@ -36,10 +36,30 @@ const getChainInfo = (chainId: number): ChainInfo => {
   if (chainId === 8453) {
     return {
       name: 'Base',
-      id: 8453,
+      id: chainId,
       network: 'base',
       logo: LogoIcon.Base,
       blockExplorer: 'basescan.org',
+      // Curta Puzzles-specific
+      puzzles: zeroAddress,
+    };
+  } else if (chainId === 84531) {
+    return {
+      name: 'Base Goerli',
+      id: chainId,
+      network: 'base-goerli',
+      logo: LogoIcon.Base,
+      blockExplorer: 'goerli.basescan.org',
+      // Curta Puzzles-specific
+      puzzles: '0x0000000041968e6fB76560021ee7D83175ed7eD1',
+    };
+  } else if (chainId === 11155111) {
+    return {
+      name: 'Sepolia',
+      id: chainId,
+      network: 'sepolia',
+      logo: LogoIcon.Ethereum,
+      blockExplorer: 'sepolia.etherscan.io',
       // Curta Puzzles-specific
       puzzles: zeroAddress,
     };
