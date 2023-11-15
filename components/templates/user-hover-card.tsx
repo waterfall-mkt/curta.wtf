@@ -80,11 +80,23 @@ const UserHoverCard: FC<UserHoverCardProps> = ({ address, trigger }) => {
               <span className="font-medium leading-5 text-gray-50">
                 {data?.displayName ?? getShortenedAddress(address)}
               </span>
-              {data?.isPuzzleAuthor ? (
-                <span className="flex h-5 items-center rounded bg-gray-450 px-1.5 text-xs text-gray-200">
-                  Author
-                </span>
-              ) : null}
+              {[
+                {
+                  children: 'Author',
+                  display: data?.isPuzzleAuthor,
+                },
+              ].map((item, index) => {
+                if (!item.display) return null;
+
+                return (
+                  <span
+                    key={index}
+                    className="flex h-5 items-center rounded bg-gray-450 px-1.5 text-xs text-gray-200"
+                  >
+                    {item.children}
+                  </span>
+                );
+              })}
             </div>
             <span className="flex h-4 gap-0.5 text-sm font-book text-gray-200">
               <AddressLinkClient className="leading-4" address={address} />
