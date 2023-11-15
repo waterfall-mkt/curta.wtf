@@ -5,6 +5,8 @@ import type { FC, KeyboardEventHandler, ReactNode } from 'react';
 import type { Author } from '@/lib/types/protocol';
 import { getChainInfo } from '@/lib/utils';
 
+import UserHoverCard from '@/components/templates/user-hover-card';
+
 // ---------------------------------------–-------------------------------------
 // Props
 // ---------------------------------------–-------------------------------------
@@ -34,19 +36,24 @@ const AuthorAvatar: FC<AuthorAvatarProps> = ({ author, index, children }) => {
   };
 
   return (
-    <button
-      id={`author-avatar-${index}`}
-      className="group rounded-full transition-transform focus-visible:z-[10] focus-visible:scale-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-250"
-      title={href}
-      onClick={() => window.open(href, '_blank')}
-      onKeyDown={onKeyDown}
-      tabIndex={0}
-      aria-label={`View author ${author.address}'s Twitter or address.`}
-    >
-      <div className="relative h-[52px] w-[52px] rounded-full bg-gray-600 outline-none ring-[3px] ring-gray-600 transition-transform hover:z-[10] hover:scale-110 hover:ring-0 group-focus-visible:scale-100 group-focus-visible:ring-0">
-        {children}
-      </div>
-    </button>
+    <UserHoverCard
+      address={author.address}
+      trigger={
+        <button
+          id={`author-avatar-${index}`}
+          className="group rounded-full transition-transform focus-visible:z-[10] focus-visible:scale-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-250"
+          title={href}
+          onClick={() => window.open(href, '_blank')}
+          onKeyDown={onKeyDown}
+          tabIndex={0}
+          aria-label={`View author ${author.address}'s Twitter or address.`}
+        >
+          <div className="relative h-[52px] w-[52px] rounded-full bg-gray-600 outline-none ring-[3px] ring-gray-600 transition-transform hover:z-[10] hover:scale-110 hover:ring-0 group-focus-visible:scale-100 group-focus-visible:ring-0">
+            {children}
+          </div>
+        </button>
+      }
+    />
   );
 };
 
