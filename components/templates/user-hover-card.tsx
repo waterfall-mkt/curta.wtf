@@ -86,13 +86,13 @@ const UserHoverCard: FC<UserHoverCardProps> = ({ address, trigger }) => {
                 </span>
               ) : null}
             </div>
-            <span className="flex h-4 gap-0.5 text-sm font-normal text-gray-200">
+            <span className="flex h-4 gap-0.5 text-sm font-book text-gray-200">
               <AddressLinkClient className="leading-4" address={address} />
               <ArrowUpRight className="h-2.5 w-2.5" />
             </span>
           </div>
           {data?.bio ? <div className="text-sm text-gray-100">{data.bio}</div> : null}
-          <span className="flex items-center gap-1 text-sm text-gray-200">
+          <span className="flex items-center gap-1 text-sm font-book text-gray-200">
             <Puzzle className="h-3.5 w-3.5" />
             <span className="font-medium text-gray-100">{data?.puzzlesSolved ?? 0}</span>
             <span> solves</span>
