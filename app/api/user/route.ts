@@ -25,7 +25,7 @@ export async function GET(req: NextRequest) {
     .single();
 
   if ((error && status !== 406) || !data) {
-    return NextResponse.json({ error }, { status });
+    return NextResponse.json({ message: 'User not found.' }, { status: 404 });
   }
 
   const userData: DbUser = {
@@ -49,4 +49,4 @@ export async function GET(req: NextRequest) {
 // Next.js config
 // -----------------------------------------------------------------------------
 
-export const dynamic = 'force-dynamic';
+export const revalidate = 60;
