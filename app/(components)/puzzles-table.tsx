@@ -13,6 +13,7 @@ import { getChainInfo, getPuzzleTimeLeft } from '@/lib/utils';
 import AddressLinkClient from '@/components/templates/address-link-client';
 import IdWithChainLogo from '@/components/templates/id-with-chain-logo';
 import Stat from '@/components/templates/stat';
+import UserHoverCard from '@/components/templates/user-hover-card';
 import { Button, IconButton, Table } from '@/components/ui';
 import type { TableProps } from '@/components/ui/table/types';
 
@@ -76,10 +77,15 @@ const PuzzleTableDesktop: FC<PuzzleTableInternalProps> = ({ data, sorting, setSo
         header: () => 'First solver',
         cell: ({ row }) =>
           row.original.firstSolver ? (
-            <AddressLinkClient
-              className="text-gray-100"
+            <UserHoverCard
               address={row.original.firstSolver}
-              prefetchedEnsName={row.original.firstSolverEnsName}
+              trigger={
+                <AddressLinkClient
+                  className="text-gray-100"
+                  address={row.original.firstSolver}
+                  prefetchedEnsName={row.original.firstSolverEnsName}
+                />
+              }
             />
           ) : (
             '—'
@@ -216,10 +222,15 @@ const PuzzleTableMobileSubComponent: FC<{ data: Puzzle }> = ({ data }) => {
         name="First solver"
         value={
           data.firstSolver ? (
-            <AddressLinkClient
-              className="text-gray-100"
+            <UserHoverCard
               address={data.firstSolver}
-              prefetchedEnsName={data.firstSolverEnsName}
+              trigger={
+                <AddressLinkClient
+                  className="text-gray-100"
+                  address={data.firstSolver}
+                  prefetchedEnsName={data.firstSolverEnsName}
+                />
+              }
             />
           ) : (
             '—'

@@ -13,6 +13,7 @@ import AddressLinkClient from '@/components/templates/address-link-client';
 import ENSAvatarClient from '@/components/templates/ens-avatar-client';
 import InfoTooltip from '@/components/templates/info-tooltip';
 import Stat from '@/components/templates/stat';
+import UserHoverCard from '@/components/templates/user-hover-card';
 import { Button, Table } from '@/components/ui';
 
 const LeaderboardPuzzlesTableMobile: FC<LeaderboardPuzzlesTableInternalProps> = ({
@@ -42,10 +43,15 @@ const LeaderboardPuzzlesTableMobile: FC<LeaderboardPuzzlesTableInternalProps> = 
                 prefetchedEnsAvatar={row.original.solverEnsAvatar}
               />
             </div>
-            <AddressLinkClient
-              className="text-gray-100"
+            <UserHoverCard
               address={row.original.solver}
-              prefetchedEnsName={row.original.solverEnsName}
+              trigger={
+                <AddressLinkClient
+                  className="text-gray-100"
+                  address={row.original.solver}
+                  prefetchedEnsName={row.original.solverEnsName}
+                />
+              }
             />
           </div>
         ),

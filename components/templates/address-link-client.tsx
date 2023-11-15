@@ -31,7 +31,7 @@ const AddressLinkClient: FC<AddressLinkClientProps> = ({
   prefetchedEnsName,
 }) => {
   const [mounted, setMounted] = useState<boolean>(false);
-  const { data: ensName } = useEnsName({ address });
+  const { data: ensName } = useEnsName({ address, chainId: 1 });
 
   useEffect(() => setMounted(true), []);
 

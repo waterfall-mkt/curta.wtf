@@ -12,6 +12,7 @@ import { getChainInfo, getTimeLeftString } from '@/lib/utils';
 import AddressLinkClient from '@/components/templates/address-link-client';
 import ENSAvatarClient from '@/components/templates/ens-avatar-client';
 import PhaseTag from '@/components/templates/phase-tag';
+import UserHoverCard from '@/components/templates/user-hover-card';
 import { IconButton, Table } from '@/components/ui';
 import type { TableProps } from '@/components/ui/table/types';
 
@@ -80,10 +81,15 @@ const PuzzleSolvesTableDesktop: FC<PuzzleSolvesTableInternalProps> = ({
                 prefetchedEnsAvatar={row.original.solverEnsAvatar}
               />
             </div>
-            <AddressLinkClient
-              className="text-gray-100"
+            <UserHoverCard
               address={row.original.solver.address}
-              prefetchedEnsName={row.original.solverEnsName}
+              trigger={
+                <AddressLinkClient
+                  className="text-gray-100"
+                  address={row.original.solver.address}
+                  prefetchedEnsName={row.original.solverEnsName}
+                />
+              }
             />
           </div>
         ),
@@ -182,10 +188,15 @@ const PuzzleSolvesTableMobile: FC<PuzzleSolvesTableInternalProps> = ({
                 prefetchedEnsAvatar={row.original.solverEnsAvatar}
               />
             </div>
-            <AddressLinkClient
-              className="text-gray-100"
+            <UserHoverCard
               address={row.original.solver.address}
-              prefetchedEnsName={row.original.solverEnsName}
+              trigger={
+                <AddressLinkClient
+                  className="text-gray-100"
+                  address={row.original.solver.address}
+                  prefetchedEnsName={row.original.solverEnsName}
+                />
+              }
             />
           </div>
         ),

@@ -32,9 +32,11 @@ const ENSAvatarClient: FC<ENSAvatarClientProps> = ({
   const { data: ensName } = useEnsName({
     address: isAddress(nameOrAddress) ? nameOrAddress : undefined,
     enabled: isAddress(nameOrAddress),
+    chainId: 1,
   });
   const { data: ensAvatar } = useEnsAvatar({
     name: !isAddress(nameOrAddress) ? nameOrAddress : ensName,
+    chainId: 1,
   });
 
   useEffect(() => setMounted(true), []);
