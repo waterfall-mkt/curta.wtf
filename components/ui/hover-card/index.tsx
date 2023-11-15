@@ -17,13 +17,14 @@ const HoverCard = forwardRef(
       sideOffset = 4,
       hasArrow = false,
       trigger,
+      triggerProps = { asChild: true },
       children,
       ...rest
     }: HoverCardProps,
     ref: ForwardedRef<HTMLDivElement>,
   ) => (
     <HoverCardPrimitive.Root openDelay={openDelay} closeDelay={closeDelay}>
-      <HoverCardPrimitive.Trigger asChild>{trigger}</HoverCardPrimitive.Trigger>
+      <HoverCardPrimitive.Trigger {...triggerProps}>{trigger}</HoverCardPrimitive.Trigger>
       <HoverCardPrimitive.Content
         ref={ref}
         sideOffset={sideOffset}

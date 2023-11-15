@@ -42,7 +42,7 @@ export async function GET(req: NextRequest) {
     isPuzzleAuthor: data.isPuzzleAuthor,
   };
 
-  return NextResponse.json({ data: userData }, { status });
+  return NextResponse.json(userData, { status });
 }
 
 // -----------------------------------------------------------------------------
