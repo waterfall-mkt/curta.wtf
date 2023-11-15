@@ -101,7 +101,7 @@ const UserHoverCard: FC<UserHoverCardProps> = ({ address, trigger, inPortal }) =
               })}
             </div>
             <span className="flex h-4 gap-0.5 text-sm font-book text-gray-200">
-              <AddressLinkClient className="leading-4" address={address} />
+              <AddressLinkClient className="-mb-1 pb-1 leading-4 " address={address} />
               <ArrowUpRight className="h-2.5 w-2.5" />
             </span>
           </div>
