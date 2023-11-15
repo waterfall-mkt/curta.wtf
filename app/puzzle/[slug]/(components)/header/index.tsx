@@ -9,6 +9,7 @@ import { fetchPuzzleById, getChainInfo } from '@/lib/utils';
 import AddressLink from '@/components/templates/address-link';
 import Avatar from '@/components/templates/avatar';
 import ENSAvatar from '@/components/templates/ens-avatar';
+import UserHoverCard from '@/components/templates/user-hover-card';
 import { Button, ButtonGroup, IconButton, Tooltip } from '@/components/ui';
 
 // -----------------------------------------------------------------------------
@@ -71,10 +72,15 @@ const PuzzleHeader: FC<PuzzleHeaderProps> = async ({ puzzle }) => {
                       <Avatar size={20} src="" alt={puzzle.author.address} />
                     )}
                   </div>
-                  <AddressLink
-                    className="max-w-[13rem] overflow-hidden text-ellipsis font-medium text-gray-50"
+                  <UserHoverCard
                     address={puzzle.author.address}
-                    chainId={puzzle.chainId}
+                    trigger={
+                      <AddressLink
+                        className="max-w-[13rem] overflow-hidden text-ellipsis font-medium text-gray-50"
+                        address={puzzle.author.address}
+                        chainId={puzzle.chainId}
+                      />
+                    }
                   />
                 </div>
               ),
