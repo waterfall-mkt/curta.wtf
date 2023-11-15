@@ -40,6 +40,7 @@ const UserHoverCard: FC<UserHoverCardProps> = ({ address, trigger, triggerAsChil
       }}
       hasArrow={false}
       inPortal={inPortal}
+      onClick={(e) => e.stopPropagation()}
     >
       {!error && !isLoading ? (
         <Fragment>
