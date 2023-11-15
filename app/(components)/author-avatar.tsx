@@ -53,6 +53,7 @@ const AuthorAvatar: FC<AuthorAvatarProps> = ({ author, index, children }) => {
           </div>
         </button>
       }
+      triggerAsChild
     />
   );
 };

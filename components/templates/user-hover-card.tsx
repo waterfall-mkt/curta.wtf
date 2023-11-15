@@ -17,10 +17,11 @@ import { Button, ButtonGroup, HoverCard, IconButton } from '@/components/ui';
 type UserHoverCardProps = {
   address: Address;
   trigger: ReactNode;
+  triggerAsChild?: boolean;
   inPortal?: boolean;
 };
 
-const UserHoverCard: FC<UserHoverCardProps> = ({ address, trigger, inPortal }) => {
+const UserHoverCard: FC<UserHoverCardProps> = ({ address, trigger, triggerAsChild, inPortal }) => {
   const { data, error, isLoading, mutate } = useSWR<DbUser>(
     `/api/user?address=${address}`,
     (url) => fetch(url).then((res) => res.json()),
@@ -35,6 +36,7 @@ const UserHoverCard: FC<UserHoverCardProps> = ({ address, trigger, inPortal }) =
       trigger={trigger}
       triggerProps={{
         onMouseEnter: () => mutate(),
+        asChild: triggerAsChild,
       }}
       hasArrow={false}
       inPortal={inPortal}
