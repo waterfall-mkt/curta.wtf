@@ -14,7 +14,7 @@ import AddressLink from '@/components/templates/address-link';
 import Avatar from '@/components/templates/avatar';
 import ENSAvatar from '@/components/templates/ens-avatar';
 import UserHoverCard from '@/components/templates/user-hover-card';
-import { IconButton } from '@/components/ui';
+import { ButtonGroup, IconButton } from '@/components/ui';
 
 // ---------------------------------------–-------------------------------------
 // Props
@@ -93,7 +93,7 @@ const AuthorsDisplay: FC<AuthorsDisplayProps> = ({ data }) => {
                       inPortal
                     />
                   </div>
-                  <div className="flex items-center gap-2">
+                  <ButtonGroup>
                     {author.twitter ? (
                       <IconButton
                         variant="outline"
@@ -114,7 +114,7 @@ const AuthorsDisplay: FC<AuthorsDisplayProps> = ({ data }) => {
                         <Github />
                       </IconButton>
                     ) : null}
-                  </div>
+                  </ButtonGroup>
                 </div>
               );
             })}
