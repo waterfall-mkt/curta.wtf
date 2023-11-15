@@ -17,9 +17,10 @@ import { Button, ButtonGroup, HoverCard, IconButton } from '@/components/ui';
 type UserHoverCardProps = {
   address: Address;
   trigger: ReactNode;
+  inPortal?: boolean;
 };
 
-const UserHoverCard: FC<UserHoverCardProps> = ({ address, trigger }) => {
+const UserHoverCard: FC<UserHoverCardProps> = ({ address, trigger, inPortal }) => {
   const { data, error, isLoading, mutate } = useSWR<DbUser>(
     `/api/user?address=${address}`,
     (url) => fetch(url).then((res) => res.json()),
@@ -36,6 +37,7 @@ const UserHoverCard: FC<UserHoverCardProps> = ({ address, trigger }) => {
         onMouseEnter: () => mutate(),
       }}
       hasArrow={false}
+      inPortal={inPortal}
     >
       {!error && !isLoading ? (
         <Fragment>
@@ -78,7 +80,7 @@ const UserHoverCard: FC<UserHoverCardProps> = ({ address, trigger }) => {
           <div className="flex flex-col gap-1">
             <div className="flex h-5 items-center gap-2">
               <span className="font-medium leading-5 text-gray-50">
-                {data?.displayName ?? getShortenedAddress(address)}
+                {data?.displayName ? data?.displayName : getShortenedAddress(address)}
               </span>
               {[
                 {

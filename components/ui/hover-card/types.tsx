@@ -12,4 +12,5 @@ export type HoverCardProps = ComponentPropsWithoutRef<typeof HoverCardPrimitive.
   openDelay?: number;
   closeDelay?: number;
   hasArrow?: boolean;
+  inPortal?: boolean;
 };

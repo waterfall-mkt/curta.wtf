@@ -1,6 +1,6 @@
 'use client';
 
-import { type ForwardedRef, forwardRef } from 'react';
+import { type ForwardedRef, forwardRef, Fragment } from 'react';
 
 import { hoverCardArrowStyles, hoverCardStyles } from './styles';
 import type { HoverCardProps } from './types';
@@ -18,26 +18,33 @@ const HoverCard = forwardRef(
       hasArrow = false,
       trigger,
       triggerProps = { asChild: true },
+      inPortal = false,
       children,
       ...rest
     }: HoverCardProps,
     ref: ForwardedRef<HTMLDivElement>,
-  ) => (
-    <HoverCardPrimitive.Root openDelay={openDelay} closeDelay={closeDelay}>
-      <HoverCardPrimitive.Trigger {...triggerProps}>{trigger}</HoverCardPrimitive.Trigger>
-      <HoverCardPrimitive.Content
-        ref={ref}
-        sideOffset={sideOffset}
-        className={twMerge(clsx(hoverCardStyles, className))}
-        {...rest}
-      >
-        {hasArrow ? (
-          <HoverCardPrimitive.Arrow className={hoverCardArrowStyles} width={8} height={4} />
-        ) : null}
-        {children}
-      </HoverCardPrimitive.Content>
-    </HoverCardPrimitive.Root>
-  ),
+  ) => {
+    const ContentParent = inPortal ? HoverCardPrimitive.Portal : Fragment;
+
+    return (
+      <HoverCardPrimitive.Root openDelay={openDelay} closeDelay={closeDelay}>
+        <HoverCardPrimitive.Trigger {...triggerProps}>{trigger}</HoverCardPrimitive.Trigger>
+        <ContentParent>
+          <HoverCardPrimitive.Content
+            ref={ref}
+            sideOffset={sideOffset}
+            className={twMerge(clsx(hoverCardStyles, className))}
+            {...rest}
+          >
+            {hasArrow ? (
+              <HoverCardPrimitive.Arrow className={hoverCardArrowStyles} width={8} height={4} />
+            ) : null}
+            {children}
+          </HoverCardPrimitive.Content>
+        </ContentParent>
+      </HoverCardPrimitive.Root>
+    );
+  },
 );
 HoverCard.displayName = HoverCardPrimitive.Content.displayName;
 

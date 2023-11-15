@@ -15,6 +15,7 @@ import IdWithChainLogo from '@/components/templates/id-with-chain-logo';
 import InfoTooltip from '@/components/templates/info-tooltip';
 import PhaseTag from '@/components/templates/phase-tag';
 import ProgressBar from '@/components/templates/progress-bar';
+import UserHoverCard from '@/components/templates/user-hover-card';
 import { IconButton, Table } from '@/components/ui';
 
 const LeaderboardPuzzlesTableDesktop: FC<LeaderboardPuzzlesTableInternalProps> = ({
@@ -43,10 +44,15 @@ const LeaderboardPuzzlesTableDesktop: FC<LeaderboardPuzzlesTableInternalProps> =
                 prefetchedEnsAvatar={row.original.solverEnsAvatar}
               />
             </div>
-            <AddressLinkClient
-              className="text-gray-100"
+            <UserHoverCard
               address={row.original.solver}
-              prefetchedEnsName={row.original.solverEnsName}
+              trigger={
+                <AddressLinkClient
+                  className="text-gray-100"
+                  address={row.original.solver}
+                  prefetchedEnsName={row.original.solverEnsName}
+                />
+              }
             />
           </div>
         ),
@@ -154,10 +160,15 @@ const LeaderboardPuzzlesTableDesktopSubComponent: FC<{ data: PuzzleSolve[] }> = 
                   : `Puzzle #${row.original.puzzleId}`}
               </div>
               {row.original.puzzle ? (
-                <AddressLinkClient
-                  className="mt-0.5 text-xs text-gray-200"
+                <UserHoverCard
                   address={row.original.puzzle.author.address}
-                  prefetchedEnsName={row.original.solverEnsName}
+                  trigger={
+                    <AddressLinkClient
+                      className="mt-0.5 text-xs text-gray-200"
+                      address={row.original.puzzle.author.address}
+                      prefetchedEnsName={row.original.solverEnsName}
+                    />
+                  }
                 />
               ) : null}
             </div>

@@ -13,6 +13,7 @@ import LogoIcon from '@/components/common/logo-icon';
 import AddressLink from '@/components/templates/address-link';
 import Avatar from '@/components/templates/avatar';
 import ENSAvatar from '@/components/templates/ens-avatar';
+import UserHoverCard from '@/components/templates/user-hover-card';
 import { IconButton } from '@/components/ui';
 
 // ---------------------------------------–-------------------------------------
@@ -80,7 +81,17 @@ const AuthorsDisplay: FC<AuthorsDisplayProps> = ({ data }) => {
                   </div>
                   <div className="ml-3.5 grow">
                     <div className="text-gray-100">{displayName}</div>
-                    <AddressLink className="w-fit text-sm" address={author.address} chainId={1} />
+                    <UserHoverCard
+                      address={author.address}
+                      trigger={
+                        <AddressLink
+                          className="w-fit text-sm"
+                          address={author.address}
+                          chainId={1}
+                        />
+                      }
+                      inPortal
+                    />
                   </div>
                   <div className="flex items-center gap-2">
                     {author.twitter ? (
