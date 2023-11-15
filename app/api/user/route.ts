@@ -28,7 +28,21 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error }, { status });
   }
 
-  return NextResponse.json({ data }, { status });
+  const userData: DbUser = {
+    // Primary key
+    address: data.address,
+    // User information
+    username: data.username,
+    bio: data.bio,
+    displayName: data.displayName,
+    twitter: data.twitter,
+    github: data.github,
+    // Curta Puzzles-specific
+    puzzlesSolved: data.puzzlesSolved,
+    isPuzzleAuthor: data.isPuzzleAuthor,
+  };
+
+  return NextResponse.json({ data: userData }, { status });
 }
 
 // -----------------------------------------------------------------------------
