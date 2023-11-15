@@ -2,6 +2,7 @@ import Badge from './badge';
 import Button, { ButtonGroup } from './button';
 import Card from './card';
 import CodeBlock from './code-block';
+import HoverCard from './hover-card';
 import IconButton from './icon-button';
 import Input from './input';
 import Modal from './modal';
@@ -19,6 +20,7 @@ export {
   ButtonGroup,
   Card,
   CodeBlock,
+  HoverCard,
   IconButton,
   Input,
   Modal,
