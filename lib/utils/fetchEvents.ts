@@ -11,12 +11,17 @@ type EventsResponse = {
 };
 
 /**
- * Fetches and returns all events from the database.
+ * Fetches and returns all events, sorted from earliest start date to latest
+ * start date from the database.
  * @returns An object containing data for the events, the status code, and the
  * error in the shape `{ data: Event[], status: number, error: PostgrestError | null }`.
  */
 const fetchEvents = async (): Promise<EventsResponse> => {
-  const { data, status, error } = await supabase.from('events').select('*').returns<DbEvent[]>();
+  const { data, status, error } = await supabase
+    .from('events')
+    .select('*')
+    .order('startDate', { ascending: true })
+    .returns<DbEvent[]>();
 
   if ((error && status !== 406) || !data || (data && data.length === 0)) {
     return { data: [], status, error };
