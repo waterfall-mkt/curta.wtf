@@ -8,6 +8,7 @@ import type { Phase, PuzzleSolve, PuzzleSolver } from '@/lib/types/protocol';
 export type LeaderboardPuzzlesResponse = {
   data: {
     data: PuzzleSolver[];
+    puzzles: number;
     solvers: number;
     solves: number;
     filter: string;
@@ -44,7 +45,7 @@ const fetchLeaderboardPuzzles = async ({
 
   if ((error && status !== 406) || !data || (data && data.length === 0)) {
     return {
-      data: { data: [], solvers: 0, solves: 0, filter },
+      data: { data: [], puzzles: 0, solvers: 0, solves: 0, filter },
       status,
       error,
     };
@@ -149,6 +150,7 @@ const fetchLeaderboardPuzzles = async ({
     data: {
       // Return the top 100 solvers w/ rank.
       data: solvers.slice(0, 100).map((item, index) => ({ ...item, rank: index + 1 })),
+      puzzles: puzzleMap.size,
       solvers: solvers.length,
       solves: filteredData.length,
       filter,

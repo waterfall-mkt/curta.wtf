@@ -218,7 +218,7 @@ const LeaderboardPuzzlesContent: FC<LeaderboardPuzzlesContentProps> = ({
                               />
                             ) : null}
                             <span className="w-fit whitespace-nowrap">
-                              {season > 0 ? '5 puzzles' : `${10 - 9 + 1} puzzles`} {/* TODO */}
+                              {`${data?.puzzles ?? 5} puzzles`}
                             </span>
                           </Fragment>
                         ),
@@ -233,7 +233,7 @@ const LeaderboardPuzzlesContent: FC<LeaderboardPuzzlesContentProps> = ({
                         {item.children}
                       </div>
                     ))
-                  : [108, 76, 72].map((width, i) => (
+                  : [78, 76, 72].map((width, i) => (
                       <div
                         key={i}
                         className="h-6 animate-pulse rounded-full bg-gray-350"
