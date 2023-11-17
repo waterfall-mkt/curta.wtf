@@ -71,7 +71,7 @@ const LeaderboardPuzzlesContent: FC<LeaderboardPuzzlesContentProps> = ({
     filterTypeAndValue.type === 'event'
       ? filterTypeAndValue.value
       : events.length > 0
-      ? events[events.length - 1].slug // Default to last event by default.
+      ? events[events.length - 1].slug // Default to latest event slug by default.
       : '';
 
   // ---------------------------------------------------------------------------
@@ -80,7 +80,6 @@ const LeaderboardPuzzlesContent: FC<LeaderboardPuzzlesContentProps> = ({
 
   const [filter, setFilter] = useState<string>(getFilter(filterTypeAndValue));
   const [season, setSeason] = useState<number>(defaultSeason);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [eventSlug, setEventSlug] = useState<string>(defaultEventSlug);
   const [data, setData] = useState<LeaderboardPuzzlesResponse['data']>();
   const [scrollIsAtLeft, setScrollIsAtLeft] = useState<boolean>(true);
@@ -88,6 +87,9 @@ const LeaderboardPuzzlesContent: FC<LeaderboardPuzzlesContentProps> = ({
   const router = useRouter();
   const pathname = usePathname();
   const isSeasonOver = season * 5 <= puzzles;
+  const isEventOver =
+    (events.find((event) => event.slug === eventSlug)?.endDate ?? Number.MAX_SAFE_INTEGER) <
+    Date.now() / 1000;
 
   const fetchAndSetData = useCallback(
     async (filter: LeaderboardPuzzlesFilterAndValue) => {
@@ -206,16 +208,28 @@ const LeaderboardPuzzlesContent: FC<LeaderboardPuzzlesContentProps> = ({
                       {
                         children: (
                           <Fragment>
-                            {season > 0 ? (
-                              <PhaseTagPing
-                                phase={isSeasonOver ? 3 : 0}
-                                isPinging={!isSeasonOver}
-                                title={
-                                  isSeasonOver
-                                    ? 'All puzzles for this season have been added.'
-                                    : 'There are still puzzles to be added for this season.'
-                                }
-                              />
+                            {filter !== 'all' ? (
+                              filter.startsWith('season_') ? (
+                                <PhaseTagPing
+                                  phase={isSeasonOver ? 3 : 0}
+                                  isPinging={!isSeasonOver}
+                                  title={
+                                    isSeasonOver
+                                      ? 'All puzzles for this season have been added.'
+                                      : 'There are still puzzles to be added for this season.'
+                                  }
+                                />
+                              ) : (
+                                <PhaseTagPing
+                                  phase={isEventOver ? 3 : 0}
+                                  isPinging={!isEventOver}
+                                  title={
+                                    isEventOver
+                                      ? 'The event is over.'
+                                      : 'There event is still ongoing.'
+                                  }
+                                />
+                              )
                             ) : null}
                             <span className="w-fit whitespace-nowrap">
                               {`${data?.puzzles ?? 5} puzzles`}
