@@ -30,11 +30,13 @@ const fetchLeaderboardPuzzles = async ({
   maxPuzzleIndex,
   filter,
   excludeEvents,
+  eventSlug,
 }: {
   minPuzzleIndex: number;
   maxPuzzleIndex: number;
   filter: string;
   excludeEvents?: boolean;
+  eventSlug?: string;
 }): Promise<LeaderboardPuzzlesResponse> => {
   // Fetch solves.
   const { data, status, error } = await supabase
@@ -54,10 +56,12 @@ const fetchLeaderboardPuzzles = async ({
   // Fetch puzzles.
   const { data: puzzles } = await supabase
     .from('puzzles')
-    .select('id, chainId, name, author:users(*), numberSolved, addedTimestamp, eventId')
+    .select(
+      'id, chainId, name, author:users(*), numberSolved, addedTimestamp, eventId:events(slug)',
+    )
     .not('address', 'is', null)
     .order('addedTimestamp', { ascending: true })
-    .returns<(Required<PuzzleSolve>['puzzle'] & { eventId?: string })[]>();
+    .returns<(Required<PuzzleSolve>['puzzle'] & { eventId?: null | { slug: string } })[]>();
 
   const solversObject: { [key: string]: PuzzleSolver } = {};
   const puzzleMap: Map<string, Required<PuzzleSolve>['puzzle'] & { index: number }> = new Map();
@@ -70,10 +74,12 @@ const fetchLeaderboardPuzzles = async ({
     if (
       (excludeEvents && puzzle.eventId) ||
       puzzle.id < minPuzzleIndex ||
-      puzzle.id > maxPuzzleIndex
+      puzzle.id > maxPuzzleIndex ||
+      (eventSlug && puzzle.eventId?.slug !== eventSlug)
     ) {
       return;
     }
+
     // Set puzzle solve count.
     puzzleMap.set(`${puzzle.id}|${puzzle.chainId}`, { ...puzzle, index: index + 1 });
   });

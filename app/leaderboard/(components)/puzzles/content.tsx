@@ -91,9 +91,9 @@ const LeaderboardPuzzlesContent: FC<LeaderboardPuzzlesContentProps> = ({
 
   const fetchAndSetData = useCallback(
     async (filter: LeaderboardPuzzlesFilterAndValue) => {
-      setData((await fetchLeaderboardData(filter, puzzles, maxSeason)).data);
+      setData((await fetchLeaderboardData(filter, puzzles)).data);
     },
-    [maxSeason, puzzles],
+    [puzzles],
   );
 
   // Fetch the data for the default filters on component mount if it's not the
