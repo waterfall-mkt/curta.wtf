@@ -10,8 +10,7 @@ export type LeaderboardPuzzlesResponse = {
     data: PuzzleSolver[];
     solvers: number;
     solves: number;
-    minPuzzleIndex: number;
-    maxPuzzleIndex: number;
+    filter: string;
   };
   status: number;
   error: PostgrestError | null;
@@ -21,19 +20,21 @@ export type LeaderboardPuzzlesResponse = {
  * Returns leaderboard results for [**Curta Puzzles**](https://curta.wtf/docs/puzzles/overview),
  * across all chains ranked by the method described [**here**](https://www.curta.wtf/docs/leaderboard#curta-puzzles).
  * @param param0 An object containing the minimum and maximum puzzle IDs to
- * fetch solves for i the shape `{ minPuzzleIndex?: number, maxPuzzleIndex?: number }`.
+ * fetch solves for in the shape `{ minPuzzleIndex: number; maxPuzzleIndex: number; filter: string; excludeEvents?: boolean; }`.
  * @returns An object containing data for the solves, the status code, and the
- * error in the shape `{ data: { data: PuzzleSolve[], solvers: number, solves: number, minPuzzleIndex: number, maxPuzzleIndex: number }, status: number, error: PostgrestError | null }`.
+ * error in the shape `{ data: { data: PuzzleSolve[]; solvers: number; solves: number; filter: string }; status: number; error: PostgrestError | null }`.
  */
-const fetchLeaderboardPuzzles = async (
-  {
-    minPuzzleIndex = 0,
-    maxPuzzleIndex = Number.MAX_SAFE_INTEGER,
-  }: {
-    minPuzzleIndex?: number;
-    maxPuzzleIndex?: number;
-  } = { minPuzzleIndex: 0, maxPuzzleIndex: Number.MAX_SAFE_INTEGER },
-): Promise<LeaderboardPuzzlesResponse> => {
+const fetchLeaderboardPuzzles = async ({
+  minPuzzleIndex,
+  maxPuzzleIndex,
+  filter,
+  excludeEvents,
+}: {
+  minPuzzleIndex: number;
+  maxPuzzleIndex: number;
+  filter: string;
+  excludeEvents?: boolean;
+}): Promise<LeaderboardPuzzlesResponse> => {
   // Fetch solves.
   const { data, status, error } = await supabase
     .from('puzzles_solves')
@@ -43,7 +44,7 @@ const fetchLeaderboardPuzzles = async (
 
   if ((error && status !== 406) || !data || (data && data.length === 0)) {
     return {
-      data: { data: [], solvers: 0, solves: 0, minPuzzleIndex, maxPuzzleIndex },
+      data: { data: [], solvers: 0, solves: 0, filter },
       status,
       error,
     };
@@ -53,6 +54,7 @@ const fetchLeaderboardPuzzles = async (
   const { data: puzzles } = await supabase
     .from('puzzles')
     .select('id, chainId, name, author:users(*), numberSolved, addedTimestamp')
+    .not('isEvent', 'is', excludeEvents)
     .not('address', 'is', null)
     .order('addedTimestamp', { ascending: true })
     .returns<Required<PuzzleSolve>['puzzle'][]>();
@@ -147,8 +149,7 @@ const fetchLeaderboardPuzzles = async (
       data: solvers.slice(0, 100).map((item, index) => ({ ...item, rank: index + 1 })),
       solvers: solvers.length,
       solves: filteredData.length,
-      minPuzzleIndex,
-      maxPuzzleIndex,
+      filter,
     },
     status,
     error,

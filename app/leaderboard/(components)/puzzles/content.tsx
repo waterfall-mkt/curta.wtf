@@ -166,9 +166,7 @@ const LeaderboardPuzzlesContent: FC<LeaderboardPuzzlesContentProps> = ({
   // `loading` is true if `data` is inconsistent with the selected season. The
   // `season !== maxSeason` condition is present because we already have the
   // latest season's data via `defaultData`.
-  const loading = false; // TODO
-  /* (minPuzzleIndex !== data?.minPuzzleIndex || maxPuzzleIndex !== data?.maxPuzzleIndex) &&
-    season !== maxSeason; */
+  const loading = filter !== data?.filter && filter !== `season_${maxSeason}`;
 
   return (
     <Fragment>

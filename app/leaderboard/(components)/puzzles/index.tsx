@@ -24,7 +24,11 @@ const LeaderboardPuzzles: FC<LeaderboardPuzzlesProps> = async ({ puzzles }) => {
   const maxPuzzleIndex = Math.min(puzzles, maxSeason * 5);
   // Fetch the data of the latest season (i.e. data that is displayed by
   // default).
-  const { data: defaultData } = await fetchLeaderboardPuzzles({ minPuzzleIndex, maxPuzzleIndex });
+  const { data: defaultData } = await fetchLeaderboardPuzzles({
+    minPuzzleIndex,
+    maxPuzzleIndex,
+    filter: `season_${maxSeason}`,
+  });
   // Fetch all events.
   const { data: events } = await fetchEvents();
 

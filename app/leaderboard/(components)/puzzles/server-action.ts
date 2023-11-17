@@ -10,12 +10,26 @@ export default async function action(
   maxSeason: number,
 ) {
   if (filter.type === 'all') {
-    return await fetchLeaderboardPuzzles();
+    return await fetchLeaderboardPuzzles({
+      minPuzzleIndex: 1,
+      maxPuzzleIndex: Number.MAX_SAFE_INTEGER,
+      filter: 'all',
+      excludeEvents: true,
+    });
   } else if (filter.type === 'season' && filter.value !== maxSeason) {
     const minPuzzleIndex = (filter.value - 1) * 5 + 1;
     const maxPuzzleIndex = Math.min(puzzles, filter.value * 5);
-    return await fetchLeaderboardPuzzles({ minPuzzleIndex, maxPuzzleIndex });
+    return await fetchLeaderboardPuzzles({
+      minPuzzleIndex,
+      maxPuzzleIndex,
+      filter: `season_${filter.value}`,
+    });
   }
 
-  return await fetchLeaderboardPuzzles();
+  // TODO
+  return await fetchLeaderboardPuzzles({
+    minPuzzleIndex: 1,
+    maxPuzzleIndex: puzzles,
+    filter: 'all',
+  });
 }
