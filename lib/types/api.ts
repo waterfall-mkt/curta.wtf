@@ -78,7 +78,6 @@ export type DbUser = {
  * @param github A link to the puzzle's GitHub repository.
  * @param disabled Whether or not the puzzle should be displayed on the
  * frontend.
- * @param isEvent Whether or not the puzzle is part of an event.
  * @param eventId The ID of the event the puzzle is part of.
  * @param sponsorshipId The ID of the sponsorship relevant to the puzzle.
  * @param bytecode The puzzle's contract bytecode.
@@ -107,7 +106,6 @@ export type DbPuzzle = {
   solution?: string;
   github?: string;
   disabled?: boolean;
-  isEvent?: boolean;
   eventId?: string;
   sponsorshipId?: string;
   // Puzzle source code

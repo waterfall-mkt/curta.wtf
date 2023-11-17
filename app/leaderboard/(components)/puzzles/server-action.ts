@@ -30,6 +30,6 @@ export default async function action(
   return await fetchLeaderboardPuzzles({
     minPuzzleIndex: 1,
     maxPuzzleIndex: puzzles,
-    filter: 'all',
+    filter: `event_${filter.value}`,
   });
 }

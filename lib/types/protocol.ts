@@ -118,7 +118,7 @@ export type Phase = 0 | 1 | 2 | 3;
  * @param github A link to the puzzle's GitHub repository.
  * @param disabled Whether or not the puzzle should be displayed on the
  * frontend.
- * @param isEvent Whether or not the puzzle is part of an event.
+ * @param event The event the puzzle is for (if any).
  * @param bytecode The puzzle's contract bytecode.
  * @param solidity The puzzle's Solidity source code.
  * @param huff The puzzle's Huff source code.
@@ -148,7 +148,7 @@ export type Puzzle = {
   solution?: string;
   github?: string;
   disabled?: boolean;
-  isEvent?: boolean;
+  event?: Event;
   // Puzzle source code
   bytecode: string;
   solidity?: string;
