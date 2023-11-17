@@ -5,6 +5,33 @@ import type { Address, Hash } from 'viem';
 // -----------------------------------------------------------------------------
 
 /**
+ * Type for an object representing a Curta event stored in the database's
+ * `events` table.
+ * @param id The event's ID (auto-generated `uuid`).
+ * @param slug The event's slug (unique).
+ * @param name The event's name.
+ * @param description A short description about the event.
+ * @param link External link relevant to the event.
+ * @param image An image relevant to the event.
+ * @param startDate The timestamp the event starts at.
+ * @param endDate The timestamp the event ends at.
+ * @param location The location of the event.
+ */
+export type DbEvent = {
+  // Primary key
+  id: string; // Auto-generated
+  // Event information
+  slug: string;
+  name: string;
+  description?: string;
+  link?: string;
+  image?: string;
+  startDate: number;
+  endDate: number;
+  location?: string;
+};
+
+/**
  * Type for an object representing a Curta user stored in the database's `users`
  * table.
  * @param address The user's Ethereum address (hex, should be all lowercase).
@@ -132,19 +159,4 @@ export type DbPuzzleSolve = {
 
 export type Error = {
   message: string;
-};
-
-export type SupabaseSolve = {
-  // Primary key
-  id: string; // string because it's a hex-string
-  puzzleId: number;
-  solver: `0x${string}`;
-  // Solve information
-  phase: number;
-  solution: `0x${string}`;
-  // Solve transaction information
-  solveTimestamp: number;
-  solveTx: `0x${string}`;
-  tokenImage: string;
-  created_at: number;
 };

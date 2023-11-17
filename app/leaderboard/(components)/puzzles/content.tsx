@@ -17,6 +17,7 @@ import LeaderboardPuzzlesTableSkeleton from './table-skeleton';
 import clsx from 'clsx';
 import { ChevronRightCircle, ExternalLink } from 'lucide-react';
 
+import type { Event } from '@/lib/types/protocol';
 import type { LeaderboardPuzzlesResponse } from '@/lib/utils/fetchLeaderboardPuzzles';
 
 import PhaseTagPing from '@/components/templates/phase-tag/ping';
@@ -29,6 +30,7 @@ import { Button, Select } from '@/components/ui';
 type LeaderboardPuzzlesContentProps = {
   maxSeason: number;
   puzzles: number;
+  events: Event[];
   defaultData: LeaderboardPuzzlesResponse['data'];
 };
 
@@ -44,8 +46,10 @@ type LeaderboardPuzzlesFilterAndValue =
 const LeaderboardPuzzlesContent: FC<LeaderboardPuzzlesContentProps> = ({
   maxSeason,
   puzzles,
+  events,
   defaultData,
 }) => {
+  console.log(events);
   const searchParams = useSearchParams();
   // ---------------------------------------------------------------------------
   // URL search param parsing
