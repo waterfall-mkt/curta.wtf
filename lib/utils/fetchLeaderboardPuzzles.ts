@@ -53,11 +53,10 @@ const fetchLeaderboardPuzzles = async ({
   // Fetch puzzles.
   const { data: puzzles } = await supabase
     .from('puzzles')
-    .select('id, chainId, name, author:users(*), numberSolved, addedTimestamp')
+    .select('id, chainId, name, author:users(*), numberSolved, addedTimestamp, eventId')
     .not('address', 'is', null)
-    .not('eventId', 'is', excludeEvents ? null : undefined)
     .order('addedTimestamp', { ascending: true })
-    .returns<Required<PuzzleSolve>['puzzle'][]>();
+    .returns<(Required<PuzzleSolve>['puzzle'] & { eventId?: string })[]>();
 
   const solversObject: { [key: string]: PuzzleSolver } = {};
   const puzzleMap: Map<string, Required<PuzzleSolve>['puzzle'] & { index: number }> = new Map();
@@ -65,18 +64,21 @@ const fetchLeaderboardPuzzles = async ({
   // Go through the list of puzzles to make them addressable via puzzle ID and
   // chain ID.
   puzzles?.forEach((puzzle, index) => {
+    // Exclude events if specified, or if the puzzle is not in the queried
+    // range.
+    if (
+      (excludeEvents && puzzle.eventId) ||
+      puzzle.id < minPuzzleIndex ||
+      puzzle.id > maxPuzzleIndex
+    ) {
+      return;
+    }
     // Set puzzle solve count.
     puzzleMap.set(`${puzzle.id}|${puzzle.chainId}`, { ...puzzle, index: index + 1 });
   });
 
-  // Filter solves within the queried range.
-  const filteredData = data.filter((item) => {
-    const puzzleIndex =
-      // Include all solves within range; exclude any puzzle not found in the
-      // map.
-      puzzleMap.get(`${item.puzzleId}|${item.chainId}`)?.index ?? Number.MAX_SAFE_INTEGER;
-    return puzzleIndex >= minPuzzleIndex && puzzleIndex <= maxPuzzleIndex;
-  });
+  // Filter solves within query.
+  const filteredData = data.filter((item) => puzzleMap.has(`${item.puzzleId}|${item.chainId}`));
   filteredData.forEach((item) => {
     const solver = item.solver.address.toLowerCase() as Address;
 
