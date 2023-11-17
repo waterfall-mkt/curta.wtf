@@ -163,9 +163,9 @@ const LeaderboardPuzzlesContent: FC<LeaderboardPuzzlesContentProps> = ({
     setScrollIsAtRight(scrollWidth - scrollLeft === clientWidth);
   };
 
-  // `loading` is true if `data` is inconsistent with the selected season. The
-  // `season !== maxSeason` condition is present because we already have the
-  // latest season's data via `defaultData`.
+  // `loading` is true if `data` is inconsistent with the selected filter. The
+  // `filter !== \`season_${maxSeason}\`` condition is present because we
+  // already have the latest season's data via `defaultData`.
   const loading = filter !== data?.filter && filter !== `season_${maxSeason}`;
 
   return (
