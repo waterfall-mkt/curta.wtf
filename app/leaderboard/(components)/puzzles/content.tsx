@@ -59,7 +59,8 @@ const LeaderboardPuzzlesContent: FC<LeaderboardPuzzlesContentProps> = ({
   //                 to the latest season.
   //     * `event`: Include all puzzles from the parsed event number. In the
   //                form of `event_${eventSlug}`. If the parsed event slug is
-  //                not a valid event slug, set the data to the latest season.
+  //                not a valid event slug, set the default event to the latest
+  //                event.
   const filterSearchParam = searchParams.get('filter')?.toLowerCase() ?? `season_${maxSeason}`; // Default to max season.
   const filterTypeAndValue = getFilterTypeAndValue(filterSearchParam, maxSeason);
   const defaultSeason = filterTypeAndValue.type === 'season' ? filterTypeAndValue.value : maxSeason; // Default to max season.
