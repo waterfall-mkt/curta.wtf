@@ -34,7 +34,7 @@ type LeaderboardPuzzlesContentProps = {
   defaultData: LeaderboardPuzzlesResponse['data'];
 };
 
-type LeaderboardPuzzlesFilterAndValue =
+export type LeaderboardPuzzlesFilterAndValue =
   | { type: 'all'; value?: undefined }
   | { type: 'season'; value: number }
   | { type: 'event'; value: string };
@@ -80,6 +80,7 @@ const LeaderboardPuzzlesContent: FC<LeaderboardPuzzlesContentProps> = ({
 
   const [filter, setFilter] = useState<string>(getFilter(filterTypeAndValue));
   const [season, setSeason] = useState<number>(defaultSeason);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [eventSlug, setEventSlug] = useState<string>(defaultEventSlug);
   const [data, setData] = useState<LeaderboardPuzzlesResponse['data']>();
   const [scrollIsAtLeft, setScrollIsAtLeft] = useState<boolean>(true);
@@ -88,31 +89,18 @@ const LeaderboardPuzzlesContent: FC<LeaderboardPuzzlesContentProps> = ({
   const pathname = usePathname();
   const isSeasonOver = season * 5 <= puzzles;
 
-  const fetchData = useCallback(
+  const fetchAndSetData = useCallback(
     async (filter: LeaderboardPuzzlesFilterAndValue) => {
-      // Only fetch new data if the new season is not the latest season because
-      // we already have the latest season's data via `defaultData`.
-      if (filter.type === 'all') {
-        // TODO
-        setData((await fetchLeaderboardData({ minPuzzleIndex: 0, maxPuzzleIndex: 1000 })).data);
-      } else if (filter.type === 'season' && filter.value !== maxSeason) {
-        const minPuzzleIndex = (filter.value - 1) * 5 + 1;
-        const maxPuzzleIndex = Math.min(puzzles, filter.value * 5);
-        setData((await fetchLeaderboardData({ minPuzzleIndex, maxPuzzleIndex })).data);
-      } else if (filter.type === 'event') {
-        // TODO
-        console.log(eventSlug); // TODO: delete
-        setData((await fetchLeaderboardData({ minPuzzleIndex: 0, maxPuzzleIndex: 1000 })).data);
-      }
+      setData((await fetchLeaderboardData(filter, puzzles, maxSeason)).data);
     },
-    [eventSlug, maxSeason, puzzles],
+    [maxSeason, puzzles],
   );
 
   // Fetch the data for the default filters on component mount if it's not the
   // default filter.
   useEffect(() => {
-    fetchData({ type: 'season', value: season });
-  }, [fetchData, season]);
+    fetchAndSetData({ type: 'season', value: season });
+  }, [fetchAndSetData, season]);
 
   // A helper function to update the URL search params when a user filters to a
   // new season in the table via the UI to keep URL<>component states synced.
@@ -150,13 +138,13 @@ const LeaderboardPuzzlesContent: FC<LeaderboardPuzzlesContentProps> = ({
     // already have the latest season's data via `defaultData`.
     if (newFilterType !== 'season' || newValue !== maxSeason) {
       if (newFilterType === 'all') {
-        await fetchData({ type: newFilterType });
+        await fetchAndSetData({ type: newFilterType });
       } else if (newFilterType === 'season') {
         setSeason(newValue);
-        await fetchData({ type: newFilterType, value: newValue });
+        await fetchAndSetData({ type: newFilterType, value: newValue });
       } else if (newFilterType === 'event') {
         setEventSlug(newValue);
-        await fetchData({ type: newFilterType, value: newValue });
+        await fetchAndSetData({ type: newFilterType, value: newValue });
       }
     } else {
       setData(defaultData);
