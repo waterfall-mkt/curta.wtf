@@ -43,7 +43,6 @@ const fetchPuzzles = async (): Promise<PuzzlesResponse> => {
       solution: puzzle.solution,
       github: puzzle.github,
       disabled: puzzle.disabled,
-      isEvent: puzzle.isEvent,
       // Puzzle source code
       bytecode: puzzle.bytecode,
       solidity: puzzle.solidity,
