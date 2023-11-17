@@ -226,7 +226,7 @@ const LeaderboardPuzzlesContent: FC<LeaderboardPuzzlesContentProps> = ({
                                   title={
                                     isEventOver
                                       ? 'The event is over.'
-                                      : 'There event is still ongoing.'
+                                      : 'The event is still ongoing.'
                                   }
                                 />
                               )
