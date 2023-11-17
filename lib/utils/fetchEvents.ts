@@ -10,6 +10,11 @@ type EventsResponse = {
   error: PostgrestError | null;
 };
 
+/**
+ * Fetches and returns all events from the database.
+ * @returns An object containing data for the events, the status code, and the
+ * error in the shape `{ data: Event[], status: number, error: PostgrestError | null }`.
+ */
 const fetchEvents = async (): Promise<EventsResponse> => {
   const { data, status, error } = await supabase.from('events').select('*').returns<DbEvent[]>();
 
