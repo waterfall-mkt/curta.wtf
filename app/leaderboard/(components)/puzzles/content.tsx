@@ -188,7 +188,9 @@ const LeaderboardPuzzlesContent: FC<LeaderboardPuzzlesContentProps> = ({
                               />
                             ) : null}
                             <span className="w-fit whitespace-nowrap">
-                              Puzzles {minPuzzleIndex}-{season > 0 ? season * 5 : puzzles}
+                              {season > 0
+                                ? '5 puzzles'
+                                : `${maxPuzzleIndex - minPuzzleIndex + 1} puzzles`}
                             </span>
                           </Fragment>
                         ),
