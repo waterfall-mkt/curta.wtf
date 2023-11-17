@@ -8,10 +8,10 @@ import type { Phase, PuzzleSolve, PuzzleSolver } from '@/lib/types/protocol';
 export type LeaderboardPuzzlesResponse = {
   data: {
     data: PuzzleSolver[];
+    puzzles: number;
     solvers: number;
     solves: number;
-    minPuzzleIndex: number;
-    maxPuzzleIndex: number;
+    filter: string;
   };
   status: number;
   error: PostgrestError | null;
@@ -21,19 +21,23 @@ export type LeaderboardPuzzlesResponse = {
  * Returns leaderboard results for [**Curta Puzzles**](https://curta.wtf/docs/puzzles/overview),
  * across all chains ranked by the method described [**here**](https://www.curta.wtf/docs/leaderboard#curta-puzzles).
  * @param param0 An object containing the minimum and maximum puzzle IDs to
- * fetch solves for i the shape `{ minPuzzleIndex?: number, maxPuzzleIndex?: number }`.
+ * fetch solves for in the shape `{ minPuzzleIndex: number; maxPuzzleIndex: number; filter: string; excludeEvents?: boolean; }`.
  * @returns An object containing data for the solves, the status code, and the
- * error in the shape `{ data: { data: PuzzleSolve[], solvers: number, solves: number, minPuzzleIndex: number, maxPuzzleIndex: number }, status: number, error: PostgrestError | null }`.
+ * error in the shape `{ data: { data: PuzzleSolve[]; solvers: number; solves: number; filter: string }; status: number; error: PostgrestError | null }`.
  */
-const fetchLeaderboardPuzzles = async (
-  {
-    minPuzzleIndex = 0,
-    maxPuzzleIndex = Number.MAX_SAFE_INTEGER,
-  }: {
-    minPuzzleIndex?: number;
-    maxPuzzleIndex?: number;
-  } = { minPuzzleIndex: 0, maxPuzzleIndex: Number.MAX_SAFE_INTEGER },
-): Promise<LeaderboardPuzzlesResponse> => {
+const fetchLeaderboardPuzzles = async ({
+  minPuzzleIndex,
+  maxPuzzleIndex,
+  filter,
+  excludeEvents,
+  eventSlug,
+}: {
+  minPuzzleIndex: number;
+  maxPuzzleIndex: number;
+  filter: string;
+  excludeEvents?: boolean;
+  eventSlug?: string;
+}): Promise<LeaderboardPuzzlesResponse> => {
   // Fetch solves.
   const { data, status, error } = await supabase
     .from('puzzles_solves')
@@ -43,7 +47,7 @@ const fetchLeaderboardPuzzles = async (
 
   if ((error && status !== 406) || !data || (data && data.length === 0)) {
     return {
-      data: { data: [], solvers: 0, solves: 0, minPuzzleIndex, maxPuzzleIndex },
+      data: { data: [], puzzles: 0, solvers: 0, solves: 0, filter },
       status,
       error,
     };
@@ -52,10 +56,12 @@ const fetchLeaderboardPuzzles = async (
   // Fetch puzzles.
   const { data: puzzles } = await supabase
     .from('puzzles')
-    .select('id, chainId, name, author:users(*), numberSolved, addedTimestamp')
+    .select(
+      'id, chainId, name, author:users(*), numberSolved, addedTimestamp, eventId:events(slug)',
+    )
     .not('address', 'is', null)
     .order('addedTimestamp', { ascending: true })
-    .returns<Required<PuzzleSolve>['puzzle'][]>();
+    .returns<(Required<PuzzleSolve>['puzzle'] & { eventId?: null | { slug: string } })[]>();
 
   const solversObject: { [key: string]: PuzzleSolver } = {};
   const puzzleMap: Map<string, Required<PuzzleSolve>['puzzle'] & { index: number }> = new Map();
@@ -63,18 +69,23 @@ const fetchLeaderboardPuzzles = async (
   // Go through the list of puzzles to make them addressable via puzzle ID and
   // chain ID.
   puzzles?.forEach((puzzle, index) => {
+    // Exclude events if specified, or if the puzzle is not in the queried
+    // range.
+    if (
+      (excludeEvents && puzzle.eventId) ||
+      puzzle.id < minPuzzleIndex ||
+      puzzle.id > maxPuzzleIndex ||
+      (eventSlug && puzzle.eventId?.slug !== eventSlug)
+    ) {
+      return;
+    }
+
     // Set puzzle solve count.
     puzzleMap.set(`${puzzle.id}|${puzzle.chainId}`, { ...puzzle, index: index + 1 });
   });
 
-  // Filter solves within the queried range.
-  const filteredData = data.filter((item) => {
-    const puzzleIndex =
-      // Include all solves within range; exclude any puzzle not found in the
-      // map.
-      puzzleMap.get(`${item.puzzleId}|${item.chainId}`)?.index ?? Number.MAX_SAFE_INTEGER;
-    return puzzleIndex >= minPuzzleIndex && puzzleIndex <= maxPuzzleIndex;
-  });
+  // Filter solves within query.
+  const filteredData = data.filter((item) => puzzleMap.has(`${item.puzzleId}|${item.chainId}`));
   filteredData.forEach((item) => {
     const solver = item.solver.address.toLowerCase() as Address;
 
@@ -145,10 +156,10 @@ const fetchLeaderboardPuzzles = async (
     data: {
       // Return the top 100 solvers w/ rank.
       data: solvers.slice(0, 100).map((item, index) => ({ ...item, rank: index + 1 })),
+      puzzles: puzzleMap.size,
       solvers: solvers.length,
       solves: filteredData.length,
-      minPuzzleIndex,
-      maxPuzzleIndex,
+      filter,
     },
     status,
     error,

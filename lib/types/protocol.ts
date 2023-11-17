@@ -5,6 +5,30 @@ import type { Address, Hash } from 'viem';
 // -----------------------------------------------------------------------------
 
 /**
+ * Type for an object representing a Curta event.
+ * @param slug The event's slug (unique).
+ * @param name The event's name.
+ * @param description A short description about the event.
+ * @param link External link relevant to the event.
+ * @param image An image relevant to the event.
+ * @param startDate The timestamp the event starts at.
+ * @param endDate The timestamp the event ends at.
+ * @param location The location of the event.
+ */
+export type Event = {
+  // Identifier
+  slug: string;
+  // Event information
+  name: string;
+  description?: string;
+  link?: string;
+  image?: string;
+  startDate: number;
+  endDate: number;
+  location?: string;
+};
+
+/**
  * Type for an object representing a Curta user.
  * @param address The user's Ethereum address (hex, should be all lowercase).
  * @param username The user's unique username. If the user never set a username,
@@ -20,7 +44,7 @@ import type { Address, Hash } from 'viem';
  * @param ensName User's prefetched ENS name.
  */
 export type User = {
-  // Primary key
+  // Identifier
   address: Address;
   // User information
   username: string;
@@ -94,7 +118,7 @@ export type Phase = 0 | 1 | 2 | 3;
  * @param github A link to the puzzle's GitHub repository.
  * @param disabled Whether or not the puzzle should be displayed on the
  * frontend.
- * @param isEvent Whether or not the puzzle is part of an event.
+ * @param event The event the puzzle is for (if any).
  * @param bytecode The puzzle's contract bytecode.
  * @param solidity The puzzle's Solidity source code.
  * @param huff The puzzle's Huff source code.
@@ -124,7 +148,7 @@ export type Puzzle = {
   solution?: string;
   github?: string;
   disabled?: boolean;
-  isEvent?: boolean;
+  event?: Event;
   // Puzzle source code
   bytecode: string;
   solidity?: string;

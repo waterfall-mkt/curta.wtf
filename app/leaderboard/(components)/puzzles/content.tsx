@@ -17,6 +17,7 @@ import LeaderboardPuzzlesTableSkeleton from './table-skeleton';
 import clsx from 'clsx';
 import { ChevronRightCircle, ExternalLink } from 'lucide-react';
 
+import type { Event } from '@/lib/types/protocol';
 import type { LeaderboardPuzzlesResponse } from '@/lib/utils/fetchLeaderboardPuzzles';
 
 import PhaseTagPing from '@/components/templates/phase-tag/ping';
@@ -29,8 +30,14 @@ import { Button, Select } from '@/components/ui';
 type LeaderboardPuzzlesContentProps = {
   maxSeason: number;
   puzzles: number;
+  events: Event[];
   defaultData: LeaderboardPuzzlesResponse['data'];
 };
+
+export type LeaderboardPuzzlesFilterAndValue =
+  | { type: 'all'; value?: undefined }
+  | { type: 'season'; value: number }
+  | { type: 'event'; value: string };
 
 // -----------------------------------------------------------------------------
 // Component
@@ -39,60 +46,78 @@ type LeaderboardPuzzlesContentProps = {
 const LeaderboardPuzzlesContent: FC<LeaderboardPuzzlesContentProps> = ({
   maxSeason,
   puzzles,
+  events,
   defaultData,
 }) => {
   const searchParams = useSearchParams();
-  // Query the `puzzles-season` search param and set the default season to the
-  // value of the search param if it is a valid season number, otherwise set the
-  // default season to the latest season. Additionally, if the search param is
-  // the special keyword `all`, set the default season to 0.
-  const seasonSearchParam = searchParams.get('puzzles-season') ?? maxSeason.toString();
-  const defaultSeason =
-    seasonSearchParam.toLowerCase() === 'all'
-      ? 0
-      : // Check if the search param is not 'all' or a valid season number.
-      Number.isNaN(Number(seasonSearchParam)) ||
-        Number(seasonSearchParam) < 0 ||
-        Number(seasonSearchParam) > maxSeason
-      ? maxSeason
-      : Number(seasonSearchParam);
+  // ---------------------------------------------------------------------------
+  // URL search param parsing
+  // ---------------------------------------------------------------------------
+
+  // Query the `filter` search param and set the default filter types:
+  //     * `all`: Include all puzzles except `isEvent: true` puzzles.
+  //     * `season`: Include all puzzles from the parsed season number. In the
+  //                 form of `season_${seasonNumber}`. If the parsed season
+  //                 number is not a valid season number, set the default season
+  //                 to the latest season.
+  //     * `event`: Include all puzzles from the parsed event number. In the
+  //                form of `event_${eventSlug}`. If the parsed event slug is
+  //                not a valid event slug, set the default event to the latest
+  //                event.
+  const filterSearchParam = searchParams.get('filter')?.toLowerCase() ?? `season_${maxSeason}`; // Default to max season.
+  const filterTypeAndValue = getFilterTypeAndValue(filterSearchParam, maxSeason, events);
+  const defaultSeason = filterTypeAndValue.type === 'season' ? filterTypeAndValue.value : maxSeason; // Default to max season.
+  const defaultEventSlug =
+    filterTypeAndValue.type === 'event'
+      ? filterTypeAndValue.value
+      : events.length > 0
+      ? events[events.length - 1].slug // Default to latest event slug by default.
+      : '';
+
+  // ---------------------------------------------------------------------------
+  // Filtered data state
+  // ---------------------------------------------------------------------------
+
+  const [filter, setFilter] = useState<string>(getFilter(filterTypeAndValue));
   const [season, setSeason] = useState<number>(defaultSeason);
+  const [eventSlug, setEventSlug] = useState<string>(defaultEventSlug);
   const [data, setData] = useState<LeaderboardPuzzlesResponse['data']>();
   const [scrollIsAtLeft, setScrollIsAtLeft] = useState<boolean>(true);
   const [scrollIsAtRight, setScrollIsAtRight] = useState<boolean>(false);
   const router = useRouter();
   const pathname = usePathname();
-  const minPuzzleIndex = season === 0 ? 1 : (season - 1) * 5 + 1;
-  const maxPuzzleIndex = season === 0 ? puzzles : Math.min(puzzles, season * 5);
   const isSeasonOver = season * 5 <= puzzles;
+  const isEventOver =
+    (events.find((event) => event.slug === eventSlug)?.endDate ?? Number.MAX_SAFE_INTEGER) <
+    Date.now() / 1000;
 
-  // Fetch the data for the default season on component mount if it's not the
-  // default season.
+  const fetchAndSetData = useCallback(
+    async (filter: LeaderboardPuzzlesFilterAndValue) => {
+      setData((await fetchLeaderboardData(filter, puzzles)).data);
+    },
+    [puzzles],
+  );
+
+  // Fetch the data for the default filters on component mount if it's not the
+  // default filter.
   useEffect(() => {
-    const fetchData = async () => {
-      // Only fetch new data if the new season is not the latest season because
-      // we already have the latest season's data via `defaultData`.
-      if (season !== maxSeason) {
-        setData((await fetchLeaderboardData({ minPuzzleIndex, maxPuzzleIndex })).data);
-      }
-    };
-
-    fetchData();
-  }, [maxPuzzleIndex, maxSeason, minPuzzleIndex, puzzles, season]);
+    if (filter !== `season_${maxSeason}`) {
+      fetchAndSetData(getFilterTypeAndValue(filter, maxSeason, events));
+    }
+  }, [events, fetchAndSetData, filter, maxSeason]);
 
   // A helper function to update the URL search params when a user filters to a
   // new season in the table via the UI to keep URL<>component states synced.
   const updateSearchParams = useCallback(
-    (newSeason: number) => {
+    (value: string) => {
       // Instantiate a new `URLSearchParams` object from the current search and
-      // replace the `puzzles-season` with the new page index.
+      // replace the `filter` with the new page index.
       const newSearchParams = new URLSearchParams(Array.from(searchParams.entries()));
-      newSearchParams.set('puzzles-season', newSeason === 0 ? 'all' : newSeason.toString());
-
-      // If the new season is `maxSeason`, we want to remove `puzzles-season`
+      newSearchParams.set('filter', value === 'all' ? 'all' : value);
+      // If the new season is `season_${maxSeason}`, we want to remove `filter`
       // from the search params entirely because the latest season is rendered
       // by default.
-      if (newSeason === maxSeason) newSearchParams.delete('puzzles-season');
+      if (value === `season_${maxSeason}`) newSearchParams.delete('filter');
 
       router.replace(`${pathname}?${newSearchParams.toString()}`);
     },
@@ -103,25 +128,29 @@ const LeaderboardPuzzlesContent: FC<LeaderboardPuzzlesContentProps> = ({
   //     * Component state
   //     * URL search params
   //     * Displayed data
-  const onSeasonChange = async (e: ChangeEvent<HTMLSelectElement>) => {
-    const newSeason = Number(e.target.value);
+  const onFilterChange = async (e: ChangeEvent<HTMLSelectElement>) => {
+    const value = e.target.value;
+    setFilter(value);
+    updateSearchParams(value);
 
-    setSeason(newSeason);
-    updateSearchParams(newSeason);
-    // Only fetch new data if the new season is not the latest season because we
+    const { type: newFilterType, value: newValue } = getFilterTypeAndValue(
+      value,
+      maxSeason,
+      events,
+    );
+    // Only fetch new data if the new filter is not the latest season because we
     // already have the latest season's data via `defaultData`.
-    if (newSeason !== maxSeason) {
-      const newMinPuzzleIndex = newSeason === 0 ? 1 : (newSeason - 1) * 5 + 1;
-      const newMaxPuzzleIndex = newSeason === 0 ? puzzles : Math.min(puzzles, newSeason * 5);
-      setData(
-        (
-          await fetchLeaderboardData({
-            minPuzzleIndex: newMinPuzzleIndex,
-            maxPuzzleIndex: newMaxPuzzleIndex,
-          })
-        ).data,
-      );
-    } else if (newSeason === maxSeason) {
+    if (newFilterType !== 'season' || newValue !== maxSeason) {
+      if (newFilterType === 'all') {
+        await fetchAndSetData({ type: newFilterType });
+      } else if (newFilterType === 'season') {
+        setSeason(newValue);
+        await fetchAndSetData({ type: newFilterType, value: newValue });
+      } else if (newFilterType === 'event') {
+        setEventSlug(newValue);
+        await fetchAndSetData({ type: newFilterType, value: newValue });
+      }
+    } else {
       setData(defaultData);
     }
   };
@@ -138,12 +167,10 @@ const LeaderboardPuzzlesContent: FC<LeaderboardPuzzlesContentProps> = ({
     setScrollIsAtRight(scrollWidth - scrollLeft === clientWidth);
   };
 
-  // `loading` is true if `data` is inconsistent with the selected season. The
-  // `season !== maxSeason` condition is present because we already have the
-  // latest season's data via `defaultData`.
-  const loading =
-    (minPuzzleIndex !== data?.minPuzzleIndex || maxPuzzleIndex !== data?.maxPuzzleIndex) &&
-    season !== maxSeason;
+  // `loading` is true if `data` is inconsistent with the selected filter. The
+  // `filter !== \`season_${maxSeason}\`` condition is present because we
+  // already have the latest season's data via `defaultData`.
+  const loading = filter !== data?.filter && filter !== `season_${maxSeason}`;
 
   return (
     <Fragment>
@@ -151,18 +178,23 @@ const LeaderboardPuzzlesContent: FC<LeaderboardPuzzlesContentProps> = ({
         <div className="hide-scrollbar relative -m-1 flex grow items-center gap-2 overflow-x-scroll p-1">
           <Select
             variant="secondary"
-            value={season}
-            onChange={onSeasonChange}
-            aria-label="Select a Puzzles season leaderboard to view."
+            value={filter}
+            onChange={onFilterChange}
+            aria-label="Select a filtered Puzzles leaderboard to view."
           >
-            <Select.Item value={0}>All seasons</Select.Item>
+            <Select.Item value="all">All seasons</Select.Item>
             {Array(maxSeason)
               .fill(null)
               .map((_, i) => (
-                <Select.Item key={i} value={maxSeason - i}>
+                <Select.Item key={`s${i}`} value={`season_${maxSeason - i}`}>
                   Season {maxSeason - i}
                 </Select.Item>
               ))}
+            {events.map((event, i) => (
+              <Select.Item key={`e${i}`} value={`event_${event.slug}`}>
+                {event.name}
+              </Select.Item>
+            ))}
           </Select>
           <div className="relative flex h-8 w-3 items-center" role="separator">
             <hr className="absolute left-1.5 top-0 z-0 mx-auto h-8 border-l border-stroke" />
@@ -176,19 +208,31 @@ const LeaderboardPuzzlesContent: FC<LeaderboardPuzzlesContentProps> = ({
                       {
                         children: (
                           <Fragment>
-                            {season > 0 ? (
-                              <PhaseTagPing
-                                phase={isSeasonOver ? 3 : 0}
-                                isPinging={!isSeasonOver}
-                                title={
-                                  isSeasonOver
-                                    ? 'All puzzles for this season have been added.'
-                                    : 'There are still puzzles to be added for this season.'
-                                }
-                              />
+                            {filter !== 'all' ? (
+                              filter.startsWith('season_') ? (
+                                <PhaseTagPing
+                                  phase={isSeasonOver ? 3 : 0}
+                                  isPinging={!isSeasonOver}
+                                  title={
+                                    isSeasonOver
+                                      ? 'All puzzles for this season have been added.'
+                                      : 'There are still puzzles to be added for this season.'
+                                  }
+                                />
+                              ) : (
+                                <PhaseTagPing
+                                  phase={isEventOver ? 3 : 0}
+                                  isPinging={!isEventOver}
+                                  title={
+                                    isEventOver
+                                      ? 'The event is over.'
+                                      : 'The event is still ongoing.'
+                                  }
+                                />
+                              )
                             ) : null}
                             <span className="w-fit whitespace-nowrap">
-                              Puzzles {minPuzzleIndex}-{season > 0 ? season * 5 : puzzles}
+                              {`${data?.puzzles ?? 5} puzzles`}
                             </span>
                           </Fragment>
                         ),
@@ -203,7 +247,7 @@ const LeaderboardPuzzlesContent: FC<LeaderboardPuzzlesContentProps> = ({
                         {item.children}
                       </div>
                     ))
-                  : [108, 76, 72].map((width, i) => (
+                  : [78, 76, 72].map((width, i) => (
                       <div
                         key={i}
                         className="h-6 animate-pulse rounded-full bg-gray-350"
@@ -245,6 +289,50 @@ const LeaderboardPuzzlesContent: FC<LeaderboardPuzzlesContentProps> = ({
       )}
     </Fragment>
   );
+};
+
+// -----------------------------------------------------------------------------
+// Helper functions
+// -----------------------------------------------------------------------------
+
+const getFilter = (filterTypeAndValue: LeaderboardPuzzlesFilterAndValue): string => {
+  if (filterTypeAndValue.type === 'all') {
+    return 'all';
+  } else if (filterTypeAndValue.type === 'season') {
+    return `season_${filterTypeAndValue.value}`;
+  }
+
+  return `event_${filterTypeAndValue.value}`;
+};
+
+const getFilterTypeAndValue = (
+  filter: string,
+  maxSeason: number,
+  events: Event[],
+): LeaderboardPuzzlesFilterAndValue => {
+  if (filter === 'all') {
+    return { type: filter, value: undefined };
+  } else if (filter.startsWith('season_')) {
+    const parsedValue = Number(filter.split('_')[1]);
+    const season =
+      Number.isNaN(parsedValue) || parsedValue < 1 || parsedValue > maxSeason
+        ? maxSeason
+        : parsedValue;
+
+    return { type: 'season', value: season };
+  } else if (filter.startsWith('event_')) {
+    const parsedValue = filter.split('_')[1];
+    const defaultValue =
+      events.find((event) => event.slug === parsedValue) !== undefined
+        ? parsedValue
+        : events.length > 0
+        ? events[events.length - 1].slug
+        : '';
+
+    return { type: 'event', value: defaultValue };
+  }
+
+  return { type: 'season', value: maxSeason };
 };
 
 export default LeaderboardPuzzlesContent;

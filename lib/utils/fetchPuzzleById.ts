@@ -61,7 +61,6 @@ const fetchPuzzleById = async (id: number, chainId: number): Promise<PuzzleRespo
     solution: puzzleData.solution,
     github: puzzleData.github,
     disabled: puzzleData.disabled,
-    isEvent: puzzleData.isEvent,
     // Puzzle source code
     bytecode: puzzleData.bytecode,
     solidity: puzzleData.solidity,
