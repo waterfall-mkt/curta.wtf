@@ -9,7 +9,7 @@ import { useAccount } from 'wagmi';
 import type { Team } from '@/lib/types/protocol';
 
 import Avatar from '@/components/templates/avatar';
-import { Button, IconButton } from '@/components/ui';
+import { Button, IconButton, Tooltip } from '@/components/ui';
 
 const PuzzleInfoSolutionFormTeamControl: FC = () => {
   const { address } = useAccount();
@@ -28,12 +28,14 @@ const PuzzleInfoSolutionFormTeamControl: FC = () => {
         <Fragment>
           <div className="flex items-center gap-1 text-gray-150">
             <span className="text-sm">Submitting for</span>
-            <span className="flex h-5 items-center gap-1 rounded bg-gray-450 px-1.5">
-              <Avatar src={data.avatar ?? ''} alt={`Team #${data.id}`} size={16} />
-              <span className="text-xs font-medium leading-4">
-                {data.name ?? `Team #${data.id}`}
-              </span>
-            </span>
+            <Tooltip content={`#${data.id}`}>
+              <button className="flex h-5 items-center gap-1 rounded bg-gray-450 px-1.5 transition-colors hover:bg-gray-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-250">
+                <Avatar src={data.avatar ?? ''} alt={`Team #${data.id}`} size={16} />
+                <span className="text-xs font-medium leading-4">
+                  {data.name ?? `Team #${data.id}`}
+                </span>
+              </button>
+            </Tooltip>
           </div>
           <IconButton
             size="sm"
