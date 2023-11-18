@@ -179,14 +179,14 @@ export type DbTeam = {
  * the database's `team_members` view.
  * @param user The address of the user.
  * @param chainId The ID of the chain the team is on.
- * @param teamId The ID of the team the user is a member of.
+ * @param teamid The ID of the team the user is a member of.
  */
 export type DbTeamMember = {
   // Identifier
   user: Address;
   chainId: number;
   // Team information
-  teamId: number;
+  teamid: number;
 };
 
 /**

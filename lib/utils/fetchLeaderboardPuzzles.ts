@@ -98,6 +98,7 @@ const fetchLeaderboardPuzzles = async ({
     teams = dbTeams ?? [];
     teamMembers = dbTeamMembers ?? [];
   }
+
   // The keys are in the form `teamId`. We ignore `chainId` here. Then, make a
   // mapping of the teams.
   const teamMap = new Map<number, Team>();
@@ -113,12 +114,16 @@ const fetchLeaderboardPuzzles = async ({
     });
   });
   teamMembers.forEach((member) => {
-    memberToTeamMap.set(member.user, member.teamId);
-    const team = teamMap.get(member.teamId);
+    memberToTeamMap.set(member.user, member.teamid);
+    const team = teamMap.get(member.teamid);
     if (team) {
-      teamMap.set(member.teamId, { ...team, members: [...team.members, { address: member.user }] });
+      teamMap.set(member.teamid, {
+        ...team,
+        members: [...team.members, { address: member.user }],
+      });
     }
   });
+
   // The keys are in the form `${teamId}_${puzzleId}_${chainId}`.
   const teamPuzzlesSolved = new Set<string>();
   // Keep track of unique solvers (addresses).
@@ -152,7 +157,6 @@ const fetchLeaderboardPuzzles = async ({
         team: teamMap.get(teamId),
       };
     }
-    //console.log(teamMap, teamId, teamMap.get(teamId));
 
     // Increment solves count, points, and solves.
     switch (item.phase) {
