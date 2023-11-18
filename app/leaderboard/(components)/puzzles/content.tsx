@@ -104,10 +104,10 @@ const LeaderboardPuzzlesContent: FC<LeaderboardPuzzlesContentProps> = ({
   // Fetch the data for the default filters on component mount if it's not the
   // default filter.
   useEffect(() => {
-    if (filter !== `season_${maxSeason}`) {
+    if (filter !== defaultFilter) {
       fetchAndSetData(getFilterTypeAndValue(filter, maxSeason, events));
     }
-  }, [events, fetchAndSetData, filter, maxSeason]);
+  }, [defaultFilter, events, fetchAndSetData, filter, maxSeason]);
 
   // A helper function to update the URL search params when a user filters to a
   // new season in the table via the UI to keep URL<>component states synced.
