@@ -32,6 +32,7 @@ type LeaderboardPuzzlesContentProps = {
   puzzles: number;
   events: Event[];
   defaultData: LeaderboardPuzzlesResponse['data'];
+  defaultFilter: string;
 };
 
 export type LeaderboardPuzzlesFilterAndValue =
@@ -48,8 +49,10 @@ const LeaderboardPuzzlesContent: FC<LeaderboardPuzzlesContentProps> = ({
   puzzles,
   events,
   defaultData,
+  defaultFilter,
 }) => {
   const searchParams = useSearchParams();
+
   // ---------------------------------------------------------------------------
   // URL search param parsing
   // ---------------------------------------------------------------------------
@@ -64,7 +67,7 @@ const LeaderboardPuzzlesContent: FC<LeaderboardPuzzlesContentProps> = ({
   //                form of `event_${eventSlug}`. If the parsed event slug is
   //                not a valid event slug, set the default event to the latest
   //                event.
-  const filterSearchParam = searchParams.get('filter')?.toLowerCase() ?? `season_${maxSeason}`; // Default to max season.
+  const filterSearchParam = searchParams.get('filter')?.toLowerCase() ?? defaultFilter;
   const filterTypeAndValue = getFilterTypeAndValue(filterSearchParam, maxSeason, events);
   const defaultSeason = filterTypeAndValue.type === 'season' ? filterTypeAndValue.value : maxSeason; // Default to max season.
   const defaultEventSlug =
@@ -114,14 +117,14 @@ const LeaderboardPuzzlesContent: FC<LeaderboardPuzzlesContentProps> = ({
       // replace the `filter` with the new page index.
       const newSearchParams = new URLSearchParams(Array.from(searchParams.entries()));
       newSearchParams.set('filter', value === 'all' ? 'all' : value);
-      // If the new season is `season_${maxSeason}`, we want to remove `filter`
-      // from the search params entirely because the latest season is rendered
+      // If the new season is `sdefaultFilter`, we want to remove `filter` from
+      // the search params entirely because the latest season is rendered by
       // by default.
-      if (value === `season_${maxSeason}`) newSearchParams.delete('filter');
+      if (value === defaultFilter) newSearchParams.delete('filter');
 
       router.replace(`${pathname}?${newSearchParams.toString()}`);
     },
-    [searchParams, maxSeason, router, pathname],
+    [searchParams, defaultFilter, router, pathname],
   );
 
   // Function to keep everything synced when a new season is selected:
@@ -138,9 +141,9 @@ const LeaderboardPuzzlesContent: FC<LeaderboardPuzzlesContentProps> = ({
       maxSeason,
       events,
     );
-    // Only fetch new data if the new filter is not the latest season because we
-    // already have the latest season's data via `defaultData`.
-    if (newFilterType !== 'season' || newValue !== maxSeason) {
+    // Only fetch new data if the new filter is not the default filter because
+    // we already have fallback/default data via `defaultData`.
+    if (value !== defaultFilter) {
       if (newFilterType === 'all') {
         await fetchAndSetData({ type: newFilterType });
       } else if (newFilterType === 'season') {
@@ -168,9 +171,9 @@ const LeaderboardPuzzlesContent: FC<LeaderboardPuzzlesContentProps> = ({
   };
 
   // `loading` is true if `data` is inconsistent with the selected filter. The
-  // `filter !== \`season_${maxSeason}\`` condition is present because we
-  // already have the latest season's data via `defaultData`.
-  const loading = filter !== data?.filter && filter !== `season_${maxSeason}`;
+  // `filter !== defaultFilter` condition is present because we already have the
+  // default data via `defaultData`.
+  const loading = filter !== data?.filter && filter !== defaultFilter;
 
   return (
     <Fragment>
@@ -332,6 +335,7 @@ const getFilterTypeAndValue = (
     return { type: 'event', value: defaultValue };
   }
 
+  // Fallback to latest season.
   return { type: 'season', value: maxSeason };
 };
 

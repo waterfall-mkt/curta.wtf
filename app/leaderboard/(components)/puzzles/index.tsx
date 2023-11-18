@@ -3,6 +3,7 @@ import type { FC } from 'react';
 import LeaderboardPuzzlesContent from './content';
 
 import { fetchEvents, fetchLeaderboardPuzzles } from '@/lib/utils';
+import type { LeaderboardPuzzlesResponse } from '@/lib/utils/fetchLeaderboardPuzzles';
 
 import { Card } from '@/components/ui';
 
@@ -20,17 +21,33 @@ type LeaderboardPuzzlesProps = {
 
 const LeaderboardPuzzles: FC<LeaderboardPuzzlesProps> = async ({ puzzles }) => {
   const maxSeason = Math.ceil(puzzles / 5);
-  const minPuzzleIndex = (maxSeason - 1) * 5 + 1;
-  const maxPuzzleIndex = Math.min(puzzles, maxSeason * 5);
-  // Fetch the data of the latest season (i.e. data that is displayed by
-  // default).
-  const { data: defaultData } = await fetchLeaderboardPuzzles({
-    minPuzzleIndex,
-    maxPuzzleIndex,
-    filter: `season_${maxSeason}`,
-  });
+
   // Fetch all events.
   const { data: events } = await fetchEvents();
+  let defaultData: LeaderboardPuzzlesResponse['data'];
+  let defaultFilter = `season_${maxSeason}`;
+  if (events.length > 0 && events[events.length - 1].endDate > Date.now() / 1000) {
+    // If the latest event is still ongoing, make the default season the event.
+    const { data } = await fetchLeaderboardPuzzles({
+      minPuzzleIndex: 1,
+      maxPuzzleIndex: Number.MAX_SAFE_INTEGER,
+      filter: `event_${events[events.length - 1].slug}`,
+      eventSlug: events[events.length - 1].slug,
+    });
+    defaultData = data;
+    defaultFilter = `event_${events[events.length - 1].slug}`;
+  } else {
+    const minPuzzleIndex = (maxSeason - 1) * 5 + 1;
+    const maxPuzzleIndex = Math.min(puzzles, maxSeason * 5);
+
+    // Otherwise, default to the latest season.
+    const { data } = await fetchLeaderboardPuzzles({
+      minPuzzleIndex,
+      maxPuzzleIndex,
+      filter: `season_${maxSeason}`,
+    });
+    defaultData = data;
+  }
 
   return (
     <Card>
@@ -41,6 +58,7 @@ const LeaderboardPuzzles: FC<LeaderboardPuzzlesProps> = async ({ puzzles }) => {
           puzzles={puzzles}
           events={events}
           defaultData={defaultData}
+          defaultFilter={defaultFilter}
         />
       </Card.Body>
     </Card>
