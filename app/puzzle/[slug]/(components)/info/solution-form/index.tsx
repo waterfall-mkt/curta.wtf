@@ -3,6 +3,7 @@
 import { type FC, useEffect, useState } from 'react';
 
 import PuzzleInfoSolutionFormOptionsForm from './options-form';
+import PuzzleInfoSolutionFormTeamControl from './team-control';
 import PuzzleInfoSolutionFormTipForm from './tip-form';
 import clsx from 'clsx';
 import { ExternalLink, Heart, Settings } from 'lucide-react';
@@ -197,19 +198,7 @@ const PuzzleInfoSolutionForm: FC<PuzzleInfoSolutionFormProps> = ({ puzzle }) => 
             </div>
           }
         />
-        {puzzle.event ? (
-          <div className="flex h-11 grow items-center justify-between rounded-b-xl border border-t-0 border-gray-350 pl-4 pr-2">
-            <div className="text-sm text-gray-150">Submitting individually</div>
-            <Button
-              size="sm"
-              variant="outline"
-              intent="neutral"
-              className="bg-gray-600 active:bg-gray-450"
-            >
-              Join
-            </Button>
-          </div>
-        ) : null}
+        {puzzle.event ? <PuzzleInfoSolutionFormTeamControl /> : null}
       </div>
       {!chain || !mounted ? (
         <ConnectButton className="w-full" />
