@@ -152,6 +152,80 @@ export type DbPuzzleSolve = {
 };
 
 // -----------------------------------------------------------------------------
+// Team Registry-specific types
+// -----------------------------------------------------------------------------
+
+/**
+ * Type for a team object representing a Curta Team stored in the database's
+ * `teams` table.
+ * @param id The team's ID.
+ * @param chainId The ID of the chain the team is on.
+ * @param leader The team's leader.
+ * @param name The team's name.
+ * @param avatar A link to the team's avatar image.
+ */
+export type DbTeam = {
+  // Primary key
+  id: number;
+  chainId: number;
+  // Team information
+  leader: Pick<DbUser, 'address'> & Partial<DbUser>;
+  name?: string;
+  avatar?: string;
+};
+
+/**
+ * Type for a team member representing a member inside a Curta Team stored in
+ * the database's `team_members` view.
+ * @param user The address of the user.
+ * @param chainId The ID of the chain the team is on.
+ * @param teamId The ID of the team the user is a member of.
+ */
+export type DbTeamMember = {
+  // Identifier
+  user: Address;
+  chainId: number;
+  // Team information
+  teamId: number;
+};
+
+/**
+ * Type for a team member approval object representing an onchain set approval
+ * event on a Curta Team stored in the database's `team_member_approvals` table.
+ * @param teamId The ID of the team the approval is for.
+ * @param chainId The ID of the chain the team is on.
+ * @param member The user.
+ * @param approved Whether or not the user is approved to join the team or not.
+ */
+export type DbTeamMemberApproval = {
+  // Primary key
+  teamId: number;
+  chainId: number;
+  member: Pick<DbUser, 'address'> & Partial<DbUser>;
+  // Approval information
+  approved: boolean;
+};
+
+/**
+ * Type for a team transfer object representing an onchain transfer event on a
+ * Curta Team stored in the database's `team_transfers` table.
+ * @param user The user.
+ * @param chainId The ID of the chain the team is on.
+ * @param from The ID of the team the user is transferring from.
+ * @param to The ID of the team the user is transferring to.
+ * @param timestamp The blockchain timestamp the transfer was made at.
+ */
+export type DbTeamTransfer = {
+  // Primary key
+  user: Pick<DbUser, 'address'> & Partial<DbUser>;
+  chainId: number;
+  // Transfer information
+  from: number;
+  to: number;
+  timestamp: number;
+};
+
+// -----------------------------------------------------------------------------
 // Miscellanous types
 // -----------------------------------------------------------------------------
 

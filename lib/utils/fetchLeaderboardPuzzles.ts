@@ -2,7 +2,7 @@ import type { PostgrestError } from '@supabase/supabase-js';
 import type { Address } from 'viem';
 
 import supabase from '@/lib/services/supabase';
-import type { DbPuzzleSolve } from '@/lib/types/api';
+import type { DbPuzzleSolve, DbTeamMember } from '@/lib/types/api';
 import type { Phase, PuzzleSolve, PuzzleSolver } from '@/lib/types/protocol';
 
 export type LeaderboardPuzzlesResponse = {
@@ -84,16 +84,46 @@ const fetchLeaderboardPuzzles = async ({
     puzzleMap.set(`${puzzle.id}|${puzzle.chainId}`, { ...puzzle, index: index + 1 });
   });
 
+  // Fetch teams if event leaderboard.
+  let teamMembers: DbTeamMember[] = [];
+  let totalSolvers = 0;
+  if (eventSlug) {
+    const { data: dbTeamMembers } = await supabase
+      .from('team_members')
+      .select('*')
+      .returns<DbTeamMember[]>();
+
+    teamMembers = dbTeamMembers ?? [];
+  }
+  const solversSet = new Set<Address>();
+  const memberToTeamMap: Map<Address, number> = new Map();
+  // The keys are in the form `${teamId}_${puzzleId}_${chainId}`.
+  const teamPuzzlesSolved = new Set<string>();
+  teamMembers.map((member) => memberToTeamMap.set(member.user, member.teamId));
+
   // Filter solves within query.
   const filteredData = data.filter((item) => puzzleMap.has(`${item.puzzleId}|${item.chainId}`));
   filteredData.forEach((item) => {
     const solver = item.solver.address.toLowerCase() as Address;
+    // Count # of unique solvers.
+    if (!solversSet.has(solver)) totalSolvers++;
+    solversSet.add(solver);
+    // Aggregate scores by team (`0` means individual).
+    const solverTeamId = memberToTeamMap.get(solver) ?? 0;
+    const solverKey = solverTeamId > 0 ? `team_${solverTeamId}` : solver;
+    if (solverTeamId > 0) {
+      const teamPuzzleKey = `${solverTeamId}_${item.puzzleId}_${item.chainId}`;
+
+      // If the team has already solved the puzzle, skip.
+      if (teamPuzzlesSolved.has(teamPuzzleKey)) return;
+      teamPuzzlesSolved.add(teamPuzzleKey);
+    }
 
     // Initialize solver object if it doesn't exist.
-    if (!solversObject[solver]) {
-      solversObject[solver] = {
+    if (!solversObject[solverKey]) {
+      solversObject[solverKey] = {
         rank: 0,
-        solver,
+        solver: solver,
         count: { phase0: 0, phase1: 0, phase2: 0, total: 0 },
         points: 0,
         speedScore: 0,
@@ -104,20 +134,20 @@ const fetchLeaderboardPuzzles = async ({
     // Increment solves count, points, and solves.
     switch (item.phase) {
       case 0:
-        solversObject[solver].count.phase0++;
-        solversObject[solver].points += 3;
+        solversObject[solverKey].count.phase0++;
+        solversObject[solverKey].points += 3;
         break;
       case 1:
-        solversObject[solver].count.phase1++;
-        solversObject[solver].points += 2;
+        solversObject[solverKey].count.phase1++;
+        solversObject[solverKey].points += 2;
         break;
       case 2:
-        solversObject[solver].count.phase2++;
-        solversObject[solver].points += 1;
+        solversObject[solverKey].count.phase2++;
+        solversObject[solverKey].points += 1;
         break;
     }
-    solversObject[solver].count.total++;
-    solversObject[solver].solves.push({
+    solversObject[solverKey].count.total++;
+    solversObject[solverKey].solves.push({
       // Identifier
       puzzleId: item.puzzleId,
       chainId: item.chainId,
@@ -133,7 +163,8 @@ const fetchLeaderboardPuzzles = async ({
     });
   });
 
-  // Sort solvers by speed score, then by points.
+  // Sort solvers by speed score, then by points. Then, return the top 100 w/
+  // rank.
   const solvers: PuzzleSolver[] = Object.values(solversObject)
     .map((item) => {
       const sum = item.solves.reduce(
@@ -150,14 +181,16 @@ const fetchLeaderboardPuzzles = async ({
       };
     })
     .sort((a, b) => b.speedScore - a.speedScore)
-    .sort((a, b) => b.points - a.points);
+    .sort((a, b) => b.points - a.points)
+    .slice(0, 100)
+    .map((item, index) => ({ ...item, rank: index + 1 }));
 
   return {
     data: {
       // Return the top 100 solvers w/ rank.
-      data: solvers.slice(0, 100).map((item, index) => ({ ...item, rank: index + 1 })),
+      data: solvers,
       puzzles: puzzleMap.size,
-      solvers: solvers.length,
+      solvers: totalSolvers,
       solves: filteredData.length,
       filter,
     },
