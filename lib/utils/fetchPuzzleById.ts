@@ -23,7 +23,7 @@ type PuzzleResponse = {
 const fetchPuzzleById = async (id: number, chainId: number): Promise<PuzzleResponse> => {
   const { data, status, error } = await supabase
     .from('puzzles')
-    .select('*, author:users(*)')
+    .select('*, author:users(*), eventId:events(id)')
     .not('address', 'is', null)
     .eq('id', id)
     .eq('chainId', chainId)
@@ -61,6 +61,7 @@ const fetchPuzzleById = async (id: number, chainId: number): Promise<PuzzleRespo
     solution: puzzleData.solution,
     github: puzzleData.github,
     disabled: puzzleData.disabled,
+    event: puzzleData.eventId,
     // Puzzle source code
     bytecode: puzzleData.bytecode,
     solidity: puzzleData.solidity,

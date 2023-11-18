@@ -4,6 +4,7 @@ import { type FC, useEffect, useState } from 'react';
 
 import PuzzleInfoSolutionFormOptionsForm from './options-form';
 import PuzzleInfoSolutionFormTipForm from './tip-form';
+import clsx from 'clsx';
 import { ExternalLink, Heart, Settings } from 'lucide-react';
 import { parseEther } from 'viem';
 import {
@@ -127,7 +128,7 @@ const PuzzleInfoSolutionForm: FC<PuzzleInfoSolutionFormProps> = ({ puzzle }) => 
     <div className="flex flex-col items-center gap-2 p-4">
       <div className="flex w-full flex-col">
         <Input
-          className="w-full"
+          className={clsx('w-full', puzzle.event ? 'rounded-b-none' : '')}
           label="Solution (button activates if correct)"
           placeholder="0x"
           value={solution}
@@ -196,6 +197,19 @@ const PuzzleInfoSolutionForm: FC<PuzzleInfoSolutionFormProps> = ({ puzzle }) => 
             </div>
           }
         />
+        {puzzle.event ? (
+          <div className="flex h-11 grow items-center justify-between rounded-b-xl border border-t-0 border-gray-350 pl-4 pr-2">
+            <div className="text-sm text-gray-150">Submitting individually</div>
+            <Button
+              size="sm"
+              variant="outline"
+              intent="neutral"
+              className="bg-gray-600 active:bg-gray-450"
+            >
+              Join
+            </Button>
+          </div>
+        ) : null}
       </div>
       {!chain || !mounted ? (
         <ConnectButton className="w-full" />
