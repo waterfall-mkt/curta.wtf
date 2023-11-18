@@ -14,6 +14,7 @@ const Tooltip = forwardRef(
       className,
       sideOffset = 4,
       content,
+      triggerProps = { asChild: true },
       hasArrow = true,
       noDelay = false,
       inPortal = false,
@@ -27,7 +28,7 @@ const Tooltip = forwardRef(
     return (
       <RadixTooltip.Provider delayDuration={noDelay ? 0 : 500}>
         <RadixTooltip.Root>
-          <RadixTooltip.Trigger onClick={(e) => e.preventDefault()} asChild>
+          <RadixTooltip.Trigger onClick={(e) => e.stopPropagation()} {...triggerProps}>
             {children}
           </RadixTooltip.Trigger>
           <ContentParent>
