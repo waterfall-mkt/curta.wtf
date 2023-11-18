@@ -1,19 +1,71 @@
-import type { FC } from 'react';
+'use client';
 
-import { Button } from '@/components/ui';
+import { type FC, Fragment, useEffect, useState } from 'react';
+
+import { ArrowLeftRight } from 'lucide-react';
+import useSWR from 'swr';
+import { useAccount } from 'wagmi';
+
+import type { Team } from '@/lib/types/protocol';
+
+import Avatar from '@/components/templates/avatar';
+import { Button, IconButton } from '@/components/ui';
 
 const PuzzleInfoSolutionFormTeamControl: FC = () => {
+  const { address } = useAccount();
+  const { data, error, isLoading } = useSWR<Team>(
+    `/api/user-team?address=${address}`,
+    (url: string) => fetch(url).then((res) => res.json()),
+  );
+  const [mounted, setMounted] = useState<boolean>(false);
+
+  // Set mounted.
+  useEffect(() => setMounted(true), []);
+
   return (
-    <div className="flex h-11 grow items-center justify-between rounded-b-xl border border-t-0 border-gray-350 pl-4 pr-2">
-      <div className="text-sm text-gray-150">Submitting individually</div>
-      <Button
-        size="sm"
-        variant="outline"
-        intent="neutral"
-        className="bg-gray-600 active:bg-gray-450"
-      >
-        Join
-      </Button>
+    <div className="flex h-11 grow items-center justify-between rounded-b-xl border border-t-0 border-gray-300 pl-4 pr-2">
+      {!error && !isLoading && mounted && data?.id ? (
+        <Fragment>
+          <div className="flex items-center gap-1 text-gray-150">
+            <span className="text-sm">Submitting for</span>
+            <span className="flex h-5 items-center gap-1 rounded bg-gray-450 px-1.5">
+              <Avatar src={data.avatar ?? ''} alt={`Team #${data.id}`} size={16} />
+              <span className="text-xs font-medium leading-4">
+                {data.name ?? `Team #${data.id}`}
+              </span>
+            </span>
+          </div>
+          <IconButton
+            size="sm"
+            variant="outline"
+            intent="neutral"
+            className="bg-gray-600 active:bg-gray-450"
+            href="https://basescan.org/address/0xfacade0bcaebb9b48bd1f613d2fd9b9865a3e61d"
+            newTab
+          >
+            <ArrowLeftRight />
+          </IconButton>
+        </Fragment>
+      ) : isLoading || !mounted ? (
+        <Fragment>
+          <div className="h-6 w-36 animate-pulse rounded bg-gray-350" />
+          <div className="h-7 w-7 animate-pulse rounded-lg bg-gray-350" />
+        </Fragment>
+      ) : (
+        <Fragment>
+          <div className="text-sm text-gray-150">Submitting individually</div>
+          <Button
+            size="sm"
+            variant="outline"
+            intent="neutral"
+            className="bg-gray-600 active:bg-gray-450"
+            href="https://basescan.org/address/0xfacade0bcaebb9b48bd1f613d2fd9b9865a3e61d"
+            newTab
+          >
+            Join
+          </Button>
+        </Fragment>
+      )}
     </div>
   );
 };
