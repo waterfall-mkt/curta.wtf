@@ -56,9 +56,7 @@ const fetchLeaderboardPuzzles = async ({
   // Fetch puzzles.
   const { data: puzzles } = await supabase
     .from('puzzles')
-    .select(
-      'id, chainId, name, author:users(*), numberSolved, addedTimestamp, eventId:events(slug)',
-    )
+    .select('id, chainId, name, author:users(*), numberSolved, addedTimestamp, eventId:events(*)')
     .not('address', 'is', null)
     .order('addedTimestamp', { ascending: true })
     .returns<(Required<PuzzleSolve>['puzzle'] & { eventId?: null | { slug: string } })[]>();
@@ -103,6 +101,7 @@ const fetchLeaderboardPuzzles = async ({
   // The keys are in the form `teamId`. We ignore `chainId` here. Then, make a
   // mapping of the teams.
   const teamMap = new Map<number, Team>();
+  const memberToTeamMap: Map<Address, number> = new Map();
   teams.forEach((team) => {
     teamMap.set(team.id, {
       id: team.id,
@@ -113,14 +112,15 @@ const fetchLeaderboardPuzzles = async ({
       members: [],
     });
   });
-  teamMembers.forEach(
-    (member) => teamMap.get(member.teamId)?.members.push({ address: member.user }),
-  );
-  const memberToTeamMap: Map<Address, number> = new Map();
+  teamMembers.forEach((member) => {
+    memberToTeamMap.set(member.user, member.teamId);
+    const team = teamMap.get(member.teamId);
+    if (team) {
+      teamMap.set(member.teamId, { ...team, members: [...team.members, { address: member.user }] });
+    }
+  });
   // The keys are in the form `${teamId}_${puzzleId}_${chainId}`.
   const teamPuzzlesSolved = new Set<string>();
-  teamMembers.map((member) => memberToTeamMap.set(member.user, member.teamId));
-
   // Keep track of unique solvers (addresses).
   const uniqueSolvers = new Set<Address>();
   // Filter solves within query.
@@ -152,6 +152,7 @@ const fetchLeaderboardPuzzles = async ({
         team: teamMap.get(teamId),
       };
     }
+    //console.log(teamMap, teamId, teamMap.get(teamId));
 
     // Increment solves count, points, and solves.
     switch (item.phase) {

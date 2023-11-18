@@ -38,6 +38,7 @@ const LeaderboardPuzzlesTableDesktop: FC<LeaderboardPuzzlesTableInternalProps> =
         cell: ({ row }) => (
           /* TODO: teams UI */
           <div className="flex items-center gap-3.5">
+            {row.original.team?.id ?? 'single'}
             <div className="overflow-hidden rounded-full">
               <ENSAvatarClient
                 nameOrAddress={row.original.solverEnsName ?? row.original.solver}
