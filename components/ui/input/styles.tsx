@@ -27,8 +27,8 @@ export const inputVariants = cva(
     'invalid:border-red-350',
     'invalid:hover:border-red-350',
     'focus-visible:outline-none',
-    'focus-visible:ring',
-    'focus-visible:ring-blue-250',
+    'focus-visible:border',
+    'focus-visible:border-blue-250',
     'transition-colors',
   ],
   {
