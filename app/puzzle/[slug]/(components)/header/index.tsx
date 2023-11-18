@@ -99,28 +99,32 @@ const PuzzleHeader: FC<PuzzleHeaderProps> = async ({ puzzle }) => {
         </div>
       </div>
       <ButtonGroup className="ml-auto hidden sm:flex">
-        {links.map((item, index) => (
-          <Tooltip content={item.name} key={index} inPortal>
-            <IconButton href={item.href} variant="outline" intent="neutral" size="lg" newTab>
-              {item.icon}
-            </IconButton>
-          </Tooltip>
-        ))}
+        {links.map((item, index) =>
+          !item.disabled ? (
+            <Tooltip content={item.name} key={index} inPortal>
+              <IconButton href={item.href} variant="outline" intent="neutral" size="lg" newTab>
+                {item.icon}
+              </IconButton>
+            </Tooltip>
+          ) : null,
+        )}
       </ButtonGroup>
       <ButtonGroup className="sm:hidden">
-        {links.map((item, index) => (
-          <Button
-            className="grow"
-            key={index}
-            href={item.href}
-            variant="outline"
-            intent="neutral"
-            rightIcon={item.icon}
-            newTab
-          >
-            {item.name}
-          </Button>
-        ))}
+        {links.map((item, index) =>
+          !item.disabled ? (
+            <Button
+              className="grow"
+              key={index}
+              href={item.href}
+              variant="outline"
+              intent="neutral"
+              rightIcon={item.icon}
+              newTab
+            >
+              {item.name}
+            </Button>
+          ) : null,
+        )}
       </ButtonGroup>
     </div>
   );

@@ -7,6 +7,7 @@ export type TooltipProps = Omit<
   'asChild'
 > & {
   content: ReactNode;
+  triggerProps?: ComponentPropsWithoutRef<typeof TooltipPrimitive.Trigger>;
   hasArrow?: boolean;
   noDelay?: boolean;
   inPortal?: boolean;
