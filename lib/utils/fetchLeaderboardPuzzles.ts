@@ -2,8 +2,8 @@ import type { PostgrestError } from '@supabase/supabase-js';
 import type { Address } from 'viem';
 
 import supabase from '@/lib/services/supabase';
-import type { DbPuzzleSolve, DbTeamMember } from '@/lib/types/api';
-import type { Phase, PuzzleSolve, PuzzleSolver } from '@/lib/types/protocol';
+import type { DbPuzzleSolve, DbTeam, DbTeamMember } from '@/lib/types/api';
+import type { Phase, PuzzleSolve, PuzzleSolver, Team } from '@/lib/types/protocol';
 
 export type LeaderboardPuzzlesResponse = {
   data: {
@@ -84,35 +84,56 @@ const fetchLeaderboardPuzzles = async ({
     puzzleMap.set(`${puzzle.id}|${puzzle.chainId}`, { ...puzzle, index: index + 1 });
   });
 
-  // Fetch teams if event leaderboard.
+  // Fetch team and team members if event leaderboard.
+  let teams: DbTeam[] = [];
   let teamMembers: DbTeamMember[] = [];
-  let totalSolvers = 0;
   if (eventSlug) {
     const { data: dbTeamMembers } = await supabase
       .from('team_members')
       .select('*')
       .returns<DbTeamMember[]>();
+    const { data: dbTeams } = await supabase
+      .from('teams')
+      .select('*, leader:users(*)')
+      .returns<DbTeam[]>();
 
+    teams = dbTeams ?? [];
     teamMembers = dbTeamMembers ?? [];
   }
-  const solversSet = new Set<Address>();
+  // The keys are in the form `teamId`. We ignore `chainId` here. Then, make a
+  // mapping of the teams.
+  const teamMap = new Map<number, Team>();
+  teams.forEach((team) => {
+    teamMap.set(team.id, {
+      id: team.id,
+      chainId: team.chainId,
+      leader: team.leader,
+      name: team.name,
+      avatar: team.avatar,
+      members: [],
+    });
+  });
+  teamMembers.forEach(
+    (member) => teamMap.get(member.teamId)?.members.push({ address: member.user }),
+  );
   const memberToTeamMap: Map<Address, number> = new Map();
   // The keys are in the form `${teamId}_${puzzleId}_${chainId}`.
   const teamPuzzlesSolved = new Set<string>();
   teamMembers.map((member) => memberToTeamMap.set(member.user, member.teamId));
 
+  // Keep track of unique solvers (addresses).
+  const uniqueSolvers = new Set<Address>();
   // Filter solves within query.
   const filteredData = data.filter((item) => puzzleMap.has(`${item.puzzleId}|${item.chainId}`));
   filteredData.forEach((item) => {
     const solver = item.solver.address.toLowerCase() as Address;
-    // Count # of unique solvers.
-    if (!solversSet.has(solver)) totalSolvers++;
-    solversSet.add(solver);
+    // Keep track of unique solvers.
+    uniqueSolvers.add(solver);
     // Aggregate scores by team (`0` means individual).
-    const solverTeamId = memberToTeamMap.get(solver) ?? 0;
-    const solverKey = solverTeamId > 0 ? `team_${solverTeamId}` : solver;
-    if (solverTeamId > 0) {
-      const teamPuzzleKey = `${solverTeamId}_${item.puzzleId}_${item.chainId}`;
+    const teamId = memberToTeamMap.get(solver) ?? 0;
+    const solverKey = teamId > 0 ? `team_${teamId}` : solver;
+    if (teamId > 0) {
+      const teamPuzzleKey = `${teamId}_${item.puzzleId}_${item.chainId}`;
 
       // If the team has already solved the puzzle, skip.
       if (teamPuzzlesSolved.has(teamPuzzleKey)) return;
@@ -128,6 +149,7 @@ const fetchLeaderboardPuzzles = async ({
         points: 0,
         speedScore: 0,
         solves: [],
+        team: teamMap.get(teamId),
       };
     }
 
@@ -187,10 +209,9 @@ const fetchLeaderboardPuzzles = async ({
 
   return {
     data: {
-      // Return the top 100 solvers w/ rank.
       data: solvers,
       puzzles: puzzleMap.size,
-      solvers: totalSolvers,
+      solvers: uniqueSolvers.size,
       solves: filteredData.length,
       filter,
     },

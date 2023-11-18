@@ -36,6 +36,7 @@ const LeaderboardPuzzlesTableDesktop: FC<LeaderboardPuzzlesTableInternalProps> =
         accessorKey: 'solver',
         header: () => 'Player',
         cell: ({ row }) => (
+          /* TODO: teams UI */
           <div className="flex items-center gap-3.5">
             <div className="overflow-hidden rounded-full">
               <ENSAvatarClient
