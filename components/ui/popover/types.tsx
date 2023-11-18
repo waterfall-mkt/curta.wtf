@@ -6,5 +6,6 @@ export type PopoverProps = ComponentPropsWithoutRef<typeof PopoverPrimitive.Cont
   trigger: ReactNode;
   hasArrow?: boolean;
   open?: boolean;
+  inPortal?: boolean;
   onOpenChange?: (open: boolean) => void;
 };

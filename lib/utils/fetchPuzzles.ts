@@ -18,7 +18,7 @@ type PuzzlesResponse = {
 const fetchPuzzles = async (): Promise<PuzzlesResponse> => {
   const { data, status, error } = await supabase
     .from('puzzles')
-    .select('*, author:users(*)')
+    .select('*, author:users(*), eventId:events(id)')
     .not('address', 'is', null)
     .filter('disabled', 'not.is', 'true')
     .order('addedTimestamp', { ascending: false })
@@ -47,6 +47,7 @@ const fetchPuzzles = async (): Promise<PuzzlesResponse> => {
       bytecode: puzzle.bytecode,
       solidity: puzzle.solidity,
       huff: puzzle.huff,
+      event: puzzle.eventId,
       // Added information
       addedBlock: puzzle.addedBlock,
       addedTimestamp: puzzle.addedTimestamp,

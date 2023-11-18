@@ -106,7 +106,7 @@ export type DbPuzzle = {
   solution?: string;
   github?: string;
   disabled?: boolean;
-  eventId?: string;
+  eventId?: DbEvent;
   sponsorshipId?: string;
   // Puzzle source code
   bytecode: Hash;
