@@ -2,8 +2,8 @@ import type { PostgrestError } from '@supabase/supabase-js';
 import type { Address } from 'viem';
 
 import supabase from '@/lib/services/supabase';
-import type { DbPuzzleSolve } from '@/lib/types/api';
-import type { Phase, PuzzleSolve, PuzzleSolver } from '@/lib/types/protocol';
+import type { DbPuzzleSolve, DbTeam, DbTeamMember } from '@/lib/types/api';
+import type { Phase, PuzzleSolve, PuzzleSolver, Team } from '@/lib/types/protocol';
 
 export type LeaderboardPuzzlesResponse = {
   data: {
@@ -56,9 +56,7 @@ const fetchLeaderboardPuzzles = async ({
   // Fetch puzzles.
   const { data: puzzles } = await supabase
     .from('puzzles')
-    .select(
-      'id, chainId, name, author:users(*), numberSolved, addedTimestamp, eventId:events(slug)',
-    )
+    .select('id, chainId, name, author:users(*), numberSolved, addedTimestamp, eventId:events(*)')
     .not('address', 'is', null)
     .order('addedTimestamp', { ascending: true })
     .returns<(Required<PuzzleSolve>['puzzle'] & { eventId?: null | { slug: string } })[]>();
@@ -84,40 +82,99 @@ const fetchLeaderboardPuzzles = async ({
     puzzleMap.set(`${puzzle.id}|${puzzle.chainId}`, { ...puzzle, index: index + 1 });
   });
 
+  // Fetch team and team members if event leaderboard.
+  let teams: DbTeam[] = [];
+  let teamMembers: DbTeamMember[] = [];
+  if (eventSlug) {
+    const { data: dbTeamMembers } = await supabase
+      .from('team_members')
+      .select('*')
+      .returns<DbTeamMember[]>();
+    const { data: dbTeams } = await supabase
+      .from('teams')
+      .select('*, leader:users(*)')
+      .returns<DbTeam[]>();
+
+    teams = dbTeams ?? [];
+    teamMembers = dbTeamMembers ?? [];
+  }
+
+  // The keys are in the form `teamId`. We ignore `chainId` here. Then, make a
+  // mapping of the teams.
+  const teamMap = new Map<number, Team>();
+  const memberToTeamMap: Map<Address, number> = new Map();
+  teams.forEach((team) => {
+    teamMap.set(team.id, {
+      id: team.id,
+      chainId: team.chainId,
+      leader: team.leader,
+      name: team.name,
+      avatar: team.avatar,
+      members: [],
+    });
+  });
+  teamMembers.forEach((member) => {
+    memberToTeamMap.set(member.user, member.teamid);
+    const team = teamMap.get(member.teamid);
+    if (team) {
+      teamMap.set(member.teamid, {
+        ...team,
+        members: [...team.members, { address: member.user }],
+      });
+    }
+  });
+
+  // The keys are in the form `${teamId}_${puzzleId}_${chainId}`.
+  const teamPuzzlesSolved = new Set<string>();
+  // Keep track of unique solvers (addresses).
+  const uniqueSolvers = new Set<Address>();
   // Filter solves within query.
   const filteredData = data.filter((item) => puzzleMap.has(`${item.puzzleId}|${item.chainId}`));
   filteredData.forEach((item) => {
     const solver = item.solver.address.toLowerCase() as Address;
+    // Keep track of unique solvers.
+    uniqueSolvers.add(solver);
+    // Aggregate scores by team (`0` means individual).
+    const teamId = memberToTeamMap.get(solver) ?? 0;
+    const solverKey = teamId > 0 ? `team_${teamId}` : solver;
+    if (teamId > 0) {
+      const teamPuzzleKey = `${teamId}_${item.puzzleId}_${item.chainId}`;
+
+      // If the team has already solved the puzzle, skip.
+      if (teamPuzzlesSolved.has(teamPuzzleKey)) return;
+      teamPuzzlesSolved.add(teamPuzzleKey);
+    }
 
     // Initialize solver object if it doesn't exist.
-    if (!solversObject[solver]) {
-      solversObject[solver] = {
+    if (!solversObject[solverKey]) {
+      solversObject[solverKey] = {
         rank: 0,
-        solver,
+        solver: solver,
         count: { phase0: 0, phase1: 0, phase2: 0, total: 0 },
         points: 0,
         speedScore: 0,
         solves: [],
+        team: teamMap.get(teamId),
       };
     }
 
     // Increment solves count, points, and solves.
     switch (item.phase) {
       case 0:
-        solversObject[solver].count.phase0++;
-        solversObject[solver].points += 3;
+        solversObject[solverKey].count.phase0++;
+        solversObject[solverKey].points += 3;
         break;
       case 1:
-        solversObject[solver].count.phase1++;
-        solversObject[solver].points += 2;
+        solversObject[solverKey].count.phase1++;
+        solversObject[solverKey].points += 2;
         break;
       case 2:
-        solversObject[solver].count.phase2++;
-        solversObject[solver].points += 1;
+        solversObject[solverKey].count.phase2++;
+        solversObject[solverKey].points += 1;
         break;
     }
-    solversObject[solver].count.total++;
-    solversObject[solver].solves.push({
+    solversObject[solverKey].count.total++;
+    solversObject[solverKey].solves.push({
       // Identifier
       puzzleId: item.puzzleId,
       chainId: item.chainId,
@@ -133,7 +190,8 @@ const fetchLeaderboardPuzzles = async ({
     });
   });
 
-  // Sort solvers by speed score, then by points.
+  // Sort solvers by speed score, then by points. Then, return the top 100 w/
+  // rank.
   const solvers: PuzzleSolver[] = Object.values(solversObject)
     .map((item) => {
       const sum = item.solves.reduce(
@@ -150,14 +208,15 @@ const fetchLeaderboardPuzzles = async ({
       };
     })
     .sort((a, b) => b.speedScore - a.speedScore)
-    .sort((a, b) => b.points - a.points);
+    .sort((a, b) => b.points - a.points)
+    .slice(0, 100)
+    .map((item, index) => ({ ...item, rank: index + 1 }));
 
   return {
     data: {
-      // Return the top 100 solvers w/ rank.
-      data: solvers.slice(0, 100).map((item, index) => ({ ...item, rank: index + 1 })),
+      data: solvers,
       puzzles: puzzleMap.size,
-      solvers: solvers.length,
+      solvers: uniqueSolvers.size,
       solves: filteredData.length,
       filter,
     },

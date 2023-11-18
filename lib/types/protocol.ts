@@ -207,6 +207,7 @@ export type PuzzleSolve = {
  * [**Phase**](https://curta.wtf/docs/puzzles/overview#submission-period).
  * @param points The player's total [**points**](https://www.curta.wtf/docs/leaderboard#points).
  * @param speedScore The player's [**speed score**](https://www.curta.wtf/docs/leaderboard#speed-score).
+ * @param team The player's team (if any).
  * @param solverEnsName Prefetched ENS name of the solver.
  * @param solverEnsAvatar Prefetched ENS avatar of the solver.
  * @param solves An array of the player's solves.
@@ -225,7 +226,32 @@ export type PuzzleSolver = {
   points: number;
   speedScore: number;
   // Miscellanous information
+  team?: Team;
   solverEnsName?: string;
   solverEnsAvatar?: string;
   solves: PuzzleSolve[];
+};
+
+// -----------------------------------------------------------------------------
+// Team Registry-specific types
+// -----------------------------------------------------------------------------
+
+/**
+ * Type for an object representing a Curta team.
+ * @param id The team's ID.
+ * @param chainId The ID of the chain the team is on.
+ * @param leader The team's leader.
+ * @param name The team's name.
+ * @param avatar A link to the team's avatar image.
+ * @param members An array of the team's members.
+ */
+export type Team = {
+  // Identifier
+  id: number;
+  chainId: number;
+  // Team information
+  leader?: Pick<User, 'address'> & Partial<User>;
+  name?: string;
+  avatar?: string;
+  members: (Pick<User, 'address'> & Partial<User>)[];
 };

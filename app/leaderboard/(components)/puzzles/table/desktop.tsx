@@ -10,6 +10,7 @@ import type { PuzzleSolve, PuzzleSolver } from '@/lib/types/protocol';
 import { getChainInfo, getTimeLeftString } from '@/lib/utils';
 
 import AddressLinkClient from '@/components/templates/address-link-client';
+import Avatar from '@/components/templates/avatar';
 import ENSAvatarClient from '@/components/templates/ens-avatar-client';
 import IdWithChainLogo from '@/components/templates/id-with-chain-logo';
 import InfoTooltip from '@/components/templates/info-tooltip';
@@ -38,22 +39,59 @@ const LeaderboardPuzzlesTableDesktop: FC<LeaderboardPuzzlesTableInternalProps> =
         cell: ({ row }) => (
           <div className="flex items-center gap-3.5">
             <div className="overflow-hidden rounded-full">
-              <ENSAvatarClient
-                nameOrAddress={row.original.solverEnsName ?? row.original.solver}
-                size={40}
-                prefetchedEnsAvatar={row.original.solverEnsAvatar}
-              />
-            </div>
-            <UserHoverCard
-              address={row.original.solver}
-              trigger={
-                <AddressLinkClient
-                  className="text-gray-100"
-                  address={row.original.solver}
-                  prefetchedEnsName={row.original.solverEnsName}
+              {row.original.team === undefined ? (
+                <ENSAvatarClient
+                  nameOrAddress={row.original.solverEnsName ?? row.original.solver}
+                  size={40}
+                  prefetchedEnsAvatar={row.original.solverEnsAvatar}
                 />
-              }
-            />
+              ) : (
+                <Avatar
+                  src={row.original.team.avatar ?? ''}
+                  alt={`Team #${row.original.team.id}`}
+                  size={40}
+                />
+              )}
+            </div>
+            {row.original.team === undefined ? (
+              <UserHoverCard
+                address={row.original.solver}
+                trigger={
+                  <AddressLinkClient
+                    className="text-gray-100"
+                    address={row.original.solver}
+                    prefetchedEnsName={row.original.solverEnsName}
+                  />
+                }
+              />
+            ) : (
+              <div>
+                <div className="flex items-center gap-1.5 text-sm text-gray-100">
+                  <span>{row.original.team.name ?? `Team #${row.original.team.id}`}</span>
+                  <div className="flex -space-x-1">
+                    {row.original.team.members.slice(0, 3).map((member, index) => (
+                      <UserHoverCard
+                        key={index}
+                        address={member.address}
+                        trigger={
+                          <div className="z-[1] rounded-full ring-2 ring-gray-700 transition-transform hover:z-[5] hover:scale-110">
+                            <ENSAvatarClient nameOrAddress={member.address} size={12} />
+                          </div>
+                        }
+                      />
+                    ))}
+                    {row.original.team.members.length > 3 ? (
+                      <div className="z-[4] flex h-3 w-3 items-center justify-center rounded-full bg-gray-450 text-[6px] ring-2 ring-gray-700">
+                        {row.original.team.members.length - 3}
+                      </div>
+                    ) : null}
+                  </div>
+                </div>
+                <div className="text-xs text-gray-200">
+                  {row.original.team.members.length} members
+                </div>
+              </div>
+            )}
           </div>
         ),
         footer: (props) => props.column.id,
