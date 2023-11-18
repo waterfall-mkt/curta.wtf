@@ -1,6 +1,6 @@
 'use client';
 
-import { type ForwardedRef, forwardRef } from 'react';
+import { type ForwardedRef, forwardRef, Fragment } from 'react';
 
 import { popoverArrowStyles, popoverStyles } from './styles';
 import type { PopoverProps } from './types';
@@ -16,27 +16,36 @@ const Popover = forwardRef(
       hasArrow = true,
       trigger,
       open,
+      inPortal = false,
       onOpenChange,
       children,
       ...rest
     }: PopoverProps,
     ref: ForwardedRef<HTMLDivElement>,
-  ) => (
-    <PopoverPrimitive.Root open={open} onOpenChange={onOpenChange}>
-      <PopoverPrimitive.Trigger asChild>{trigger}</PopoverPrimitive.Trigger>
-      <PopoverPrimitive.Content
-        ref={ref}
-        sideOffset={sideOffset}
-        className={twMerge(clsx(popoverStyles, className))}
-        {...rest}
-      >
-        {hasArrow ? (
-          <PopoverPrimitive.Arrow className={popoverArrowStyles} width={8} height={4} />
-        ) : null}
-        {children}
-      </PopoverPrimitive.Content>
-    </PopoverPrimitive.Root>
-  ),
+  ) => {
+    const ContentParent = inPortal ? PopoverPrimitive.Portal : Fragment;
+
+    return (
+      <PopoverPrimitive.Root open={open} onOpenChange={onOpenChange}>
+        <PopoverPrimitive.Trigger onClick={(e) => e.stopPropagation()} asChild>
+          {trigger}
+        </PopoverPrimitive.Trigger>
+        <ContentParent>
+          <PopoverPrimitive.Content
+            ref={ref}
+            sideOffset={sideOffset}
+            className={twMerge(clsx(popoverStyles, className))}
+            {...rest}
+          >
+            {children}
+            {hasArrow ? (
+              <PopoverPrimitive.Arrow className={popoverArrowStyles} width={8} height={4} />
+            ) : null}
+          </PopoverPrimitive.Content>
+        </ContentParent>
+      </PopoverPrimitive.Root>
+    );
+  },
 );
 
 Popover.displayName = 'Popover';
