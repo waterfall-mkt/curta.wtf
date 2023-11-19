@@ -235,7 +235,7 @@ const LeaderboardPuzzlesContent: FC<LeaderboardPuzzlesContentProps> = ({
                               )
                             ) : null}
                             <span className="w-fit whitespace-nowrap">
-                              {`${data?.puzzles ?? 5} puzzles`}
+                              {`${data?.puzzles ?? defaultData.puzzles} puzzles`}
                             </span>
                           </Fragment>
                         ),
