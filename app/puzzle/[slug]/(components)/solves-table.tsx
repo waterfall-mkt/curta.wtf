@@ -88,6 +88,7 @@ const PuzzleSolvesTableDesktop: FC<PuzzleSolvesTableInternalProps> = ({
                   className="text-gray-100"
                   address={row.original.solver.address}
                   prefetchedEnsName={row.original.solverEnsName}
+                  label={row.original.solver.displayName}
                 />
               }
             />
@@ -195,6 +196,7 @@ const PuzzleSolvesTableMobile: FC<PuzzleSolvesTableInternalProps> = ({
                   className="text-gray-100"
                   address={row.original.solver.address}
                   prefetchedEnsName={row.original.solverEnsName}
+                  label={row.original.solver.displayName}
                 />
               }
             />
