@@ -18,7 +18,7 @@ type AddressLinkClientProps = {
   address: Address;
   chainId?: number;
   prefetchedEnsName?: string;
-  children: ReactNode;
+  children?: ReactNode;
 };
 
 // ---------------------------------------–-------------------------------------
