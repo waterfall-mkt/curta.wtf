@@ -60,6 +60,7 @@
     "tailwindcss-animate": "^1.0.7",
     "tailwindcss-percentage-width": "^1.0.3",
     "typescript": "5.1.6",
+    "vaul": "^0.7.9",
     "viem": "^1.18.9",
     "wagmi": "^1.4.6",
     "webpack": "^5.89.0"
