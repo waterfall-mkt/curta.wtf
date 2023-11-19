@@ -79,6 +79,7 @@ const PuzzleHeader: FC<PuzzleHeaderProps> = async ({ puzzle }) => {
                         className="max-w-[13rem] overflow-hidden text-ellipsis font-medium text-gray-50"
                         address={puzzle.author.address}
                         chainId={puzzle.chainId}
+                        label={puzzle.author.displayName}
                       />
                     }
                   />

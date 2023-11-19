@@ -18,6 +18,7 @@ type AddressLinkClientProps = {
   address: Address;
   chainId?: number;
   prefetchedEnsName?: string;
+  label?: string;
 };
 
 // ---------------------------------------–-------------------------------------
@@ -29,15 +30,16 @@ const AddressLinkClient: FC<AddressLinkClientProps> = ({
   address,
   chainId = 1,
   prefetchedEnsName,
+  label,
 }) => {
   const [mounted, setMounted] = useState<boolean>(false);
   const { data: ensName } = useEnsName({ address, chainId: 1 });
 
   useEffect(() => setMounted(true), []);
 
-  const addressDisplay = mounted
-    ? ensName ?? prefetchedEnsName ?? getShortenedAddress(address)
-    : prefetchedEnsName ?? getShortenedAddress(address);
+  const content = mounted
+    ? ensName ?? prefetchedEnsName ?? label ?? getShortenedAddress(address)
+    : prefetchedEnsName ?? label ?? getShortenedAddress(address);
 
   return (
     <a
@@ -52,7 +54,7 @@ const AddressLinkClient: FC<AddressLinkClientProps> = ({
       rel="noopener noreferrer"
       onClick={(e) => e.stopPropagation()}
     >
-      {addressDisplay}
+      {content}
     </a>
   );
 };

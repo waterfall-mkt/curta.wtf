@@ -38,6 +38,7 @@ const PuzzleTableInfo: FC<PuzzleTableInfoProps> = ({ id, phase, name, author }) 
               className="mt-0.5 text-xs"
               address={author.address}
               prefetchedEnsName={author.ensName}
+              label={author.displayName}
             />
           }
         />

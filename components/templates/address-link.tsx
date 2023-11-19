@@ -16,17 +16,24 @@ export type AddressLinkProps = {
   address?: Address;
   chainId?: number;
   href?: string;
+  label?: string;
 };
 
 // ---------------------------------------–-------------------------------------
 // Component
 // ---------------------------------------–-------------------------------------
 
-const AddressLink: FC<AddressLinkProps> = async ({ className, address, chainId = 1, href }) => {
+const AddressLink: FC<AddressLinkProps> = async ({
+  className,
+  address,
+  chainId = 1,
+  href,
+  label,
+}) => {
   const ensName = address
     ? await cache(async () => await ethereumClient.getEnsName({ address }))()
     : undefined;
-  const addressDisplay = ensName ?? (address ? getShortenedAddress(address) : '–');
+  const content = ensName ?? label ?? (address ? getShortenedAddress(address) : '–');
 
   return (
     <a
@@ -40,7 +47,7 @@ const AddressLink: FC<AddressLinkProps> = async ({ className, address, chainId =
       target="_blank"
       rel="noopener noreferrer"
     >
-      {addressDisplay}
+      {content}
     </a>
   );
 };

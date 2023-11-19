@@ -205,6 +205,7 @@ const LeaderboardPuzzlesTableDesktopSubComponent: FC<{ data: PuzzleSolve[] }> = 
                       className="mt-0.5 text-xs text-gray-200"
                       address={row.original.puzzle.author.address}
                       prefetchedEnsName={row.original.solverEnsName}
+                      label={row.original.puzzle.author.displayName}
                     />
                   }
                 />
