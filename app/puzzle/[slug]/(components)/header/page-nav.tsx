@@ -25,7 +25,7 @@ const PuzzleHeaderPageNav: FC<PuzzleHeaderPageNavProps> = ({ prevPuzzle, nextPuz
   return (
     <ButtonGroup className="hidden sm:flex">
       <IconButton
-        className="z-[2]"
+        className={!nextPuzzle ? 'z-[2]' : 'z-[1]'}
         size="lg"
         intent="neutral"
         variant="outline"
@@ -36,6 +36,7 @@ const PuzzleHeaderPageNav: FC<PuzzleHeaderPageNavProps> = ({ prevPuzzle, nextPuz
         <ChevronLeft />
       </IconButton>
       <IconButton
+        className={!prevPuzzle ? 'z-[2]' : 'z-[1]'}
         intent="neutral"
         size="lg"
         variant="outline"
