@@ -1,4 +1,4 @@
-import { cache, type FC } from 'react';
+import { cache, type FC, type ReactNode } from 'react';
 
 import clsx from 'clsx';
 import { twMerge } from 'tailwind-merge';
@@ -16,17 +16,25 @@ export type AddressLinkProps = {
   address?: Address;
   chainId?: number;
   href?: string;
+  children?: ReactNode;
 };
 
 // ---------------------------------------–-------------------------------------
 // Component
 // ---------------------------------------–-------------------------------------
 
-const AddressLink: FC<AddressLinkProps> = async ({ className, address, chainId = 1, href }) => {
-  const ensName = address
-    ? await cache(async () => await ethereumClient.getEnsName({ address }))()
-    : undefined;
-  const addressDisplay = ensName ?? (address ? getShortenedAddress(address) : '–');
+const AddressLink: FC<AddressLinkProps> = async ({
+  className,
+  address,
+  chainId = 1,
+  href,
+  children,
+}) => {
+  const ensName =
+    !children && address
+      ? await cache(async () => await ethereumClient.getEnsName({ address }))()
+      : undefined;
+  const content = children ? children : ensName ?? (address ? getShortenedAddress(address) : '–');
 
   return (
     <a
@@ -40,7 +48,7 @@ const AddressLink: FC<AddressLinkProps> = async ({ className, address, chainId =
       target="_blank"
       rel="noopener noreferrer"
     >
-      {addressDisplay}
+      {content}
     </a>
   );
 };
