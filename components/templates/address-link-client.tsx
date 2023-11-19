@@ -1,6 +1,6 @@
 'use client';
 
-import { type FC, type ReactNode, useEffect, useState } from 'react';
+import { type FC, useEffect, useState } from 'react';
 
 import clsx from 'clsx';
 import { twMerge } from 'tailwind-merge';
@@ -18,7 +18,7 @@ type AddressLinkClientProps = {
   address: Address;
   chainId?: number;
   prefetchedEnsName?: string;
-  children?: ReactNode;
+  label?: string;
 };
 
 // ---------------------------------------–-------------------------------------
@@ -30,18 +30,16 @@ const AddressLinkClient: FC<AddressLinkClientProps> = ({
   address,
   chainId = 1,
   prefetchedEnsName,
-  children,
+  label,
 }) => {
   const [mounted, setMounted] = useState<boolean>(false);
   const { data: ensName } = useEnsName({ address, chainId: 1 });
 
   useEffect(() => setMounted(true), []);
 
-  const content = children
-    ? children
-    : mounted
-    ? ensName ?? prefetchedEnsName ?? getShortenedAddress(address)
-    : prefetchedEnsName ?? getShortenedAddress(address);
+  const content = mounted
+    ? ensName ?? prefetchedEnsName ?? label ?? getShortenedAddress(address)
+    : prefetchedEnsName ?? label ?? getShortenedAddress(address);
 
   return (
     <a
