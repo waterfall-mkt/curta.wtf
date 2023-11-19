@@ -62,7 +62,6 @@ specifiers:
   tailwindcss-animate: ^1.0.7
   tailwindcss-percentage-width: ^1.0.3
   typescript: 5.1.6
-  vaul: ^0.7.9
   viem: ^1.18.9
   wagmi: ^1.4.6
   webpack: ^5.89.0
@@ -118,7 +117,6 @@ dependencies:
   tailwindcss-animate: 1.0.7_tailwindcss@3.3.3
   tailwindcss-percentage-width: 1.0.3
   typescript: 5.1.6
-  vaul: 0.7.9_fnrvimhhml6lvqlvghdjxbhtmm
   viem: 1.18.9_typescript@5.1.6
   wagmi: 1.4.6_cnobrxt7mj7kfisgdjxfljwswy
   webpack: 5.89.0
@@ -8159,20 +8157,6 @@ packages:
       proxy-compare: 2.5.1
       react: 18.2.0
       use-sync-external-store: 1.2.0_react@18.2.0
-    dev: false
-
-  /vaul/0.7.9_fnrvimhhml6lvqlvghdjxbhtmm:
-    resolution: {integrity: sha512-RrcnGOHOq/cEU3YpyyZrnjh0H79xMpF3IrHZs9ichvHlpKjLDc4Vwjn4VkuGzeUGrmQ3wamfm/cpdKWpvBIgQw==}
-    peerDependencies:
-      react: ^16.8 || ^17.0 || ^18.0
-      react-dom: ^16.8 || ^17.0 || ^18.0
-    dependencies:
-      '@radix-ui/react-dialog': 1.0.5_fnrvimhhml6lvqlvghdjxbhtmm
-      react: 18.2.0
-      react-dom: 18.2.0_react@18.2.0
-    transitivePeerDependencies:
-      - '@types/react'
-      - '@types/react-dom'
     dev: false
 
   /vfile-location/4.1.0:

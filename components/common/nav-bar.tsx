@@ -128,7 +128,7 @@ const NavBarMobile: FC<NavBarInternalProps> = ({ yScroll }) => {
             </div>
           </div>
         </nav>
-        <Modal.Content className="flex flex-col gap-4 p-4">
+        <Modal.Content className="flex flex-col gap-4 p-4" breakpoint="lg">
           <div className="grow">
             {isConnected || address ? (
               <div className="flex grow items-center justify-between">

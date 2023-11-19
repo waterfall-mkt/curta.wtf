@@ -4,7 +4,7 @@ import type { FC } from 'react';
 
 import {
   modalCloseStyles,
-  modalContentStyles,
+  modalContentVariants,
   modalHeaderVariants,
   modalOverlayStyles,
 } from './styles';
@@ -47,6 +47,7 @@ const ModalClose: FC<ModalCloseProps> = (props) => {
 
 const ModalContent: FC<ModalContentProps> = ({
   className,
+  breakpoint = 'sm',
   description,
   asChild,
   onClick,
@@ -64,7 +65,10 @@ const ModalContent: FC<ModalContentProps> = ({
         asChild={asChild}
         {...rest}
       >
-        <Card className={twMerge(cx(...modalContentStyles, className))} {...cardProps}>
+        <Card
+          className={twMerge(cx(modalContentVariants({ breakpoint }), 'mx-auto', className))}
+          {...cardProps}
+        >
           {children}
           <VisuallyHidden.Root>
             <ModalPrimitive.Description>

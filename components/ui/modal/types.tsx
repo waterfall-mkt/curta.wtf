@@ -1,6 +1,6 @@
 import type { ComponentPropsWithoutRef, FC, ReactNode } from 'react';
 
-import { modalHeaderVariants } from './styles';
+import { modalContentVariants, modalHeaderVariants } from './styles';
 import * as ModalPrimitive from '@radix-ui/react-dialog';
 import type { VariantProps } from 'class-variance-authority';
 
@@ -9,6 +9,8 @@ import type { CardBodyProps, CardProps } from '@/components/ui/card/types';
 // ---------------------------------------–-------------------------------------
 // Variant props
 // ---------------------------------------–-------------------------------------
+
+export type ModalContentVariantProps = VariantProps<typeof modalContentVariants>;
 
 export type ModalHeaderVariantProps = VariantProps<typeof modalHeaderVariants>;
 
@@ -20,12 +22,13 @@ export type ModalBodyProps = CardBodyProps;
 
 export type ModalCloseProps = ComponentPropsWithoutRef<typeof ModalPrimitive.Close>;
 
-export type ModalContentProps = ComponentPropsWithoutRef<typeof ModalPrimitive.Content> & {
-  cardProps?: Omit<CardProps, 'className'>;
-  overlayProps?: ComponentPropsWithoutRef<typeof ModalPrimitive.Overlay>;
-  portalProps?: ComponentPropsWithoutRef<typeof ModalPrimitive.Portal>;
-  description?: string;
-};
+export type ModalContentProps = ComponentPropsWithoutRef<typeof ModalPrimitive.Content> &
+  ModalContentVariantProps & {
+    cardProps?: Omit<CardProps, 'className'>;
+    overlayProps?: ComponentPropsWithoutRef<typeof ModalPrimitive.Overlay>;
+    portalProps?: ComponentPropsWithoutRef<typeof ModalPrimitive.Portal>;
+    description?: string;
+  };
 
 export type ModalHeaderProps = ModalHeaderVariantProps & {
   children: ReactNode;
