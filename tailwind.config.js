@@ -30,7 +30,7 @@ module.exports = {
       animation: {
         'ping-slow': 'ping 4s cubic-bezier(0.04, 1.04, 0.16, 1) infinite',
         'fade-in': 'fade-in 0.15s ease-in-out',
-        'slide-up': 'slide-up 0.15s ease-in-out',
+        'modal-up': 'modal-up 0.15s ease-in-out',
         'accordion-down': 'accordion-down 0.15s ease-out',
         'accordion-up': 'accordion-up 0.15s ease-out',
       },
@@ -39,9 +39,9 @@ module.exports = {
           from: { opacity: 0 },
           to: { opacity: 1 },
         },
-        'slide-up': {
-          from: { transform: 'translateY(100%)' },
-          to: { transform: 'translateY(0)' },
+        'modal-up': {
+          from: { transform: 'translate(-50%, 100%)' },
+          to: { transform: 'translate(-50%, 0)' },
         },
         'accordion-down': {
           from: { height: 0 },

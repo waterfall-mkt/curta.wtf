@@ -4,10 +4,9 @@ import type { FC } from 'react';
 
 import {
   modalCloseStyles,
-  modalContentStyles,
+  modalContentVariants,
   modalHeaderVariants,
   modalOverlayStyles,
-  modalPreviousStyles,
 } from './styles';
 import type {
   ModalBodyProps,
@@ -15,147 +14,99 @@ import type {
   ModalComposition,
   ModalContentProps,
   ModalHeaderProps,
-  ModalPreviousProps,
-  ModalProps,
+  ModalRootProps,
   ModalTitleProps,
   ModalTriggerProps,
 } from './types';
-import * as Dialog from '@radix-ui/react-dialog';
+import * as ModalPrimitive from '@radix-ui/react-dialog';
 import * as VisuallyHidden from '@radix-ui/react-visually-hidden';
 import { cx } from 'class-variance-authority';
-import { ArrowLeft, X } from 'lucide-react';
+import { X } from 'lucide-react';
 import { twMerge } from 'tailwind-merge';
 
 import { Card, IconButton } from '@/components/ui';
 
-const Modal: FC<ModalProps> & ModalComposition = ({ children, ...rest }) => {
-  return <Dialog.Root {...rest}>{children}</Dialog.Root>;
-};
-
-const ModalBody: FC<ModalBodyProps> = ({ className, children, ...rest }) => {
-  return (
-    <Card.Body className={className} {...rest}>
-      {children}
-    </Card.Body>
-  );
-};
-
-ModalBody.displayName = 'ModalBody';
+const ModalBody: FC<ModalBodyProps> = Card.Body;
 
 const ModalClose: FC<ModalCloseProps> = (props) => {
   return (
-    <Dialog.Close asChild>
-      <div>
-        {/* eslint-disable-next-line */}
-        {/* @ts-ignore */}
-        <IconButton
-          variant="secondary"
-          intent="neutral"
-          size="sm"
-          className={modalCloseStyles}
-          aria-label="Close modal"
-          {...props}
-        >
-          <X />
-        </IconButton>
-      </div>
-    </Dialog.Close>
+    <ModalPrimitive.Close asChild>
+      <IconButton
+        variant="secondary"
+        intent="neutral"
+        size="sm"
+        className={modalCloseStyles}
+        aria-label="Close modal"
+        {...props}
+      >
+        <X />
+      </IconButton>
+    </ModalPrimitive.Close>
   );
 };
 
-ModalClose.displayName = 'ModalClose';
-
 const ModalContent: FC<ModalContentProps> = ({
   className,
+  breakpoint = 'sm',
   description,
-  portalForceMount,
-  portalContainer,
-  overlayForceMount,
-  forceMount,
-  onOpenAutoFocus,
-  onCloseAutoFocus,
-  onEscapeKeyDown,
-  onPointerDownOutside,
-  onInteractOutside,
+  asChild,
+  onClick,
+  cardProps,
+  overlayProps,
+  portalProps,
   children,
   ...rest
 }) => {
   return (
-    <Dialog.Portal forceMount={portalForceMount} container={portalContainer}>
-      <Dialog.Overlay className={modalOverlayStyles} forceMount={overlayForceMount} />
-      <Dialog.Content
-        forceMount={forceMount}
-        onOpenAutoFocus={onOpenAutoFocus}
-        onCloseAutoFocus={onCloseAutoFocus}
-        onEscapeKeyDown={onEscapeKeyDown}
-        onPointerDownOutside={onPointerDownOutside}
-        onInteractOutside={onInteractOutside}
-        onClick={(e) => e.stopPropagation()}
-        asChild
+    <ModalPrimitive.Portal {...portalProps}>
+      <ModalPrimitive.Overlay className={modalOverlayStyles} {...overlayProps} />
+      <ModalPrimitive.Content
+        onClick={onClick ? onClick : (e) => e.stopPropagation()}
+        asChild={asChild}
+        {...rest}
       >
-        {/* We don't need to merge Tailwind classes here because `Card` does it. */}
-        <div>
-          <Card className={twMerge(cx(...modalContentStyles, className))} {...rest}>
-            {children}
-            <VisuallyHidden.Root>
-              <Dialog.Description>{description ?? 'Modal content'}</Dialog.Description>
-            </VisuallyHidden.Root>
-          </Card>
-        </div>
-      </Dialog.Content>
-    </Dialog.Portal>
+        <Card
+          className={twMerge(cx(modalContentVariants({ breakpoint }), 'mx-auto', className))}
+          {...cardProps}
+        >
+          {children}
+          <VisuallyHidden.Root>
+            <ModalPrimitive.Description>
+              {description ?? 'Modal content'}
+            </ModalPrimitive.Description>
+          </VisuallyHidden.Root>
+        </Card>
+      </ModalPrimitive.Content>
+    </ModalPrimitive.Portal>
   );
 };
 
-ModalContent.displayName = 'ModalContent';
-
-const ModalHeader: FC<ModalHeaderProps> = ({ children, align = 'center' }) => {
-  return <Card.Header className={modalHeaderVariants({ align })}>{children}</Card.Header>;
+const ModalHeader: FC<ModalHeaderProps> = ({ align = 'center', ...rest }) => {
+  return <Card.Header className={modalHeaderVariants({ align })} {...rest} />;
 };
 
+const ModalRoot: FC<ModalRootProps> = ModalPrimitive.Root;
+
+const ModalTitle: FC<ModalTitleProps> = ModalPrimitive.Title;
+
+const ModalTrigger: FC<ModalTriggerProps> = ModalPrimitive.Trigger;
+
+ModalBody.displayName = 'ModalBody';
+ModalClose.displayName = ModalPrimitive.Close.displayName;
+ModalContent.displayName = ModalPrimitive.Content.displayName;
 ModalHeader.displayName = 'ModalHeader';
+ModalRoot.displayName = ModalPrimitive.Root.displayName;
+ModalTitle.displayName = ModalPrimitive.Title.displayName;
+ModalTrigger.displayName = ModalPrimitive.Trigger.displayName;
 
-const ModalPrevious: FC<ModalPreviousProps> = (props) => {
-  return (
-    <>
-      {/* eslint-disable-next-line */}
-      {/* @ts-ignore */}
-      <IconButton
-        aria-label="Previous page"
-        variant="secondary"
-        intent="neutral"
-        size="sm"
-        className={modalPreviousStyles}
-        {...props}
-      >
-        <ArrowLeft />
-      </IconButton>
-    </>
-  );
+const Modal: ModalComposition = {
+  Body: ModalBody,
+  Close: ModalClose,
+  Content: ModalContent,
+  Header: ModalHeader,
+  Root: ModalRoot,
+  Title: ModalTitle,
+  Trigger: ModalTrigger,
 };
-
-ModalPrevious.displayName = 'ModalPrevious';
-
-const ModalTitle: FC<ModalTitleProps> = ({ children, ...rest }) => {
-  return <Dialog.Title {...rest}>{children}</Dialog.Title>;
-};
-
-ModalTitle.displayName = 'ModalTitle';
-
-const ModalTrigger: FC<ModalTriggerProps> = ({ children, asChild }) => {
-  return <Dialog.Trigger asChild={asChild}>{children}</Dialog.Trigger>;
-};
-
-ModalTrigger.displayName = 'ModalTrigger';
-
-Modal.Body = ModalBody;
-Modal.Close = ModalClose;
-Modal.Content = ModalContent;
-Modal.Header = ModalHeader;
-Modal.Previous = ModalPrevious;
-Modal.Title = ModalTitle;
-Modal.Trigger = ModalTrigger;
-
-Modal.displayName = 'Modal';
 
 export default Modal;

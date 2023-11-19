@@ -110,7 +110,7 @@ const NavBarMobile: FC<NavBarInternalProps> = ({ yScroll }) => {
 
   return (
     <Fragment>
-      <Modal open={isOpen && isSmallScreen} onOpenChange={() => setIsOpen(!isOpen)}>
+      <Modal.Root open={isOpen && isSmallScreen} onOpenChange={() => setIsOpen(!isOpen)}>
         <nav
           className={clsx(
             'pointer-events-auto sticky top-0 z-popover flex bg-gray-900 px-4 lg:hidden',
@@ -128,7 +128,7 @@ const NavBarMobile: FC<NavBarInternalProps> = ({ yScroll }) => {
             </div>
           </div>
         </nav>
-        <Modal.Content className="flex flex-col gap-4 p-4">
+        <Modal.Content className="flex flex-col gap-4 p-4" breakpoint="lg">
           <div className="grow">
             {isConnected || address ? (
               <div className="flex grow items-center justify-between">
@@ -206,7 +206,7 @@ const NavBarMobile: FC<NavBarInternalProps> = ({ yScroll }) => {
             </Link>
           ))}
         </Modal.Content>
-      </Modal>
+      </Modal.Root>
     </Fragment>
   );
 };

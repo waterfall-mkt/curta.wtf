@@ -26,7 +26,7 @@ const AuthorsModal: FC<AuthorsModalProps> = ({ data, children }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   return (
-    <Modal open={isOpen} onOpenChange={setIsOpen}>
+    <Modal.Root open={isOpen} onOpenChange={setIsOpen}>
       <Modal.Trigger asChild>
         <button
           id="author-avatar-7"
@@ -64,7 +64,7 @@ const AuthorsModal: FC<AuthorsModalProps> = ({ data, children }) => {
           </div>
         </Modal.Body>
       </Modal.Content>
-    </Modal>
+    </Modal.Root>
   );
 };
 
