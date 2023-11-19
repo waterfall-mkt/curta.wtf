@@ -42,5 +42,3 @@ export const modalHeaderVariants = cva(
 
 export const modalOverlayStyles =
   'backdrop-brightness-50 fixed inset-0 z-popover outline-none focus:outline-none animate-fade-in';
-
-export const modalPreviousStyles = 'absolute left-4 top-0 bottom-0 my-auto mx-0';

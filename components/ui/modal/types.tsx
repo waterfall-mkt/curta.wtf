@@ -1,9 +1,9 @@
-import type { FC, ReactNode, RefAttributes } from 'react';
+import type { ComponentPropsWithoutRef, FC, ReactNode } from 'react';
 
 import { modalHeaderVariants } from './styles';
+import * as ModalPrimitive from '@radix-ui/react-dialog';
 import type { VariantProps } from 'class-variance-authority';
 
-import type { ButtonProps } from '@/components/ui/button/types';
 import type { CardBodyProps, CardProps } from '@/components/ui/card/types';
 
 // ---------------------------------------–-------------------------------------
@@ -18,46 +18,24 @@ export type ModalHeaderVariantProps = VariantProps<typeof modalHeaderVariants>;
 
 export type ModalBodyProps = CardBodyProps;
 
+export type ModalCloseProps = ComponentPropsWithoutRef<typeof ModalPrimitive.Close>;
+
+export type ModalContentProps = ComponentPropsWithoutRef<typeof ModalPrimitive.Content> & {
+  cardProps?: Omit<CardProps, 'className'>;
+  overlayProps?: ComponentPropsWithoutRef<typeof ModalPrimitive.Overlay>;
+  portalProps?: ComponentPropsWithoutRef<typeof ModalPrimitive.Portal>;
+  description?: string;
+};
+
 export type ModalHeaderProps = ModalHeaderVariantProps & {
   children: ReactNode;
 };
 
-export type ModalCloseProps = ButtonProps;
+export type ModalRootProps = ComponentPropsWithoutRef<typeof ModalPrimitive.Root>;
 
-export type ModalContentProps = CardProps & {
-  description?: string;
-  // Radix UI props
-  portalForceMount?: true | undefined;
-  portalContainer?: HTMLElement;
-  overlayForceMount?: true | undefined;
-  forceMount?: true | undefined;
-  onOpenAutoFocus?: (event: Event) => void;
-  onCloseAutoFocus?: (event: Event) => void;
-  onEscapeKeyDown?: (event: KeyboardEvent) => void;
-  onPointerDownOutside?: (event: Event) => void;
-  onInteractOutside?: (event: Event) => void;
-};
+export type ModalTitleProps = ComponentPropsWithoutRef<typeof ModalPrimitive.Title>;
 
-export type ModalPreviousProps = ButtonProps;
-
-export type ModalProps = {
-  children: ReactNode;
-  // Radix UI props
-  defaultOpen?: boolean;
-  open?: boolean;
-  onOpenChange?: (open: boolean) => void;
-  modal?: boolean;
-};
-
-export type ModalTitleProps = RefAttributes<HTMLHeadingElement> & {
-  children: ReactNode;
-};
-
-export type ModalTriggerProps = {
-  children: ReactNode;
-  // Radix UI props
-  asChild?: boolean;
-};
+export type ModalTriggerProps = ComponentPropsWithoutRef<typeof ModalPrimitive.Trigger>;
 
 // ---------------------------------------–-------------------------------------
 // Composition
@@ -68,7 +46,7 @@ export type ModalComposition = {
   Close: FC<ModalCloseProps>;
   Content: FC<ModalContentProps>;
   Header: FC<ModalHeaderProps>;
-  Previous: FC<ModalPreviousProps>;
+  Root: FC<ModalRootProps>;
   Title: FC<ModalTitleProps>;
   Trigger: FC<ModalTriggerProps>;
 };

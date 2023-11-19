@@ -110,7 +110,7 @@ const NavBarMobile: FC<NavBarInternalProps> = ({ yScroll }) => {
 
   return (
     <Fragment>
-      <Modal open={isOpen && isSmallScreen} onOpenChange={() => setIsOpen(!isOpen)}>
+      <Modal.Root open={isOpen && isSmallScreen} onOpenChange={() => setIsOpen(!isOpen)}>
         <nav
           className={clsx(
             'pointer-events-auto sticky top-0 z-popover flex bg-gray-900 px-4 lg:hidden',
@@ -206,7 +206,7 @@ const NavBarMobile: FC<NavBarInternalProps> = ({ yScroll }) => {
             </Link>
           ))}
         </Modal.Content>
-      </Modal>
+      </Modal.Root>
     </Fragment>
   );
 };
