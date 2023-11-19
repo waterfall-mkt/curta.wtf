@@ -71,8 +71,8 @@ const fetchLeaderboardPuzzles = async ({
     // range.
     if (
       (excludeEvents && puzzle.eventId) ||
-      index + 1 < minPuzzleIndex ||
-      index + 1 > maxPuzzleIndex ||
+      index < minPuzzleIndex ||
+      index > maxPuzzleIndex ||
       (eventSlug && puzzle.eventId?.slug !== eventSlug)
     ) {
       return;
