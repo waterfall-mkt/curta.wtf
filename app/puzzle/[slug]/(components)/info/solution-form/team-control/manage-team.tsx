@@ -1,6 +1,6 @@
 'use client';
 
-import { type FC, Fragment, useEffect, useState } from 'react';
+import { type FC, useEffect, useState } from 'react';
 
 import { ExternalLink, UserMinus, UserPlus } from 'lucide-react';
 import type { Address } from 'viem';
@@ -38,7 +38,7 @@ const PuzzleInfoSolutionFormTeamControlManageTeam: FC<
   PuzzleInfoSolutionFormTeamControlManageTeamProps
 > = ({ connectedAddress, team }) => {
   return (
-    <Fragment>
+    <div className="flex flex-col gap-2 p-4">
       <div className="flex flex-col rounded-lg border border-stroke">
         <div className="flex items-center justify-between rounded-t-lg border-b border-stroke bg-gray-450 p-3">
           <TeamDisplayClient team={team} hoverCardProps={{ inPortal: true }} />
@@ -70,10 +70,10 @@ const PuzzleInfoSolutionFormTeamControlManageTeam: FC<
             ))}
         </div>
       </div>
-      <Callout size="sm" intent="primary" className="mb-0 mt-2">
+      <Callout size="sm" intent="primary" className="my-0">
         To switch teams, you must transfer leadership.
       </Callout>
-    </Fragment>
+    </div>
   );
 };
 

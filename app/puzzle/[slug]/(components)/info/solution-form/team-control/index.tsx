@@ -3,10 +3,12 @@
 import { type FC, Fragment, useEffect, useState } from 'react';
 
 import PuzzleInfoSolutionFormTeamControlManageTeam from './manage-team';
+import PuzzleInfoSolutionFormTeamControlSwitch from './switch';
 import { ArrowLeftRight } from 'lucide-react';
 import useSWR from 'swr';
 import { useAccount } from 'wagmi';
 
+import type { DbTeamMemberApproval } from '@/lib/types/api';
 import type { Team } from '@/lib/types/protocol';
 
 import Avatar from '@/components/templates/avatar';
@@ -21,8 +23,13 @@ const PuzzleInfoSolutionFormTeamControl: FC = () => {
   } = useSWR<Team>(`/api/user-team?address=${address}`, (url: string) =>
     fetch(url).then((res) => res.json()),
   );
-  const { data: members, mutate } = useSWR<Team['members']>(
+  const { data: members, mutate: mutateMembers } = useSWR<Team['members']>(
     `/api/team-members?id=${team?.id}`,
+    (url: string) => fetch(url).then((res) => res.json()),
+    { revalidateOnMount: false },
+  );
+  const { data: approvals, mutate: mutateApprovals } = useSWR<DbTeamMemberApproval[]>(
+    `/api/user-team-approvals?id=${team?.id}`,
     (url: string) => fetch(url).then((res) => res.json()),
     { revalidateOnMount: false },
   );
@@ -35,7 +42,8 @@ const PuzzleInfoSolutionFormTeamControl: FC = () => {
   // Modal open/close.
   const onModalOpenChange = () => {
     setOpen((prev) => !prev);
-    mutate();
+    mutateMembers();
+    mutateApprovals();
   };
 
   const combinedTeam = team ? { ...team, members: members ?? team.members } : undefined;
@@ -91,14 +99,15 @@ const PuzzleInfoSolutionFormTeamControl: FC = () => {
                 <Modal.Close />
               </Modal.Header>
               <Modal.Body noPadding>
-                <div className="p-4">
-                  {isTeamLeader ? (
-                    <PuzzleInfoSolutionFormTeamControlManageTeam
-                      connectedAddress={address}
-                      team={combinedTeam}
-                    />
-                  ) : null}
-                </div>
+                <PuzzleInfoSolutionFormTeamControlSwitch approvals={approvals ?? []} />
+                {/* isTeamLeader ? (
+                  <PuzzleInfoSolutionFormTeamControlManageTeam
+                    connectedAddress={address}
+                    team={combinedTeam}
+                  />
+                ) : (
+                  <PuzzleInfoSolutionFormTeamControlSwitch approvals={approvals ?? []} />
+                ) */}
                 {!isTeamLeader ? (
                   <div className="flex grow border-t border-stroke p-4">
                     <Button className="w-full" size="lg" variant="primary" intent="primary">
