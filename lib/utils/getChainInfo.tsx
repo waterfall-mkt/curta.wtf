@@ -14,6 +14,8 @@ import LogoIcon from '@/components/common/logo-icon';
  * `https://` prefix).
  * @param puzzles The Curta Puzzles contract address on the chain (`address(0)`
  * if the chain doesn't have a deploy).
+ * @param teamRegistry The Team Registry contract address on the chain
+ * (`address(0)` if the chain doesn't have a deploy).
  */
 type ChainInfo = {
   name: string;
@@ -23,6 +25,8 @@ type ChainInfo = {
   blockExplorer: string;
   // Curta Puzzles-specific
   puzzles: Address;
+  // Team Registry-specific
+  teamRegistry: Address;
 };
 
 /**
@@ -42,6 +46,7 @@ const getChainInfo = (chainId: number): ChainInfo => {
       blockExplorer: 'basescan.org',
       // Curta Puzzles-specific
       puzzles: '0x00000000D1329c5cd5386091066d49112e590969',
+      teamRegistry: '0xfacade0bcaebb9b48bd1f613d2fd9b9865a3e61d',
     };
   } else if (chainId === 84531) {
     return {
@@ -52,6 +57,7 @@ const getChainInfo = (chainId: number): ChainInfo => {
       blockExplorer: 'goerli.basescan.org',
       // Curta Puzzles-specific
       puzzles: '0x00000000D1329c5cd5386091066d49112e590969',
+      teamRegistry: '0xfacade0bcaebb9b48bd1f613d2fd9b9865a3e61d',
     };
   } else if (chainId === 11155111) {
     return {
@@ -62,6 +68,7 @@ const getChainInfo = (chainId: number): ChainInfo => {
       blockExplorer: 'sepolia.etherscan.io',
       // Curta Puzzles-specific
       puzzles: zeroAddress,
+      teamRegistry: zeroAddress,
     };
   }
 
@@ -74,6 +81,7 @@ const getChainInfo = (chainId: number): ChainInfo => {
     blockExplorer: 'etherscan.io',
     // Curta Puzzles-specific
     puzzles: '0x0000000006bC8D9e5e9d436217B88De704a9F307',
+    teamRegistry: zeroAddress,
   };
 };
 

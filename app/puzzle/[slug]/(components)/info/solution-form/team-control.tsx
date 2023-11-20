@@ -7,9 +7,10 @@ import useSWR from 'swr';
 import { useAccount } from 'wagmi';
 
 import type { Team } from '@/lib/types/protocol';
+import { getChainInfo } from '@/lib/utils';
 
 import Avatar from '@/components/templates/avatar';
-import { Button, IconButton, Tooltip } from '@/components/ui';
+import { Button, IconButton, Modal, Tooltip } from '@/components/ui';
 
 const PuzzleInfoSolutionFormTeamControl: FC = () => {
   const { address } = useAccount();
@@ -18,6 +19,7 @@ const PuzzleInfoSolutionFormTeamControl: FC = () => {
     (url: string) => fetch(url).then((res) => res.json()),
   );
   const [mounted, setMounted] = useState<boolean>(false);
+  const [open, isOpen] = useState<boolean>(false);
 
   // Set mounted.
   useEffect(() => setMounted(true), []);
@@ -42,7 +44,9 @@ const PuzzleInfoSolutionFormTeamControl: FC = () => {
             variant="outline"
             intent="neutral"
             className="bg-gray-600 active:bg-gray-450"
-            href="https://basescan.org/address/0xfacade0bcaebb9b48bd1f613d2fd9b9865a3e61d"
+            href={`https://${getChainInfo(8453).blockExplorer}/address/${
+              getChainInfo(8453).teamRegistry
+            }`}
             newTab
           >
             <ArrowLeftRight />
@@ -61,7 +65,9 @@ const PuzzleInfoSolutionFormTeamControl: FC = () => {
             variant="outline"
             intent="neutral"
             className="bg-gray-600 active:bg-gray-450"
-            href="https://basescan.org/address/0xfacade0bcaebb9b48bd1f613d2fd9b9865a3e61d"
+            href={`https://${getChainInfo(8453).blockExplorer}/address/${
+              getChainInfo(8453).teamRegistry
+            }`}
             newTab
           >
             Join
