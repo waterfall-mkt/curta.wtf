@@ -1,6 +1,6 @@
 'use client';
 
-import { type FC, useEffect, useState } from 'react';
+import { type FC, Fragment, useEffect, useState } from 'react';
 
 import { ExternalLink, UserMinus, UserPlus } from 'lucide-react';
 import type { Address } from 'viem';
@@ -17,6 +17,7 @@ import type { Team } from '@/lib/types/protocol';
 import { getChainInfo, getShortenedAddress } from '@/lib/utils';
 
 import AddressDisplayClient from '@/components/templates/address-display-client';
+import { Callout } from '@/components/templates/mdx';
 import TeamDisplayClient from '@/components/templates/team-display-client';
 import { Badge, Button, ButtonGroup, IconButton, useToast } from '@/components/ui';
 
@@ -37,34 +38,42 @@ const PuzzleInfoSolutionFormTeamControlManageTeam: FC<
   PuzzleInfoSolutionFormTeamControlManageTeamProps
 > = ({ connectedAddress, team }) => {
   return (
-    <div className="flex flex-col rounded-lg border border-stroke">
-      <div className="flex items-center justify-between rounded-t-lg border-b border-stroke bg-gray-450 p-3">
-        <TeamDisplayClient team={team} hoverCardProps={{ inPortal: true }} />
-        <ButtonGroup>
-          {/* TODO: add functionality */}
-          <Button size="sm" variant="outline" intent="neutral" rightIcon={<UserPlus />}>
-            Invite
-          </Button>
-        </ButtonGroup>
-      </div>
-      <div className="hide-scrollbar flex max-h-64 flex-col overflow-y-scroll">
-        <div className="flex items-center justify-between p-3">
-          <AddressDisplayClient address={connectedAddress} hoverCardProps={{ inPortal: true }} />
-          <Badge variant="secondary">You</Badge>
+    <Fragment>
+      <div className="flex flex-col rounded-lg border border-stroke">
+        <div className="flex items-center justify-between rounded-t-lg border-b border-stroke bg-gray-450 p-3">
+          <TeamDisplayClient team={team} hoverCardProps={{ inPortal: true }} />
+          <ButtonGroup>
+            {/* TODO: add functionality */}
+            <Button size="sm" variant="outline" intent="neutral" rightIcon={<UserPlus />}>
+              Invite
+            </Button>
+          </ButtonGroup>
         </div>
-        {team.members
-          .filter((member) => member.address.toLowerCase() !== connectedAddress.toLowerCase())
-          .map((member, index) => (
-            <div
-              key={index}
-              className="flex items-center justify-between border-t border-stroke p-3"
-            >
-              <AddressDisplayClient address={member.address} hoverCardProps={{ inPortal: true }} />
-              <UserActions member={member} />
-            </div>
-          ))}
+        <div className="hide-scrollbar flex max-h-64 flex-col overflow-y-scroll">
+          <div className="flex items-center justify-between p-3">
+            <AddressDisplayClient address={connectedAddress} hoverCardProps={{ inPortal: true }} />
+            <Badge variant="secondary">You</Badge>
+          </div>
+          {team.members
+            .filter((member) => member.address.toLowerCase() !== connectedAddress.toLowerCase())
+            .map((member, index) => (
+              <div
+                key={index}
+                className="flex items-center justify-between border-t border-stroke p-3"
+              >
+                <AddressDisplayClient
+                  address={member.address}
+                  hoverCardProps={{ inPortal: true }}
+                />
+                <UserActions member={member} />
+              </div>
+            ))}
+        </div>
       </div>
-    </div>
+      <Callout size="sm" intent="primary" className="mb-0 mt-2">
+        To switch teams, you must transfer leadership.
+      </Callout>
+    </Fragment>
   );
 };
 
