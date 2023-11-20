@@ -2,6 +2,7 @@ import { type FC, useState } from 'react';
 
 import * as RadioGroup from '@radix-ui/react-radio-group';
 import clsx from 'clsx';
+import { HelpCircle } from 'lucide-react';
 
 import type { DbTeamMemberApproval } from '@/lib/types/api';
 
@@ -75,7 +76,21 @@ const PuzzleInfoSolutionFormTeamControlSwitch: FC<PuzzleInfoSolutionFormTeamCont
               </RadioGroup.Item>
             </div>
           ))}
+          {search.length > 0 ? <NewTeamForm name={search} /> : null}
         </RadioGroup.Root>
+        {search.length + approvals.length === 0 ? (
+          <div className="flex flex-col items-center gap-2 rounded-b-lg border border-gray-300 py-4">
+            <div className="flex h-10 w-10 items-center justify-center rounded-full border border-stroke bg-gray-450 text-gray-200">
+              <HelpCircle className="h-5 w-5" />
+            </div>
+            <div className="flex flex-col items-center gap-1">
+              <div className="leading-4.5 text-sm font-medium text-gray-100">No teams to join</div>
+              <div className="text-xs leading-4 text-gray-200">
+                Create a team or ask to join a team.
+              </div>
+            </div>
+          </div>
+        ) : null}
       </div>
       {approvals.length > 0 ? (
         <div className="border-t border-stroke p-4">
@@ -84,6 +99,32 @@ const PuzzleInfoSolutionFormTeamControlSwitch: FC<PuzzleInfoSolutionFormTeamCont
           </Button>
         </div>
       ) : null}
+    </div>
+  );
+};
+
+const NewTeamForm: FC<{ name: string }> = ({ name }) => {
+  return (
+    <div className="flex flex-col gap-3 rounded-b-lg border border-gray-300 py-3">
+      <div className="flex items-center justify-between gap-2 px-3">
+        <div className="flex items-center gap-3.5 overflow-hidden">
+          <div className="h-10 w-10 min-w-[40px] rounded-full border border-stroke" />
+          <div className="max-w-fill overflow-hidden">
+            <div className="line-clamp-1 overflow-hidden text-ellipsis text-sm text-gray-100">
+              {name}
+            </div>
+            <div className="text-xs text-gray-200">Create a new team</div>
+          </div>
+        </div>
+        <Badge className="min-w-fit" variant="secondary" intent="success">
+          New
+        </Badge>
+      </div>
+      <div className="px-3">
+        <Button className="w-full" variant="outline" intent="neutral">
+          Create new team
+        </Button>
+      </div>
     </div>
   );
 };
