@@ -255,3 +255,21 @@ export type Team = {
   avatar?: string;
   members: (Pick<User, 'address'> & Partial<User>)[];
 };
+
+/**
+ * Type for an object representing an approval to join a Curta team.
+ * @param teamId The ID of the team the approval is for.
+ * @param chainId The ID of the chain the team is on.
+ * @param member The user.
+ * @param approved Whether or not the user is approved to join the team or not.
+ * @param team Partial information about the team the approval is for.
+ */
+export type TeamMemberApproval = {
+  // Identifier
+  teamId: number;
+  chainId: number;
+  member: Pick<User, 'address'> & Partial<User>;
+  // Approval information
+  approved: boolean;
+  team: Team;
+};

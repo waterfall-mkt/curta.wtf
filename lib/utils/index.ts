@@ -7,6 +7,7 @@ import fetchPuzzles from './fetchPuzzles';
 import fetchPuzzlesCount from './fetchPuzzlesCount';
 import fetchPuzzleSolvesById from './fetchPuzzleSolvesById';
 import fetchPuzzlesSolvesCount from './fetchPuzzlesSolvesCount';
+import fetchUserTeamApprovals from './fetchUserTeamApprovals';
 import formatValueToPrecision from './formatValueToPrecision';
 import getBaseMetadata from './getBaseMetadata';
 import getChainIdAndId from './getChainIdAndId';
@@ -26,6 +27,7 @@ export {
   fetchPuzzlesCount,
   fetchPuzzleSolvesById,
   fetchPuzzlesSolvesCount,
+  fetchUserTeamApprovals,
   formatValueToPrecision,
   getBaseMetadata,
   getChainInfo,

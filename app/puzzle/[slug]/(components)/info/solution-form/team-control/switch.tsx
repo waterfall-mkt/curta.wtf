@@ -1,11 +1,14 @@
+'use client';
+
 import { type FC, useState } from 'react';
 
 import * as RadioGroup from '@radix-ui/react-radio-group';
 import clsx from 'clsx';
 import { HelpCircle } from 'lucide-react';
 
-import type { DbTeamMemberApproval } from '@/lib/types/api';
+import type { Team, TeamMemberApproval } from '@/lib/types/protocol';
 
+import TeamDisplayClient from '@/components/templates/team-display-client';
 import { Badge, Button, Input } from '@/components/ui';
 
 // -----------------------------------------------------------------------------
@@ -13,7 +16,8 @@ import { Badge, Button, Input } from '@/components/ui';
 // -----------------------------------------------------------------------------
 
 type PuzzleInfoSolutionFormTeamControlSwitchProps = {
-  approvals: DbTeamMemberApproval[];
+  userTeam?: Team;
+  approvals: TeamMemberApproval[];
 };
 
 // -----------------------------------------------------------------------------
@@ -21,6 +25,7 @@ type PuzzleInfoSolutionFormTeamControlSwitchProps = {
 // -----------------------------------------------------------------------------
 
 const PuzzleInfoSolutionFormTeamControlSwitch: FC<PuzzleInfoSolutionFormTeamControlSwitchProps> = ({
+  userTeam,
   approvals,
 }) => {
   const [search, setSearch] = useState<string>('');
@@ -45,11 +50,17 @@ const PuzzleInfoSolutionFormTeamControlSwitch: FC<PuzzleInfoSolutionFormTeamCont
             <label className="h-full w-full cursor-pointer py-3 pl-3 text-gray-100" htmlFor="r0">
               Submit as individual.
             </label>
-            <RadioGroup.Item value="0" id="r0">
+            <RadioGroup.Item value="0" id="r0" disabled={!userTeam}>
               <RadioGroup.Indicator asChild>
-                <Badge className="my-3 mr-3" variant="secondary" intent="primary">
-                  Selected
-                </Badge>
+                {!userTeam ? (
+                  <Badge className="my-3 mr-3" variant="secondary" intent="neutral">
+                    Current
+                  </Badge>
+                ) : (
+                  <Badge className="my-3 mr-3" variant="secondary" intent="primary">
+                    Selected
+                  </Badge>
+                )}
               </RadioGroup.Indicator>
             </RadioGroup.Item>
           </div>
@@ -65,7 +76,7 @@ const PuzzleInfoSolutionFormTeamControlSwitch: FC<PuzzleInfoSolutionFormTeamCont
                 className="h-full w-full cursor-pointer py-3 pl-3 text-gray-100"
                 htmlFor={`r${approval.teamId}`}
               >
-                {approval.teamId}
+                <TeamDisplayClient team={approval.team} hoverCardProps={{ inPortal: true }} />
               </label>
               <RadioGroup.Item value={`${approval.teamId}`} id={`r${approval.teamId}`}>
                 <RadioGroup.Indicator asChild>
