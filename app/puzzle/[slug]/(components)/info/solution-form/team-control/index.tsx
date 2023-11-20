@@ -99,15 +99,15 @@ const PuzzleInfoSolutionFormTeamControl: FC = () => {
                 <Modal.Close />
               </Modal.Header>
               <Modal.Body noPadding>
-                <PuzzleInfoSolutionFormTeamControlSwitch approvals={approvals ?? []} />
-                {/* isTeamLeader ? (
+                {/* <PuzzleInfoSolutionFormTeamControlSwitch approvals={approvals ?? []} /> */}
+                {isTeamLeader ? (
                   <PuzzleInfoSolutionFormTeamControlManageTeam
                     connectedAddress={address}
                     team={combinedTeam}
                   />
                 ) : (
                   <PuzzleInfoSolutionFormTeamControlSwitch approvals={approvals ?? []} />
-                ) */}
+                )}
                 {!isTeamLeader ? (
                   <div className="flex grow border-t border-stroke p-4">
                     <Button className="w-full" size="lg" variant="primary" intent="primary">

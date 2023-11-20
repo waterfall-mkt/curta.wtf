@@ -21,6 +21,7 @@ export async function GET(req: NextRequest) {
     .returns<DbTeamMemberApproval[]>();
 
   if (error && status !== 406) {
+    console.log(error, status);
     return NextResponse.json({ message: 'User not on a team.' }, { status: 404 });
   }
 
