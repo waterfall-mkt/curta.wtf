@@ -1,6 +1,6 @@
 'use client';
 
-import { type FC, ReactNode, useState } from 'react';
+import type { FC, ReactNode } from 'react';
 
 import type { Author } from '@/lib/types/protocol';
 
@@ -23,10 +23,8 @@ const SUBMIT_PUZZLE_GOOGLE_FORM =
   'https://docs.google.com/forms/d/e/1FAIpQLSe_ZLf3Xwqrpp9P3m7d8J1Iya6v9UOagXbEWzlYn3CHQFr4dw/viewform';
 
 const AuthorsModal: FC<AuthorsModalProps> = ({ data, children }) => {
-  const [isOpen, setIsOpen] = useState<boolean>(false);
-
   return (
-    <Modal.Root open={isOpen} onOpenChange={setIsOpen}>
+    <Modal.Root>
       <Modal.Trigger asChild>
         <button
           id="author-avatar-7"
