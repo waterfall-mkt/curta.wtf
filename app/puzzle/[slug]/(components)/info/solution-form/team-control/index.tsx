@@ -15,12 +15,13 @@ import Avatar from '@/components/templates/avatar';
 import { Button, IconButton, Modal, Tooltip } from '@/components/ui';
 
 const PuzzleInfoSolutionFormTeamControl: FC = () => {
+  const [mounted, setMounted] = useState<boolean>(false);
   const { address } = useAccount();
   const {
     data: team,
     error,
     isLoading,
-  } = useSWR<Team>(`/api/user-team?address=${address}`, (url: string) =>
+  } = useSWR<Team>(`/api/user-team?address=${mounted ? address : ''}`, (url: string) =>
     fetch(url).then((res) => res.json()),
   );
   const { data: members, mutate: mutateMembers } = useSWR<Team['members']>(
@@ -29,11 +30,10 @@ const PuzzleInfoSolutionFormTeamControl: FC = () => {
     { revalidateOnMount: false },
   );
   const { data: approvals, mutate: mutateApprovals } = useSWR<DbTeamMemberApproval[]>(
-    `/api/user-team-approvals?id=${team?.id}`,
+    `/api/user-team-approvals?address=${mounted ? address : ''}`,
     (url: string) => fetch(url).then((res) => res.json()),
     { revalidateOnMount: false },
   );
-  const [mounted, setMounted] = useState<boolean>(false);
   const [open, setOpen] = useState<boolean>(false);
 
   // Set mounted.

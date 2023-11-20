@@ -24,7 +24,16 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ message: 'User not on a team.' }, { status: 404 });
   }
 
-  const approvals: DbTeamMemberApproval[] = data ?? [];
+  if (!data || data.length === 0) {
+    return NextResponse.json([], { status });
+  }
+
+  const approvals: DbTeamMemberApproval[] = data.map((approval) => ({
+    teamId: approval.teamId,
+    chainId: approval.chainId,
+    member: approval.member,
+    approved: approval.approved,
+  }));
 
   return NextResponse.json(approvals, { status });
 }
