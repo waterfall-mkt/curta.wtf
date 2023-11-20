@@ -1,6 +1,6 @@
 'use client';
 
-import type { FC } from 'react';
+import type { ComponentPropsWithoutRef, FC } from 'react';
 
 import type { Address } from 'viem';
 
@@ -17,6 +17,7 @@ type AddressDisplayClientProps = {
   label?: string;
   prefetchedEnsName?: string;
   prefetchedEnsAvatar?: string;
+  hoverCardProps?: Omit<ComponentPropsWithoutRef<typeof UserHoverCard>, 'address' | 'trigger'>;
 };
 
 // ---------------------------------------–-------------------------------------
@@ -28,13 +29,13 @@ const AddressDisplayClient: FC<AddressDisplayClientProps> = ({
   label,
   prefetchedEnsName,
   prefetchedEnsAvatar,
+  hoverCardProps,
 }) => {
   return (
     <div className="flex items-center gap-3.5">
       <div className="overflow-hidden rounded-full">
         <ENSAvatarClient
           nameOrAddress={prefetchedEnsName ?? address}
-          size={40}
           prefetchedEnsAvatar={prefetchedEnsAvatar}
         />
       </div>
@@ -42,12 +43,13 @@ const AddressDisplayClient: FC<AddressDisplayClientProps> = ({
         address={address}
         trigger={
           <AddressLinkClient
-            className="text-gray-100"
+            className="text-sm text-gray-100"
             address={address}
             prefetchedEnsName={prefetchedEnsName}
             label={label}
           />
         }
+        {...hoverCardProps}
       />
     </div>
   );

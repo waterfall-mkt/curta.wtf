@@ -25,9 +25,7 @@ const UserHoverCard: FC<UserHoverCardProps> = ({ address, trigger, triggerAsChil
   const { data, error, isLoading, mutate } = useSWR<DbUser>(
     `/api/user?address=${address}`,
     (url) => fetch(url).then((res) => res.json()),
-    {
-      revalidateOnMount: false,
-    },
+    { revalidateOnMount: false },
   );
 
   return (

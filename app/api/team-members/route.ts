@@ -28,7 +28,18 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ message: 'Team not found.' }, { status: 404 });
   }
 
-  const members: Team['members'] = data.map(({ user }) => ({ address: user }));
+  const members: Team['members'] = data
+    .map(({ user }) => ({ address: user }))
+    .concat([
+      { address: '0x655af72e1500eb8a8d1c90856ae3b8f148a78471' },
+      { address: '0x655af72e1500eb8a8d1c90856ae3b8f148a78471' },
+      { address: '0x655af72e1500eb8a8d1c90856ae3b8f148a78471' },
+      { address: '0x655af72e1500eb8a8d1c90856ae3b8f148a78471' },
+      { address: '0x655af72e1500eb8a8d1c90856ae3b8f148a78471' },
+      { address: '0x655af72e1500eb8a8d1c90856ae3b8f148a78471' },
+      { address: '0x655af72e1500eb8a8d1c90856ae3b8f148a78471' },
+      { address: '0x655af72e1500eb8a8d1c90856ae3b8f148a78471' },
+    ]);
 
   return NextResponse.json(members, { status });
 }

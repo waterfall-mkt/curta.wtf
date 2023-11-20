@@ -2,6 +2,7 @@
 
 import { type FC, Fragment, useEffect, useState } from 'react';
 
+import PuzzleInfoSolutionFormTeamControlManageTeam from './manage-team';
 import { ArrowLeftRight } from 'lucide-react';
 import useSWR from 'swr';
 import { useAccount } from 'wagmi';
@@ -9,35 +10,51 @@ import { useAccount } from 'wagmi';
 import type { Team } from '@/lib/types/protocol';
 
 import Avatar from '@/components/templates/avatar';
-import TeamDisplayClient from '@/components/templates/team-display-client';
-import { Badge, Button, IconButton, Modal, Tooltip } from '@/components/ui';
+import { Button, IconButton, Modal, Tooltip } from '@/components/ui';
 
 const PuzzleInfoSolutionFormTeamControl: FC = () => {
   const { address } = useAccount();
-  const { data, error, isLoading } = useSWR<Team>(
-    `/api/user-team?address=${address}`,
+  const {
+    data: team,
+    error,
+    isLoading,
+  } = useSWR<Team>(`/api/user-team?address=${address}`, (url: string) =>
+    fetch(url).then((res) => res.json()),
+  );
+  const { data: members, mutate } = useSWR<Team['members']>(
+    `/api/team-members?id=${team?.id}`,
     (url: string) => fetch(url).then((res) => res.json()),
+    { revalidateOnMount: false },
   );
   const [mounted, setMounted] = useState<boolean>(false);
+  const [open, setOpen] = useState<boolean>(false);
 
   // Set mounted.
   useEffect(() => setMounted(true), []);
 
-  const isTeamLeader = data?.id && data.leader?.address === address?.toLowerCase();
+  // Modal open/close.
+  const onModalOpenChange = () => {
+    setOpen((prev) => !prev);
+    mutate();
+  };
+
+  const combinedTeam = team ? { ...team, members: members ?? team.members } : undefined;
+  const isTeamLeader =
+    address && combinedTeam?.id && combinedTeam.leader?.address === address.toLowerCase();
 
   return (
     <div className="flex h-11 grow items-center justify-between rounded-b-xl border border-t-0 border-gray-300 pl-4 pr-2">
       {!error && !isLoading && mounted ? (
         <Fragment>
           <div className="flex items-center gap-1 text-gray-150">
-            {data?.id ? (
+            {team?.id ? (
               <Fragment>
                 <span className="text-sm">Submitting for</span>
-                <Tooltip content={`#${data.id}`}>
+                <Tooltip content={`#${team.id}`}>
                   <button className="flex h-5 items-center gap-1 rounded bg-gray-450 px-1.5 transition-colors hover:bg-gray-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-250">
-                    <Avatar src={data.avatar ?? ''} alt={`Team #${data.id}`} size={16} />
+                    <Avatar src={team.avatar ?? ''} alt={`Team #${team.id}`} size={16} />
                     <span className="text-xs font-medium leading-4">
-                      {data.name ?? `Team #${data.id}`}
+                      {team.name ?? `Team #${team.id}`}
                     </span>
                   </button>
                 </Tooltip>
@@ -46,9 +63,9 @@ const PuzzleInfoSolutionFormTeamControl: FC = () => {
               <div className="text-sm text-gray-150">Submitting individually</div>
             )}
           </div>
-          <Modal.Root>
+          <Modal.Root open={open} onOpenChange={onModalOpenChange}>
             <Modal.Trigger asChild>
-              {data?.id ? (
+              {team?.id ? (
                 <IconButton
                   size="sm"
                   variant="outline"
@@ -76,22 +93,10 @@ const PuzzleInfoSolutionFormTeamControl: FC = () => {
               <Modal.Body noPadding>
                 <div className="p-4">
                   {isTeamLeader ? (
-                    <div className="flex flex-col gap-3 rounded-lg border border-stroke p-3">
-                      <div className="flex items-center justify-between">
-                        <TeamDisplayClient team={data} />
-                        <Badge size="sm" variant="secondary">
-                          Leader
-                        </Badge>
-                      </div>
-                      <div className="flex gap-2">
-                        <Button className="w-full" size="sm" variant="secondary" intent="primary">
-                          Manage members
-                        </Button>
-                        <Button className="w-full" size="sm" variant="outline" intent="fail">
-                          Transfer
-                        </Button>
-                      </div>
-                    </div>
+                    <PuzzleInfoSolutionFormTeamControlManageTeam
+                      connectedAddress={address}
+                      team={combinedTeam}
+                    />
                   ) : null}
                 </div>
                 {!isTeamLeader ? (
