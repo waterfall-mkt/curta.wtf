@@ -110,13 +110,6 @@ const PuzzleInfoSolutionFormTeamControl: FC = () => {
                     approvals={approvals ?? []}
                   />
                 ) */}
-                {!isTeamLeader ? (
-                  <div className="flex grow border-t border-stroke p-4">
-                    <Button className="w-full" size="lg" variant="primary" intent="primary">
-                      Select
-                    </Button>
-                  </div>
-                ) : null}
               </Modal.Body>
             </Modal.Content>
           </Modal.Root>
