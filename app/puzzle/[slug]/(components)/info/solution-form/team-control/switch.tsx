@@ -1,15 +1,26 @@
 'use client';
 
-import { type FC, useState } from 'react';
+import { type FC, useEffect, useState } from 'react';
 
 import * as RadioGroup from '@radix-ui/react-radio-group';
 import clsx from 'clsx';
-import { HelpCircle, UserPlus } from 'lucide-react';
+import { ExternalLink, HelpCircle, UserPlus } from 'lucide-react';
+import {
+  useContractWrite,
+  useNetwork,
+  usePrepareContractWrite,
+  useSwitchNetwork,
+  useWaitForTransaction,
+} from 'wagmi';
 
+import { TEAM_REGISTRY_ABI } from '@/lib/constants/abi';
 import type { Team, TeamMemberApproval } from '@/lib/types/protocol';
+import { getChainInfo } from '@/lib/utils';
 
+import ConnectButton from '@/components/common/connect-button';
+import { Callout } from '@/components/templates/mdx';
 import TeamDisplayClient from '@/components/templates/team-display-client';
-import { Badge, Button, Input } from '@/components/ui';
+import { Badge, Button, Input, useToast } from '@/components/ui';
 
 // -----------------------------------------------------------------------------
 // Props
@@ -30,8 +41,93 @@ const PuzzleInfoSolutionFormTeamControlSwitch: FC<PuzzleInfoSolutionFormTeamCont
 }) => {
   const [search, setSearch] = useState<string>('');
   const [teamId, setTeamId] = useState<string>('');
+  const [mounted, setMounted] = useState<boolean>(false);
+  const { toast } = useToast();
+  const { chain } = useNetwork();
+  const { switchNetwork } = useSwitchNetwork();
+
+  // Set `mounted` to true on page load.
+  useEffect(() => setMounted(true), []);
 
   const individualDisabled = !userTeam;
+  const newTeamId = teamId ? Number(teamId) : undefined;
+  const newTeam = approvals.find((approval) => newTeamId === approval.team.id)?.team;
+
+  // ---------------------------------------–-----------------------------------
+  // Chain interaction
+  // ---------------------------------------–-----------------------------------
+
+  // Always use Base or Base Goerli for the Team Registry.
+  const chainId = process.env.NEXT_PUBLIC_IS_TESTNET ? 84531 : 8453;
+
+  const { config } = usePrepareContractWrite({
+    address: getChainInfo(chainId).teamRegistry,
+    abi: TEAM_REGISTRY_ABI,
+    functionName: 'transferTeam',
+    args: [newTeamId],
+    chainId,
+  });
+  const { data, write } = useContractWrite({
+    ...config,
+    onError: (error) =>
+      toast({ intent: 'fail', title: 'Transaction error', description: error?.message }),
+    onSuccess: (data) =>
+      toast({
+        title: 'Transaction sent',
+        description: 'Your transaction has been sent.',
+        intent: 'primary',
+        action: (
+          <Button
+            size="sm"
+            href={`https://${getChainInfo(chainId).blockExplorer}/tx/${data.hash}`}
+            rightIcon={<ExternalLink />}
+            intent="primary"
+            newTab
+          >
+            View
+          </Button>
+        ),
+      }),
+  });
+  const { isLoading } = useWaitForTransaction({
+    hash: data?.hash,
+    onError(error) {
+      toast({
+        title: 'Transaction fail',
+        description: error.message,
+        intent: 'fail',
+        action: data ? (
+          <Button
+            size="sm"
+            href={`https://${getChainInfo(chainId).blockExplorer}/tx/${data.hash}`}
+            rightIcon={<ExternalLink />}
+            intent="fail"
+            newTab
+          >
+            View
+          </Button>
+        ) : undefined,
+      });
+    },
+    onSuccess(data) {
+      toast({
+        title: 'Transferred teams',
+        description: `Transferred to team ${newTeamId} successfully.`,
+        intent: 'success',
+        action: data ? (
+          <Button
+            size="sm"
+            href={`https://${getChainInfo(chainId).blockExplorer}/tx/${data.transactionHash}`}
+            rightIcon={<ExternalLink />}
+            intent="success"
+            newTab
+          >
+            View
+          </Button>
+        ) : undefined,
+      });
+    },
+  });
 
   return (
     <div className="flex flex-col">
@@ -45,13 +141,13 @@ const PuzzleInfoSolutionFormTeamControlSwitch: FC<PuzzleInfoSolutionFormTeamCont
         <RadioGroup.Root className="flex flex-col" value={teamId} onValueChange={setTeamId}>
           <div
             className={clsx(
-              'flex items-center justify-between border-x border-gray-300 transition-colors hover:bg-gray-450',
+              'flex items-center justify-between h-12 border-x border-gray-300 transition-colors hover:bg-gray-450',
               teamId === '0' ? 'bg-gray-450' : '',
             )}
           >
             <label
               className={clsx(
-                'h-full w-full py-3 pl-3 text-gray-100',
+                'h-full w-full py-3 flex items-center pl-3 text-sm font-medium text-gray-100',
                 individualDisabled ? 'cursor-not-allowed' : 'cursor-pointer',
               )}
               htmlFor="r0"
@@ -79,7 +175,7 @@ const PuzzleInfoSolutionFormTeamControlSwitch: FC<PuzzleInfoSolutionFormTeamCont
             )
             .map((approval, index) => {
               const disabled = userTeam && userTeam.id === approval.teamId;
-              const selected = Number(teamId) === approval.teamId;
+              const selected = newTeamId === approval.teamId;
 
               return (
                 <div
@@ -135,12 +231,47 @@ const PuzzleInfoSolutionFormTeamControlSwitch: FC<PuzzleInfoSolutionFormTeamCont
             </div>
           </div>
         ) : null}
+        {teamId && newTeamId !== userTeam?.id ? (
+          <Callout size="sm" intent="warning" className="mb-0 mt-2">
+            <span>
+              All solves will be transferred from{' '}
+              <span className="font-medium">
+                {userTeam ? userTeam.name ?? `Team ${userTeam.id}` : 'yourself'}
+              </span>{' '}
+              to{' '}
+              <span className="font-medium">
+                {newTeam ? newTeam?.name ?? `Team #${newTeam.id}` : 'yourself'}
+              </span>
+              .
+            </span>
+          </Callout>
+        ) : null}
       </div>
       {approvals.length > 0 ? (
         <div className="border-t border-stroke p-4">
-          <Button className="w-full" size="lg" disabled={!teamId}>
-            Select
-          </Button>
+          {!chain || !mounted ? (
+            <ConnectButton className='w-full' />
+          ) : chain.id !== chainId ? (
+            <Button
+              className='w-full'
+              size="lg"
+              variant="secondary"
+              type="button"
+              onClick={() => switchNetwork?.(chainId)}
+            >
+              Switch network
+            </Button>
+          ) : (
+            <Button
+              className="w-full"
+              size="lg"
+              type="button"
+              disabled={!teamId || newTeamId === userTeam?.id || isLoading || !write}
+              onClick={() => write?.()}
+            >
+              Select
+            </Button>
+          )}
         </div>
       ) : null}
     </div>
@@ -158,6 +289,7 @@ const NewTeamForm: FC<{ name: string }> = ({ name }) => {
               {name}
             </div>
             <button className="-mx-1 flex items-center gap-0.5 rounded-sm px-1 text-xs leading-4 text-gray-200 underline decoration-dashed transition-colors hover:text-gray-100 focus:outline-none focus-visible:text-gray-100 focus-visible:ring-2 focus-visible:ring-blue-250">
+              {/* TODO: add functionality */}
               <span>0 invited</span>
               <UserPlus className="h-3 w-3" />
             </button>
