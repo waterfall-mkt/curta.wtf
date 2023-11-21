@@ -240,7 +240,7 @@ const PuzzleInfoSolutionFormTeamControlSwitch: FC<PuzzleInfoSolutionFormTeamCont
             <span>
               All solves will be transferred from{' '}
               <span className="font-medium">
-                {userTeam ? userTeam.name ?? `Team ${userTeam.id}` : 'yourself'}
+                {userTeam?.id ? userTeam.name ?? `Team #${userTeam.id}` : 'yourself'}
               </span>{' '}
               to{' '}
               <span className="font-medium">
