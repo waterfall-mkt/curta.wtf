@@ -376,9 +376,16 @@ const NewTeamForm: FC<{ name: string }> = ({ name }) => {
             <div className="line-clamp-1 overflow-hidden text-ellipsis text-sm text-gray-100">
               {name}
             </div>
-            <button className="-mx-1 flex items-center gap-0.5 rounded-sm px-1 text-xs leading-4 text-gray-200 underline decoration-dashed transition-colors hover:text-gray-100 focus:outline-none focus-visible:text-gray-100 focus-visible:ring-2 focus-visible:ring-blue-250">
-              {/* TODO: add functionality */}
-              <span>0 invited</span>
+            <button
+              className="-mx-1 flex items-center gap-0.5 rounded-sm px-1 text-xs leading-4 text-gray-200 underline decoration-dashed transition-colors hover:text-gray-100 focus:outline-none focus-visible:text-gray-100 focus-visible:ring-2 focus-visible:ring-blue-250"
+              onClick={window.open(
+                `https://${getChainInfo(chainId).blockExplorer}/address/${
+                  getChainInfo(chainId).blockExplorer
+                }`,
+                '_blank',
+              )}
+            >
+              <span>Invite members</span>
               <UserPlus className="h-3 w-3" />
             </button>
           </div>
