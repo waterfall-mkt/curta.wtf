@@ -4,7 +4,7 @@ import { type FC, useState } from 'react';
 
 import * as RadioGroup from '@radix-ui/react-radio-group';
 import clsx from 'clsx';
-import { HelpCircle } from 'lucide-react';
+import { HelpCircle, UserPlus } from 'lucide-react';
 
 import type { Team, TeamMemberApproval } from '@/lib/types/protocol';
 
@@ -31,6 +31,8 @@ const PuzzleInfoSolutionFormTeamControlSwitch: FC<PuzzleInfoSolutionFormTeamCont
   const [search, setSearch] = useState<string>('');
   const [teamId, setTeamId] = useState<string>('');
 
+  const individualDisabled = !userTeam;
+
   return (
     <div className="flex flex-col">
       <div className="flex grow flex-col p-4">
@@ -43,68 +45,81 @@ const PuzzleInfoSolutionFormTeamControlSwitch: FC<PuzzleInfoSolutionFormTeamCont
         <RadioGroup.Root className="flex flex-col" value={teamId} onValueChange={setTeamId}>
           <div
             className={clsx(
-              'flex items-center justify-between border-x border-gray-300',
+              'flex items-center justify-between border-x border-gray-300 transition-colors hover:bg-gray-450',
               teamId === '0' ? 'bg-gray-450' : '',
             )}
           >
-            <label className="h-full w-full cursor-pointer py-3 pl-3 text-gray-100" htmlFor="r0">
+            <label
+              className={clsx(
+                'h-full w-full py-3 pl-3 text-gray-100',
+                individualDisabled ? 'cursor-not-allowed' : 'cursor-pointer',
+              )}
+              htmlFor="r0"
+            >
               Submit as individual.
             </label>
-            <RadioGroup.Item value="0" id="r0" disabled={!userTeam}>
-              <RadioGroup.Indicator asChild>
-                {!userTeam ? (
-                  <Badge className="my-3 mr-3" variant="secondary" intent="neutral">
-                    Current
-                  </Badge>
-                ) : (
-                  <Badge className="my-3 mr-3" variant="secondary" intent="primary">
+            <RadioGroup.Item value="0" id="r0" disabled={individualDisabled} asChild>
+              <button className="m-0.5 flex items-center p-2.5 focus-visible:rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-250">
+                <RadioGroup.Indicator className="focus:outline-none">
+                  <Badge variant="secondary" intent="primary">
                     Selected
                   </Badge>
-                )}
-              </RadioGroup.Indicator>
+                </RadioGroup.Indicator>
+              </button>
             </RadioGroup.Item>
+            {individualDisabled ? (
+              <Badge className="my-3 mr-3" variant="secondary" intent="neutral">
+                Current
+              </Badge>
+            ) : null}
           </div>
           {approvals
             .filter(
               ({ team }) => search.length === 0 || (team.name && team.name.indexOf(search) > -1),
             )
-            .map((approval, index) => (
-              <div
-                key={index}
-                className={clsx(
-                  'flex items-center justify-between border-x border-t border-gray-300 last:rounded-b-lg last:border-b',
-                  Number(teamId) === approval.teamId ? 'bg-gray-450' : '',
-                )}
-              >
-                <label
+            .map((approval, index) => {
+              const disabled = userTeam && userTeam.id === approval.teamId;
+              const selected = Number(teamId) === approval.teamId;
+
+              return (
+                <div
+                  key={index}
                   className={clsx(
-                    'h-full grow py-3 pl-3 text-gray-100',
-                    userTeam && userTeam.id === approval.teamId
+                    'flex items-center justify-between border-x border-t border-gray-300 last:rounded-b-lg last:border-b',
+                    disabled
                       ? 'cursor-not-allowed'
-                      : 'cursor-pointer',
+                      : 'cursor-pointer transition-colors hover:bg-gray-450',
+                    selected ? 'bg-gray-450' : '',
                   )}
-                  htmlFor={`r${approval.teamId}`}
                 >
-                  <TeamDisplayClient team={approval.team} hoverCardProps={{ inPortal: true }} />
-                </label>
-                <RadioGroup.Item
-                  value={`${approval.teamId}`}
-                  id={`r${approval.teamId}`}
-                  disabled={userTeam && userTeam.id === approval.teamId}
-                >
-                  <RadioGroup.Indicator asChild>
-                    <Badge className="my-3 mr-3" variant="secondary" intent="primary">
-                      Selected
+                  <label
+                    className={clsx('h-full grow py-3 pl-3 text-gray-100')}
+                    htmlFor={`r${approval.teamId}`}
+                  >
+                    <TeamDisplayClient team={approval.team} hoverCardProps={{ inPortal: true }} />
+                  </label>
+                  <RadioGroup.Item
+                    value={`${approval.teamId}`}
+                    id={`r${approval.teamId}`}
+                    disabled={disabled}
+                    asChild
+                  >
+                    <button className="m-0.5 flex items-center p-2.5 focus-visible:rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-250">
+                      <RadioGroup.Indicator>
+                        <Badge className="my-3 mr-3" variant="secondary" intent="primary">
+                          Selected
+                        </Badge>
+                      </RadioGroup.Indicator>
+                    </button>
+                  </RadioGroup.Item>
+                  {disabled ? (
+                    <Badge className="my-3 mr-3" variant="secondary" intent="neutral">
+                      Current
                     </Badge>
-                  </RadioGroup.Indicator>
-                </RadioGroup.Item>
-                {userTeam && userTeam.id === approval.teamId ? (
-                  <Badge className="my-3 mr-3" variant="secondary" intent="neutral">
-                    Current
-                  </Badge>
-                ) : null}
-              </div>
-            ))}
+                  ) : null}
+                </div>
+              );
+            })}
           {search.length > 0 ? <NewTeamForm name={search} /> : null}
         </RadioGroup.Root>
         {search.length + approvals.length === 0 ? (
@@ -138,11 +153,14 @@ const NewTeamForm: FC<{ name: string }> = ({ name }) => {
       <div className="flex items-center justify-between gap-2 px-3">
         <div className="flex items-center gap-3.5 overflow-hidden">
           <div className="h-10 w-10 min-w-[40px] rounded-full border border-stroke" />
-          <div className="max-w-fill overflow-hidden">
+          <div className="max-w-fill -mb-0.5 -ml-4 -mr-2.5 overflow-hidden px-4 pb-0.5">
             <div className="line-clamp-1 overflow-hidden text-ellipsis text-sm text-gray-100">
               {name}
             </div>
-            <div className="text-xs text-gray-200">Create a new team</div>
+            <button className="-mx-1 flex items-center gap-0.5 rounded-sm px-1 text-xs leading-4 text-gray-200 underline decoration-dashed transition-colors hover:text-gray-100 focus:outline-none focus-visible:text-gray-100 focus-visible:ring-2 focus-visible:ring-blue-250">
+              <span>0 invited</span>
+              <UserPlus className="h-3 w-3" />
+            </button>
           </div>
         </div>
         <Badge className="min-w-fit" variant="secondary" intent="success">
