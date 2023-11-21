@@ -19,7 +19,7 @@ import { getChainInfo, getShortenedAddress } from '@/lib/utils';
 import AddressDisplayClient from '@/components/templates/address-display-client';
 import { Callout } from '@/components/templates/mdx';
 import TeamDisplayClient from '@/components/templates/team-display-client';
-import { Badge, Button, ButtonGroup, IconButton, useToast } from '@/components/ui';
+import { Badge, Button, ButtonGroup, IconButton, Tooltip, useToast } from '@/components/ui';
 
 // ---------------------------------------–-------------------------------------
 // Props
@@ -37,14 +37,25 @@ type PuzzleInfoSolutionFormTeamControlManageTeamProps = {
 const PuzzleInfoSolutionFormTeamControlManageTeam: FC<
   PuzzleInfoSolutionFormTeamControlManageTeamProps
 > = ({ connectedAddress, team }) => {
+  // Always use Base or Base Goerli for the Team Registry.
+  const chainId = process.env.NEXT_PUBLIC_IS_TESTNET ? 84531 : 8453;
+
   return (
     <div className="flex flex-col gap-2 p-4">
       <div className="flex flex-col rounded-lg border border-stroke">
         <div className="flex items-center justify-between rounded-t-lg border-b border-stroke bg-gray-450 p-3">
           <TeamDisplayClient team={team} hoverCardProps={{ inPortal: true }} />
           <ButtonGroup>
-            {/* TODO: add functionality */}
-            <Button size="sm" variant="outline" intent="neutral" rightIcon={<UserPlus />}>
+            <Button
+              size="sm"
+              variant="outline"
+              intent="neutral"
+              rightIcon={<UserPlus />}
+              href={`https://${getChainInfo(chainId).blockExplorer}/address/${
+                getChainInfo(chainId).teamRegistry
+              }`}
+              newTab
+            >
               Invite
             </Button>
           </ButtonGroup>
@@ -248,27 +259,31 @@ const UserActions: FC<{ member: Team['members'][0] }> = ({ member }) => {
       Switch network
     </Button>
   ) : (
-    <div className="flex gap-1">
-      <IconButton
-        size="sm"
-        variant="secondary"
-        intent="primary"
-        type="button"
-        disabled={!removeMember || removeMemberIsLoading}
-        onClick={() => removeMember?.()}
-      >
-        <UserMinus />
-      </IconButton>
-      <Button
-        size="sm"
-        variant="outline"
-        intent="fail"
-        type="button"
-        disabled={!transferLeadership || transferLeadershipIsLoading}
-        onClick={() => transferLeadership?.()}
-      >
-        Transfer
-      </Button>
+    <div className="flex gap-2">
+      <Tooltip content="Transfer leadership" side="left" triggerProps={{ asChild: true }}>
+        <Button
+          size="sm"
+          variant="outline"
+          intent="fail"
+          type="button"
+          disabled={!transferLeadership || transferLeadershipIsLoading}
+          onClick={() => transferLeadership?.()}
+        >
+          Transfer
+        </Button>
+      </Tooltip>
+      <Tooltip content="Remove member" side="left" triggerProps={{ asChild: true }}>
+        <IconButton
+          size="sm"
+          variant="text"
+          intent="neutral"
+          type="button"
+          disabled={!removeMember || removeMemberIsLoading}
+          onClick={() => removeMember?.()}
+        >
+          <UserMinus />
+        </IconButton>
+      </Tooltip>
     </div>
   );
 };
