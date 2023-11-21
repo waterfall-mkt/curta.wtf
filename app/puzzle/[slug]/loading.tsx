@@ -2,11 +2,9 @@ import {
   ChevronDown,
   ChevronLeft,
   ChevronRight,
-  Edit,
   ExternalLink,
-  Fuel,
   Heart,
-  ToggleRight,
+  Settings,
 } from 'lucide-react';
 
 import { getChainInfo } from '@/lib/utils';
@@ -72,13 +70,6 @@ export default function LoadingPage() {
         >
           Contract
         </Button>
-        {/* <div className="flex grow items-end justify-between">
-          <div className="flex gap-2">
-            <IconButton variant="outline" intent="neutral" size="lg" disabled={true}>
-              <ExternalLink />
-            </IconButton>
-          </div>
-        </div> */}
       </div>
       {/* Puzzle content */}
       <div className="mt-4 flex flex-col gap-4 md:flex-row md:gap-6">
@@ -197,57 +188,35 @@ export default function LoadingPage() {
           <div className="flex flex-col items-center gap-2 p-4">
             <div className="flex w-full flex-col">
               <Input
-                className="w-full rounded-b-none"
+                className="w-full"
                 label="Solution (button activates if correct)"
                 placeholder="0x"
                 disabled={true}
                 rightIcon={
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    intent="neutral"
-                    className="bg-gray-600 active:bg-gray-450"
-                    rightIcon={<Heart />}
-                    disabled
-                  >
-                    {' '}
-                    Tip author
-                  </Button>
+                  <div className="flex -space-x-[1px]">
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      intent="neutral"
+                      className="rounded-none rounded-l-lg"
+                      rightIcon={<Heart />}
+                      disabled
+                    >
+                      {' '}
+                      Tip author
+                    </Button>
+                    <IconButton
+                      size="sm"
+                      variant="outline"
+                      intent="neutral"
+                      className="rounded-none rounded-r-lg"
+                      disabled
+                    >
+                      <Settings />
+                    </IconButton>
+                  </div>
                 }
               />
-              <div className="flex w-full items-center justify-between rounded-b-md border-x border-b border-gray-300 py-2 pl-4 pr-2">
-                <div className="flex items-center gap-2">
-                  <div>
-                    <div className="text-sm text-gray-100">N/A</div>
-                    <div className="flex items-center gap-1 text-xs text-gray-200">
-                      <span className="h-3 w-3">
-                        <Fuel className="h-3 w-3" />
-                      </span>
-                      <span>Gas limit</span>
-                    </div>
-                  </div>
-                  <hr className="h-9 w-[1px] border-l border-stroke" role="separator" />
-                  <div>
-                    <div className="text-sm text-gray-100">True</div>
-                    <div className="flex items-center gap-1 text-xs text-gray-200">
-                      <span className="h-3 w-3">
-                        <ToggleRight className="h-3 w-3" />
-                      </span>
-                      <span>Simulate tx</span>
-                    </div>
-                  </div>
-                </div>
-                <Button
-                  size="sm"
-                  variant="outline"
-                  intent="neutral"
-                  className="bg-gray-600 active:bg-gray-450"
-                  rightIcon={<Edit />}
-                  disabled
-                >
-                  Edit
-                </Button>
-              </div>
             </div>
             <Button type="submit" className="w-full" size="lg" disabled={true}>
               Submit

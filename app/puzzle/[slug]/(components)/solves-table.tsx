@@ -9,10 +9,8 @@ import { ExternalLink } from 'lucide-react';
 import type { PuzzleSolve } from '@/lib/types/protocol';
 import { getChainInfo, getTimeLeftString } from '@/lib/utils';
 
-import AddressLinkClient from '@/components/templates/address-link-client';
-import ENSAvatarClient from '@/components/templates/ens-avatar-client';
+import AddressDisplayClient from '@/components/templates/address-display-client';
 import PhaseTag from '@/components/templates/phase-tag';
-import UserHoverCard from '@/components/templates/user-hover-card';
 import { IconButton, Table } from '@/components/ui';
 import type { TableProps } from '@/components/ui/table/types';
 
@@ -73,26 +71,12 @@ const PuzzleSolvesTableDesktop: FC<PuzzleSolvesTableInternalProps> = ({
         accessorKey: 'solver',
         header: () => 'Player',
         cell: ({ row }) => (
-          <div className="flex items-center gap-3.5">
-            <div className="overflow-hidden rounded-full">
-              <ENSAvatarClient
-                nameOrAddress={row.original.solverEnsName ?? row.original.solver.address}
-                size={40}
-                prefetchedEnsAvatar={row.original.solverEnsAvatar}
-              />
-            </div>
-            <UserHoverCard
-              address={row.original.solver.address}
-              trigger={
-                <AddressLinkClient
-                  className="text-gray-100"
-                  address={row.original.solver.address}
-                  prefetchedEnsName={row.original.solverEnsName}
-                  label={row.original.solver.displayName}
-                />
-              }
-            />
-          </div>
+          <AddressDisplayClient
+            address={row.original.solver.address}
+            label={row.original.solver.displayName}
+            prefetchedEnsName={row.original.solverEnsName}
+            prefetchedEnsAvatar={row.original.solverEnsAvatar}
+          />
         ),
         footer: (props) => props.column.id,
       },
@@ -181,26 +165,12 @@ const PuzzleSolvesTableMobile: FC<PuzzleSolvesTableInternalProps> = ({
         accessorKey: 'solver',
         header: () => 'Player',
         cell: ({ row }) => (
-          <div className="flex items-center gap-3.5">
-            <div className="overflow-hidden rounded-full">
-              <ENSAvatarClient
-                nameOrAddress={row.original.solverEnsName ?? row.original.solver.address}
-                size={40}
-                prefetchedEnsAvatar={row.original.solverEnsAvatar}
-              />
-            </div>
-            <UserHoverCard
-              address={row.original.solver.address}
-              trigger={
-                <AddressLinkClient
-                  className="text-gray-100"
-                  address={row.original.solver.address}
-                  prefetchedEnsName={row.original.solverEnsName}
-                  label={row.original.solver.displayName}
-                />
-              }
-            />
-          </div>
+          <AddressDisplayClient
+            address={row.original.solver.address}
+            label={row.original.solver.displayName}
+            prefetchedEnsName={row.original.solverEnsName}
+            prefetchedEnsAvatar={row.original.solverEnsAvatar}
+          />
         ),
         footer: (props) => props.column.id,
       },

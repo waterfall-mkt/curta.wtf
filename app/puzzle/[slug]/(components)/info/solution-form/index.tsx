@@ -48,7 +48,7 @@ const PuzzleInfoSolutionForm: FC<PuzzleInfoSolutionFormProps> = ({ puzzle }) => 
   const { chain } = useNetwork();
   const { switchNetwork } = useSwitchNetwork();
 
-  // Set `mounted` to true on page load
+  // Set `mounted` to true on page load.
   useEffect(() => setMounted(true), []);
 
   const { config } = usePrepareContractWrite({

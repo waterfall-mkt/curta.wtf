@@ -382,3 +382,139 @@ export const CURTA_ABI = [
     type: 'function',
   },
 ];
+
+export const TEAM_REGISTRY_ABI = [
+  {
+    inputs: [{ internalType: 'uint256', name: '_id', type: 'uint256' }],
+    name: 'IsTeamLeader',
+    type: 'error',
+  },
+  {
+    inputs: [
+      { internalType: 'uint256', name: '_id', type: 'uint256' },
+      { internalType: 'address', name: '_member', type: 'address' },
+    ],
+    name: 'NotInTeam',
+    type: 'error',
+  },
+  {
+    inputs: [{ internalType: 'uint256', name: '_id', type: 'uint256' }],
+    name: 'NotTeamLeader',
+    type: 'error',
+  },
+  { inputs: [], name: 'Unauthorized', type: 'error' },
+  {
+    anonymous: false,
+    inputs: [
+      { indexed: true, internalType: 'uint256', name: '_id', type: 'uint256' },
+      { indexed: true, internalType: 'address', name: '_leader', type: 'address' },
+    ],
+    name: 'CreateTeam',
+    type: 'event',
+  },
+  {
+    anonymous: false,
+    inputs: [
+      { indexed: true, internalType: 'uint256', name: '_id', type: 'uint256' },
+      { indexed: true, internalType: 'address', name: '_member', type: 'address' },
+      { indexed: true, internalType: 'bool', name: '_approved', type: 'bool' },
+    ],
+    name: 'SetApprovalForMember',
+    type: 'event',
+  },
+  {
+    anonymous: false,
+    inputs: [
+      { indexed: true, internalType: 'uint256', name: '_from', type: 'uint256' },
+      { indexed: true, internalType: 'uint256', name: '_to', type: 'uint256' },
+      { indexed: true, internalType: 'address', name: '_member', type: 'address' },
+    ],
+    name: 'TransferTeam',
+    type: 'event',
+  },
+  {
+    anonymous: false,
+    inputs: [
+      { indexed: true, internalType: 'uint256', name: '_id', type: 'uint256' },
+      { indexed: true, internalType: 'address', name: '_from', type: 'address' },
+      { indexed: true, internalType: 'address', name: '_to', type: 'address' },
+    ],
+    name: 'TransferTeamLeadership',
+    type: 'event',
+  },
+  {
+    inputs: [{ internalType: 'address[]', name: '_members', type: 'address[]' }],
+    name: 'batchRemoveMember',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    inputs: [
+      { internalType: 'address[]', name: '_members', type: 'address[]' },
+      { internalType: 'bool', name: '_approved', type: 'bool' },
+    ],
+    name: 'batchSetApprovalForMember',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    inputs: [{ internalType: 'address[]', name: '_members', type: 'address[]' }],
+    name: 'createTeam',
+    outputs: [{ internalType: 'uint256', name: 'newTeamId', type: 'uint256' }],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    inputs: [
+      { internalType: 'uint256', name: '', type: 'uint256' },
+      { internalType: 'address', name: '', type: 'address' },
+    ],
+    name: 'getApproved',
+    outputs: [{ internalType: 'bool', name: '', type: 'bool' }],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [{ internalType: 'address', name: '', type: 'address' }],
+    name: 'getTeam',
+    outputs: [
+      { internalType: 'uint248', name: 'id', type: 'uint248' },
+      { internalType: 'bool', name: 'isLeader', type: 'bool' },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [{ internalType: 'address', name: '_member', type: 'address' }],
+    name: 'removeMember',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    inputs: [
+      { internalType: 'address', name: '_member', type: 'address' },
+      { internalType: 'bool', name: '_approved', type: 'bool' },
+    ],
+    name: 'setApprovalForMember',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    inputs: [{ internalType: 'uint256', name: '_to', type: 'uint256' }],
+    name: 'transferTeam',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    inputs: [{ internalType: 'address', name: '_member', type: 'address' }],
+    name: 'transferTeamLeadership',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+];
