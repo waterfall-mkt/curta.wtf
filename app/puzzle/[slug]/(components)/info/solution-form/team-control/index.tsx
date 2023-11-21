@@ -95,11 +95,7 @@ const PuzzleInfoSolutionFormTeamControl: FC = () => {
                 <Modal.Close />
               </Modal.Header>
               <Modal.Body noPadding>
-                <PuzzleInfoSolutionFormTeamControlSwitch
-                  userTeam={team}
-                  approvals={approvals ?? []}
-                />
-                {/* isTeamLeader ? (
+                {isTeamLeader ? (
                   <PuzzleInfoSolutionFormTeamControlManageTeam
                     connectedAddress={address}
                     team={combinedTeam}
@@ -109,7 +105,7 @@ const PuzzleInfoSolutionFormTeamControl: FC = () => {
                     userTeam={team}
                     approvals={approvals ?? []}
                   />
-                ) */}
+                )}
               </Modal.Body>
             </Modal.Content>
           </Modal.Root>
