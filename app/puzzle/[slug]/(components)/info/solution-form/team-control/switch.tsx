@@ -206,7 +206,7 @@ const PuzzleInfoSolutionFormTeamControlSwitch: FC<PuzzleInfoSolutionFormTeamCont
                   >
                     <button className="m-0.5 flex items-center p-2.5 focus-visible:rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-250">
                       <RadioGroup.Indicator>
-                        <Badge className="my-3 mr-3" variant="secondary" intent="primary">
+                        <Badge className="my-3" variant="secondary" intent="primary">
                           Selected
                         </Badge>
                       </RadioGroup.Indicator>
