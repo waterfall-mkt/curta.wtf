@@ -41,12 +41,14 @@ const fetchUserTeamApprovals = async (address: Address): Promise<UserTeamApprova
   // Fetch team members.
   const { data: teamMembers } = await supabase
     .from('team_members')
-    .select('*, user:users(*)')
+    .select('*')
     .returns<DbTeamMember[]>();
 
-  const teamMap = new Map<string, Team>();
+  // The keys are in the form `teamId`. We ignore `chainId` here. Then, make a
+  // mapping of the teams.
+  const teamMap = new Map<number, Team>();
   teams?.map((team) =>
-    teamMap.set(`${team.id}-${team.chainId}`, {
+    teamMap.set(team.id, {
       id: team.id,
       chainId: team.chainId,
       leader: team.leader,
@@ -56,9 +58,12 @@ const fetchUserTeamApprovals = async (address: Address): Promise<UserTeamApprova
     }),
   );
   teamMembers?.map((member) => {
-    const team = teamMap.get(`${member.teamid}-${member.chainId}`);
+    const team = teamMap.get(member.teamid);
     if (team) {
-      team.members.push({ address: member.user });
+      teamMap.set(member.teamid, {
+        ...team,
+        members: [...team.members, { address: member.user }],
+      });
     }
   });
 
@@ -67,7 +72,7 @@ const fetchUserTeamApprovals = async (address: Address): Promise<UserTeamApprova
     chainId: approval.chainId,
     member: approval.member,
     approved: approval.approved,
-    team: teamMap.get(`${approval.teamId}-${approval.chainId}`) ?? {
+    team: teamMap.get(approval.teamId) ?? {
       id: approval.teamId,
       chainId: approval.chainId,
       members: [],

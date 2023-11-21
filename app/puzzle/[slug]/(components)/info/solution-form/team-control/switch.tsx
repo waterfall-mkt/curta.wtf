@@ -29,7 +29,7 @@ const PuzzleInfoSolutionFormTeamControlSwitch: FC<PuzzleInfoSolutionFormTeamCont
   approvals,
 }) => {
   const [search, setSearch] = useState<string>('');
-  const [teamId, setTeamId] = useState<string>('0'); // TODO: default value
+  const [teamId, setTeamId] = useState<string>('');
 
   return (
     <div className="flex flex-col">
@@ -64,29 +64,47 @@ const PuzzleInfoSolutionFormTeamControlSwitch: FC<PuzzleInfoSolutionFormTeamCont
               </RadioGroup.Indicator>
             </RadioGroup.Item>
           </div>
-          {approvals.map((approval, index) => (
-            <div
-              key={index}
-              className={clsx(
-                'flex items-center justify-between border-x border-t border-gray-300 last:rounded-b-lg last:border-b',
-                Number(teamId) === approval.teamId ? 'bg-gray-450' : '',
-              )}
-            >
-              <label
-                className="h-full w-full cursor-pointer py-3 pl-3 text-gray-100"
-                htmlFor={`r${approval.teamId}`}
+          {approvals
+            .filter(
+              ({ team }) => search.length === 0 || (team.name && team.name.indexOf(search) > -1),
+            )
+            .map((approval, index) => (
+              <div
+                key={index}
+                className={clsx(
+                  'flex items-center justify-between border-x border-t border-gray-300 last:rounded-b-lg last:border-b',
+                  Number(teamId) === approval.teamId ? 'bg-gray-450' : '',
+                )}
               >
-                <TeamDisplayClient team={approval.team} hoverCardProps={{ inPortal: true }} />
-              </label>
-              <RadioGroup.Item value={`${approval.teamId}`} id={`r${approval.teamId}`}>
-                <RadioGroup.Indicator asChild>
-                  <Badge className="my-3 mr-3" variant="secondary" intent="primary">
-                    Selected
+                <label
+                  className={clsx(
+                    'h-full grow py-3 pl-3 text-gray-100',
+                    userTeam && userTeam.id === approval.teamId
+                      ? 'cursor-not-allowed'
+                      : 'cursor-pointer',
+                  )}
+                  htmlFor={`r${approval.teamId}`}
+                >
+                  <TeamDisplayClient team={approval.team} hoverCardProps={{ inPortal: true }} />
+                </label>
+                <RadioGroup.Item
+                  value={`${approval.teamId}`}
+                  id={`r${approval.teamId}`}
+                  disabled={userTeam && userTeam.id === approval.teamId}
+                >
+                  <RadioGroup.Indicator asChild>
+                    <Badge className="my-3 mr-3" variant="secondary" intent="primary">
+                      Selected
+                    </Badge>
+                  </RadioGroup.Indicator>
+                </RadioGroup.Item>
+                {userTeam && userTeam.id === approval.teamId ? (
+                  <Badge className="my-3 mr-3" variant="secondary" intent="neutral">
+                    Current
                   </Badge>
-                </RadioGroup.Indicator>
-              </RadioGroup.Item>
-            </div>
-          ))}
+                ) : null}
+              </div>
+            ))}
           {search.length > 0 ? <NewTeamForm name={search} /> : null}
         </RadioGroup.Root>
         {search.length + approvals.length === 0 ? (
@@ -105,7 +123,7 @@ const PuzzleInfoSolutionFormTeamControlSwitch: FC<PuzzleInfoSolutionFormTeamCont
       </div>
       {approvals.length > 0 ? (
         <div className="border-t border-stroke p-4">
-          <Button className="w-full" size="lg">
+          <Button className="w-full" size="lg" disabled={!teamId}>
             Select
           </Button>
         </div>
