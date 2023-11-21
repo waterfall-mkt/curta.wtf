@@ -142,7 +142,10 @@ const PuzzleInfoSolutionFormTeamControlSwitch: FC<PuzzleInfoSolutionFormTeamCont
         <RadioGroup.Root className="flex flex-col" value={teamId} onValueChange={setTeamId}>
           <div
             className={clsx(
-              'flex h-12 items-center justify-between border-x border-gray-300 transition-colors hover:bg-gray-450',
+              'flex h-12 grow items-center justify-between border-x border-gray-300',
+              individualDisabled
+                ? 'cursor-not-allowed'
+                : 'cursor-pointer transition-colors hover:bg-gray-450',
               teamId === '0' ? 'bg-gray-450' : '',
             )}
           >
@@ -165,7 +168,7 @@ const PuzzleInfoSolutionFormTeamControlSwitch: FC<PuzzleInfoSolutionFormTeamCont
               </button>
             </RadioGroup.Item>
             {individualDisabled ? (
-              <Badge className="my-3 mr-3" variant="secondary" intent="neutral">
+              <Badge className="my-3 mr-3 min-w-fit" variant="secondary" intent="neutral">
                 Current
               </Badge>
             ) : null}
@@ -190,7 +193,7 @@ const PuzzleInfoSolutionFormTeamControlSwitch: FC<PuzzleInfoSolutionFormTeamCont
                   )}
                 >
                   <label
-                    className={clsx('h-full grow py-3 pl-3 text-gray-100')}
+                    className="h-full grow py-3 pl-3 text-gray-100"
                     htmlFor={`r${approval.teamId}`}
                   >
                     <TeamDisplayClient team={approval.team} hoverCardProps={{ inPortal: true }} />
@@ -210,7 +213,7 @@ const PuzzleInfoSolutionFormTeamControlSwitch: FC<PuzzleInfoSolutionFormTeamCont
                     </button>
                   </RadioGroup.Item>
                   {disabled ? (
-                    <Badge className="my-3 mr-3" variant="secondary" intent="neutral">
+                    <Badge className="my-3 mr-3 min-w-fit" variant="secondary" intent="neutral">
                       Current
                     </Badge>
                   ) : null}
