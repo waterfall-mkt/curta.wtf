@@ -9,7 +9,7 @@ export default function TabsPage() {
     <div className="w-full">
       <Tabs.Root>
         <Tabs.List className="w-full">
-          <Tabs.Trigger value="0" icon={<MessageCircle />} stat={3}>
+          <Tabs.Trigger value="0" icon={<MessageCircle />} stat={300}>
             fiveoutofnine
           </Tabs.Trigger>
           <Tabs.Trigger value="1">sabnock</Tabs.Trigger>

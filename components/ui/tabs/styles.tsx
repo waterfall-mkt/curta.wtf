@@ -15,6 +15,13 @@ export const tabsListStyles = [
 
 export const tabsTriggerIconStyles = 'flex items-center justify-center w-4 h-4 text-gray-200';
 
+export const tabsTriggerStatStyles = [
+  'text-gray-200',
+  'transition-colors',
+  'group-hover:text-gray-100',
+  'group-data-[state=active]:text-gray-100',
+];
+
 export const tabsTriggerStyles = [
   'flex',
   'items-center',
@@ -27,6 +34,7 @@ export const tabsTriggerStyles = [
   'font-medium',
   'transition-colors',
   'text-gray-200',
+  'group',
   'disabled:text-gray-200',
   'disabled:hover:text-gray-200',
   'hover:text-gray-100',

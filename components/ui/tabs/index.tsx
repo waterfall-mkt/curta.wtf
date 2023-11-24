@@ -6,6 +6,7 @@ import {
   tabsContentStyles,
   tabsListStyles,
   tabsTriggerIconStyles,
+  tabsTriggerStatStyles,
   tabsTriggerStyles,
 } from './styles';
 import type {
@@ -56,7 +57,13 @@ const TabsTrigger = forwardRef((props: TabsTriggerProps, ref: ForwardedRef<HTMLB
       {icon ? <span className={tabsTriggerIconStyles}>{icon}</span> : null}
       <span>{children}</span>
       {stat !== undefined ? (
-        <Badge size="sm" variant="secondary" intent="neutral" type="number">
+        <Badge
+          className={clsx(tabsTriggerStatStyles)}
+          size="sm"
+          variant="secondary"
+          intent="neutral"
+          type="number"
+        >
           {stat}
         </Badge>
       ) : null}
