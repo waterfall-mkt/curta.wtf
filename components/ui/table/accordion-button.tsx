@@ -7,6 +7,10 @@ import { ChevronDown, ChevronUp } from 'lucide-react';
 
 import { IconButton } from '@/components/ui';
 
+// -----------------------------------------------------------------------------
+// Component
+// -----------------------------------------------------------------------------
+
 const TableAccordionButton = <T,>({ row }: TableAccordionButtonProps<T>) => {
   const handleClick = (e: MouseEvent) => {
     row.toggleExpanded();
@@ -26,6 +30,10 @@ const TableAccordionButton = <T,>({ row }: TableAccordionButtonProps<T>) => {
     </IconButton>
   );
 };
+
+// -----------------------------------------------------------------------------
+// Export
+// -----------------------------------------------------------------------------
 
 TableAccordionButton.displayName = 'TableAccordionButton';
 

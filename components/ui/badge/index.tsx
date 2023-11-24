@@ -2,8 +2,12 @@ import type { FC } from 'react';
 
 import { badgeVariants } from './styles';
 import type { BadgeProps } from './types';
-import { cx } from 'class-variance-authority';
+import clsx from 'clsx';
 import { twMerge } from 'tailwind-merge';
+
+// -----------------------------------------------------------------------------
+// Component
+// -----------------------------------------------------------------------------
 
 const Badge: FC<BadgeProps> = ({
   className,
@@ -11,20 +15,19 @@ const Badge: FC<BadgeProps> = ({
   variant = 'primary',
   intent = 'neutral',
   type = 'text',
-  children,
   ...rest
-}) => {
-  return (
-    <span
-      className={twMerge(cx(badgeVariants({ size, variant, intent, type }), className))}
-      data-size={size}
-      data-variant={variant}
-      {...rest}
-    >
-      {children}
-    </span>
-  );
-};
+}) => (
+  <span
+    className={twMerge(clsx(badgeVariants({ size, variant, intent, type }), className))}
+    data-size={size}
+    data-variant={variant}
+    {...rest}
+  />
+);
+
+// -----------------------------------------------------------------------------
+// Export
+// -----------------------------------------------------------------------------
 
 Badge.displayName = 'Badge';
 

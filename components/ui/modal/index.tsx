@@ -1,6 +1,6 @@
 'use client';
 
-import type { FC } from 'react';
+import { type FC, type ForwardedRef, forwardRef } from 'react';
 
 import {
   modalCloseStyles,
@@ -20,30 +20,32 @@ import type {
 } from './types';
 import * as ModalPrimitive from '@radix-ui/react-dialog';
 import * as VisuallyHidden from '@radix-ui/react-visually-hidden';
-import { cx } from 'class-variance-authority';
+import clsx from 'clsx';
 import { X } from 'lucide-react';
 import { twMerge } from 'tailwind-merge';
 
 import { Card, IconButton } from '@/components/ui';
 
+// -----------------------------------------------------------------------------
+// Component
+// -----------------------------------------------------------------------------
+
 const ModalBody: FC<ModalBodyProps> = Card.Body;
 
-const ModalClose: FC<ModalCloseProps> = (props) => {
-  return (
-    <ModalPrimitive.Close asChild>
-      <IconButton
-        variant="secondary"
-        intent="neutral"
-        size="sm"
-        className={modalCloseStyles}
-        aria-label="Close modal"
-        {...props}
-      >
-        <X />
-      </IconButton>
-    </ModalPrimitive.Close>
-  );
-};
+const ModalClose = forwardRef((props: ModalCloseProps, ref: ForwardedRef<HTMLButtonElement>) => (
+  <ModalPrimitive.Close ref={ref} asChild>
+    <IconButton
+      variant="secondary"
+      intent="neutral"
+      size="sm"
+      className={clsx(modalCloseStyles)}
+      aria-label="Close modal"
+      {...props}
+    >
+      <X />
+    </IconButton>
+  </ModalPrimitive.Close>
+));
 
 const ModalContent: FC<ModalContentProps> = ({
   className,
@@ -56,40 +58,40 @@ const ModalContent: FC<ModalContentProps> = ({
   portalProps,
   children,
   ...rest
-}) => {
-  return (
-    <ModalPrimitive.Portal {...portalProps}>
-      <ModalPrimitive.Overlay className={modalOverlayStyles} {...overlayProps} />
-      <ModalPrimitive.Content
-        onClick={onClick ? onClick : (e) => e.stopPropagation()}
-        asChild={asChild}
-        {...rest}
+}) => (
+  <ModalPrimitive.Portal {...portalProps}>
+    <ModalPrimitive.Overlay className={clsx(modalOverlayStyles)} {...overlayProps} />
+    <ModalPrimitive.Content
+      onClick={onClick ? onClick : (e) => e.stopPropagation()}
+      asChild={asChild}
+      {...rest}
+    >
+      <Card
+        className={twMerge(clsx(modalContentVariants({ breakpoint }), 'mx-auto', className))}
+        {...cardProps}
       >
-        <Card
-          className={twMerge(cx(modalContentVariants({ breakpoint }), 'mx-auto', className))}
-          {...cardProps}
-        >
-          {children}
-          <VisuallyHidden.Root>
-            <ModalPrimitive.Description>
-              {description ?? 'Modal content'}
-            </ModalPrimitive.Description>
-          </VisuallyHidden.Root>
-        </Card>
-      </ModalPrimitive.Content>
-    </ModalPrimitive.Portal>
-  );
-};
+        {children}
+        <VisuallyHidden.Root>
+          <ModalPrimitive.Description>{description ?? 'Modal content'}</ModalPrimitive.Description>
+        </VisuallyHidden.Root>
+      </Card>
+    </ModalPrimitive.Content>
+  </ModalPrimitive.Portal>
+);
 
-const ModalHeader: FC<ModalHeaderProps> = ({ align = 'center', ...rest }) => {
-  return <Card.Header className={modalHeaderVariants({ align })} {...rest} />;
-};
+const ModalHeader: FC<ModalHeaderProps> = ({ align = 'center', ...rest }) => (
+  <Card.Header className={modalHeaderVariants({ align })} {...rest} />
+);
 
 const ModalRoot: FC<ModalRootProps> = ModalPrimitive.Root;
 
 const ModalTitle: FC<ModalTitleProps> = ModalPrimitive.Title;
 
 const ModalTrigger: FC<ModalTriggerProps> = ModalPrimitive.Trigger;
+
+// -----------------------------------------------------------------------------
+// Export
+// -----------------------------------------------------------------------------
 
 ModalBody.displayName = 'ModalBody';
 ModalClose.displayName = ModalPrimitive.Close.displayName;

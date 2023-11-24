@@ -23,6 +23,10 @@ import { twMerge } from 'tailwind-merge';
 
 import { Badge } from '@/components/ui';
 
+// -----------------------------------------------------------------------------
+// Component
+// -----------------------------------------------------------------------------
+
 const TabsContent = forwardRef(
   ({ className, ...rest }: TabsContentProps, ref: ForwardedRef<HTMLDivElement>) => (
     <TabsPrimitive.Content
@@ -100,6 +104,10 @@ const TabsTrigger = forwardRef((props: TabsTriggerProps, ref: ForwardedRef<HTMLB
     </TabsPrimitive.Trigger>
   );
 });
+
+// -----------------------------------------------------------------------------
+// Export
+// -----------------------------------------------------------------------------
 
 TabsContent.displayName = TabsPrimitive.Content.displayName;
 TabsList.displayName = TabsPrimitive.List.displayName;

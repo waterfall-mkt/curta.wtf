@@ -2,6 +2,10 @@ import type { ComponentPropsWithoutRef, ReactNode } from 'react';
 
 import * as TooltipPrimitive from '@radix-ui/react-tooltip';
 
+// -----------------------------------------------------------------------------
+// Component props
+// -----------------------------------------------------------------------------
+
 export type TooltipProps = Omit<
   ComponentPropsWithoutRef<typeof TooltipPrimitive.Content>,
   'asChild'

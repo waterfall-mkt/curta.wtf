@@ -1,7 +1,17 @@
 import { cva } from 'class-variance-authority';
 
-export const tableBodyCellStyles =
-  'first:pl-3 lg:first:pl-6 last:pr-3 lg:last:pr-6 pl-2 last:text-right text-left text-sm text-gray-100 font-book';
+export const tableBodyCellStyles = [
+  'pl-2',
+  'text-left',
+  'text-sm',
+  'text-gray-100',
+  'font-book',
+  'first:pl-3',
+  'last:pr-3',
+  'last:text-right',
+  'lg:first:pl-6',
+  'lg:last:pr-6',
+];
 
 export const tableBodyRowVariants = cva(['h-16', 'border-t', 'border-stroke'], {
   variants: {
@@ -58,11 +68,25 @@ export const tableButtonVariants = cva(
   },
 );
 
-export const tableEmptyStateStyles =
-  'flex min-h-[10rem] items-center justify-center text-gray-200 text-sm font-book';
+export const tableEmptyStateStyles = [
+  'flex',
+  'min-h-[10rem]',
+  'items-center',
+  'justify-center',
+  'text-gray-200',
+  'text-sm',
+  'font-book',
+];
 
-export const tableHeaderCellStyles =
-  'first:pl-3 lg:first:pl-6 last:pr-3 pl-2 lg:last:pr-6 text-xs font-book group';
+export const tableHeaderCellStyles = [
+  'text-xs',
+  'font-book',
+  'group',
+  'lg:first:pl-6',
+  'lg:last:pr-6',
+  'first:pl-3',
+  'last:pr-3 pl-2',
+];
 
 export const tableHeaderRowVariants = cva(['h-10'], {
   variants: {
@@ -72,7 +96,7 @@ export const tableHeaderRowVariants = cva(['h-10'], {
   },
 });
 
-export const tableHeaderSortIconStyles = 'ml-1 w-3 h-3';
+export const tableHeaderSortIconStyles = ['ml-1', 'w-3', 'h-3'];
 
 export const tableHeaderSortVariants = cva(
   [
@@ -136,10 +160,23 @@ export const tablePaginationNumberButtonVariants = cva(
   },
 );
 
-export const tablePaginationSeparatorStyles =
-  'flex h-8 w-8 items-center justify-center text-gray-200';
+export const tablePaginationSeparatorStyles = [
+  'flex',
+  'h-8',
+  'w-8',
+  'items-center',
+  'justify-center',
+  'text-gray-200',
+];
 
-export const tablePaginationStyles = 'px-6 flex items-center h-10 border-t border-stroke';
+export const tablePaginationStyles = [
+  'px-6',
+  'flex',
+  'items-center',
+  'h-10',
+  'border-t',
+  'border-stroke',
+];
 
 export const tableWrapperVariants = cva(['overflow-hidden'], {
   variants: {

@@ -2,11 +2,19 @@ import type { FC } from 'react';
 
 import { inputIconContainerVariants } from './styles';
 import type { InputIconContainerProps } from './types';
-import { cx } from 'class-variance-authority';
+import clsx from 'clsx';
 
-const InputIconContainer: FC<InputIconContainerProps> = ({ className, position, children }) => {
-  return <div className={cx(inputIconContainerVariants({ position }), className)}>{children}</div>;
-};
+// -----------------------------------------------------------------------------
+// Component
+// -----------------------------------------------------------------------------
+
+const InputIconContainer: FC<InputIconContainerProps> = ({ className, position, ...rest }) => (
+  <div className={clsx(inputIconContainerVariants({ position }), className)} {...rest} />
+);
+
+// -----------------------------------------------------------------------------
+// Export
+// -----------------------------------------------------------------------------
 
 InputIconContainer.displayName = 'InputIconContainer';
 

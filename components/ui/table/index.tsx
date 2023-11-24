@@ -34,6 +34,10 @@ import clsx from 'clsx';
 import { ArrowDown, ArrowLeft, ArrowRight, ArrowUp } from 'lucide-react';
 import { twMerge } from 'tailwind-merge';
 
+// -----------------------------------------------------------------------------
+// Component
+// -----------------------------------------------------------------------------
+
 const Table = <T,>({
   className,
   emptyStateString,
@@ -150,7 +154,7 @@ const Table = <T,>({
                   <th
                     key={header.id}
                     colSpan={header.colSpan}
-                    className={tableHeaderCellStyles}
+                    className={clsx(tableHeaderCellStyles)}
                     style={{ width: header.getSize() }}
                   >
                     {header.isPlaceholder ? null : (
@@ -162,8 +166,8 @@ const Table = <T,>({
                       >
                         {flexRender(header.column.columnDef.header, header.getContext())}
                         {{
-                          asc: <ArrowUp className={tableHeaderSortIconStyles} />,
-                          desc: <ArrowDown className={tableHeaderSortIconStyles} />,
+                          asc: <ArrowUp className={clsx(tableHeaderSortIconStyles)} />,
+                          desc: <ArrowDown className={clsx(tableHeaderSortIconStyles)} />,
                         }[header.column.getIsSorted() as string] ?? null}
                       </div>
                     )}
@@ -202,7 +206,7 @@ const Table = <T,>({
                     return (
                       <td
                         key={cell.id}
-                        className={tableBodyCellStyles}
+                        className={clsx(tableBodyCellStyles)}
                         style={{ width: cell.column.getSize() }}
                       >
                         {flexRender(cell.column.columnDef.cell, cell.getContext())}
@@ -223,12 +227,12 @@ const Table = <T,>({
         </tbody>
       </table>
       {table.getRowModel().rows.length == 0 ? (
-        <div className={tableEmptyStateStyles}>{emptyStateString ?? 'No results found'}</div>
+        <div className={clsx(tableEmptyStateStyles)}>{emptyStateString ?? 'No results found'}</div>
       ) : null}
 
       {/* Pagination */}
       {totalPages > 1 ? (
-        <div className={tablePaginationStyles}>
+        <div className={clsx(tablePaginationStyles)}>
           {/* Previous Button */}
           <button
             className={tablePaginationButtonVariants({ disabled: !table.getCanPreviousPage() })}
@@ -249,7 +253,7 @@ const Table = <T,>({
               >
                 1
               </button>
-              {currentPage > 1 && <div className={tablePaginationSeparatorStyles}>…</div>}
+              {currentPage > 1 && <div className={clsx(tablePaginationSeparatorStyles)}>…</div>}
               {totalPages > 2 && currentPage !== totalPages - 1 && currentPage !== 0 && (
                 <button
                   className={tablePaginationNumberButtonVariants({ selected: true })}
@@ -260,7 +264,7 @@ const Table = <T,>({
                 </button>
               )}
               {totalPages - 2 > currentPage && (
-                <div className={tablePaginationSeparatorStyles}>…</div>
+                <div className={clsx(tablePaginationSeparatorStyles)}>…</div>
               )}
               <button
                 className={tablePaginationNumberButtonVariants({
@@ -288,6 +292,10 @@ const Table = <T,>({
     </div>
   );
 };
+
+// -----------------------------------------------------------------------------
+// Export
+// -----------------------------------------------------------------------------
 
 Table.AccordionButton = TableAccordionButton;
 Table.Button = TableButton;

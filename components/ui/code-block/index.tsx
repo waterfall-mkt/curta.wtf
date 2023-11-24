@@ -15,7 +15,7 @@ import {
   codeBlockPreVariants,
   codeBlockStyles,
 } from './styles';
-import { theme } from './theme';
+import { THEME } from './theme';
 import type { CodeBlockProps } from './types';
 import clsx from 'clsx';
 import { File, TerminalSquare } from 'lucide-react';
@@ -34,6 +34,10 @@ require('prismjs/components/prism-c');
 require('prismjs/components/prism-cpp');
 require('prismjs/components/prism-python');
 require('prismjs/components/prism-bash');
+
+// -----------------------------------------------------------------------------
+// Component
+// -----------------------------------------------------------------------------
 
 const CodeBlock: FC<CodeBlockProps> = ({
   className,
@@ -89,7 +93,7 @@ const CodeBlock: FC<CodeBlockProps> = ({
         </div>
       ) : null}
       {!skeletonLines ? (
-        <Highlight prism={Prism} theme={theme} code={children} language={language}>
+        <Highlight prism={Prism} theme={THEME} code={children} language={language}>
           {({ tokens, getLineProps, getTokenProps }) => (
             <div className="relative">
               <pre
@@ -100,7 +104,7 @@ const CodeBlock: FC<CodeBlockProps> = ({
                 })}
                 {...rest}
               >
-                <code className={codeBlockStyles}>
+                <code className={clsx(codeBlockStyles)}>
                   {tokens.map((line, i) => {
                     const { className, ...restLineProps } = getLineProps({ line });
 
@@ -139,7 +143,7 @@ const CodeBlock: FC<CodeBlockProps> = ({
             })}
             {...rest}
           >
-            <code className={codeBlockStyles}>
+            <code className={clsx(codeBlockStyles)}>
               {Array(skeletonLines)
                 .fill(null)
                 .map((_, i) => (
@@ -164,6 +168,10 @@ const CodeBlock: FC<CodeBlockProps> = ({
     </div>
   );
 };
+
+// -----------------------------------------------------------------------------
+// Export
+// -----------------------------------------------------------------------------
 
 CodeBlock.displayName = 'CodeBlock';
 

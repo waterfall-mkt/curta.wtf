@@ -8,6 +8,10 @@ import * as PopoverPrimitive from '@radix-ui/react-popover';
 import clsx from 'clsx';
 import { twMerge } from 'tailwind-merge';
 
+// -----------------------------------------------------------------------------
+// Component
+// -----------------------------------------------------------------------------
+
 const Popover = forwardRef(
   (
     {
@@ -15,6 +19,7 @@ const Popover = forwardRef(
       sideOffset = 4,
       hasArrow = true,
       trigger,
+      triggerProps = { asChild: true },
       open,
       inPortal = false,
       onOpenChange,
@@ -27,7 +32,7 @@ const Popover = forwardRef(
 
     return (
       <PopoverPrimitive.Root open={open} onOpenChange={onOpenChange}>
-        <PopoverPrimitive.Trigger onClick={(e) => e.stopPropagation()} asChild>
+        <PopoverPrimitive.Trigger onClick={(e) => e.stopPropagation()} {...triggerProps}>
           {trigger}
         </PopoverPrimitive.Trigger>
         <ContentParent>
@@ -39,7 +44,7 @@ const Popover = forwardRef(
           >
             {children}
             {hasArrow ? (
-              <PopoverPrimitive.Arrow className={popoverArrowStyles} width={8} height={4} />
+              <PopoverPrimitive.Arrow className={clsx(popoverArrowStyles)} width={8} height={4} />
             ) : null}
           </PopoverPrimitive.Content>
         </ContentParent>
@@ -47,6 +52,10 @@ const Popover = forwardRef(
     );
   },
 );
+
+// -----------------------------------------------------------------------------
+// Export
+// -----------------------------------------------------------------------------
 
 Popover.displayName = 'Popover';
 

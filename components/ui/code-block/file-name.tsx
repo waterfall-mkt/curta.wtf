@@ -10,6 +10,10 @@ import {
 } from './styles';
 import type { CodeBlockFileNameProps } from './types';
 
+// -----------------------------------------------------------------------------
+// Component
+// -----------------------------------------------------------------------------
+
 const CodeBlockFileName: FC<CodeBlockFileNameProps> = ({
   fileName,
   headerLabel,
@@ -58,5 +62,11 @@ const CodeBlockFileName: FC<CodeBlockFileNameProps> = ({
     </div>
   );
 };
+
+// -----------------------------------------------------------------------------
+// Export
+// -----------------------------------------------------------------------------
+
+CodeBlockFileName.displayName = 'CodeBlockFileName';
 
 export default CodeBlockFileName;

@@ -5,15 +5,19 @@ import { type ForwardedRef, forwardRef, Fragment } from 'react';
 import { tooltipArrowStyles, tooltipStyles } from './styles';
 import type { TooltipProps } from './types';
 import * as RadixTooltip from '@radix-ui/react-tooltip';
-import { cx } from 'class-variance-authority';
+import clsx from 'clsx';
 import { twMerge } from 'tailwind-merge';
+
+// -----------------------------------------------------------------------------
+// Component
+// -----------------------------------------------------------------------------
 
 const Tooltip = forwardRef(
   (
     {
       className,
-      sideOffset = 4,
       content,
+      sideOffset = 4,
       triggerProps = { asChild: true },
       hasArrow = true,
       noDelay = false,
@@ -34,12 +38,12 @@ const Tooltip = forwardRef(
           <ContentParent>
             <RadixTooltip.Content
               ref={ref}
-              className={twMerge(cx(tooltipStyles, className))}
+              className={twMerge(clsx(tooltipStyles, className))}
               sideOffset={sideOffset}
               {...rest}
             >
               {hasArrow ? (
-                <RadixTooltip.Arrow className={tooltipArrowStyles} width={8} height={4} />
+                <RadixTooltip.Arrow className={clsx(tooltipArrowStyles)} width={8} height={4} />
               ) : null}
               {content}
             </RadixTooltip.Content>
@@ -49,6 +53,10 @@ const Tooltip = forwardRef(
     );
   },
 );
+
+// -----------------------------------------------------------------------------
+// Export
+// -----------------------------------------------------------------------------
 
 Tooltip.displayName = 'Tooltip';
 

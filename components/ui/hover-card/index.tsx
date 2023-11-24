@@ -8,6 +8,10 @@ import * as HoverCardPrimitive from '@radix-ui/react-hover-card';
 import clsx from 'clsx';
 import { twMerge } from 'tailwind-merge';
 
+// -----------------------------------------------------------------------------
+// Component
+// -----------------------------------------------------------------------------
+
 const HoverCard = forwardRef(
   (
     {
@@ -37,7 +41,11 @@ const HoverCard = forwardRef(
             {...rest}
           >
             {hasArrow ? (
-              <HoverCardPrimitive.Arrow className={hoverCardArrowStyles} width={8} height={4} />
+              <HoverCardPrimitive.Arrow
+                className={clsx(hoverCardArrowStyles)}
+                width={8}
+                height={4}
+              />
             ) : null}
             {children}
           </HoverCardPrimitive.Content>
@@ -46,6 +54,11 @@ const HoverCard = forwardRef(
     );
   },
 );
+
+// -----------------------------------------------------------------------------
+// Export
+// -----------------------------------------------------------------------------
+
 HoverCard.displayName = HoverCardPrimitive.Content.displayName;
 
 export default HoverCard;

@@ -6,8 +6,12 @@ import { type FC, type ForwardedRef, forwardRef } from 'react';
 import { buttonGroupStyles, buttonIconVariants, buttonVariants } from './styles';
 import type { ButtonGroupProps, ButtonProps } from './types';
 import { Slot } from '@radix-ui/react-slot';
-import { cx } from 'class-variance-authority';
+import clsx from 'clsx';
 import { twMerge } from 'tailwind-merge';
+
+// -----------------------------------------------------------------------------
+// Component
+// -----------------------------------------------------------------------------
 
 const Button = forwardRef(
   (
@@ -30,7 +34,7 @@ const Button = forwardRef(
 
     const props = {
       className: twMerge(
-        cx(
+        clsx(
           buttonVariants({
             size,
             variant,
@@ -78,11 +82,15 @@ const Button = forwardRef(
 
 export const ButtonGroup: FC<ButtonGroupProps> = ({ className, children, ...rest }) => {
   return (
-    <div className={twMerge(cx(buttonGroupStyles, className))} {...rest}>
+    <div className={twMerge(clsx(buttonGroupStyles, className))} {...rest}>
       {children}
     </div>
   );
 };
+
+// -----------------------------------------------------------------------------
+// Export
+// -----------------------------------------------------------------------------
 
 Button.displayName = 'Button';
 ButtonGroup.displayName = 'ButtonGroup';
