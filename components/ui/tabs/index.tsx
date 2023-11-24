@@ -2,7 +2,12 @@
 
 import { type FC, type ForwardedRef, forwardRef } from 'react';
 
-import { tabsContentStyles, tabsListStyles, tabsTriggerVariants } from './styles';
+import {
+  tabsContentStyles,
+  tabsListStyles,
+  tabsTriggerIconStyles,
+  tabsTriggerStyles,
+} from './styles';
 import type {
   TabsComposition,
   TabsContentProps,
@@ -13,6 +18,8 @@ import type {
 import * as TabsPrimitive from '@radix-ui/react-tabs';
 import clsx from 'clsx';
 import { twMerge } from 'tailwind-merge';
+
+import { Badge } from '@/components/ui';
 
 const TabsContent = forwardRef(
   ({ className, ...rest }: TabsContentProps, ref: ForwardedRef<HTMLDivElement>) => (
@@ -32,16 +39,30 @@ const TabsList = forwardRef(
 
 const TabsRoot: FC<TabsRootProps> = TabsPrimitive.Root;
 
-const TabsTrigger = forwardRef(
-  ({ className, asChild, ...rest }: TabsTriggerProps, ref: ForwardedRef<HTMLButtonElement>) => (
+const TabsTrigger = forwardRef((props: TabsTriggerProps, ref: ForwardedRef<HTMLButtonElement>) => {
+  // Return early if `asChild` is used, so features/props native to this
+  // component do not get passed down to the `TabsPrimitive.Trigger` component.
+  if (props.asChild) return <TabsPrimitive.Trigger {...props} />;
+
+  // Destructure props.
+  const { className, icon, stat, children, ...rest } = props;
+
+  return (
     <TabsPrimitive.Trigger
-      className={twMerge(clsx(!asChild ? tabsTriggerVariants() : '', className))}
+      className={twMerge(clsx(tabsTriggerStyles, className))}
       ref={ref}
-      asChild={asChild}
       {...rest}
-    />
-  ),
-);
+    >
+      {icon ? <span className={tabsTriggerIconStyles}>{icon}</span> : null}
+      <span>{children}</span>
+      {stat !== undefined ? (
+        <Badge size="sm" variant="secondary" intent="neutral" type="number">
+          {stat}
+        </Badge>
+      ) : null}
+    </TabsPrimitive.Trigger>
+  );
+});
 
 TabsContent.displayName = TabsPrimitive.Content.displayName;
 TabsList.displayName = TabsPrimitive.List.displayName;
