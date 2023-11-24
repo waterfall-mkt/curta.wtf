@@ -18,6 +18,8 @@ export type TabsTriggerProps =
     } & {
       icon?: ReactNode;
       stat?: number;
+      href?: string;
+      newTab?: boolean;
     })
   | (Omit<ComponentPropsWithoutRef<typeof TabsPrimitive.Trigger>, 'asChild'> & { asChild: true });
 

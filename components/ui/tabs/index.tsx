@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { type FC, type ForwardedRef, forwardRef } from 'react';
 
 import {
@@ -45,8 +46,37 @@ const TabsTrigger = forwardRef((props: TabsTriggerProps, ref: ForwardedRef<HTMLB
   // component do not get passed down to the `TabsPrimitive.Trigger` component.
   if (props.asChild) return <TabsPrimitive.Trigger {...props} />;
 
-  // Destructure props.
-  const { className, icon, stat, children, ...rest } = props;
+  // Destructure props. `asChild` is false-y here, but we destructure it out
+  // because we don't want to pass it in if the trigger has an `href` prop.
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { className, icon, stat, href, newTab, children, asChild, ...rest } = props;
+
+  if (href) {
+    return (
+      <TabsPrimitive.Trigger
+        className={twMerge(clsx(tabsTriggerStyles, className))}
+        ref={ref}
+        asChild={true}
+        {...rest}
+      >
+        <Link href={href} {...(newTab ? { target: '_blank', rel: 'noopener noreferrer' } : {})}>
+          {icon ? <span className={tabsTriggerIconStyles}>{icon}</span> : null}
+          <span>{children}</span>
+          {stat !== undefined ? (
+            <Badge
+              className={clsx(tabsTriggerStatStyles)}
+              size="sm"
+              variant="secondary"
+              intent="neutral"
+              type="number"
+            >
+              {stat}
+            </Badge>
+          ) : null}
+        </Link>
+      </TabsPrimitive.Trigger>
+    );
+  }
 
   return (
     <TabsPrimitive.Trigger
