@@ -1,6 +1,6 @@
 import type { PrismTheme } from 'prism-react-renderer';
 
-export const theme: PrismTheme = {
+export const THEME: PrismTheme = {
   plain: {},
   styles: [
     {

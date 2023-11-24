@@ -8,6 +8,10 @@ import { Check, Copy } from 'lucide-react';
 
 import { IconButton, Select } from '@/components/ui';
 
+// -----------------------------------------------------------------------------
+// Component
+// -----------------------------------------------------------------------------
+
 const CodeBlockActions: FC<CodeBlockActionsProps> = ({ code, switcher, inHeader }) => {
   const [copied, setCopied] = useState<boolean>(false);
   const [mounted, setMounted] = useState<boolean>(false);
@@ -58,5 +62,11 @@ const CodeBlockActions: FC<CodeBlockActionsProps> = ({ code, switcher, inHeader 
     </div>
   );
 };
+
+// -----------------------------------------------------------------------------
+// Export
+// -----------------------------------------------------------------------------
+
+CodeBlockActions.displayName = 'CodeBlockActions';
 
 export default CodeBlockActions;

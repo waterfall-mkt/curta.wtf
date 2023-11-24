@@ -1,6 +1,6 @@
 import { cva } from 'class-variance-authority';
 
-export const buttonGroupStyles = 'button--group group flex -space-x-[1px]';
+export const buttonGroupStyles = ['button--group', 'group', 'flex', '-space-x-[1px]'];
 
 export const buttonIconVariants = cva(['flex', 'items-center', 'justify-center'], {
   variants: {

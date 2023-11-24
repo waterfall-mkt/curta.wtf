@@ -6,8 +6,12 @@ import { type ForwardedRef, forwardRef } from 'react';
 import { iconButtonIconVariants, iconButtonVariants } from './styles';
 import type { IconButtonProps } from './types';
 import { Slot } from '@radix-ui/react-slot';
-import { cx } from 'class-variance-authority';
+import clsx from 'clsx';
 import { twMerge } from 'tailwind-merge';
+
+// -----------------------------------------------------------------------------
+// Component
+// -----------------------------------------------------------------------------
 
 const IconButton = forwardRef(
   (
@@ -28,7 +32,7 @@ const IconButton = forwardRef(
 
     const props = {
       className: twMerge(
-        cx(
+        clsx(
           iconButtonVariants({
             size,
             variant,
@@ -69,6 +73,10 @@ const IconButton = forwardRef(
     );
   },
 );
+
+// -----------------------------------------------------------------------------
+// Export
+// -----------------------------------------------------------------------------
 
 IconButton.displayName = 'IconButton';
 

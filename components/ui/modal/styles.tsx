@@ -1,6 +1,6 @@
 import { cva } from 'class-variance-authority';
 
-export const modalCloseStyles = 'absolute right-4 top-0 bottom-0 my-auto mx-0';
+export const modalCloseStyles = ['absolute', 'right-4', 'top-0', 'bottom-0', 'my-auto', 'mx-0'];
 
 export const modalContentVariants = cva(
   [
@@ -58,12 +58,19 @@ export const modalHeaderVariants = cva(
   {
     variants: {
       align: {
-        left: 'justify-start',
-        center: 'justify-center',
+        left: ['justify-start'],
+        center: ['justify-center'],
       },
     },
   },
 );
 
-export const modalOverlayStyles =
-  'backdrop-brightness-50 fixed inset-0 z-popover outline-none focus:outline-none animate-fade-in';
+export const modalOverlayStyles = [
+  'backdrop-brightness-50',
+  'fixed',
+  'inset-0',
+  'z-popover',
+  'outline-none',
+  'animate-fade-in',
+  'focus:outline-none',
+];

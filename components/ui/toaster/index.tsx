@@ -25,16 +25,18 @@ import { twMerge } from 'tailwind-merge';
 
 import { IconButton } from '@/components/ui';
 
+// -----------------------------------------------------------------------------
+// Component
+// -----------------------------------------------------------------------------
+
 const Toast = forwardRef(
-  ({ className, intent = 'neutral', ...rest }: ToastProps, ref: ForwardedRef<HTMLLIElement>) => {
-    return (
-      <ToastPrimitives.Root
-        ref={ref}
-        className={twMerge(clsx(toastVariants({ intent }), className))}
-        {...rest}
-      />
-    );
-  },
+  ({ className, intent = 'neutral', ...rest }: ToastProps, ref: ForwardedRef<HTMLLIElement>) => (
+    <ToastPrimitives.Root
+      ref={ref}
+      className={twMerge(clsx(toastVariants({ intent }), className))}
+      {...rest}
+    />
+  ),
 );
 
 const ToastAction = forwardRef(
@@ -94,6 +96,8 @@ const Toaster: FC = () => {
   );
 };
 
+const ToastProvider = ToastPrimitives.Provider;
+
 const ToastTitle = forwardRef(
   (
     { className, intent = 'neutral', ...rest }: ToastTitleProps,
@@ -117,19 +121,16 @@ const ToastViewport = forwardRef(
   ),
 );
 
+// -----------------------------------------------------------------------------
+// Export
+// -----------------------------------------------------------------------------
+
 Toast.displayName = ToastPrimitives.Root.displayName;
-
 ToastAction.displayName = ToastPrimitives.Action.displayName;
-
 ToastClose.displayName = ToastPrimitives.Close.displayName;
-
 ToastDescription.displayName = ToastPrimitives.Description.displayName;
-
 ToastTitle.displayName = ToastPrimitives.Title.displayName;
-
 ToastViewport.displayName = ToastPrimitives.Viewport.displayName;
-
-const ToastProvider = ToastPrimitives.Provider;
 
 export {
   Toast,

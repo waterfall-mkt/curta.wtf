@@ -1,6 +1,6 @@
 import { cva } from 'class-variance-authority';
 
-export const inputErrorStyles = 'text-xs font-book text-red-200';
+export const inputErrorStyles = ['text-xs', 'font-book', 'text-red-200'];
 
 export const inputLabelVariants = cva(['text-xs', 'font-book'], {
   variants: {

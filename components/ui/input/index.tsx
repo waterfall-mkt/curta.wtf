@@ -18,6 +18,10 @@ import type { InputProps } from './types';
 import clsx from 'clsx';
 import { twMerge } from 'tailwind-merge';
 
+// -----------------------------------------------------------------------------
+// Component
+// -----------------------------------------------------------------------------
+
 const Input = forwardRef(
   (
     {
@@ -104,7 +108,7 @@ const Input = forwardRef(
         </div>
 
         {errorMessage !== '' && invalid ? (
-          <small className={inputErrorStyles} id={hintId}>
+          <small className={clsx(inputErrorStyles)} id={hintId}>
             {errorMessage}
           </small>
         ) : null}
@@ -112,6 +116,10 @@ const Input = forwardRef(
     );
   },
 );
+
+// -----------------------------------------------------------------------------
+// Export
+// -----------------------------------------------------------------------------
 
 Input.displayName = 'Input';
 

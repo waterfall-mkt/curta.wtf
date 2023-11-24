@@ -2,11 +2,19 @@ import type { FC } from 'react';
 
 import { inputCurrencyLabelVariants } from './styles';
 import type { InputCurrencyLabelProps } from './types';
-import { cx } from 'class-variance-authority';
+import clsx from 'clsx';
 
-const InputCurrencyLabel: FC<InputCurrencyLabelProps> = ({ className, size, currencyType }) => {
-  return <div className={cx(inputCurrencyLabelVariants({ size }), className)}>{currencyType}</div>;
-};
+// -----------------------------------------------------------------------------
+// Component
+// -----------------------------------------------------------------------------
+
+const InputCurrencyLabel: FC<InputCurrencyLabelProps> = ({ className, size, currencyType }) => (
+  <div className={clsx(inputCurrencyLabelVariants({ size }), className)}>{currencyType}</div>
+);
+
+// -----------------------------------------------------------------------------
+// Export
+// -----------------------------------------------------------------------------
 
 InputCurrencyLabel.displayName = 'InputCurrencyLabel';
 

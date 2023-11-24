@@ -138,4 +138,4 @@ export const codeBlockPreVariants = cva(['group', 'py-4', 'px-0', 'my-0', 'hide-
   ],
 });
 
-export const codeBlockStyles = 'text-xs normal leading-5 flex flex-col min-w-fit';
+export const codeBlockStyles = ['text-xs', 'normal', 'leading-5', 'flex', 'flex-col', 'min-w-fit'];
