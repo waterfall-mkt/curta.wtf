@@ -21,6 +21,40 @@ const nextConfig = {
   reactStrictMode: true,
   swcMinify: false,
   pageExtensions: ['ts', 'tsx', 'js', 'jsx', 'md', 'mdx'],
+  redirects: async () => [
+    {
+      source: '/docs/overview',
+      destination: '/docs',
+      permanent: true,
+    },
+    {
+      source: '/docs/puzzles',
+      destination: '/docs/puzzles/overview',
+      permanent: true,
+    },
+    // Mainnet contract redirects
+    {
+      source: '/(1|eth)\\:(puzzles|flag)',
+      destination: 'https://etherscan.io/address/0x0000000006bC8D9e5e9d436217B88De704a9F307',
+      permanent: true,
+    },
+    {
+      source: '/(1|eth)\\:(authorship)',
+      destination: 'https://etherscan.io/address/0xC0ffeEb30F5aAA18Cd0a799F6dA1bdcb46f63C44',
+      permanent: true,
+    },
+    // Base contract redirects
+    {
+      source: '/(8453|base)\\:(puzzles|flag)',
+      destination: 'https://basescan.org/address/0x00000000d1329c5cd5386091066d49112e590969',
+      permanent: true,
+    },
+    {
+      source: '/(8453|base)\\:(authorship)',
+      destination: 'https://basescan.org/address/0xC0FFEE8b8e502403e51f37030E32c52bA4b37f7d',
+      permanent: true,
+    },
+  ],
   webpack: (config) => {
     config.externals.push('pino-pretty', 'lokijs', 'encoding');
     config.resolve.fallback = { fs: false, net: false, tls: false };
