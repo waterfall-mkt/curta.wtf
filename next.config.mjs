@@ -21,6 +21,18 @@ const nextConfig = {
   reactStrictMode: true,
   swcMinify: false,
   pageExtensions: ['ts', 'tsx', 'js', 'jsx', 'md', 'mdx'],
+  redirects: async () => [
+    {
+      source: '/docs/overview',
+      destination: '/docs',
+      permanent: true,
+    },
+    {
+      source: '/docs/puzzles',
+      destination: '/docs/puzzles/overview',
+      permanent: true,
+    },
+  ],
   webpack: (config) => {
     config.externals.push('pino-pretty', 'lokijs', 'encoding');
     config.resolve.fallback = { fs: false, net: false, tls: false };
