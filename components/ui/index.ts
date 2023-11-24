@@ -10,6 +10,7 @@ import Popover from './popover';
 import Select from './select';
 import Switch from './switch';
 import Table from './table';
+import Tabs from './tabs';
 import Toaster from './toaster';
 import { useToast } from './toaster/useToast';
 import Tooltip from './tooltip';
@@ -28,6 +29,7 @@ export {
   Select,
   Switch,
   Table,
+  Tabs,
   Toaster,
   useToast,
   Tooltip,
