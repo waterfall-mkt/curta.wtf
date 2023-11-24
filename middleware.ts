@@ -18,21 +18,10 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(
       new URL(`/puzzle/${getChainInfo(ids.chainId).network}:${ids.id}`, request.url),
     );
-  } else if (request.nextUrl.pathname === '/attend') {
-    // Temporary redirect to Curta Cup form
-    return NextResponse.redirect(new URL('https://forms.gle/kYLwBqWSFc59efoc7', request.url));
-  } else if (request.nextUrl.pathname === '/faq') {
-    // Temporary redirect to Curta Cup FAQ
-    return NextResponse.redirect(
-      new URL(
-        'https://docs.google.com/document/d/1-SQ4es7Hpq-73OqS89ARJ6vdXdOSt6fGhtt3E4zuXC0/edit',
-        request.url,
-      ),
-    );
   }
 }
 
 // See "Matching Paths" below to learn more
 export const config = {
-  matcher: ['/docs/overview', '/docs/puzzles', '/puzzle/:path*', '/attend', '/faq'],
+  matcher: ['/docs/overview', '/docs/puzzles', '/puzzle/:path*'],
 };
