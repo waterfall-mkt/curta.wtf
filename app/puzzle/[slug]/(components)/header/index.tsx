@@ -52,7 +52,7 @@ const PuzzleHeader: FC<PuzzleHeaderProps> = async ({ puzzle }) => {
   ];
 
   return (
-    <div className="flex flex-col justify-center gap-3 sm:flex-row sm:gap-0">
+    <div className="mx-auto flex w-full max-w-[90rem] flex-col justify-center gap-3 px-4 sm:flex-row sm:gap-0 lg:px-20">
       <div className="flex items-center gap-4">
         <PuzzleHeaderPageNav prevPuzzle={prevPuzzle} nextPuzzle={nextPuzzle} />
         <div className="flex grow items-center justify-between sm:gap-4">
