@@ -58,7 +58,7 @@ const PuzzleInfoTimeLeft: FC<PuzzleInfoTimeLeftProps> = ({ puzzle }) => {
               !disabled && !hidden ? (
                 <a
                   key={blockNumber}
-                  className="-mx-0.5 flex h-4 items-center gap-0.5 rounded-sm px-0.5 text-xs text-gray-100 hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-250"
+                  className="-mx-0.5 flex h-4 items-center gap-0.5 rounded-sm px-0.5 text-xs text-gray-100 hover:underline"
                   href={`https://${
                     getChainInfo(puzzle.chainId).blockExplorer
                   }/block/${blockNumber}`}
@@ -115,7 +115,7 @@ const PuzzleInfoTimeLeft: FC<PuzzleInfoTimeLeftProps> = ({ puzzle }) => {
                 <div className="h-5 text-sm text-gray-100">{name}</div>
                 {href ? (
                   <a
-                    className="relative -mx-0.5 flex h-4 w-fit gap-0.5 rounded-sm px-0.5 text-xs text-gray-200 transition-colors hover:text-gray-100 hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-250"
+                    className="relative -mx-0.5 flex h-4 w-fit gap-0.5 rounded-sm px-0.5 text-xs text-gray-200 transition-colors hover:text-gray-100 hover:underline"
                     href={href}
                     target="_blank"
                     rel="noopener noreferrer"

@@ -183,7 +183,7 @@ const NavBarMobile: FC<NavBarInternalProps> = ({ yScroll }) => {
           {NAVBAR_PAGES.map((page) => (
             <Link
               key={page.slug}
-              className="-mx-1.5 block rounded-md px-1.5 text-xl font-medium text-gray-100 hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-250"
+              className="-mx-1.5 block rounded-md px-1.5 text-xl font-medium text-gray-100 hover:underline"
               href={page.slug}
               onClick={() => setIsOpen(false)}
             >
@@ -196,7 +196,7 @@ const NavBarMobile: FC<NavBarInternalProps> = ({ yScroll }) => {
           {SOCIAL_LINKS.map((item) => (
             <Link
               key={item.name}
-              className="-mx-1.5 flex items-center justify-between rounded-md px-1.5 text-gray-150 transition-colors hover:text-gray-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-250"
+              className="-mx-1.5 flex items-center justify-between rounded-md px-1.5 text-gray-150 transition-colors hover:text-gray-100"
               href={item.href}
               target="_blank"
               rel="noopener noreferrer"

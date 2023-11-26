@@ -32,7 +32,7 @@ const PuzzleProblemDisplay: FC<PuzzleProblemDisplayProps> = ({ puzzle, languages
     headerLabel: (
       <div className="flex items-center gap-1 py-0.5 text-sm">
         <a
-          className="-mx-0.5 rounded-sm px-0.5 font-medium text-gray-100 hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-250"
+          className="-mx-0.5 rounded-sm px-0.5 font-medium text-gray-100 hover:underline"
           href={`https://${getChainInfo(puzzle.chainId).blockExplorer}/address/${
             getChainInfo(puzzle.chainId).puzzles
           }`}

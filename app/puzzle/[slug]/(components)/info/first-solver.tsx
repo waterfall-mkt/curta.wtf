@@ -22,7 +22,7 @@ const PuzzleInfoFirstSolver: FC<PuzzleInfoFirstSolverProps> = ({ puzzle }) => {
     <div className="flex grow flex-col items-center gap-2 p-4">
       {puzzle.firstSolver ? (
         <a
-          className="relative flex w-full flex-col items-center justify-center rounded-lg bg-tw-green py-2.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-250"
+          className="relative flex w-full flex-col items-center justify-center rounded-lg bg-tw-green py-2.5"
           href={`https://${getChainInfo(puzzle.chainId).blockExplorer}/tx/${puzzle.firstSolveTx}`}
           target="_blank"
           rel="noopener noreferrer"

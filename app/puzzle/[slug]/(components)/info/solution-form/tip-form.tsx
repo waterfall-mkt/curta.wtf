@@ -49,7 +49,7 @@ const PuzzleInfoSolutionFormTipForm: FC<PuzzleInfoSolutionFormTipFormProps> = ({
         {phase > 1 && !isValidValue(value) ? ' W' : ' w'}
         ill be transferred to{' '}
         <a
-          className="-mx-0.5 rounded-sm px-0.5 font-medium text-gray-100 no-underline hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-250"
+          className="-mx-0.5 rounded-sm px-0.5 font-medium text-gray-100 no-underline hover:underline"
           href={`https://${getChainInfo(chainId).blockExplorer}/address/${author.address}`}
           target="_blank"
           rel="noopener noreferrer"
