@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation';
 
-import PuzzleSolvesTable from './(components)/solves-table';
+import PuzzleSolvesTable from './(components)/table';
 
 import { fetchPuzzleById, fetchPuzzleSolvesById, getChainIdAndId } from '@/lib/utils';
 
