@@ -23,7 +23,7 @@ const PuzzleTabs: FC<PuzzleTabsNavProps> = ({ slug, children }) => {
 
   return (
     <Tabs.Root defaultValue={pathname} activationMode="manual">
-      <Tabs.List className="mx-auto mt-2 max-w-[90rem] border-none px-4 sm:mt-4 lg:px-20">
+      <Tabs.List className="mx-auto mt-2 max-w-[90rem] border-none px-4 lg:px-20">
         {[
           { name: 'Puzzle', href: `/puzzle/${slug}` },
           { name: 'Solves', href: `/puzzle/${slug}/solves` },

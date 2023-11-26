@@ -28,7 +28,12 @@ export default async function Page({ params }: { params: { slug: string } }) {
     .concat(puzzle.huff ? ['Huff'] : []);
 
   return (
-    <div className="mx-auto mt-4 flex max-w-[90rem] flex-col gap-4 px-4 md:flex-row md:gap-6 lg:px-20">
+    <div
+      id={`content-/puzzle/${params.slug}`}
+      className="mx-auto mt-4 flex max-w-[90rem] flex-col gap-4 px-4 md:flex-row md:gap-6 lg:px-20"
+      role="tabpanel"
+      aria-labelledby={`trigger-/puzzle/${params.slug}`}
+    >
       <PuzzleProblemDisplay puzzle={puzzle} languages={languages} />
       <PuzzleInfo puzzle={puzzle} />
     </div>

@@ -1,10 +1,14 @@
-export const tabsContentStyles =
-  'focus:outline-none focus-visible:rounded-sm focus-visible:ring-2 focus-visible:ring-blue-250';
+export const tabsContentStyles = [
+  'focus:outline-none',
+  'focus-visible:rounded-sm',
+  'focus-visible:ring-2',
+  'focus-visible:ring-blue-250',
+];
 
 export const tabsListStyles = [
   'flex',
   'border-stroke',
-  'data-[orientation=horizontal]:h-9',
+  'data-[orientation=horizontal]:h-11',
   'data-[orientation=horizontal]:items-center',
   'data-[orientation=horizontal]:border-b',
   'data-[orientation=horizontal]:gap-3',
@@ -14,36 +18,60 @@ export const tabsListStyles = [
   'data-[orientation=vertical]:gap-1',
 ];
 
-export const tabsTriggerIconStyles = 'flex items-center justify-center w-4 h-4 text-gray-200';
+export const tabsTriggerContentStyles = [
+  'h-7',
+  'px-3',
+  'flex',
+  'items-center',
+  'justify-center',
+  'gap-1.5',
+  'rounded',
+  'transition-colors',
+  'group-hover:bg-gray-450',
+  'group-focus:text-gray-100',
+  'group-focus:bg-gray-450',
+  'group-focus-visible:h-8',
+  'group-focus-visible:ring-2',
+  'group-focus-visible:ring-inset',
+  'group-focus-visible:ring-blue-250',
+  'group-focus-visible:rounded-lg',
+];
+
+export const tabsTriggerIconStyles = [
+  'flex',
+  'items-center',
+  'justify-center',
+  'w-4',
+  'h-4',
+  'text-gray-200',
+];
 
 export const tabsTriggerStatStyles = [
   'text-gray-200',
   'transition-colors',
-  'group-hover:text-gray-100',
   'group-data-[state=active]:text-gray-100',
+  'group-hover:text-gray-100',
+  'group-hover:bg-gray-350',
+  'group-focus:text-gray-100',
+  'group-focus:bg-gray-350',
 ];
 
 export const tabsTriggerStyles = [
+  'group',
   'flex',
   'items-center',
   'justify-center',
   'relative',
   'text-sm',
-  'px-3',
-  'h-9',
+  'h-11',
   'gap-1.5',
   'font-medium',
   'transition-colors',
   'text-gray-200',
-  'group',
   'disabled:text-gray-200',
   'disabled:hover:text-gray-200',
   'hover:text-gray-100',
   'focus:outline-none',
-  'focus-visible:ring-2',
-  'focus-visible:ring-inset',
-  'focus-visible:ring-blue-250',
-  'focus-visible:rounded-lg',
   'data-[state=active]:text-gray-100',
   'data-[state=active]:before:absolute',
   'data-[state=active]:before:bg-gray-200',

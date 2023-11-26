@@ -6,6 +6,7 @@ import { type FC, type ForwardedRef, forwardRef } from 'react';
 import {
   tabsContentStyles,
   tabsListStyles,
+  tabsTriggerContentStyles,
   tabsTriggerIconStyles,
   tabsTriggerStatStyles,
   tabsTriggerStyles,
@@ -63,20 +64,26 @@ const TabsTrigger = forwardRef((props: TabsTriggerProps, ref: ForwardedRef<HTMLB
         asChild={true}
         {...rest}
       >
-        <Link href={href} {...(newTab ? { target: '_blank', rel: 'noopener noreferrer' } : {})}>
-          {icon ? <span className={tabsTriggerIconStyles}>{icon}</span> : null}
-          <span>{children}</span>
-          {stat !== undefined ? (
-            <Badge
-              className={clsx(tabsTriggerStatStyles)}
-              size="sm"
-              variant="secondary"
-              intent="neutral"
-              type="number"
-            >
-              {stat}
-            </Badge>
-          ) : null}
+        <Link
+          className={rest.disabled ? 'pointer-events-none' : ''}
+          href={href}
+          {...(newTab ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+        >
+          <span className={clsx(tabsTriggerContentStyles)}>
+            {icon ? <span className={clsx(tabsTriggerIconStyles)}>{icon}</span> : null}
+            <span>{children}</span>
+            {stat !== undefined ? (
+              <Badge
+                className={clsx(tabsTriggerStatStyles)}
+                size="sm"
+                variant="secondary"
+                intent="neutral"
+                type="number"
+              >
+                {stat}
+              </Badge>
+            ) : null}
+          </span>
         </Link>
       </TabsPrimitive.Trigger>
     );
@@ -88,19 +95,21 @@ const TabsTrigger = forwardRef((props: TabsTriggerProps, ref: ForwardedRef<HTMLB
       ref={ref}
       {...rest}
     >
-      {icon ? <span className={tabsTriggerIconStyles}>{icon}</span> : null}
-      <span>{children}</span>
-      {stat !== undefined ? (
-        <Badge
-          className={clsx(tabsTriggerStatStyles)}
-          size="sm"
-          variant="secondary"
-          intent="neutral"
-          type="number"
-        >
-          {stat}
-        </Badge>
-      ) : null}
+      <span className={clsx(tabsTriggerContentStyles)}>
+        {icon ? <span className={clsx(tabsTriggerIconStyles)}>{icon}</span> : null}
+        <span>{children}</span>
+        {stat !== undefined ? (
+          <Badge
+            className={clsx(tabsTriggerStatStyles)}
+            size="sm"
+            variant="secondary"
+            intent="neutral"
+            type="number"
+          >
+            {stat}
+          </Badge>
+        ) : null}
+      </span>
     </TabsPrimitive.Trigger>
   );
 });
