@@ -8,6 +8,7 @@ import {
   tabsListStyles,
   tabsTriggerContentStyles,
   tabsTriggerIconStyles,
+  tabsTriggerLinkStyles,
   tabsTriggerStatStyles,
   tabsTriggerStyles,
 } from './styles';
@@ -65,7 +66,7 @@ const TabsTrigger = forwardRef((props: TabsTriggerProps, ref: ForwardedRef<HTMLB
         {...rest}
       >
         <Link
-          className={rest.disabled ? 'pointer-events-none' : ''}
+          className={clsx(tabsTriggerLinkStyles, rest.disabled ? 'pointer-events-none' : '')}
           href={href}
           {...(newTab ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
         >

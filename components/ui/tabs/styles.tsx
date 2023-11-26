@@ -46,6 +46,8 @@ export const tabsTriggerIconStyles = [
   'text-gray-200',
 ];
 
+export const tabsTriggerLinkStyles = ['focus:outline-none', 'focus-visible:ring-0'];
+
 export const tabsTriggerStatStyles = [
   'text-gray-200',
   'transition-colors',

@@ -17,6 +17,7 @@ main {
 a {
   color: inherit;
   text-decoration: none;
+  @apply focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-250;
 }
 
 * {

@@ -52,7 +52,7 @@ const DocsNavBarDesktop: FC<DocsNavBarInternalProps> = ({ sections, selected }) 
     >
       <div className="relative flex grow flex-col">
         <div className="sticky top-0 z-30 mb-2 bg-gray-900">
-          <Link className="pl-3 text-lg no-underline" href="/docs">
+          <Link className="-mr-1 ml-2 rounded-md px-1 text-lg no-underline" href="/docs">
             <span className="font-semibold tracking-tighter text-gray-50">Curta</span>{' '}
             <span className="text-gray-150">| Docs</span>
           </Link>

@@ -45,7 +45,7 @@ const DocsPageNav: FC<DocsPageNavProps> = ({ sections }) => {
     <div className="flex w-full items-center justify-between">
       {prevPage ? (
         <Link
-          className="flex items-center space-x-1 text-sm text-gray-200 no-underline transition-colors hover:text-gray-50"
+          className="-mr-0.5 flex items-center space-x-1 rounded-sm pr-0.5 text-sm text-gray-200 no-underline transition-colors hover:text-gray-50"
           href={prevPage.slug}
         >
           <ArrowLeft className="h-4 w-4" />
@@ -56,7 +56,7 @@ const DocsPageNav: FC<DocsPageNavProps> = ({ sections }) => {
       )}
       {nextPage ? (
         <Link
-          className="flex items-center space-x-1 text-sm text-gray-200 no-underline transition-colors hover:text-gray-50"
+          className="-ml-0.5 flex items-center space-x-1 rounded-sm pl-0.5 text-sm text-gray-200 no-underline transition-colors hover:text-gray-50"
           href={nextPage.slug}
         >
           <div>{nextPage.name}</div>

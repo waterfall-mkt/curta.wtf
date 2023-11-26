@@ -92,7 +92,7 @@ const PuzzleHeader: FC<PuzzleHeaderProps> = async ({ puzzle }) => {
               key={index}
             >
               <div className="text-sm leading-4 text-gray-150">{item.name}</div>
-              <div className="max-w-[13rem] overflow-hidden text-ellipsis whitespace-nowrap font-medium leading-5 text-gray-50">
+              <div className="-my-1 -mr-1 max-w-[13rem] overflow-hidden text-ellipsis whitespace-nowrap py-1 pr-1 font-medium leading-5 text-gray-50">
                 {item.value}
               </div>
             </div>

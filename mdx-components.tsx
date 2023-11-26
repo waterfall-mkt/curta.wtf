@@ -15,7 +15,7 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
         return (
           <span className="not-prose">
             <Link
-              className="mdx--link group font-medium no-underline hover:underline"
+              className="mdx--link group -mx-0.5 rounded-sm px-0.5 font-medium no-underline hover:underline"
               href={href}
               style={{ color: 'var(--primary-color)' }}
             >
@@ -28,7 +28,7 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
       return (
         <span className="not-prose">
           <a
-            className="mdx--link group font-medium no-underline hover:underline"
+            className="mdx--link group -mx-0.5 rounded-sm px-0.5 font-medium no-underline hover:underline"
             href={href}
             target="_blank"
             rel="noopener noreferrer"

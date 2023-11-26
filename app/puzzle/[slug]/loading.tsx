@@ -16,9 +16,9 @@ export default function LoadingPage() {
           style={{ maxHeight: '38.5rem' }}
           fileName="Puzzle"
           headerLabel={
-            <div className="flex items-center gap-1 text-sm">
+            <div className="flex items-center gap-1 py-0.5 text-sm">
               <a
-                className="font-medium text-gray-100 hover:underline"
+                className="-mx-0.5 rounded-sm px-0.5 font-medium text-gray-100 hover:underline"
                 // Default to Curta Puzzles on Ethereum
                 href={`https://${getChainInfo(1).blockExplorer}/address/${getChainInfo(1).puzzles}`}
                 target="_blank"
