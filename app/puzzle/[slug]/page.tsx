@@ -27,12 +27,14 @@ export default async function Page({ params }: { params: { slug: string } }) {
     .concat(puzzle.solidity ? ['Solidity'] : [])
     .concat(puzzle.huff ? ['Huff'] : []);
 
+  const normalizedSlug = decodeURIComponent(params.slug.toLowerCase());
+
   return (
     <div
-      id={`content-/puzzle/${params.slug}`}
+      id={`content-/puzzle/${normalizedSlug}`}
       className="mx-auto mt-4 flex max-w-[90rem] flex-col gap-4 px-4 md:flex-row md:gap-6 lg:px-20"
       role="tabpanel"
-      aria-labelledby={`trigger-/puzzle/${params.slug}`}
+      aria-labelledby={`trigger-/puzzle/${normalizedSlug}`}
     >
       <PuzzleProblemDisplay puzzle={puzzle} languages={languages} />
       <PuzzleInfo puzzle={puzzle} />

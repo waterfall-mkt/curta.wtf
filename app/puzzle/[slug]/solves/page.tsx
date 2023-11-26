@@ -25,12 +25,14 @@ export default async function Page({ params }: { params: { slug: string } }) {
   // data.
   if (!puzzle || error) return notFound();
 
+  const normalizedSlug = decodeURIComponent(params.slug.toLowerCase());
+
   return (
     <div
-      id={`content-/puzzle/${params.slug}/solves`}
+      id={`content-/puzzle/${normalizedSlug}/solves`}
       className="mx-auto mt-4 flex max-w-[90rem] flex-col gap-4 px-4 md:gap-6 lg:px-20"
       role="tabpanel"
-      aria-labelledby={`trigger-/puzzle/${params.slug}/solves`}
+      aria-labelledby={`trigger-/puzzle/${normalizedSlug}/solves`}
     >
       <PuzzleSolvesTable data={solves} puzzleAddedTimestamp={puzzle.addedTimestamp} />
     </div>

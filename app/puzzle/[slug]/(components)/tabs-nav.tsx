@@ -20,13 +20,14 @@ type PuzzleTabsNavProps = {
 
 const PuzzleTabs: FC<PuzzleTabsNavProps> = ({ slug, children }) => {
   const pathname = usePathname();
+  const normalizedSlug = decodeURIComponent(slug.toLowerCase());
 
   return (
     <Tabs.Root defaultValue={pathname} activationMode="manual">
       <Tabs.List className="mx-auto mt-2 max-w-[90rem] border-none px-4 lg:px-20">
         {[
-          { name: 'Puzzle', href: `/puzzle/${slug}` },
-          { name: 'Solves', href: `/puzzle/${slug}/solves` },
+          { name: 'Puzzle', href: `/puzzle/${normalizedSlug}` },
+          { name: 'Solves', href: `/puzzle/${normalizedSlug}/solves` },
         ].map(({ name, href }) => (
           <Tabs.Trigger
             key={href}
