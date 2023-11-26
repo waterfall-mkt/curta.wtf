@@ -1,76 +1,12 @@
-import {
-  ChevronDown,
-  ChevronLeft,
-  ChevronRight,
-  ExternalLink,
-  Heart,
-  Settings,
-} from 'lucide-react';
+import { ChevronDown, Heart, Settings } from 'lucide-react';
 
 import { getChainInfo } from '@/lib/utils';
 
-import { Button, ButtonGroup, CodeBlock, IconButton, Input } from '@/components/ui';
+import { Button, CodeBlock, IconButton, Input } from '@/components/ui';
 
 export default function LoadingPage() {
   return (
-    <div className="flex flex-col">
-      {/* Puzzle header */}
-      <div className="flex flex-col justify-center gap-3 sm:flex-row sm:gap-0">
-        <div className="flex items-center gap-4">
-          <ButtonGroup className="hidden sm:flex">
-            <IconButton
-              className="z-[2]"
-              size="lg"
-              intent="neutral"
-              variant="outline"
-              disabled={true}
-              aria-label="Navigate to previous puzzle on the same chain."
-            >
-              <ChevronLeft />
-            </IconButton>
-            <IconButton
-              size="lg"
-              intent="neutral"
-              variant="outline"
-              disabled={true}
-              aria-label="Navigate to previous puzzle on the same chain."
-            >
-              <ChevronRight />
-            </IconButton>
-          </ButtonGroup>
-          <div className="flex grow items-center justify-between sm:gap-4">
-            <div className="flex flex-col items-center gap-1 first:items-start last:items-end sm:items-start sm:last:items-start">
-              <div className="h-4 w-[4.75rem] animate-pulse rounded bg-gray-350" />
-              <div className="h-5 w-32 animate-pulse rounded-md bg-gray-350" />
-            </div>
-            <div className="flex flex-col items-center gap-1 first:items-start last:items-end sm:items-start sm:last:items-start">
-              <div className="text-sm leading-4 text-gray-150">Author</div>
-              <div className="flex items-center gap-1.5">
-                <div className="h-5 w-5 animate-pulse rounded-full bg-gray-350" />
-                <div className="h-5 w-24 animate-pulse rounded-md bg-gray-350" />
-              </div>
-            </div>
-          </div>
-        </div>
-        <IconButton
-          className="ml-auto hidden sm:flex"
-          size="lg"
-          variant="outline"
-          intent="neutral"
-          disabled={true}
-        >
-          <ExternalLink />
-        </IconButton>
-        <Button
-          className="sm:hidden"
-          variant="outline"
-          intent="neutral"
-          disabled={true}
-          rightIcon={<ExternalLink />}
-        >
-          Contract
-        </Button>
-      </div>
+    <div className="mx-auto flex max-w-[90rem] flex-col px-4 lg:px-20">
       {/* Puzzle content */}
       <div className="mt-4 flex flex-col gap-4 md:flex-row md:gap-6">
         {/* Problem display */}
