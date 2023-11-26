@@ -52,7 +52,7 @@ const LinkFeatureInternal: FC<LinkFeatureProps> = ({
       href={href}
       className={twMerge(
         clsx(
-          'flex w-full flex-col gap-2 rounded-xl border border-stroke bg-gray-600 px-4 no-underline transition-colors hover:border-gray-250',
+          'flex w-full flex-col gap-2 rounded-xl border border-stroke bg-gray-600 px-4 no-underline transition-colors hover:border-gray-250 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-250',
           children !== undefined ? 'row-span-3 h-[15.5rem] pb-4' : 'row-span-1 h-[4.5rem]',
           className,
         ),

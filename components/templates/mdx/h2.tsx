@@ -23,7 +23,7 @@ const H2: FC<JSX.IntrinsicElements['h2']> = ({ children, ...rest }) => {
       <h2 id={id} {...rest}>
         <a
           href={`#${id}`}
-          className="not-prose group flex w-fit items-center gap-2 font-semibold tracking-tight no-underline"
+          className="not-prose group -mx-1 flex w-fit items-center gap-2 rounded-md px-1 font-semibold tracking-tight no-underline focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-250"
           onClick={() => {
             navigator.clipboard.writeText(
               `${process.env.NEXT_PUBLIC_BASE_URL ?? 'https://curta.wtf'}${pathname}#${id}`,
@@ -36,7 +36,7 @@ const H2: FC<JSX.IntrinsicElements['h2']> = ({ children, ...rest }) => {
           }}
         >
           {children}
-          <Link className="hidden h-4 w-4 text-gray-200 animate-in fade-in-50 group-hover:flex md:h-5 md:w-5" />
+          <Link className="hidden h-4 w-4 text-gray-200 animate-in fade-in-50 group-hover:flex group-focus-visible:flex md:h-5 md:w-5" />
         </a>
       </h2>
     );

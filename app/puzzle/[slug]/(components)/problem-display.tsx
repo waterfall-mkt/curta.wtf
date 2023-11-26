@@ -30,9 +30,9 @@ const PuzzleProblemDisplay: FC<PuzzleProblemDisplayProps> = ({ puzzle, languages
     style: { maxHeight: '38.5rem' },
     fileName: 'Puzzle',
     headerLabel: (
-      <div className="flex items-center gap-1 text-sm">
+      <div className="flex items-center gap-1 py-0.5 text-sm">
         <a
-          className="font-medium text-gray-100 hover:underline"
+          className="-mx-0.5 rounded-sm px-0.5 font-medium text-gray-100 hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-250"
           href={`https://${getChainInfo(puzzle.chainId).blockExplorer}/address/${
             getChainInfo(puzzle.chainId).puzzles
           }`}

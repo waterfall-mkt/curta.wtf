@@ -23,7 +23,10 @@ const Logo: FC<LogoProps> = ({ className, href = '/', size = 'md' }) => {
     <Link
       href={href}
       className={twMerge(
-        clsx('flex items-center font-semibold tracking-tighter text-gray-50', className),
+        clsx(
+          '-mr-2 flex items-center rounded-md pr-2 font-semibold tracking-tighter text-gray-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-250',
+          className,
+        ),
       )}
     >
       <div>
@@ -52,7 +55,7 @@ const Logo: FC<LogoProps> = ({ className, href = '/', size = 'md' }) => {
               <feComposite operator="atop" in="shadow" in2="SourceGraphic" />
             </filter>
           </defs>
-          <path fill="#0D1017" d="M0 0h512v512H0z" />
+
           <rect className="a c" x="128" y="112" rx="32" />
           <rect className="b f" x="136" y="120" rx="24" />
           <rect className="a e" x="128" y="336" rx="32" />
