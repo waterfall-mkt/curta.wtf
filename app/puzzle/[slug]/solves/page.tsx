@@ -1,9 +1,8 @@
 import { notFound } from 'next/navigation';
 
-import PuzzleInfo from './(components)/info';
-import PuzzleProblemDisplay from './(components)/problem-display';
+import PuzzleSolvesTable from './(components)/table';
 
-import { fetchPuzzleById, getChainIdAndId } from '@/lib/utils';
+import { fetchPuzzleById, fetchPuzzleSolvesById, getChainIdAndId } from '@/lib/utils';
 
 // -----------------------------------------------------------------------------
 // Page
@@ -17,27 +16,25 @@ export default async function Page({ params }: { params: { slug: string } }) {
 
   const { chainId, id } = ids;
 
-  const { data: puzzle, error } = await fetchPuzzleById(id, chainId);
+  const [{ data: puzzle, error }, { data: solves }] = await Promise.all([
+    fetchPuzzleById(id, chainId),
+    fetchPuzzleSolvesById(id, chainId),
+  ]);
 
   // Return 404 if `puzzle` is `null` or there was an `error` in fetching the
   // data.
   if (!puzzle || error) return notFound();
 
-  const languages = ['Bytecode']
-    .concat(puzzle.solidity ? ['Solidity'] : [])
-    .concat(puzzle.huff ? ['Huff'] : []);
-
   const normalizedSlug = decodeURIComponent(params.slug.toLowerCase());
 
   return (
     <div
-      id={`content-/puzzle/${normalizedSlug}`}
-      className="mx-auto mt-4 flex max-w-[90rem] flex-col gap-4 px-4 md:flex-row md:gap-6 lg:px-20"
+      id={`content-/puzzle/${normalizedSlug}/solves`}
+      className="mx-auto mt-4 flex max-w-[90rem] flex-col gap-4 px-4 md:gap-6 lg:px-20"
       role="tabpanel"
-      aria-labelledby={`trigger-/puzzle/${normalizedSlug}`}
+      aria-labelledby={`trigger-/puzzle/${normalizedSlug}/solves`}
     >
-      <PuzzleProblemDisplay puzzle={puzzle} languages={languages} />
-      <PuzzleInfo puzzle={puzzle} />
+      <PuzzleSolvesTable data={solves} puzzleAddedTimestamp={puzzle.addedTimestamp} />
     </div>
   );
 }
