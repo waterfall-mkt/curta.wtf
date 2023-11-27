@@ -31,6 +31,7 @@ const PuzzleTabs: FC<PuzzleTabsNavProps> = ({ slug, children }) => {
         ].map(({ name, href }) => (
           <Tabs.Trigger
             key={href}
+            className="data-[state=active]:before:bottom-0"
             id={`trigger-${href}`}
             value={href}
             href={href}
