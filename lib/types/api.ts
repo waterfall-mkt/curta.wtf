@@ -152,6 +152,127 @@ export type DbPuzzleSolve = {
 };
 
 // -----------------------------------------------------------------------------
+// Curta Golf types
+// -----------------------------------------------------------------------------
+
+/**
+ * Type for an object representing a [**Curta Golf**](https://curta.wtf/docs/golf/overview)
+ * ``Course'' (i.e. challenge) stored in the database's `golf_courses` table.
+ * @param id The course's ID.
+ * @param chainId The ID of the chain the course is on.
+ * @param address The course's contract address.
+ * @param name The course's name.
+ * @param description A description about the course.
+ * @param numLeaders The number of times the gas record has been lowered.
+ * @param numSolved The number of addresses that have solved the course.
+ * @param github A link to the course's GitHub repository.
+ * @param disabled Whether or not the course should be displayed on the
+ * frontend.
+ * @param eventId The ID of the event the course is part of.
+ * @param leader The course's leader.
+ * @param leaderBlock The block number the course's leader was set at.
+ * @param leaderGas The gas used by the current leading solution.
+ * @param leaderTimestamp The blockchain timestamp the course's record was set
+ * at.
+ * @param leaderTx The transaction hash of the transaction that set the course
+ * record.
+ * @param bytecode The course's contract bytecode.
+ * @param solidity The course's Solidity source code.
+ * @param huff The course's Huff source code.
+ * @param addedBlock The block number the course was added at.
+ * @param addedTimestamp The blockchain timestamp the course was added at.
+ * @param addedTx The transaction hash of the transaction that added the course.
+ */
+export type DbGolfCourse = {
+  // Primary key
+  id: number;
+  chainId: number;
+  // Course static information
+  address: Address;
+  name: string;
+  description: string;
+  // Course dynamic information
+  numLeaders: number;
+  numSolved: number;
+  github?: string;
+  disabled?: boolean;
+  eventId?: DbEvent;
+  // Course leader information
+  leader: Pick<DbUser, 'address'> & Partial<DbUser>;
+  leaderBlock: number;
+  leaderGas: number;
+  leaderTimestamp: number;
+  leaderTx: Hash;
+  // Course source code
+  bytecode: Hash;
+  solidity?: string;
+  huff?: string;
+  // Added information
+  addedBlock: number;
+  addedTimestamp: number;
+  addedTx: Hash;
+};
+
+/**
+ * Type for an object representing a commitment to submit a solution to a
+ * [**Curta Golf**](https://curta.wtf/docs/golf/overview) ``Course'' (i.e.
+ * challenge) during a 2-step commit-reveal process stored in the database's
+ * `golf_courses_commits` table.
+ * @param key A 32-byte hash of the commit's data computed as
+ * `keccak256(abi.encodePacked(msg.sender, _solution, _salt))`, where
+ * `msg.sender` is the address of the solver, `_solution` is the bytecode of the
+ * solution, and `_salt` is some random, secret `uint256` number.
+ * @param chainId The ID of the chain the course is on.
+ * @param solver The user that committed the submission to the course.
+ * @param courseId The ID of the course the commit is for.
+ * @param commitBlock The block number the commit was made at.
+ * @param commitTimestamp The blockchain timestamp the commit was made at.
+ * @param commitTx The transaction hash of the transaction that committed the
+ * submission to the course.
+ */
+export type DbGolfCourseCommit = {
+  // Primary key
+  key: Hash;
+  chainId: number;
+  // Commit information
+  solver: Pick<DbUser, 'address'> & Partial<DbUser>;
+  courseId: number;
+  commitBlock: number;
+  commitTimestamp: number;
+  commitTx: Hash;
+};
+
+/**
+ * Type for an object representing a solve to a [**Curta Golf**]((https://curta.wtf/docs/golf/overview)
+ * ``Course'' (i.e. challenge) stored in the database's `golf_courses_solves`.
+ * @param courseId The ID of the course the solve is for.
+ * @param chainId The ID of the chain the course is on.
+ * @param solver The user that solved the course.
+ * @param gasUsed The gas used by the solver's solution.
+ * @param target The address of the solver's deployed solution.
+ * @param solution The bytecode of the solution.
+ * @param submitTx The transaction hash of the transaction that submitted the
+ * solution to the course.
+ * @param submitTimestamp The blockchain timestamp the solution was submitted
+ * at.
+ * @param isRecord Whether or not the solution set a new record at the time of
+ * submission.
+ */
+export type DbGolfCourseSolve = {
+  // Primary key
+  courseId: number;
+  chainId: number;
+  solver: Pick<DbUser, 'address'> & Partial<DbUser>;
+  // Solve information
+  gasUsed: number;
+  target: Address;
+  solution: Hash;
+  submitTx: Hash;
+  submitTimestamp: number;
+  isRecord?: boolean;
+};
+
+// -----------------------------------------------------------------------------
 // Team Registry-specific types
 // -----------------------------------------------------------------------------
 
