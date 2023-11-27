@@ -27,7 +27,7 @@ const PuzzleTabs: FC<PuzzleTabsNavProps> = ({ slug, children }) => {
       <Tabs.List className="mx-auto mt-2 max-w-[90rem] border-none px-4 lg:px-20">
         {[
           { name: 'Puzzle', href: `/puzzle/${normalizedSlug}` },
-          { name: 'Solves', href: `/puzzle/${normalizedSlug}/solves` },
+          { name: 'Leaderboard', href: `/puzzle/${normalizedSlug}/leaderboard` },
         ].map(({ name, href }) => (
           <Tabs.Trigger
             key={href}
