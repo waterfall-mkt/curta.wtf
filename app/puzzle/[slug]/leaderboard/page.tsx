@@ -29,10 +29,10 @@ export default async function Page({ params }: { params: { slug: string } }) {
 
   return (
     <div
-      id={`content-/puzzle/${normalizedSlug}/solves`}
+      id={`content-/puzzle/${normalizedSlug}/leaderboard`}
       className="mx-auto mt-4 flex max-w-[90rem] flex-col gap-4 px-4 md:gap-6 lg:px-20"
       role="tabpanel"
-      aria-labelledby={`trigger-/puzzle/${normalizedSlug}/solves`}
+      aria-labelledby={`trigger-/puzzle/${normalizedSlug}/leaderboard`}
     >
       <PuzzleSolvesTable data={solves} puzzleAddedTimestamp={puzzle.addedTimestamp} />
     </div>
