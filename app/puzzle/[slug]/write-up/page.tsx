@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation';
 import { cache } from 'react';
 
+import { Github } from 'lucide-react';
 import { useMDXComponents as getMDXComponents } from 'mdx-components';
 import { compileMDX } from 'next-mdx-remote/rsc';
 import type { Address } from 'viem';
@@ -8,7 +9,7 @@ import type { Address } from 'viem';
 import { fetchPuzzleById, getChainIdAndId, getChainInfo } from '@/lib/utils';
 
 import UserDisplay from '@/components/templates/user-display';
-import { Badge } from '@/components/ui';
+import { Badge, Button } from '@/components/ui';
 
 // -----------------------------------------------------------------------------
 // Page
@@ -29,12 +30,11 @@ export default async function Page({ params }: { params: { slug: string } }) {
   if (!puzzle || error) return notFound();
 
   // Fetch write-up's MDX.
+  const writeUpUrlPath = `main/puzzles/${getChainInfo(chainId).network}/${id}.mdx`;
   const response = await cache(
     async () =>
       await fetch(
-        `https://raw.githubusercontent.com/waterfall-mkt/curta-write-ups/main/puzzles/${
-          getChainInfo(chainId).network
-        }/${id}.mdx`,
+        `https://raw.githubusercontent.com/waterfall-mkt/curta-write-ups/${writeUpUrlPath}`,
       ),
   )();
 
@@ -64,6 +64,24 @@ export default async function Page({ params }: { params: { slug: string } }) {
     >
       <article className="prose max-w-full grow dark:prose-invert prose-h1:mb-4 prose-h1:text-3xl prose-h1:font-semibold prose-h1:tracking-tight prose-h1:text-gray-50 prose-h2:mb-2 prose-h2:mt-6 prose-h2:text-xl prose-h2:font-semibold prose-h2:tracking-tight prose-h2:text-gray-50 prose-h3:mb-2 prose-h3:mt-5 prose-h3:text-lg prose-h3:font-semibold prose-h3:tracking-tight prose-h3:text-gray-50 prose-strong:font-medium prose-strong:text-gray-50 prose-th:py-[1px] prose-img:my-2 prose-video:my-0 md:max-w-none prose-h1:md:text-4xl prose-h2:md:mb-4 prose-h2:md:mt-12 prose-h2:md:text-2xl prose-h3:md:mb-4 prose-h3:md:mt-6 prose-h3:md:text-xl prose-img:md:my-4">
         <h1>Write-up for {puzzle.name ?? `Puzzle #${puzzle.id}`}</h1>
+        <div className="not-prose flex items-center justify-between">
+          <UserDisplay address={frontmatter.author} displaySocials={false}>
+            {frontmatter.author.toLowerCase() === puzzle.author.address.toLowerCase() ? (
+              <Badge size="sm" variant="secondary" intent="primary">
+                Author
+              </Badge>
+            ) : null}
+          </UserDisplay>
+          <Button
+            variant="outline"
+            intent="neutral"
+            rightIcon={<Github />}
+            href={`https://github.com/waterfall-mkt/curta-write-ups/blob/${writeUpUrlPath}`}
+            newTab
+          >
+            Edit on GitHub
+          </Button>
+        </div>
         <hr className="my-6 w-full rounded-full border-stroke" role="separator" />
         {content}
       </article>
