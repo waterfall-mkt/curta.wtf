@@ -1,5 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import { ImageResponse } from 'next/server';
+import { cache } from 'react';
 
 import { getChainIdAndId, getChainInfo } from '@/lib/utils';
 
@@ -36,6 +37,17 @@ export default async function Image({ params }: { params: { slug: string } }) {
   if (!ids) return;
 
   const { chainId, id } = ids;
+
+  // Fetch write-up's MDX, and return early if write-up is not found.
+  const response = await cache(
+    async () =>
+      await fetch(
+        `https://raw.githubusercontent.com/waterfall-mkt/curta-write-ups/main/puzzles/${
+          getChainInfo(chainId).network
+        }/${id}.mdx`,
+      ),
+  )();
+  if (!response.ok) return;
 
   return new ImageResponse(
     (
