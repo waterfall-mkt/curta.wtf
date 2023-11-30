@@ -1,4 +1,5 @@
 import { notFound } from 'next/navigation';
+import { cache } from 'react';
 
 import { useMDXComponents as getMDXComponents } from 'mdx-components';
 import { compileMDX } from 'next-mdx-remote/rsc';
@@ -25,11 +26,14 @@ export default async function Page({ params }: { params: { slug: string } }) {
   if (!puzzle || error) return notFound();
 
   // Fetch write-up's MDX.
-  const response = await fetch(
-    `https://raw.githubusercontent.com/waterfall-mkt/curta-write-ups/main/puzzles/${
-      getChainInfo(chainId).network
-    }/${id}.mdx`,
-  );
+  const response = await cache(
+    async () =>
+      await fetch(
+        `https://raw.githubusercontent.com/waterfall-mkt/curta-write-ups/main/puzzles/${
+          getChainInfo(chainId).network
+        }/${id}.mdx`,
+      ),
+  )();
 
   // Return 404 if write-up is not found.
   if (!response.ok) return notFound();
@@ -75,4 +79,4 @@ export default async function Page({ params }: { params: { slug: string } }) {
 // Next.js config
 // -----------------------------------------------------------------------------
 
-export const revalidate = 0;
+export const revalidate = 43_200;

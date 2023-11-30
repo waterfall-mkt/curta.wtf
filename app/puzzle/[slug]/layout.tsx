@@ -1,11 +1,11 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import type { ReactNode } from 'react';
+import { cache, type ReactNode } from 'react';
 
 import PuzzleHeader from './(components)/header';
 import PuzzleTabs from './(components)/tabs-nav';
 
-import { fetchPuzzleById, getChainIdAndId } from '@/lib/utils';
+import { fetchPuzzleById, getChainIdAndId, getChainInfo } from '@/lib/utils';
 
 import ContainerLayout from '@/components/layouts/container';
 
@@ -75,10 +75,21 @@ export default async function PuzzleLayout({
   // data.
   if (!puzzle || error) return notFound();
 
+  // Fetch write-up's MDX.
+  const response = await cache(async () =>
+    fetch(
+      `https://raw.githubusercontent.com/waterfall-mkt/curta-write-ups/main/puzzles/${
+        getChainInfo(chainId).network
+      }/${id}.mdx`,
+    ),
+  )();
+
   return (
     <ContainerLayout className="max-w-none px-0 pt-4 lg:px-0 lg:pt-6">
       <PuzzleHeader puzzle={puzzle} />
-      <PuzzleTabs slug={params.slug}>{children}</PuzzleTabs>
+      <PuzzleTabs slug={params.slug} hasWriteup={response.ok}>
+        {children}
+      </PuzzleTabs>
     </ContainerLayout>
   );
 }
