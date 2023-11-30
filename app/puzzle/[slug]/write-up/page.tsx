@@ -16,7 +16,7 @@ import AddressLink from '@/components/templates/address-link';
 import Avatar from '@/components/templates/avatar';
 import ENSAvatar from '@/components/templates/ens-avatar';
 import UserHoverCard from '@/components/templates/user-hover-card';
-import { ButtonGroup, IconButton } from '@/components/ui';
+import { Badge, ButtonGroup, IconButton } from '@/components/ui';
 
 // -----------------------------------------------------------------------------
 // Page
@@ -53,11 +53,16 @@ export default async function Page({ params }: { params: { slug: string } }) {
 
   // Parse frontmatter and generate content from MDX.
   const source = await response.text();
-  const { content, frontmatter } = await compileMDX<{ authors: Address[]; adapted_from?: string }>({
+  const { content, frontmatter } = await compileMDX<{
+    author: Address;
+    contributors: Address[];
+    adapted_from?: string;
+  }>({
     source,
     components: getMDXComponents({}),
     options: { parseFrontmatter: true },
   });
+  console.log(frontmatter);
 
   return (
     <div
@@ -73,9 +78,9 @@ export default async function Page({ params }: { params: { slug: string } }) {
       </article>
       <div className="flex w-full flex-col md:min-w-[22.5rem] md:max-w-[22.5rem]">
         <div className="flex flex-col gap-2">
-          <div className="text-sm text-gray-200">Written by</div>
-          <div className="rounded-xl border border-stroke p-4">
-            {frontmatter.authors.map(async (address) => {
+          <div className="text-sm text-gray-200">Contributors</div>
+          <div className="flex flex-col gap-4 rounded-xl border border-stroke p-4">
+            {frontmatter.contributors.map(async (address) => {
               const ensName = await cache(
                 async () => await ethereumClient.getEnsName({ address }),
               )();
@@ -100,12 +105,23 @@ export default async function Page({ params }: { params: { slug: string } }) {
                         <Avatar src="" alt={address} size={40} />
                       )}
                     </div>
-                    <div>
-                      <div className="text-gray-100">{displayName}</div>
+                    <div className="flex flex-col gap-1">
+                      <div className="flex items-center gap-2 font-medium leading-5 text-gray-100">
+                        {displayName}
+                        {address.toLowerCase() === puzzle.author.address.toLowerCase() ? (
+                          <Badge size="sm" variant="secondary" intent="primary">
+                            Author
+                          </Badge>
+                        ) : null}
+                      </div>
                       <UserHoverCard
                         address={address}
                         trigger={
-                          <AddressLink className="w-fit text-sm" address={address} chainId={1} />
+                          <AddressLink
+                            className="w-fit text-sm leading-4"
+                            address={address}
+                            chainId={1}
+                          />
                         }
                       />
                     </div>
@@ -148,4 +164,4 @@ export default async function Page({ params }: { params: { slug: string } }) {
 // Next.js config
 // -----------------------------------------------------------------------------
 
-export const revalidate = 43_200;
+export const revalidate = 0;
