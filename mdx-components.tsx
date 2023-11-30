@@ -1,9 +1,14 @@
+import Image from 'next/image';
 import Link from 'next/link';
 import { isValidElement } from 'react';
 
 import type { MDXComponents } from 'mdx/types';
 
-import { H2, H3 } from '@/components/templates/mdx';
+import LogoIcon from '@/components/common/logo-icon';
+import ComponentsDisplay from '@/components/templates/components-display';
+import CredentialFeature from '@/components/templates/credential-feature';
+import LinkFeature from '@/components/templates/link-feature';
+import { Callout, Description, H2, H3 } from '@/components/templates/mdx';
 import { CodeBlock } from '@/components/ui';
 import type { CodeBlockProps } from '@/components/ui/code-block/types';
 
@@ -76,6 +81,13 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
         <table className="my-0">{children}</table>
       </div>
     ),
+    Callout,
+    ComponentsDisplay,
+    CredentialFeature,
+    Description,
+    Image,
+    LinkFeature,
+    LogoIcon,
     ...components,
   };
 }
