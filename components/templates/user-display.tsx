@@ -1,6 +1,8 @@
 import { cache, type ReactNode } from 'react';
 
+import clsx from 'clsx';
 import { Github } from 'lucide-react';
+import { twMerge } from 'tailwind-merge';
 import type { Address } from 'viem';
 
 import { ethereumClient } from '@/lib/client';
@@ -20,6 +22,7 @@ import { ButtonGroup, IconButton } from '@/components/ui';
 // ---------------------------------------–-------------------------------------
 
 type UserDisplayProps = {
+  className?: string;
   address: Address;
   displaySocials?: boolean;
   children?: ReactNode;
@@ -30,6 +33,7 @@ type UserDisplayProps = {
 // ---------------------------------------–-------------------------------------
 
 export default async function UserDisplay({
+  className,
   address,
   displaySocials = true,
   children,
@@ -47,7 +51,7 @@ export default async function UserDisplay({
   const displayName = user?.displayName ?? ensName ?? getShortenedAddress(address);
 
   return (
-    <div key={address} className="flex items-center justify-between">
+    <div key={address} className={twMerge(clsx('flex items-center justify-between', className))}>
       <div className="flex items-center gap-3.5">
         <div className="h-10 w-10 overflow-hidden rounded-full border border-stroke bg-gray-600">
           {ensName ? (

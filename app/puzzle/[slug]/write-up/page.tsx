@@ -97,12 +97,12 @@ export default async function Page({ params }: { params: { slug: string } }) {
         {content}
       </article>
       <hr className="my-6 w-full rounded-full border-stroke lg:hidden" role="separator" />
-      <div className="flex w-full flex-col lg:min-w-[22.5rem] lg:max-w-[22.5rem]">
+      <div className="flex h-fit w-full flex-col lg:sticky lg:top-[9.25rem] lg:min-w-[22.5rem] lg:max-w-[22.5rem]">
         <div className="flex flex-col gap-2">
           <div className="text-sm text-gray-200">Contributors</div>
-          <div className="flex flex-col gap-4 rounded-xl border border-stroke p-4">
+          <div className="grid grid-cols-1 gap-4 rounded-xl border border-stroke p-4 sm:grid-cols-2 lg:grid-cols-1">
             {frontmatter.contributors.map(async (address) => (
-              <UserDisplay key={address} address={address} displaySocials>
+              <UserDisplay key={address} className="col-span-1" address={address} displaySocials>
                 {address.toLowerCase() === puzzle.author.address.toLowerCase() ? (
                   <Badge size="sm" variant="secondary" intent="primary">
                     Author

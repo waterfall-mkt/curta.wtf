@@ -25,7 +25,7 @@ const PuzzleTabs: FC<PuzzleTabsNavProps> = ({ slug, hasWriteup, children }) => {
 
   return (
     <Tabs.Root defaultValue={pathname} activationMode="manual">
-      <Tabs.List className="mx-auto mt-2 max-w-[90rem] border-none px-4 lg:px-20">
+      <Tabs.List className="sticky top-14 z-popover mx-auto mt-2 max-w-[90rem] border-none bg-gray-900 px-4 lg:top-[4.5rem] lg:px-20">
         {[
           { name: 'Puzzle', href: `/puzzle/${normalizedSlug}`, disabled: false },
           { name: 'Leaderboard', href: `/puzzle/${normalizedSlug}/leaderboard`, disabled: false },
@@ -45,7 +45,10 @@ const PuzzleTabs: FC<PuzzleTabsNavProps> = ({ slug, hasWriteup, children }) => {
           ) : null,
         )}
       </Tabs.List>
-      <hr className="border-t border-stroke" role="separator" />
+      <hr
+        className="sticky top-[6.25rem] z-popover border-t border-stroke lg:top-[7.25rem]"
+        role="separator"
+      />
       {children}
     </Tabs.Root>
   );

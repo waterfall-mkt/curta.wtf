@@ -113,7 +113,7 @@ const NavBarMobile: FC<NavBarInternalProps> = ({ yScroll }) => {
       <Modal.Root open={isOpen && isSmallScreen} onOpenChange={() => setIsOpen(!isOpen)}>
         <nav
           className={clsx(
-            'pointer-events-auto sticky top-0 z-popover flex bg-gray-900 px-4 lg:hidden',
+            'pointer-events-auto sticky top-0 z-popover flex h-14 bg-gray-900 px-4 lg:hidden',
             yScroll && yScroll > 0 && 'border-b border-stroke',
           )}
         >
