@@ -1,3 +1,5 @@
+'use server';
+
 import type { PostgrestError } from '@supabase/supabase-js';
 import type { Address } from 'viem';
 

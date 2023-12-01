@@ -1,3 +1,5 @@
+'use server';
+
 import { CURTA_ABI } from '@/lib/constants/abi';
 import { getChainInfo, getPublicClient } from '@/lib/utils';
 
