@@ -1,3 +1,4 @@
+import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { cache } from 'react';
 
@@ -15,6 +16,60 @@ import { fetchPuzzleById, getChainIdAndId, getChainInfo } from '@/lib/utils';
 import CustomMDX from '@/components/templates/custom-mdx';
 import UserDisplay from '@/components/templates/user-display';
 import { Badge, Button } from '@/components/ui';
+
+// -----------------------------------------------------------------------------
+// Metadata
+// -----------------------------------------------------------------------------
+
+const description = 'A CTF protocol, where players create and solve EVM puzzles to earn NFTs.';
+
+export async function generateMetadata({
+  params,
+}: {
+  params: { slug: string };
+}): Promise<Metadata> {
+  const ids = getChainIdAndId(params.slug);
+  // Return empty object if `slug` is an invalid format.
+  if (!ids) return {};
+
+  // Fetch puzzle and response and return empty metadata object if either don't
+  // exist.
+  const [{ data: puzzle }, response] = await Promise.all([
+    fetchPuzzleById(ids.id, ids.chainId),
+    cache(
+      async () =>
+        await fetch(
+          `https://raw.githubusercontent.com/waterfall-mkt/curta-write-ups/main/puzzles/${
+            getChainInfo(ids.chainId).network
+          }/${ids.id}.mdx`,
+        ),
+    )(),
+  ]);
+  if (!puzzle || !response.ok) return {};
+
+  const title = `Puzzle #${puzzle.id} Write-up`;
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title: `${title} | Curta`,
+      description,
+      siteName: 'curta.wtf',
+      url: 'https://curta.wtf',
+      locale: 'en_US',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `${title} | Curta`,
+      description,
+      site: '@curta_ctf',
+      siteId: '1604186457165406210',
+      creator: '@waterfall_mkt',
+      creatorId: '1466508083929223176',
+    },
+  };
+}
 
 // -----------------------------------------------------------------------------
 // Page
