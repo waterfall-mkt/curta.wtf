@@ -121,4 +121,4 @@ export default async function Page({ params }: { params: { slug: string } }) {
 // Next.js config
 // -----------------------------------------------------------------------------
 
-export const revalidate = 0;
+export const revalidate = 43_200;
