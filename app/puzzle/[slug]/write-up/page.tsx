@@ -1,15 +1,75 @@
+import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { cache } from 'react';
 
+import 'katex/dist/katex.min.css';
 import { Github } from 'lucide-react';
-import { useMDXComponents as getMDXComponents } from 'mdx-components';
-import { compileMDX } from 'next-mdx-remote/rsc';
+import { serialize } from 'next-mdx-remote/serialize';
+import rehypeKatex from 'rehype-katex';
+import rehypeMdxCodeProps from 'rehype-mdx-code-props';
+import remarkGfm from 'remark-gfm';
+import remarkMath from 'remark-math';
 import type { Address } from 'viem';
 
 import { fetchPuzzleById, getChainIdAndId, getChainInfo } from '@/lib/utils';
 
+import CustomMDX from '@/components/templates/custom-mdx';
 import UserDisplay from '@/components/templates/user-display';
 import { Badge, Button } from '@/components/ui';
+
+// -----------------------------------------------------------------------------
+// Metadata
+// -----------------------------------------------------------------------------
+
+const description = 'A CTF protocol, where players create and solve EVM puzzles to earn NFTs.';
+
+export async function generateMetadata({
+  params,
+}: {
+  params: { slug: string };
+}): Promise<Metadata> {
+  const ids = getChainIdAndId(params.slug);
+  // Return empty object if `slug` is an invalid format.
+  if (!ids) return {};
+
+  // Fetch puzzle and response and return empty metadata object if either don't
+  // exist.
+  const [{ data: puzzle }, response] = await Promise.all([
+    fetchPuzzleById(ids.id, ids.chainId),
+    cache(
+      async () =>
+        await fetch(
+          `https://raw.githubusercontent.com/waterfall-mkt/curta-write-ups/main/puzzles/${
+            getChainInfo(ids.chainId).network
+          }/${ids.id}.mdx`,
+        ),
+    )(),
+  ]);
+  if (!puzzle || !response.ok) return {};
+
+  const title = `Puzzle #${puzzle.id} Write-up`;
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title: `${title} | Curta`,
+      description,
+      siteName: 'curta.wtf',
+      url: 'https://curta.wtf',
+      locale: 'en_US',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `${title} | Curta`,
+      description,
+      site: '@curta_ctf',
+      siteId: '1604186457165406210',
+      creator: '@waterfall_mkt',
+      creatorId: '1466508083929223176',
+    },
+  };
+}
 
 // -----------------------------------------------------------------------------
 // Page
@@ -45,15 +105,21 @@ export default async function Page({ params }: { params: { slug: string } }) {
 
   // Parse frontmatter and generate content from MDX.
   const source = await response.text();
-  const { content, frontmatter } = await compileMDX<{
-    author: Address;
-    contributors: Address[];
-    adapted_from?: string;
-  }>({
-    source,
-    components: getMDXComponents({}),
-    options: { parseFrontmatter: true },
+  const mdxSource = await serialize<
+    Record<string, unknown>,
+    {
+      author: Address;
+      contributors: Address[];
+      adapted_from?: string;
+    }
+  >(source, {
+    parseFrontmatter: true,
+    mdxOptions: {
+      remarkPlugins: [remarkGfm, remarkMath],
+      rehypePlugins: [rehypeKatex, rehypeMdxCodeProps],
+    },
   });
+  const frontmatter = mdxSource.frontmatter;
 
   return (
     <div
@@ -94,7 +160,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
           </Button>
         </div>
         <hr className="my-6 w-full rounded-full border-stroke" role="separator" />
-        {content}
+        <CustomMDX {...mdxSource} />
       </article>
       <hr className="my-6 w-full rounded-full border-stroke lg:hidden" role="separator" />
       <div className="flex h-fit w-full flex-col lg:sticky lg:top-[9.25rem] lg:min-w-[22.5rem] lg:max-w-[22.5rem]">

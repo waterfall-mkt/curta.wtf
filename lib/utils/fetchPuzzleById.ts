@@ -1,3 +1,5 @@
+'use server';
+
 import { cache } from 'react';
 
 import type { PostgrestError } from '@supabase/supabase-js';
