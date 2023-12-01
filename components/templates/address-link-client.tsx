@@ -37,9 +37,10 @@ const AddressLinkClient: FC<AddressLinkClientProps> = ({
 
   useEffect(() => setMounted(true), []);
 
+  const labelDisplay = label && label.trim().length > 0 ? label : undefined;
   const content = mounted
-    ? ensName ?? prefetchedEnsName ?? label ?? getShortenedAddress(address)
-    : prefetchedEnsName ?? label ?? getShortenedAddress(address);
+    ? ensName ?? prefetchedEnsName ?? labelDisplay ?? getShortenedAddress(address)
+    : prefetchedEnsName ?? labelDisplay ?? getShortenedAddress(address);
 
   return (
     <a
