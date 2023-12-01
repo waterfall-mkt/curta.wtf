@@ -94,7 +94,7 @@ export default async function Image({ params }: { params: { slug: string } }) {
                     lineHeight: 1.25,
                   }}
                 >
-                  | Docs
+                  | Write-ups
                 </span>
               </span>
             </div>
