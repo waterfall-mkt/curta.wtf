@@ -33,7 +33,8 @@ const AddressLink: FC<AddressLinkProps> = async ({
   const ensName = address
     ? await cache(async () => await ethereumClient.getEnsName({ address }))()
     : undefined;
-  const content = ensName ?? label ?? (address ? getShortenedAddress(address) : '–');
+  const labelDisplay = label && label.trim().length > 0 ? label : undefined;
+  const content = ensName ?? labelDisplay ?? (address ? getShortenedAddress(address) : '–');
 
   return (
     <a
