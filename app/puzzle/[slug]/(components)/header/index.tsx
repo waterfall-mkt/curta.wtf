@@ -82,6 +82,7 @@ const PuzzleHeader: FC<PuzzleHeaderProps> = async ({ puzzle }) => {
                         label={puzzle.author.displayName}
                       />
                     }
+                    inPortal
                   />
                 </div>
               ),
