@@ -12,7 +12,7 @@ export const cardBodyVariants = cva([], {
 export const cardFooterStyles = ['rounded-b-[1.25rem]', 'border-t', 'border-stroke', 'p-4'];
 
 export const cardHeaderVariants = cva(
-  ['rounded-tr-[1.25rem]', 'border-b', 'border-stroke', 'text-md', 'font-medium', 'text-gray-50'],
+  ['rounded-tr-[1.25rem]', 'border-b', 'border-stroke', 'text-base', 'font-medium', 'text-gray-50'],
   {
     variants: {
       noPadding: {

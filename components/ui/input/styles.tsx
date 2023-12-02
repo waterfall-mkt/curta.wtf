@@ -35,7 +35,7 @@ export const inputVariants = cva(
     variants: {
       size: {
         lg: ['py-2', 'pl-4', 'font-medium', 'text-lg', 'h-[3.25rem]'],
-        md: ['py-2', 'pl-4', 'font-book', 'text-md', 'h-[3rem]'],
+        md: ['py-2', 'pl-4', 'font-book', 'text-base', 'h-[3rem]'],
         sm: ['py-1.5', 'pl-3', 'font-book', 'text-sm', 'h-[2.25rem]'],
       },
       isCurrency: {

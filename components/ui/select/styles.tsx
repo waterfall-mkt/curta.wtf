@@ -102,7 +102,7 @@ export const selectVariants = cva(
   {
     variants: {
       size: {
-        lg: ['rounded-xl', 'pl-4', 'pr-11', 'h-10', 'text-md'],
+        lg: ['rounded-xl', 'pl-4', 'pr-11', 'h-10', 'text-base'],
         md: ['rounded-lg', 'pl-3', 'pr-9', 'h-8', 'text-sm'],
         sm: ['rounded-lg', 'pl-2.5', 'pr-7', 'h-7', 'text-xs'],
       },
