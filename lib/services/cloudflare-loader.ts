@@ -1,7 +1,3 @@
-const normalizeSrc = (src: string) => {
-  return src.startsWith('/') ? src.slice(1) : src;
-};
-
 export default function cloudflareLoader({
   src,
   width,
@@ -11,8 +7,9 @@ export default function cloudflareLoader({
   width: number;
   quality?: number;
 }) {
+  const normalizedSrc = src.startsWith('/') ? src.slice(1) : src;
   const params = [`width=${width}`];
   if (quality) params.push(`quality=${quality}`);
 
-  return `https://curta.wtf/cdn-cgi/image/${params.join(',')}/${normalizeSrc(src)}`;
+  return `https://curta.wtf/cdn-cgi/image/${params.join(',')}/${normalizedSrc}`;
 }
