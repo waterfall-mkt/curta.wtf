@@ -40,7 +40,7 @@ export async function generateMetadata({
     cache(
       async () =>
         await fetch(
-          `https://raw.githubusercontent.com/waterfall-mkt/curta-write-ups/main/puzzles/${
+          `https://raw.githubusercontent.com/waterfall-mkt/curta-write-ups/add-walden-writeup/puzzles/${
             getChainInfo(ids.chainId).network
           }/${ids.id}.mdx`,
         ),
@@ -91,7 +91,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
   if (!puzzle || error) return notFound();
 
   // Fetch write-up's MDX.
-  const writeUpUrlPath = `main/puzzles/${getChainInfo(chainId).network}/${id}.mdx`;
+  const writeUpUrlPath = `add-walden-writeup/puzzles/${getChainInfo(chainId).network}/${id}.mdx`;
   const response = await cache(
     async () =>
       await fetch(
@@ -161,7 +161,12 @@ export default async function Page({ params }: { params: { slug: string } }) {
           </Button>
         </div>
         <hr className="my-6 w-full rounded-full border-stroke" role="separator" />
-        <CustomMDX {...mdxSource} components={{ Image: PuzzleWriteUpImage }} />
+        <CustomMDX
+          {...mdxSource}
+          components={{
+            Image: PuzzleWriteUpImage,
+          }}
+        />
       </article>
       <hr className="my-6 w-full rounded-full border-stroke lg:hidden" role="separator" />
       <div className="flex h-fit w-full flex-col lg:sticky lg:top-[9.25rem] lg:min-w-[22.5rem] lg:max-w-[22.5rem]">
@@ -188,4 +193,4 @@ export default async function Page({ params }: { params: { slug: string } }) {
 // Next.js config
 // -----------------------------------------------------------------------------
 
-export const revalidate = 43_200;
+export const revalidate = 0;
