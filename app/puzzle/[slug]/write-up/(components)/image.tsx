@@ -20,7 +20,7 @@ const PuzzleWriteUpImage = forwardRef(
 
     return (
       <Image
-        className="mx-auto max-w-[24rem] rounded-xl border border-stroke md:rounded-2xl"
+        className="mx-auto max-w-full rounded-xl border border-stroke min-[400px]:max-w-[24rem] md:rounded-2xl"
         ref={ref}
         src={normalizedSrc}
         loader={cloudflareLoader}
