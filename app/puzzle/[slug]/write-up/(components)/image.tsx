@@ -14,7 +14,7 @@ const PuzzleWriteUpImage = forwardRef(
     const normalizedSrc =
       typeof src === 'string'
         ? src.startsWith('/')
-          ? `https://raw.githubusercontent.com/waterfall-mkt/curta-write-ups/add-walden-writeup${src}`
+          ? `https://raw.githubusercontent.com/waterfall-mkt/curta-write-ups/main${src}`
           : src
         : src;
 

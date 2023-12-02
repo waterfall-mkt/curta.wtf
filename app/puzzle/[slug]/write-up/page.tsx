@@ -40,7 +40,7 @@ export async function generateMetadata({
     cache(
       async () =>
         await fetch(
-          `https://raw.githubusercontent.com/waterfall-mkt/curta-write-ups/add-walden-writeup/puzzles/${
+          `https://raw.githubusercontent.com/waterfall-mkt/curta-write-ups/main/puzzles/${
             getChainInfo(ids.chainId).network
           }/${ids.id}.mdx`,
         ),
@@ -91,7 +91,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
   if (!puzzle || error) return notFound();
 
   // Fetch write-up's MDX.
-  const writeUpUrlPath = `add-walden-writeup/puzzles/${getChainInfo(chainId).network}/${id}.mdx`;
+  const writeUpUrlPath = `main/puzzles/${getChainInfo(chainId).network}/${id}.mdx`;
   const response = await cache(
     async () =>
       await fetch(
@@ -193,4 +193,4 @@ export default async function Page({ params }: { params: { slug: string } }) {
 // Next.js config
 // -----------------------------------------------------------------------------
 
-export const revalidate = 0;
+export const revalidate = 43_200;
