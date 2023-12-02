@@ -16,7 +16,7 @@ export const inputCurrencyLabelVariants = cva(
       size: {
         sm: ['text-xs', 'p-1'],
         md: ['text-sm', 'p-1.5'],
-        lg: ['text-md', 'p-1.5'],
+        lg: ['text-base', 'p-1.5'],
       },
     },
   },

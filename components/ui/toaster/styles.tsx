@@ -22,7 +22,7 @@ export const toastDescriptionVariants = cva(['text-sm'], {
   },
 });
 
-export const toastTitleVariants = cva(['text-md', 'font-medium'], {
+export const toastTitleVariants = cva(['text-base', 'font-medium'], {
   variants: {
     intent: {
       neutral: ['text-gray-100'],

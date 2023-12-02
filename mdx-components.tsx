@@ -8,7 +8,7 @@ import LogoIcon from '@/components/common/logo-icon';
 import ComponentsDisplay from '@/components/templates/components-display';
 import CredentialFeature from '@/components/templates/credential-feature';
 import LinkFeature from '@/components/templates/link-feature';
-import { Callout, Description, H2, H3 } from '@/components/templates/mdx';
+import { Callout, Description, H2, H3, H4 } from '@/components/templates/mdx';
 import { CodeBlock } from '@/components/ui';
 import type { CodeBlockProps } from '@/components/ui/code-block/types';
 
@@ -57,6 +57,7 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
     ),
     h2: (props: JSX.IntrinsicElements['h2']) => <H2 {...props} />,
     h3: (props: JSX.IntrinsicElements['h3']) => <H3 {...props} />,
+    h4: (props: JSX.IntrinsicElements['h4']) => <H4 {...props} />,
     p: ({ children, ...rest }: JSX.IntrinsicElements['p']) => (
       <p className="font-light not-italic before:content-none after:content-none" {...rest}>
         {children}
