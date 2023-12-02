@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { cache } from 'react';
 
+import PuzzleWriteUpImage from './(components)/image';
 import 'katex/dist/katex.min.css';
 import { Github } from 'lucide-react';
 import { serialize } from 'next-mdx-remote/serialize';
@@ -160,7 +161,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
           </Button>
         </div>
         <hr className="my-6 w-full rounded-full border-stroke" role="separator" />
-        <CustomMDX {...mdxSource} />
+        <CustomMDX {...mdxSource} components={{ Image: PuzzleWriteUpImage }} />
       </article>
       <hr className="my-6 w-full rounded-full border-stroke lg:hidden" role="separator" />
       <div className="flex h-fit w-full flex-col lg:sticky lg:top-[9.25rem] lg:min-w-[22.5rem] lg:max-w-[22.5rem]">
