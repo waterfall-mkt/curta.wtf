@@ -45,6 +45,9 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
         </span>
       );
     },
+    blockquote: (props: JSX.IntrinsicElements['blockquote']) => (
+      <blockquote className="font-light not-italic text-gray-150" {...props} />
+    ),
     code: ({ children, ...rest }: JSX.IntrinsicElements['code']) => (
       <span className="not-prose">
         <code
