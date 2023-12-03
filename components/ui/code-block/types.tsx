@@ -50,6 +50,7 @@ export type CodeBlockProps = Omit<JSX.IntrinsicElements['pre'], 'children'> &
       | 'py'
       | 'bash'
       | 'sh'
+      | 'diff'
       | 'none';
     logo?: FC<JSX.IntrinsicElements['svg']>;
     highlightLines?: number[];
