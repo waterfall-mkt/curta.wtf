@@ -18,7 +18,7 @@ import {
 import { THEME } from './theme';
 import type { CodeBlockProps } from './types';
 import clsx from 'clsx';
-import { File, TerminalSquare } from 'lucide-react';
+import { File, FileDiff, TerminalSquare } from 'lucide-react';
 import { Highlight } from 'prism-react-renderer';
 import Prism from 'prismjs';
 import { twMerge } from 'tailwind-merge';
@@ -34,6 +34,7 @@ require('prismjs/components/prism-c');
 require('prismjs/components/prism-cpp');
 require('prismjs/components/prism-python');
 require('prismjs/components/prism-bash');
+require('prismjs/components/prism-diff');
 
 // -----------------------------------------------------------------------------
 // Component
@@ -73,6 +74,8 @@ const CodeBlock: FC<CodeBlockProps> = ({
     ? CodeBlockLanguageLogo.Python
     : language === 'bash' || language === 'sh'
     ? TerminalSquare
+    : language === 'diff'
+    ? FileDiff
     : File;
 
   return (
