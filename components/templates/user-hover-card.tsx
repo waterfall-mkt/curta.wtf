@@ -30,7 +30,7 @@ const UserHoverCard: FC<UserHoverCardProps> = ({ address, trigger, triggerAsChil
 
   return (
     <HoverCard
-      className="flex w-[17.75rem] flex-col gap-3 rounded-[1.25rem] p-4"
+      className="not-prose flex w-[17.75rem] flex-col gap-3 rounded-[1.25rem] p-4"
       trigger={trigger}
       triggerProps={{
         onMouseEnter: () => mutate(),
