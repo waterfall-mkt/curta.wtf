@@ -171,7 +171,7 @@ export type DbPuzzleSolve = {
  * @param github A link to the course's GitHub repository.
  * @param disabled Whether or not the course should be displayed on the
  * frontend.
- * @param event The ID of the event the course is part of.
+ * @param eventId The ID of the event the course is part of.
  * @param leader The course's leader.
  * @param leaderBlock The block number the course's leader was set at.
  * @param leaderGas The gas used by the current leading solution.
@@ -193,7 +193,7 @@ export type DbGolfCourse = {
   // Course static information
   address: Address;
   name: string;
-  description: string;
+  description?: string;
   // Course dynamic information
   numLeaders: number;
   numSolved: number;
@@ -202,11 +202,11 @@ export type DbGolfCourse = {
   disabled?: boolean;
   event?: DbEvent;
   // Course leader information
-  leader: Pick<DbUser, 'address'> & Partial<DbUser>;
-  leaderBlock: number;
-  leaderGas: number;
-  leaderTimestamp: number;
-  leaderTx: Hash;
+  leader?: Pick<DbUser, 'address'> & Partial<DbUser>;
+  leaderBlock?: number;
+  leaderGas?: number;
+  leaderTimestamp?: number;
+  leaderTx?: Hash;
   // Course source code
   bytecode: Hash;
   solidity?: string;
@@ -228,7 +228,6 @@ export type DbGolfCourse = {
  * solution, and `_salt` is some random, secret `uint256` number.
  * @param chainId The ID of the chain the course is on.
  * @param solver The user that committed the submission to the course.
- * @param courseId The ID of the course the commit is for.
  * @param commitBlock The block number the commit was made at.
  * @param commitTimestamp The blockchain timestamp the commit was made at.
  * @param commitTx The transaction hash of the transaction that committed the
@@ -240,7 +239,6 @@ export type DbGolfCourseCommit = {
   chainId: number;
   // Commit information
   solver: Pick<DbUser, 'address'> & Partial<DbUser>;
-  courseId: number;
   commitBlock: number;
   commitTimestamp: number;
   commitTx: Hash;
@@ -255,23 +253,25 @@ export type DbGolfCourseCommit = {
  * @param gasUsed The gas used by the solver's solution.
  * @param target The address of the solver's deployed solution.
  * @param solution The bytecode of the solution.
- * @param submitTx The transaction hash of the transaction that submitted the
- * solution to the course.
+ * @param submitBlock The block number the solution was submitted at.
  * @param submitTimestamp The blockchain timestamp the solution was submitted
  * at.
+ * @param submitTx The transaction hash of the transaction that submitted the
+ * solution to the course.
  * @param isRecord Whether or not the solution set a new record at the time of
  * submission.
  */
 export type DbGolfCourseSolve = {
-  // Primary key
+  // Identifier
   courseId: number;
   chainId: number;
   solver: Pick<DbUser, 'address'> & Partial<DbUser>;
+  submitTx: Hash;
   // Solve information
   gasUsed: number;
   target: Address;
   solution: Hash;
-  submitTx: Hash;
+  submitBlock: number;
   submitTimestamp: number;
   isRecord?: boolean;
 };
