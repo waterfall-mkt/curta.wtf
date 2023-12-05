@@ -165,10 +165,13 @@ export type DbPuzzleSolve = {
  * @param description A description about the course.
  * @param numLeaders The number of times the gas record has been lowered.
  * @param numSolved The number of addresses that have solved the course.
+ * @param allowedOpcodes A hex-string of a bitmap of allowed opcodes, where a
+ * `1` at the LSb position equal to the opcode's value indicates that the opcode
+ * is allowed.
  * @param github A link to the course's GitHub repository.
  * @param disabled Whether or not the course should be displayed on the
  * frontend.
- * @param eventId The ID of the event the course is part of.
+ * @param event The ID of the event the course is part of.
  * @param leader The course's leader.
  * @param leaderBlock The block number the course's leader was set at.
  * @param leaderGas The gas used by the current leading solution.
@@ -194,9 +197,10 @@ export type DbGolfCourse = {
   // Course dynamic information
   numLeaders: number;
   numSolved: number;
+  allowedOpcodes: Hash;
   github?: string;
   disabled?: boolean;
-  eventId?: DbEvent;
+  event?: DbEvent;
   // Course leader information
   leader: Pick<DbUser, 'address'> & Partial<DbUser>;
   leaderBlock: number;
