@@ -6,7 +6,7 @@ import clsx from 'clsx';
 import { Github } from 'lucide-react';
 
 import { ethereumClient } from '@/lib/client';
-import type { Author } from '@/lib/types/protocol';
+import type { PartialUser } from '@/lib/types/protocol';
 import { getShortenedAddress } from '@/lib/utils';
 
 import LogoIcon from '@/components/common/logo-icon';
@@ -21,7 +21,7 @@ import { ButtonGroup, IconButton } from '@/components/ui';
 // ---------------------------------------–-------------------------------------
 
 type AuthorsDisplayProps = {
-  data: Author[];
+  data: PartialUser[];
 };
 
 // ---------------------------------------–-------------------------------------

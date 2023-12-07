@@ -2,7 +2,7 @@
 
 import type { FC } from 'react';
 
-import type { Author, Phase } from '@/lib/types/protocol';
+import type { PartialUser, Phase } from '@/lib/types/protocol';
 
 import AddressLinkClient from '@/components/templates/address-link-client';
 import PhaseTagPing from '@/components/templates/phase-tag/ping';
@@ -16,7 +16,7 @@ type PuzzleTableInfoProps = {
   id: number;
   phase: Phase;
   name: string;
-  author: Author;
+  author: PartialUser;
 };
 
 // -----------------------------------------------------------------------------

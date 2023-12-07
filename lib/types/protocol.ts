@@ -29,6 +29,25 @@ export type Event = {
 };
 
 /**
+ * Type for an object representing a partial Curta user object.
+ * @dev The type is the same as the `User` type, except every field is optional,
+ * except for `address`.
+ * @param address The user's Ethereum address (hex, should be all lowercase).
+ * @param username The user's unique username. If the user never set a username,
+ * it will be a randomly generated `uuid`.
+ * @param bio A short description about the user.
+ * @param displayName The user's display name/nickname.
+ * @param twitter The user's Twitter username.
+ * @param github The user's GitHub username.
+ * @param puzzlesSolved The number of [**Curta Puzzles**](https://curta.wtf/docs/puzzles/overview)
+ * the user has solved.
+ * @param isPuzzleAuthor Whether or not the user has authored and added any
+ * [**Curta Puzzles**](https://curta.wtf/docs/puzzles/overview).
+ * @param ensName User's prefetched ENS name.
+ */
+export type PartialUser = Pick<User, 'address'> & Partial<User>;
+
+/**
  * Type for an object representing a Curta user.
  * @param address The user's Ethereum address (hex, should be all lowercase).
  * @param username The user's unique username. If the user never set a username,
@@ -60,27 +79,73 @@ export type User = {
 };
 
 // -----------------------------------------------------------------------------
-// Curta Puzzles types
+// Curta Golf types
 // -----------------------------------------------------------------------------
 
 /**
- * Type for an object representing a [**Curta Puzzles author**](https://www.curta.wtf/docs/puzzles/becoming-an-author).
- * @dev The type is the same as the `User` type, except every field is optional,
- * except for `address`.
- * @param address The user's Ethereum address (hex, should be all lowercase).
- * @param username The user's unique username. If the user never set a username,
- * it will be a randomly generated `uuid`.
- * @param bio A short description about the user.
- * @param displayName The user's display name/nickname.
- * @param twitter The user's Twitter username.
- * @param github The user's GitHub username.
- * @param puzzlesSolved The number of [**Curta Puzzles**](https://curta.wtf/docs/puzzles/overview)
- * the user has solved.
- * @param isPuzzleAuthor Whether or not the user has authored and added any
- * [**Curta Puzzles**](https://curta.wtf/docs/puzzles/overview).
- * @param ensName User's prefetched ENS name.
+ * Type for an object representing a [**Curta Golf Course**](https://www.curta.wtf/docs/golf/overview).
+ * @param id The course's ID.
+ * @param chainId The ID of the chain the course is on.
+ * @param address The course's contract address.
+ * @param name The course's name.
+ * @param description A short description about the course.
+ * @param numLeaders The number of leaders the course has had in the past.
+ * @param numSolved The number of addresses that have solved the course.
+ * @param allowedOpcodes A hex-string of a bitmap of allowed opcodes, where a
+ * `1` at the LSb position equal to the opcode's value indicates that the opcode
+ * is allowed.
+ * @param github A link to the course's GitHub repository.
+ * @param disabled Whether or not the course should be displayed on the
+ * frontend.
+ * @param eventId The ID of the event the course is part of.
+ * @param leader The course's leader.
+ * @param leaderBlock The block number the course's leader was set at.
+ * @param leaderGas The gas used by the current leading solution.
+ * @param leaderTimestamp The blockchain timestamp the course's record was set
+ * at.
+ * @param leaderTx The transaction hash of the transaction that set the course
+ * record.
+ * @param bytecode The course's contract bytecode.
+ * @param solidity The course's Solidity source code.
+ * @param huff The course's Huff source code.
+ * @param addedBlock The block number the course was added at.
+ * @param addedTimestamp The blockchain timestamp the course was added at.
+ * @param addedTx The transaction hash of the transaction that added the course.
  */
-export type Author = Pick<User, 'address'> & Partial<User>;
+export type GolfCourse = {
+  // Identifier
+  id: number;
+  chainId: number;
+  // Course static information
+  address: Address;
+  name: string;
+  description?: string;
+  // Course dynamic information
+  numLeaders: number;
+  numSolved: number;
+  allowedOpcodes: Hash;
+  github?: string;
+  disabled?: boolean;
+  event?: Event;
+  // Course leader information
+  leader?: PartialUser;
+  leaderBlock?: number;
+  leaderGas?: number;
+  leaderTimestamp?: number;
+  leaderTx?: Hash;
+  // Course source code
+  bytecode: Hash;
+  solidity?: string;
+  huff?: string;
+  // Added information
+  addedBlock: number;
+  addedTimestamp: number;
+  addedTx: Hash;
+};
+
+// -----------------------------------------------------------------------------
+// Curta Puzzles types
+// -----------------------------------------------------------------------------
 
 /**
  * Type for an object containing information about a [**Flag NFT**](https://www.curta.wtf/docs/puzzles/writing-puzzles#customizing-art)'s
@@ -141,7 +206,7 @@ export type Puzzle = {
   chainId: number;
   // Puzzle static information
   address: Address;
-  author: Author;
+  author: PartialUser;
   name: string;
   // Puzzle dynamic information
   numberSolved: number;

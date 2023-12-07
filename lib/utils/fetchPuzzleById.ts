@@ -5,7 +5,7 @@ import type { PostgrestError } from '@supabase/supabase-js';
 import { ethereumClient } from '@/lib/client';
 import supabase from '@/lib/services/supabase';
 import type { DbPuzzle } from '@/lib/types/api';
-import type { Author, Puzzle } from '@/lib/types/protocol';
+import type { PartialUser, Puzzle } from '@/lib/types/protocol';
 
 type PuzzleResponse = {
   data: Puzzle | null;
@@ -54,7 +54,7 @@ const fetchPuzzleById = async (id: number, chainId: number): Promise<PuzzleRespo
     author: {
       ...puzzleData.author,
       ensName: authorEnsName || undefined,
-    } as Author,
+    } as PartialUser,
     name: puzzleData.name,
     // Puzzle dynamic information
     numberSolved: puzzleData.numberSolved,
