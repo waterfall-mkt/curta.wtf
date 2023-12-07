@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation';
 import type { ReactNode } from 'react';
 
 import CourseHeader from './(components)/header';
+import CourseTabs from './(components)/tabs-nav';
 
 import { fetchCourseById, getChainIdAndId } from '@/lib/utils';
 
@@ -30,7 +31,7 @@ export default async function CourseLayout({
   return (
     <ContainerLayout className="max-w-none px-0 pt-4 lg:px-0 lg:pt-6">
       <CourseHeader course={course} />
-      {children}
+      <CourseTabs slug={params.slug}>{children}</CourseTabs>
     </ContainerLayout>
   );
 }
