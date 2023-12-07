@@ -1,5 +1,6 @@
 import { notFound } from 'next/navigation';
 
+import CourseInfo from './(components)/info';
 import CourseProblemDisplay from './(components)/problem-display';
 
 import { fetchCourseById, getChainIdAndId } from '@/lib/utils';
@@ -36,7 +37,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
       aria-labelledby={`trigger-/course/${normalizedSlug}`}
     >
       <CourseProblemDisplay course={course} languages={languages} />
-      {/* Solve form */}
+      <CourseInfo course={course} />
     </div>
   );
 }
