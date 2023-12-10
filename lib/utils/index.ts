@@ -13,6 +13,7 @@ import formatValueToPrecision from './formatValueToPrecision';
 import getBaseMetadata from './getBaseMetadata';
 import getChainIdAndId from './getChainIdAndId';
 import getChainInfo from './getChainInfo';
+import getGolfCommitKey from './getGolfCommitKey';
 import getPublicClient from './getPublicClient';
 import getPuzzleTimeLeft from './getPuzzleTimeLeft';
 import getShortenedAddress from './getShortenedAddress';
@@ -33,6 +34,7 @@ export {
   formatValueToPrecision,
   getBaseMetadata,
   getChainInfo,
+  getGolfCommitKey,
   getChainIdAndId,
   getPublicClient,
   getPuzzleTimeLeft,

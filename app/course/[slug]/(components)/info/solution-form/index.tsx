@@ -2,9 +2,12 @@
 
 import { type FC, useEffect, useState } from 'react';
 
+import CourseInfoSolutionForm2StepFlow from './2-step-flow';
+import CourseInfoSolutionForm2StepSubmitButton from './2-step-submit';
 import * as RadioGroup from '@radix-ui/react-radio-group';
 import clsx from 'clsx';
 import { ArrowDown, CheckCircle, Circle, Crown, ExternalLink } from 'lucide-react';
+import type { Hash } from 'viem';
 import {
   useAccount,
   useContractWrite,
@@ -142,6 +145,18 @@ const CourseInfoSolutionForm: FC<CourseInfoSolutionFormProps> = ({ course }) => 
       ? typeof simulation?.result === 'number' && simulation.result < course.leaderGas
       : true);
 
+  // If the submission is valid, we set the submission method to 1-step by
+  // default, and if it's both valid and to be the leading solution, we set the
+  // submission method to 2-step by default. Otherwise, we clear the radio
+  // selection.
+  useEffect(() => {
+    if (isSubmissionValid) {
+      setSubmissionMethod(toBeLeader ? 'sm1' : 'sm0');
+    } else {
+      setSubmissionMethod(undefined);
+    }
+  }, [isSubmissionValid, toBeLeader]);
+
   return (
     <div className="flex w-full flex-col items-center gap-3 p-4">
       <div className="flex w-full flex-col gap-2">
@@ -252,6 +267,12 @@ const CourseInfoSolutionForm: FC<CourseInfoSolutionFormProps> = ({ course }) => 
                   </label>
                 </div>
               ))}
+              {submissionMethod === 'sm1' ? (
+                <CourseInfoSolutionForm2StepFlow
+                  bytecode={submission as Hash}
+                  chainId={course.chainId}
+                />
+              ) : null}
             </RadioGroup.Root>
           </div>
           {toBeLeader && submissionMethod === 'sm0' ? (
@@ -272,7 +293,7 @@ const CourseInfoSolutionForm: FC<CourseInfoSolutionFormProps> = ({ course }) => 
         >
           Switch network
         </Button>
-      ) : (
+      ) : submissionMethod === 'sm0' ? (
         /* 1-step submission button */
         <Button
           type="submit"
@@ -286,6 +307,9 @@ const CourseInfoSolutionForm: FC<CourseInfoSolutionFormProps> = ({ course }) => 
         >
           Submit
         </Button>
+      ) : (
+        /* 2-step submission button */
+        <CourseInfoSolutionForm2StepSubmitButton bytecode={submission as Hash} course={course} />
       )}
     </div>
   );
