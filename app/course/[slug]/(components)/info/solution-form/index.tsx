@@ -7,7 +7,7 @@ import CourseInfoSolutionForm2StepSubmitButton from './2-step-submit';
 import * as RadioGroup from '@radix-ui/react-radio-group';
 import clsx from 'clsx';
 import { ArrowDown, CheckCircle, Circle, Crown, ExternalLink } from 'lucide-react';
-import type { Hash } from 'viem';
+import { isHex } from 'viem';
 import {
   useAccount,
   useContractWrite,
@@ -166,7 +166,8 @@ const CourseInfoSolutionForm: FC<CourseInfoSolutionFormProps> = ({ course }) => 
           placeholder="0x"
           value={submission}
           onChange={(e) => setSubmission(e.target.value)}
-          errorMessage="TODO: add purity checker patternhere"
+          pattern="^0x[0-9a-fA-F]*$"
+          errorMessage="Bytecode must be hex-string"
         />
         <div className="flex w-full items-center justify-between text-sm">
           <div className="flex items-center gap-1 pl-[15px]">
@@ -267,11 +268,8 @@ const CourseInfoSolutionForm: FC<CourseInfoSolutionFormProps> = ({ course }) => 
                   </label>
                 </div>
               ))}
-              {submissionMethod === 'sm1' ? (
-                <CourseInfoSolutionForm2StepFlow
-                  bytecode={submission as Hash}
-                  chainId={course.chainId}
-                />
+              {submissionMethod === 'sm1' && isHex(submission) ? (
+                <CourseInfoSolutionForm2StepFlow bytecode={submission} chainId={course.chainId} />
               ) : null}
             </RadioGroup.Root>
           </div>
@@ -307,9 +305,13 @@ const CourseInfoSolutionForm: FC<CourseInfoSolutionFormProps> = ({ course }) => 
         >
           Submit
         </Button>
-      ) : (
+      ) : isHex(submission) ? (
         /* 2-step submission button */
-        <CourseInfoSolutionForm2StepSubmitButton bytecode={submission as Hash} course={course} />
+        <CourseInfoSolutionForm2StepSubmitButton bytecode={submission} course={course} />
+      ) : (
+        <Button className="w-full" size="lg" type="submit" disabled>
+          Commit
+        </Button>
       )}
     </div>
   );
