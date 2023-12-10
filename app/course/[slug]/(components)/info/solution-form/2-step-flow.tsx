@@ -7,8 +7,8 @@ import { Check, Dot } from 'lucide-react';
 import { type Hash, zeroAddress } from 'viem';
 import { useAccount, useContractRead } from 'wagmi';
 
-import { getChainInfo, getGolfCommitKey } from '@/lib/utils';
 import { CURTA_GOLF_ABI } from '@/lib/constants/abi';
+import { getChainInfo, getGolfCommitKey } from '@/lib/utils';
 
 // -----------------------------------------------------------------------------
 // Props
@@ -43,10 +43,10 @@ const CourseInfoSolutionForm2StepFlow: FC<CourseInfoSolutionForm2StepFlowProps> 
     chainId,
     abi: CURTA_GOLF_ABI,
     functionName: 'getCommit',
-    args: [commitKey], 
+    args: [commitKey],
   });
 
-  // @ts-ignore
+  // @ts-expect-error
   const commitTimestamp = getCommitData ? Number(getCommitData[1]) : undefined;
   const commitMade = commitTimestamp !== undefined && commitTimestamp > 0;
   const waitOver = commitMade && 60 + commitTimestamp - Date.now() / 1000 <= 0;
