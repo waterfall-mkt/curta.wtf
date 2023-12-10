@@ -215,7 +215,8 @@ const CourseInfoSolutionForm2StepSubmitButton: FC<CourseInfoSolutionForm2StepSub
     },
   });
 
-  // @ts-expect-error
+  // @ts-expect-error `getCommitData` is not `undefined` here; ABI inference is
+  // just unable to infer the type `[\`0x${string}\`, bigint]`.
   if (!getCommitData || Number(getCommitData[1]) === 0) {
     return (
       <Button

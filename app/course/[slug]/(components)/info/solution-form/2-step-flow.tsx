@@ -46,7 +46,8 @@ const CourseInfoSolutionForm2StepFlow: FC<CourseInfoSolutionForm2StepFlowProps> 
     args: [commitKey],
   });
 
-  // @ts-expect-error
+  // @ts-expect-error `getCommitData` is not `undefined` here; ABI inference is
+  // just unable to infer the type `[\`0x${string}\`, bigint]`.
   const commitTimestamp = getCommitData ? Number(getCommitData[1]) : undefined;
   const commitMade = commitTimestamp !== undefined && commitTimestamp > 0;
   const waitOver = commitMade && 60 + commitTimestamp - Date.now() / 1000 <= 0;
