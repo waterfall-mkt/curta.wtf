@@ -55,6 +55,57 @@ const CourseInfoSolutionForm2StepFlow: FC<CourseInfoSolutionForm2StepFlowProps> 
   return (
     <div className="flex w-full items-center justify-center rounded-b-lg border border-stroke p-2">
       <div className="relative flex w-full items-center justify-between rounded-lg bg-gray-450 px-4 py-3">
+        <svg
+          // We do `left-9` here because we have 16px of left-padding on the
+          // parent, 12px of space required to start from the center of the
+          // circle, and finally about 8px offset because of the label text (16
+          // + 12 + 8 = 36).
+          className="absolute left-9 top-[23px]"
+          xmlns="http://www.w3.org/2000/svg"
+          height="2"
+          fill="none"
+          role="figure"
+          style={{ width: 'calc(50% - 36px)' }}
+        >
+          <line
+            className={clsx(
+              'transition-[stroke-dasharray,stroke-color',
+              commitMade ? 'stroke-blue-250' : 'stroke-stroke',
+            )}
+            x1="1"
+            y1="1"
+            x2="999" /* Some arbitrary value greater than the max reasonable value. */
+            y2="1"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeDasharray={commitMade ? undefined : '4 4'}
+          />
+        </svg>
+        <svg
+          // We can do `left-1/2` here because the center "step" circle is
+          // perfectly centered within the circle. See comments for the previous
+          // SVG for `top-[23px]`.
+          className="absolute left-1/2 top-[23px]"
+          xmlns="http://www.w3.org/2000/svg"
+          height="2"
+          fill="none"
+          role="figure"
+          style={{ width: 'calc(50% - 36px)' }}
+        >
+          <line
+            className={clsx(
+              'transition-[stroke-dasharray,stroke-color',
+              waitOver ? 'stroke-blue-250' : 'stroke-stroke',
+            )}
+            x1="1"
+            y1="1"
+            x2="999" /* Some arbitrary value greater than the max reasonable value. */
+            y2="1"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeDasharray="4 4"
+          />
+        </svg>
         <div className="flex flex-col items-center gap-1">
           <Step state={commitMade ? 'completed' : 'pending'} />
           <div className="text-xs text-gray-100">Commit</div>
@@ -119,6 +170,7 @@ const Step: FC<{
         height="24"
         viewBox="0 0 24 24"
         fill="none"
+        role="figure"
       >
         <circle
           className={clsx(
