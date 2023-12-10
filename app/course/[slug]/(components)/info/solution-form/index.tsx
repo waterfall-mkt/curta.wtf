@@ -305,7 +305,7 @@ const CourseInfoSolutionForm: FC<CourseInfoSolutionFormProps> = ({ course }) => 
         >
           Submit
         </Button>
-      ) : isHex(submission) ? (
+      ) : isHex(submission) && isSubmissionValid ? (
         /* 2-step submission button */
         <CourseInfoSolutionForm2StepSubmitButton bytecode={submission} course={course} />
       ) : (
