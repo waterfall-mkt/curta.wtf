@@ -48,18 +48,9 @@ const CourseInfoSolutionForm2StepSubmitButton: FC<CourseInfoSolutionForm2StepSub
   });
   const { data: getCommitData } = useContractRead({
     address: getChainInfo(course.chainId).golf,
-    abi: [
-      {
-        inputs: [{ internalType: 'bytes32', name: 'key', type: 'bytes32' }],
-        name: 'getCommit',
-        outputs: [
-          { internalType: 'address', name: 'player', type: 'address' },
-          { internalType: 'uint96', name: 'timestamp', type: 'uint96' },
-        ],
-        stateMutability: 'view',
-        type: 'function',
-      },
-    ],
+    chainId: course.chainId,
+    abi: CURTA_GOLF_ABI,
+    functionName: 'getCommit',
     args: [commitKey],
   });
 
@@ -224,7 +215,8 @@ const CourseInfoSolutionForm2StepSubmitButton: FC<CourseInfoSolutionForm2StepSub
     },
   });
 
-  if (getCommitData === undefined) {
+  // @ts-ignore
+  if (!getCommitData || Number(getCommitData[1]) === 0) {
     return (
       <Button
         type="submit"

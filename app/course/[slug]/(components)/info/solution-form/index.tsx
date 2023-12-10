@@ -138,7 +138,7 @@ const CourseInfoSolutionForm: FC<CourseInfoSolutionFormProps> = ({ course }) => 
     },
   });
 
-  const isSubmissionValid = submission.length > 0 && !simulationIsError;
+  const isSubmissionValid = submission.length > 0 && isHex(submission) && !simulationIsError;
   const toBeLeader =
     isSubmissionValid &&
     (course.leaderGas
@@ -167,7 +167,7 @@ const CourseInfoSolutionForm: FC<CourseInfoSolutionFormProps> = ({ course }) => 
           value={submission}
           onChange={(e) => setSubmission(e.target.value)}
           pattern="^0x[0-9a-fA-F]*$"
-          errorMessage="Bytecode must be hex-string"
+          errorMessage="Bytecode must be a hex-string"
         />
         <div className="flex w-full items-center justify-between text-sm">
           <div className="flex items-center gap-1 pl-[15px]">

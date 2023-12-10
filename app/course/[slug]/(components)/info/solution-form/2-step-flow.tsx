@@ -8,6 +8,7 @@ import { type Hash, zeroAddress } from 'viem';
 import { useAccount, useContractRead } from 'wagmi';
 
 import { getChainInfo, getGolfCommitKey } from '@/lib/utils';
+import { CURTA_GOLF_ABI } from '@/lib/constants/abi';
 
 // -----------------------------------------------------------------------------
 // Props
@@ -32,25 +33,23 @@ const CourseInfoSolutionForm2StepFlow: FC<CourseInfoSolutionForm2StepFlowProps> 
   // Set mounted.
   useEffect(() => setMounted(true), []);
 
+  const senderAddress = mounted ? address ?? zeroAddress : zeroAddress;
+  const commitKey = getGolfCommitKey({
+    address: senderAddress,
+    bytecode,
+  });
   const { data: getCommitData } = useContractRead({
     address: getChainInfo(chainId).golf,
-    abi: [
-      {
-        inputs: [{ internalType: 'bytes32', name: 'key', type: 'bytes32' }],
-        name: 'getCommit',
-        outputs: [
-          { internalType: 'address', name: 'player', type: 'address' },
-          { internalType: 'uint96', name: 'timestamp', type: 'uint96' },
-        ],
-        stateMutability: 'view',
-        type: 'function',
-      },
-    ],
-    args: [getGolfCommitKey({ address: mounted ? address ?? zeroAddress : zeroAddress, bytecode })],
+    chainId,
+    abi: CURTA_GOLF_ABI,
+    functionName: 'getCommit',
+    args: [commitKey], 
   });
-  const commitTimestamp = getCommitData !== undefined ? Number(getCommitData[1]) : undefined;
-  const commitMade = getCommitData !== undefined;
-  const waitOver = commitTimestamp !== undefined && 60 + commitTimestamp - Date.now() / 1000 <= 0;
+
+  // @ts-ignore
+  const commitTimestamp = getCommitData ? Number(getCommitData[1]) : undefined;
+  const commitMade = commitTimestamp !== undefined && commitTimestamp > 0;
+  const waitOver = commitMade && 60 + commitTimestamp - Date.now() / 1000 <= 0;
 
   return (
     <div className="flex w-full items-center justify-center rounded-b-lg border border-stroke p-2">
@@ -103,7 +102,7 @@ const CourseInfoSolutionForm2StepFlow: FC<CourseInfoSolutionForm2StepFlowProps> 
             y2="1"
             strokeWidth="2"
             strokeLinecap="round"
-            strokeDasharray="4 4"
+            strokeDasharray={waitOver ? undefined : '4 4'}
           />
         </svg>
         <div className="flex flex-col items-center gap-1">
@@ -117,7 +116,7 @@ const CourseInfoSolutionForm2StepFlow: FC<CourseInfoSolutionForm2StepFlowProps> 
           </div>
         </div>
         <div className="flex flex-col items-center gap-1">
-          <Step state="none" />
+          <Step state={waitOver ? 'pending' : 'none'} />
           <div className={clsx('text-xs', waitOver ? 'text-gray-100' : 'text-gray-200')}>
             Reveal
           </div>
@@ -142,7 +141,7 @@ const Countdown: FC<{ commitTimestamp?: number }> = ({ commitTimestamp }) => {
     return () => clearInterval(interval);
   }, [commitTimestamp]);
 
-  if (commitTimestamp === undefined) {
+  if (commitTimestamp === undefined || commitTimestamp === 0) {
     return <Step state="none">60</Step>;
   } else if (secondsLeft === undefined) {
     return <Step state="pending" />;
