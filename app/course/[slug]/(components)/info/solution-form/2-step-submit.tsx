@@ -215,7 +215,7 @@ const CourseInfoSolutionForm2StepSubmitButton: FC<CourseInfoSolutionForm2StepSub
     },
   });
 
-  // @ts-ignore
+  // @ts-expect-error
   if (!getCommitData || Number(getCommitData[1]) === 0) {
     return (
       <Button
