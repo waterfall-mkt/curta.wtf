@@ -1,3 +1,4 @@
+import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import type { ReactNode } from 'react';
 
@@ -7,6 +8,52 @@ import CourseTabs from './(components)/tabs-nav';
 import { fetchCourseById, getChainIdAndId } from '@/lib/utils';
 
 import ContainerLayout from '@/components/layouts/container';
+
+// -----------------------------------------------------------------------------
+// Metadata
+// -----------------------------------------------------------------------------
+
+const description = 'A king-of-the-hill style competition, where players optimize gas challenges.';
+
+export async function generateMetadata({
+  params,
+}: {
+  params: { slug: string };
+}): Promise<Metadata> {
+  const ids = getChainIdAndId(params.slug);
+  // Return empty object if `slug` is an invalid format.
+  if (!ids) return {};
+
+  const { data: course } = await fetchCourseById(ids.id, ids.chainId);
+  if (!course) return {};
+
+  const title = `Course #${course.id}`;
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title: `${title} | Curta`,
+      description,
+      siteName: 'curta.wtf',
+      url: 'https://curta.wtf',
+      locale: 'en_US',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `${title} | Curta`,
+      description,
+      site: '@curta_ctf',
+      siteId: '1604186457165406210',
+      creator: '@waterfall_mkt',
+      creatorId: '1466508083929223176',
+    },
+  };
+}
+
+// -----------------------------------------------------------------------------
+// Page
+// -----------------------------------------------------------------------------
 
 export default async function CourseLayout({
   params,

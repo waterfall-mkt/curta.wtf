@@ -25,10 +25,7 @@ const CourseTabs: FC<CourseTabsNavProps> = ({ slug, children }) => {
   return (
     <Tabs.Root defaultValue={pathname} activationMode="manual">
       <Tabs.List className="mx-auto mt-2 max-w-[90rem] border-none px-4 lg:px-20">
-        {[
-          { name: 'Golf', href: `/course/${normalizedSlug}` },
-          { name: 'Progression', href: `/course/${normalizedSlug}/progression` },
-        ].map(({ name, href }) => (
+        {[{ name: 'Golf', href: `/course/${normalizedSlug}` }].map(({ name, href }) => (
           <Tabs.Trigger
             key={href}
             id={`trigger-${href}`}
