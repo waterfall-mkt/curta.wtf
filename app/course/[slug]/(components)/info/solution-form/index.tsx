@@ -6,7 +6,7 @@ import CourseInfoSolutionForm2StepFlow from './2-step-flow';
 import CourseInfoSolutionForm2StepSubmitButton from './2-step-submit';
 import * as RadioGroup from '@radix-ui/react-radio-group';
 import clsx from 'clsx';
-import { ArrowDown, CheckCircle, Circle, Crown, ExternalLink } from 'lucide-react';
+import { AlertCircle, ArrowDown, CheckCircle, Circle, Crown, ExternalLink } from 'lucide-react';
 import { isHex } from 'viem';
 import {
   useAccount,
@@ -201,6 +201,8 @@ const CourseInfoSolutionForm: FC<CourseInfoSolutionFormProps> = ({ course }) => 
                     <Crown className="h-4 w-4 text-gold" />
                   ) : isSubmissionValid ? (
                     <CheckCircle className="h-4 w-4 text-tw-green" />
+                  ) : submission.length > 0 ? (
+                    <AlertCircle className="h-4 w-4 text-tw-red" />
                   ) : null}
                 </Tooltip>
                 {simulation?.result ? (simulation.result as number) : '—'}
