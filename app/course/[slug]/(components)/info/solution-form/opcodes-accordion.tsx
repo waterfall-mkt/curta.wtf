@@ -23,16 +23,13 @@ type CourseInfoSolutionFormOpcodesAccordionProps = {
 // Component
 // -----------------------------------------------------------------------------
 
-const CourseInfoSolutionFormOpcodesAccordion: FC<
-  CourseInfoSolutionFormOpcodesAccordionProps
-> = (/* {
+const CourseInfoSolutionFormOpcodesAccordion: FC<CourseInfoSolutionFormOpcodesAccordionProps> = ({
   allowedOpcodes,
-} */) => {
+}) => {
   const [scrollIsAtTop, setScrollIsAtTop] = useState<boolean>(true);
   const [scrollIsAtBottom, setScrollIsAtBottom] = useState<boolean>(false);
 
-  //const bannedOpcodesBitmap = ((1n << 256n) - 1n) ^ BigInt(allowedOpcodes);
-  const bannedOpcodesBitmap = ((1n << 256n) - 1n) ^ 0n;
+  const bannedOpcodesBitmap = ((1n << 256n) - 1n) ^ BigInt(allowedOpcodes);
   const [bannedOpcodes, bannedOpcodeNames, bannedOpcodesCount, numGroups] = useMemo(() => {
     let bannedOpcodesCount = 0;
     const bannedOpcodes: { [key: string]: { value: number; name: string }[] } = {};
