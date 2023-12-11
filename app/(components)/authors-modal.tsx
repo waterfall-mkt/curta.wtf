@@ -2,7 +2,7 @@
 
 import type { FC, ReactNode } from 'react';
 
-import type { Author } from '@/lib/types/protocol';
+import type { PartialUser } from '@/lib/types/protocol';
 
 import { Button, Modal } from '@/components/ui';
 
@@ -11,7 +11,7 @@ import { Button, Modal } from '@/components/ui';
 // ---------------------------------------–-------------------------------------
 
 type AuthorsModalProps = {
-  data: Author[];
+  data: PartialUser[];
   children: ReactNode;
 };
 

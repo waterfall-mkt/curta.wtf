@@ -2,7 +2,7 @@
 
 import type { FC, KeyboardEventHandler, ReactNode } from 'react';
 
-import type { Author } from '@/lib/types/protocol';
+import type { PartialUser } from '@/lib/types/protocol';
 import { getChainInfo } from '@/lib/utils';
 
 import UserHoverCard from '@/components/templates/user-hover-card';
@@ -12,7 +12,7 @@ import UserHoverCard from '@/components/templates/user-hover-card';
 // ---------------------------------------–-------------------------------------
 
 type AuthorAvatarProps = {
-  author: Author;
+  author: PartialUser;
   index: number;
   children: ReactNode;
 };

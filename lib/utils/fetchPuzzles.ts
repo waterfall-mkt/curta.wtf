@@ -4,7 +4,7 @@ import type { PostgrestError } from '@supabase/supabase-js';
 
 import supabase from '@/lib/services/supabase';
 import type { DbPuzzle } from '@/lib/types/api';
-import type { Author, Puzzle } from '@/lib/types/protocol';
+import type { PartialUser, Puzzle } from '@/lib/types/protocol';
 
 type PuzzlesResponse = {
   data: Puzzle[];
@@ -38,7 +38,7 @@ const fetchPuzzles = async (): Promise<PuzzlesResponse> => {
       chainId: puzzle.chainId,
       // Puzzle static information
       address: puzzle.address,
-      author: { ...puzzle.author } as Author,
+      author: { ...puzzle.author } as PartialUser,
       name: puzzle.name,
       // Puzzle dynamic information
       numberSolved: puzzle.numberSolved,

@@ -1,4 +1,5 @@
 import fetchAuthors from './fetchAuthors';
+import fetchCourseById from './fetchCourseById';
 import fetchEvents from './fetchEvents';
 import fetchLeaderboardPuzzles from './fetchLeaderboardPuzzles';
 import fetchPuzzleById from './fetchPuzzleById';
@@ -12,6 +13,7 @@ import formatValueToPrecision from './formatValueToPrecision';
 import getBaseMetadata from './getBaseMetadata';
 import getChainIdAndId from './getChainIdAndId';
 import getChainInfo from './getChainInfo';
+import getGolfCommitKey from './getGolfCommitKey';
 import getPublicClient from './getPublicClient';
 import getPuzzleTimeLeft from './getPuzzleTimeLeft';
 import getShortenedAddress from './getShortenedAddress';
@@ -19,6 +21,7 @@ import getTimeLeftString from './getTimeLeftString';
 
 export {
   fetchAuthors,
+  fetchCourseById,
   fetchEvents,
   fetchLeaderboardPuzzles,
   fetchPuzzleById,
@@ -31,6 +34,7 @@ export {
   formatValueToPrecision,
   getBaseMetadata,
   getChainInfo,
+  getGolfCommitKey,
   getChainIdAndId,
   getPublicClient,
   getPuzzleTimeLeft,
