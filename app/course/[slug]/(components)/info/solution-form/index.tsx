@@ -4,6 +4,7 @@ import { type FC, useEffect, useState } from 'react';
 
 import CourseInfoSolutionForm2StepFlow from './2-step-flow';
 import CourseInfoSolutionForm2StepSubmitButton from './2-step-submit';
+import CourseInfoSolutionFormOpcodesAccordion from './opcodes-accordion';
 import * as RadioGroup from '@radix-ui/react-radio-group';
 import clsx from 'clsx';
 import { AlertCircle, ArrowDown, CheckCircle, Circle, Crown, ExternalLink } from 'lucide-react';
@@ -159,6 +160,7 @@ const CourseInfoSolutionForm: FC<CourseInfoSolutionFormProps> = ({ course }) => 
 
   return (
     <div className="flex w-full flex-col items-center gap-3 p-4">
+      <CourseInfoSolutionFormOpcodesAccordion allowedOpcodes={course.allowedOpcodes} />
       <div className="flex w-full flex-col gap-2">
         <Input
           className="h-10 w-full"
