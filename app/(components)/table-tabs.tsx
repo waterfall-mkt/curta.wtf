@@ -2,6 +2,7 @@
 
 import type { FC } from 'react';
 
+import CourseTable from './courses-table';
 import PuzzleTable from './puzzles-table';
 import clsx from 'clsx';
 import { twMerge } from 'tailwind-merge';
@@ -24,7 +25,7 @@ type HomeTableTabsProps = {
 // Children
 // -----------------------------------------------------------------------------
 
-const HomeTableTabs: FC<HomeTableTabsProps> = ({ className, puzzles }) => {
+const HomeTableTabs: FC<HomeTableTabsProps> = ({ className, puzzles, courses }) => {
   const TABS = ['Puzzles', 'Golf'];
 
   return (
@@ -44,7 +45,7 @@ const HomeTableTabs: FC<HomeTableTabsProps> = ({ className, puzzles }) => {
             <PuzzleTable data={puzzles} />
           </Tabs.Content>
           <Tabs.Content className="focus-visible:rounded-b-[1.25rem]" value={TABS[1]}>
-            TODO
+            <CourseTable data={courses} />
           </Tabs.Content>
         </Card.Body>
       </Card>
