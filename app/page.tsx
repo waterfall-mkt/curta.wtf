@@ -4,7 +4,7 @@ import AuthorsDisplay from './(components)/authors-display';
 import LinksDisplay from './(components)/links-display';
 import HomeTableTabs from './(components)/table-tabs';
 
-import { fetchAuthors, fetchPuzzles } from '@/lib/utils';
+import { fetchAuthors, fetchCourses, fetchPuzzles } from '@/lib/utils';
 
 import PhaseTable from '@/components/common/phase-table';
 import ContainerLayout from '@/components/layouts/container';
@@ -41,9 +41,10 @@ export const metadata: Metadata = {
 // -----------------------------------------------------------------------------
 
 export default async function Home() {
-  const [{ data: authors }, { data: puzzles }] = await Promise.all([
+  const [{ data: authors }, { data: puzzles }, { data: courses }] = await Promise.all([
     fetchAuthors(),
     fetchPuzzles(),
+    fetchCourses(),
   ]);
 
   return (
@@ -78,7 +79,7 @@ export default async function Home() {
           </div>
           <PhaseTable className="mt-8 lg:ml-32 lg:mt-0" />
         </div>
-        <HomeTableTabs className="mt-12 w-full md:mt-16" puzzles={puzzles} courses={[]} />
+        <HomeTableTabs className="mt-12 w-full md:mt-16" puzzles={puzzles} courses={courses} />
       </ContainerLayout>
     </div>
   );
