@@ -30,7 +30,7 @@ const CourseHeaderPageNav: FC<CourseHeaderPageNavProps> = ({ prevCourse, nextCou
         intent="neutral"
         variant="outline"
         disabled={!prevCourse}
-        href={prevCourse ? `/course/${prevCourse.chainId}:${prevCourse.id}` : undefined}
+        href={prevCourse ? `/golf/${prevCourse.chainId}:${prevCourse.id}` : undefined}
         aria-label="Navigate to previous course on the same chain."
       >
         <ChevronLeft />
@@ -41,7 +41,7 @@ const CourseHeaderPageNav: FC<CourseHeaderPageNavProps> = ({ prevCourse, nextCou
         size="lg"
         variant="outline"
         disabled={!nextCourse}
-        href={nextCourse ? `/course/${nextCourse.chainId}:${nextCourse.id}` : undefined}
+        href={nextCourse ? `/golf/${nextCourse.chainId}:${nextCourse.id}` : undefined}
         aria-label="Navigate to next course on the same chain."
       >
         <ChevronRight />
