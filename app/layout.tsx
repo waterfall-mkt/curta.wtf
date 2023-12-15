@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Inter, Poppins } from 'next/font/google';
+import { Inter } from 'next/font/google';
 import type { ReactNode } from 'react';
 
 import '@rainbow-me/rainbowkit/styles.css';
@@ -24,12 +24,6 @@ const inter = Inter({
   display: 'swap',
 });
 
-const poppins = Poppins({
-  variable: '--poppins-font',
-  weight: ['600'],
-  subsets: ['latin'],
-});
-
 // -----------------------------------------------------------------------------
 // Metadata
 // -----------------------------------------------------------------------------
@@ -52,7 +46,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en" className={clsx('dark', inter.className)} style={{ background: '#0D1017' }}>
-      <body className={clsx(inter.variable, poppins.variable)}>
+      <body className={inter.variable}>
         <Web3Provider>
           <NavBar />
           <main className="relative flex w-full grow">{children}</main>

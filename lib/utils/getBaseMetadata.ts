@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 
 const getBaseMetadata = ({
   title,
-  description = 'Curta is a CTF protocol, where players create and solve EVM puzzles to earn NFTs.',
+  description = 'Curta is a talent discovery competition platform and community of protocol engineers.',
   titleTemplate = '%s | Curta',
   image,
 }: {
