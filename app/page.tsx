@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 
 import AuthorsDisplay from './(components)/authors-display';
 import LinksDisplay from './(components)/links-display';
-import PuzzleTable from './(components)/puzzles-table';
+import HomeTableTabs from './(components)/table-tabs';
 
 import { fetchAuthors, fetchPuzzles } from '@/lib/utils';
 
@@ -78,10 +78,7 @@ export default async function Home() {
           </div>
           <PhaseTable className="mt-8 lg:ml-32 lg:mt-0" />
         </div>
-        <div className="mt-12 w-full md:mt-16">
-          <h2 className="mb-4 text-2xl font-bold tracking-tighter text-gray-50">Puzzles</h2>
-          <PuzzleTable data={puzzles} />
-        </div>
+        <HomeTableTabs className="mt-12 w-full md:mt-16" puzzles={puzzles} courses={[]} />
       </ContainerLayout>
     </div>
   );

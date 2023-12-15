@@ -156,6 +156,8 @@ const PuzzleTableDesktop: FC<PuzzleTableInternalProps> = ({ data, sorting, setSo
       sorting={sorting}
       setSorting={setSorting}
       getRowRoute={getRowRoute}
+      topRounded={false}
+      noBorder
     />
   );
 };
@@ -207,6 +209,8 @@ const PuzzleTableMobile: FC<PuzzleTableInternalProps> = ({ data, sorting, setSor
       setSorting={setSorting}
       renderSubComponent={({ row }) => <PuzzleTableMobileSubComponent data={row.original} />}
       getRowRoute={getRowRoute}
+      topRounded={false}
+      noBorder
     />
   );
 };
