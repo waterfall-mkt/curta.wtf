@@ -20,14 +20,14 @@ export async function generateMetadata({
 }: {
   params: { slug: string };
 }): Promise<Metadata> {
-  const ids = getChainIdAndId(params.slug);
+  const ids = getChainIdAndId(params.slug, 8453);
   // Return empty object if `slug` is an invalid format.
   if (!ids) return {};
 
   const { data: course } = await fetchCourseById(ids.id, ids.chainId);
   if (!course) return {};
 
-  const title = `Course #${course.id}`;
+  const title = `Golf Course #${course.id}`;
 
   return {
     title,
@@ -62,7 +62,7 @@ export default async function CourseLayout({
   params: { slug: string };
   children: ReactNode;
 }) {
-  const ids = getChainIdAndId(params.slug);
+  const ids = getChainIdAndId(params.slug, 8453);
 
   // Return 404 if `slug` is an invalid format.
   if (!ids) return notFound();
@@ -78,7 +78,12 @@ export default async function CourseLayout({
   return (
     <ContainerLayout className="max-w-none px-0 pt-4 lg:px-0 lg:pt-6">
       <CourseHeader course={course} />
-      <CourseTabs slug={params.slug}>{children}</CourseTabs>
+      <CourseTabs
+        slug={params.slug}
+        hasDescription={course.description ? course.description.length > 0 : false}
+      >
+        {children}
+      </CourseTabs>
     </ContainerLayout>
   );
 }

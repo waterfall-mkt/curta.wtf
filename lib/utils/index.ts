@@ -1,5 +1,8 @@
 import fetchAuthors from './fetchAuthors';
 import fetchCourseById from './fetchCourseById';
+import fetchCourseLeaderboardById from './fetchCourseLeaderboardById';
+import fetchCourseLeadingSolvesById from './fetchCourseLeadingSolvesById';
+import fetchCourses from './fetchCourses';
 import fetchEvents from './fetchEvents';
 import fetchLeaderboardPuzzles from './fetchLeaderboardPuzzles';
 import fetchPuzzleById from './fetchPuzzleById';
@@ -22,6 +25,9 @@ import getTimeLeftString from './getTimeLeftString';
 export {
   fetchAuthors,
   fetchCourseById,
+  fetchCourseLeaderboardById,
+  fetchCourseLeadingSolvesById,
+  fetchCourses,
   fetchEvents,
   fetchLeaderboardPuzzles,
   fetchPuzzleById,

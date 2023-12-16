@@ -156,6 +156,8 @@ const PuzzleTableDesktop: FC<PuzzleTableInternalProps> = ({ data, sorting, setSo
       sorting={sorting}
       setSorting={setSorting}
       getRowRoute={getRowRoute}
+      topRounded={false}
+      noBorder
     />
   );
 };
@@ -184,7 +186,7 @@ const PuzzleTableMobile: FC<PuzzleTableInternalProps> = ({ data, sorting, setSor
       },
       {
         accessorKey: 'numberSolved',
-        header: () => <div className="ml-auto">Solvers</div>,
+        header: () => <div className="ml-auto">Optimizers</div>,
         cell: ({ row }) => <div className="flex justify-end">{row.original.numberSolved}</div>,
         footer: (props) => props.column.id,
       },
@@ -207,6 +209,8 @@ const PuzzleTableMobile: FC<PuzzleTableInternalProps> = ({ data, sorting, setSor
       setSorting={setSorting}
       renderSubComponent={({ row }) => <PuzzleTableMobileSubComponent data={row.original} />}
       getRowRoute={getRowRoute}
+      topRounded={false}
+      noBorder
     />
   );
 };

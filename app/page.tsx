@@ -2,9 +2,9 @@ import type { Metadata } from 'next';
 
 import AuthorsDisplay from './(components)/authors-display';
 import LinksDisplay from './(components)/links-display';
-import PuzzleTable from './(components)/puzzles-table';
+import HomeTableTabs from './(components)/table-tabs';
 
-import { fetchAuthors, fetchPuzzles } from '@/lib/utils';
+import { fetchAuthors, fetchCourses, fetchPuzzles } from '@/lib/utils';
 
 import PhaseTable from '@/components/common/phase-table';
 import ContainerLayout from '@/components/layouts/container';
@@ -13,13 +13,14 @@ import ContainerLayout from '@/components/layouts/container';
 // Metadata
 // -----------------------------------------------------------------------------
 
-const description = 'A CTF protocol, where players create and solve EVM puzzles to earn NFTs.';
+const description =
+  'Curta is a talent discovery competition platform and community of protocol engineers.';
 
 export const metadata: Metadata = {
   title: 'Curta',
   description,
   openGraph: {
-    title: 'Curta, a CTF protocol',
+    title: 'Curta, a competitive talent discovery platform',
     description,
     siteName: 'curta.wtf',
     url: 'https://curta.wtf',
@@ -40,9 +41,10 @@ export const metadata: Metadata = {
 // -----------------------------------------------------------------------------
 
 export default async function Home() {
-  const [{ data: authors }, { data: puzzles }] = await Promise.all([
+  const [{ data: authors }, { data: puzzles }, { data: courses }] = await Promise.all([
     fetchAuthors(),
     fetchPuzzles(),
+    fetchCourses(),
   ]);
 
   return (
@@ -65,10 +67,10 @@ export default async function Home() {
         <div className="flex flex-col lg:flex-row">
           <div className="flex flex-col space-y-8">
             <div>
-              <h1 className="font-poppins text-5xl font-semibold leading-[6rem] tracking-tighter text-gray-50">
-                Curta CTF
+              <h1 className="text-5xl font-semibold leading-[6rem] tracking-tight text-gray-50">
+                Curta
               </h1>
-              <div className="text-xl text-gray-150 md:text-2xl">{description}</div>
+              <div className="text-xl leading-normal text-gray-150 md:text-2xl">{description}</div>
             </div>
             <div className="flex flex-col space-y-4 sm:flex-row sm:space-x-8 sm:space-y-0">
               <AuthorsDisplay data={authors} />
@@ -77,10 +79,7 @@ export default async function Home() {
           </div>
           <PhaseTable className="mt-8 lg:ml-32 lg:mt-0" />
         </div>
-        <div className="mt-12 w-full md:mt-16">
-          <h2 className="mb-4 text-2xl font-bold tracking-tighter text-gray-50">Puzzles</h2>
-          <PuzzleTable data={puzzles} />
-        </div>
+        <HomeTableTabs className="mt-12 w-full md:mt-16" puzzles={puzzles} courses={courses} />
       </ContainerLayout>
     </div>
   );

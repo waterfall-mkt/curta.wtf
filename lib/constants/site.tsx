@@ -52,7 +52,7 @@ export const FOOTER_PAGES: Page[] = [
  * Pages displayed on [**curta.wtf**](https://curta.wtf)'s navigation bar.
  */
 export const NAVBAR_PAGES: Page[] = [
-  { name: 'Puzzles', slug: '/' },
+  { name: 'Home', slug: '/' },
   { name: 'Leaderboard', slug: '/leaderboard' },
   { name: 'Docs', slug: '/docs' },
 ];

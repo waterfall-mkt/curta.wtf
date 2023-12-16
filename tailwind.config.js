@@ -60,7 +60,6 @@ module.exports = {
       },
       fontFamily: {
         sans: ['var(--inter-font)', ...fontFamily.sans],
-        poppins: ['var(--poppins-font)'],
       },
       fontSize: {
         xs: ['0.75rem', { lineHeight: '1rem' }],

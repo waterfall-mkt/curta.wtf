@@ -143,6 +143,65 @@ export type GolfCourse = {
   addedTx: Hash;
 };
 
+/**
+ * Type for an object representing a [**Curta Golf Course**](https://www.curta.wtf/docs/golf/overview).
+ * @param courseId The ID of the course the solve is for.
+ * @param chainId The ID of the chain the course is on.
+ * @param solver The user that solved the course.
+ * @param gasUsed The gas used by the solver's solution.
+ * @param target The address of the solver's deployed solution.
+ * @param solution The bytecode of the solution.
+ * @param submitBlock The block number the solution was submitted at.
+ * @param submitTimestamp The blockchain timestamp the solution was submitted
+ * at.
+ * @param submitTx The transaction hash of the transaction that submitted the
+ * solution to the course.
+ * @param isRecord Whether or not the solution set a new record at the time of
+ * submission.
+ * @param gasDiff The difference in gas between the submitted solution and the
+ * previous record.
+ */
+export type GolfCourseSolve = {
+  // Identifier
+  courseId: number;
+  chainId: number;
+  solver: PartialUser;
+  submitTx: Hash;
+  // Solve information
+  gasUsed: number;
+  target: Address;
+  solution: Hash;
+  submitBlock: number;
+  submitTimestamp: number;
+  isRecord?: boolean;
+  // Metadata
+  gasDiff?: number;
+};
+
+/**
+ * Type for an object representing a [**Curta Golf Course**](https://www.curta.wtf/docs/golf/overview)
+ * solver.
+ * @param courseId The ID of the course the solve is for.
+ * @param chainId The ID of the chain the course is on.
+ * @param solver The user that solved the course.
+ * @param gasUsed The gas used by the solver's solution.
+ * @param target The address of the solver's deployed solution.
+ * @param solution The bytecode of the solution.
+ * @param submitBlock The block number the solution was submitted at.
+ * @param submitTimestamp The blockchain timestamp the solution was submitted
+ * at.
+ * @param submitTx The transaction hash of the transaction that submitted the
+ * solution to the course.
+ * @param isRecord Whether or not the solution set a new record at the time of
+ * submission.
+ * @param gasDiff The difference in gas between the submitted solution and the
+ * previous record.
+ * @param rank The rank of the solver on the [**Curta Golf leaderboard**](https://www.curta.wtf/docs/leaderboard#curta-golf).
+ */
+export type GolfCourseSolver = GolfCourseSolve & {
+  rank: number;
+};
+
 // -----------------------------------------------------------------------------
 // Curta Puzzles types
 // -----------------------------------------------------------------------------

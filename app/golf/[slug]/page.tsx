@@ -10,7 +10,7 @@ import { fetchCourseById, getChainIdAndId } from '@/lib/utils';
 // -----------------------------------------------------------------------------
 
 export default async function Page({ params }: { params: { slug: string } }) {
-  const ids = getChainIdAndId(params.slug);
+  const ids = getChainIdAndId(params.slug, 8453);
 
   // Return 404 if `slug` is an invalid format.
   if (!ids) return notFound();
@@ -31,10 +31,10 @@ export default async function Page({ params }: { params: { slug: string } }) {
 
   return (
     <div
-      id={`content-/course/${normalizedSlug}`}
+      id={`content-/golf/${normalizedSlug}`}
       className="mx-auto mt-4 flex max-w-[90rem] flex-col gap-4 px-4 md:flex-row md:gap-6 lg:px-20"
       role="tabpanel"
-      aria-labelledby={`trigger-/course/${normalizedSlug}`}
+      aria-labelledby={`trigger-/golf/${normalizedSlug}`}
     >
       <CourseProblemDisplay course={course} languages={languages} />
       <CourseInfo course={course} />
