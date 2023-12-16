@@ -20,7 +20,7 @@ export async function generateMetadata({
 }: {
   params: { slug: string };
 }): Promise<Metadata> {
-  const ids = getChainIdAndId(params.slug);
+  const ids = getChainIdAndId(params.slug, 8453);
   // Return empty object if `slug` is an invalid format.
   if (!ids) return {};
 
@@ -62,7 +62,7 @@ export default async function CourseLayout({
   params: { slug: string };
   children: ReactNode;
 }) {
-  const ids = getChainIdAndId(params.slug);
+  const ids = getChainIdAndId(params.slug, 8453);
 
   // Return 404 if `slug` is an invalid format.
   if (!ids) return notFound();

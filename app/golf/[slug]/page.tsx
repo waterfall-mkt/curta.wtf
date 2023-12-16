@@ -10,7 +10,7 @@ import { fetchCourseById, getChainIdAndId } from '@/lib/utils';
 // -----------------------------------------------------------------------------
 
 export default async function Page({ params }: { params: { slug: string } }) {
-  const ids = getChainIdAndId(params.slug);
+  const ids = getChainIdAndId(params.slug, 8453);
 
   // Return 404 if `slug` is an invalid format.
   if (!ids) return notFound();
