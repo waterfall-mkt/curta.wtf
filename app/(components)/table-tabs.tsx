@@ -1,5 +1,6 @@
 'use client';
 
+import { useSearchParams } from 'next/navigation';
 import type { FC } from 'react';
 
 import CourseTable from './courses-table';
@@ -26,27 +27,33 @@ type HomeTableTabsProps = {
 // -----------------------------------------------------------------------------
 
 const HomeTableTabs: FC<HomeTableTabsProps> = ({ className, puzzles, courses }) => {
-  const TABS = ['Puzzles', 'Golf'];
+  const searchParams = useSearchParams();
+
+  const tabs = [
+    { name: 'Puzzles', value: 'puzzles', content: <PuzzleTable data={puzzles} /> },
+    { name: 'Golf', value: 'golf', content: <CourseTable data={courses} /> },
+  ];
+
+  const defaultValue = searchParams.get('tab')?.toLowerCase() ?? tabs[0].value;
 
   return (
-    <Tabs.Root defaultValue={TABS[0]}>
+    <Tabs.Root defaultValue={defaultValue}>
       <Card className={twMerge(clsx('rounded-t-2xl', className))}>
         <Card.Header className="flex h-11 items-center gap-3" noPadding>
           <Tabs.List className="border-none pl-2 md:pl-3">
-            {TABS.map((item) => (
-              <Tabs.Trigger key={item} value={item}>
-                {item}
+            {tabs.map(({ name, value }) => (
+              <Tabs.Trigger key={value} value={value}>
+                {name}
               </Tabs.Trigger>
             ))}
           </Tabs.List>
         </Card.Header>
         <Card.Body noPadding>
-          <Tabs.Content className="focus-visible:rounded-b-[1.25rem]" value={TABS[0]}>
-            <PuzzleTable data={puzzles} />
-          </Tabs.Content>
-          <Tabs.Content className="focus-visible:rounded-b-[1.25rem]" value={TABS[1]}>
-            <CourseTable data={courses} />
-          </Tabs.Content>
+          {tabs.map(({ value, content }) => (
+            <Tabs.Content key={value} className="focus-visible:rounded-b-[1.25rem]" value={value}>
+              {content}
+            </Tabs.Content>
+          ))}
         </Card.Body>
       </Card>
     </Tabs.Root>
