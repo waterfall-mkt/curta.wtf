@@ -49,7 +49,7 @@ const getChainInfo = (chainId: number): ChainInfo => {
       logo: LogoIcon.Base,
       blockExplorer: 'basescan.org',
       // Curta Golf-specific
-      golf: '0x537b3d527ef128bbb9a7d4fd68a40ba1122ff9d3',
+      golf: '0xb8d97b24935c70cd931bbc6150e2596570997ce9',
       // Curta Puzzles-specific
       puzzles: '0x00000000D1329c5cd5386091066d49112e590969',
       teamRegistry: '0xfacade0bcaebb9b48bd1f613d2fd9b9865a3e61d',

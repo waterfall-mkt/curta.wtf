@@ -56,12 +56,12 @@ const nextConfig = {
     },
     {
       source: '/(8453|base)\\:(golf|king)',
-      destination: 'https://basescan.org/address/0x537b3D527Ef128Bbb9A7d4fD68A40BA1122ff9D3',
+      destination: 'https://basescan.org/address/0xb8d97B24935C70cD931bbc6150e2596570997cE9',
       permanent: true,
     },
     {
       source: '/(8453|base)\\:(par)',
-      destination: 'https://basescan.org/address/0x33387c2bd677e716a42AAeE357dD77f3b733Ae85',
+      destination: 'https://basescan.org/address/0x6B780314f95452E37D88A2F950Bbd3885851fD10',
       permanent: true,
     },
   ],
