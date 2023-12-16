@@ -20,8 +20,6 @@ export default async function Page({ params }: { params: { slug: string } }) {
 
   const normalizedSlug = decodeURIComponent(params.slug.toLowerCase());
 
-  // sleep 100 seconds.
-  await new Promise((resolve) => setTimeout(resolve, 100000));
   return (
     <div
       id={`content-/golf/${normalizedSlug}/leaderboard`}
