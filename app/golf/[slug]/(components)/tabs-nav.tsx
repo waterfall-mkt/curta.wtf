@@ -27,8 +27,8 @@ const CourseTabs: FC<CourseTabsNavProps> = ({ slug, children }) => {
       <Tabs.List className="sticky top-14 z-popover mx-auto mt-2 max-w-[90rem] border-none bg-gray-900 px-4 lg:top-[4.5rem] lg:px-20">
         {[
           { name: 'Golf', href: `/golf/${normalizedSlug}` },
-          { name: 'Progression', href: `/golf/${normalizedSlug}/progression` },
           { name: 'Leaderboard', href: `/golf/${normalizedSlug}/leaderboard` },
+          { name: 'Progression', href: `/golf/${normalizedSlug}/progression` },
         ].map(({ name, href }) => (
           <Tabs.Trigger
             key={href}

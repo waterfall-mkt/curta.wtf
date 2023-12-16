@@ -1,8 +1,8 @@
 import { notFound } from 'next/navigation';
 
-import CourseProgressionTable from './(components)/table';
+import CourseLeaderboardTable from './(components)/table';
 
-import { fetchCourseLeadingSolvesById, getChainIdAndId } from '@/lib/utils';
+import { fetchCourseLeaderboardById, getChainIdAndId } from '@/lib/utils';
 
 // -----------------------------------------------------------------------------
 // Page
@@ -16,18 +16,20 @@ export default async function Page({ params }: { params: { slug: string } }) {
 
   const { chainId, id } = ids;
 
-  const { data: solves } = await fetchCourseLeadingSolvesById(id, chainId);
+  const { data: solves } = await fetchCourseLeaderboardById(id, chainId);
 
   const normalizedSlug = decodeURIComponent(params.slug.toLowerCase());
 
+  // sleep 100 seconds.
+  await new Promise((resolve) => setTimeout(resolve, 100000));
   return (
     <div
-      id={`content-/golf/${normalizedSlug}/progression`}
+      id={`content-/golf/${normalizedSlug}/leaderboard`}
       className="mx-auto mt-4 flex max-w-[90rem] flex-col gap-4 px-4 md:gap-6 lg:px-20"
       role="tabpanel"
-      aria-labelledby={`trigger-/golf/${normalizedSlug}/progression`}
+      aria-labelledby={`trigger-/golf/${normalizedSlug}/leaderboard`}
     >
-      <CourseProgressionTable data={solves} />
+      <CourseLeaderboardTable data={solves} />
     </div>
   );
 }
