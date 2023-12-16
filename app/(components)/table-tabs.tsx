@@ -22,7 +22,7 @@ type HomeTableTabsProps = {
 };
 
 // -----------------------------------------------------------------------------
-// Children
+// Component
 // -----------------------------------------------------------------------------
 
 const HomeTableTabs: FC<HomeTableTabsProps> = ({ className, puzzles, courses }) => {
@@ -32,7 +32,7 @@ const HomeTableTabs: FC<HomeTableTabsProps> = ({ className, puzzles, courses }) 
     <Tabs.Root defaultValue={TABS[0]}>
       <Card className={twMerge(clsx('rounded-t-2xl', className))}>
         <Card.Header className="flex h-11 items-center gap-3" noPadding>
-          <Tabs.List className="border-none pl-2 md:pl-2">
+          <Tabs.List className="border-none pl-2 md:pl-3">
             {TABS.map((item) => (
               <Tabs.Trigger key={item} value={item}>
                 {item}
