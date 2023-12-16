@@ -91,7 +91,7 @@ const CourseLeaderboardTableDesktop: FC<CourseLeaderboardTableInternalProps> = (
       },
       {
         accessorKey: 'target',
-        header: () => 'Solution',
+        header: () => 'Submission',
         cell: ({ row }) => {
           return (
             <div className="flex justify-end">
@@ -110,7 +110,7 @@ const CourseLeaderboardTableDesktop: FC<CourseLeaderboardTableInternalProps> = (
                     '_blank',
                   );
                 }}
-                aria-label={`View ${row.original.solver.address}'s solution of puzzle ${row.original.courseId} on chain ${row.original.chainId}.`}
+                aria-label={`View ${row.original.solver.address}'s submission of puzzle ${row.original.courseId} on chain ${row.original.chainId}.`}
               >
                 <ExternalLink />
               </IconButton>
@@ -170,7 +170,7 @@ const CourseLeaderboardTableMobile: FC<CourseLeaderboardTableInternalProps> = ({
       },
       {
         accessorKey: 'target',
-        header: () => 'Solution',
+        header: () => 'Submission',
         cell: ({ row }) => {
           return (
             <div className="flex justify-end">

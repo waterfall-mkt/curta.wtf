@@ -108,7 +108,7 @@ const CourseProgressionTableMobileSkeleton: FC = () => {
       },
       {
         accessorKey: 'target',
-        header: () => 'Solution',
+        header: () => 'Submission',
         cell: () => (
           <div className="flex justify-end">
             <IconButton variant="outline" intent="neutral" disabled>

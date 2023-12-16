@@ -83,7 +83,7 @@ const CourseTableDesktop: FC<CourseTableInternalProps> = ({ data, sorting, setSo
       },
       {
         accessorKey: 'numSolved',
-        header: () => <div className="ml-auto">Solvers</div>,
+        header: () => <div className="ml-auto">Optimizers</div>,
         cell: ({ row }) => <div className="flex justify-end">{row.original.numSolved}</div>,
         footer: (props) => props.column.id,
       },

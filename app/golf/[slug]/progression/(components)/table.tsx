@@ -176,7 +176,7 @@ const CourseProgressionTableMobile: FC<CourseProgressionTableInternalProps> = ({
       },
       {
         accessorKey: 'target',
-        header: () => 'Solution',
+        header: () => 'Submission',
         cell: ({ row }) => {
           return (
             <div className="flex justify-end">
@@ -195,7 +195,7 @@ const CourseProgressionTableMobile: FC<CourseProgressionTableInternalProps> = ({
                     '_blank',
                   );
                 }}
-                aria-label={`View ${row.original.solver.address}'s solution of puzzle ${row.original.courseId} on chain ${row.original.chainId}.`}
+                aria-label={`View ${row.original.solver.address}'s submission of puzzle ${row.original.courseId} on chain ${row.original.chainId}.`}
               >
                 <ExternalLink />
               </IconButton>
