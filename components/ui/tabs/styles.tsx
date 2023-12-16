@@ -6,16 +6,19 @@ export const tabsContentStyles = [
 ];
 
 export const tabsListStyles = [
+  'hide-scrollbar',
   'flex',
   'border-stroke',
   'data-[orientation=horizontal]:h-11',
   'data-[orientation=horizontal]:items-center',
   'data-[orientation=horizontal]:border-b',
   'data-[orientation=horizontal]:gap-3',
+  'data-[orientation=horizontal]:overflow-x-scroll',
   'data-[orientation=vertical]:items-start',
   'data-[orientation=vertical]:flex-col',
   'data-[orientation=vertical]:border-r',
   'data-[orientation=vertical]:gap-1',
+  'data-[orientation=vertica,]:overflow-y-scroll',
 ];
 
 export const tabsTriggerContentStyles = [
