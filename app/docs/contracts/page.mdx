@@ -68,3 +68,34 @@ Below are the deployments of the contracts for [Curta Puzzles](/docs/puzzles/ove
 <Callout intent='primary'>
   The contracts are open-sourced on GitHub: [waterfall-mkt/curta](https://github.com/waterfall-mkt/curta).
 </Callout>
+
+## Curta Golf
+
+Below are the deployments of the contracts for [Curta Golf](/docs/golf/overview).
+
+<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-4 min-[1120px]:grid-cols-2 min-[1420px]:grid-cols-3">
+  {[
+    {
+      name: 'Curta Golf/Flag',
+      description: 'Golf + King NFT contract.',
+      href: 'https://basescan.org/address/0x537b3d527ef128bbb9a7d4fd68a40ba1122ff9d3',
+      icon: <LogoIcon.Base />
+    },
+    {
+      name: 'Par Token',
+      description: 'Par NFT contract.',
+      href: 'https://basescan.org/address/0x33387c2bd677e716a42aaee357dd77f3b733ae85',
+      icon: <LogoIcon.Base />
+    },
+    {
+      name: 'Purity Checker',
+      description: 'Bytecode purity checker.',
+      href: 'https://basescan.org/address/0xe03bbdb59444581f54f6823f0091fdf738e3ce62',
+      icon: <LogoIcon.Base />
+    },
+  ].map((item) => <LinkFeature key={item.href} {...item} />)}
+</div>
+
+<Callout intent='primary'>
+  The contracts are open-sourced on GitHub: [waterfall-mkt/curta-golf](https://github.com/waterfall-mkt/curta-golf).
+</Callout>

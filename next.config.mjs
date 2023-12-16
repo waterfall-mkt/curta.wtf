@@ -54,6 +54,16 @@ const nextConfig = {
       destination: 'https://basescan.org/address/0xC0FFEE8b8e502403e51f37030E32c52bA4b37f7d',
       permanent: true,
     },
+    {
+      source: '/(8453|base)\\:(golf|king)',
+      destination: 'https://basescan.org/address/0x537b3D527Ef128Bbb9A7d4fD68A40BA1122ff9D3',
+      permanent: true,
+    },
+    {
+      source: '/(8453|base)\\:(par)',
+      destination: 'https://basescan.org/address/0x33387c2bd677e716a42AAeE357dD77f3b733Ae85',
+      permanent: true,
+    },
   ],
   webpack: (config) => {
     config.externals.push('pino-pretty', 'lokijs', 'encoding');
