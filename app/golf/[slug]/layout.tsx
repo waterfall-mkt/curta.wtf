@@ -27,7 +27,7 @@ export async function generateMetadata({
   const { data: course } = await fetchCourseById(ids.id, ids.chainId);
   if (!course) return {};
 
-  const title = `Course #${course.id}`;
+  const title = `Golf Course #${course.id}`;
 
   return {
     title,
