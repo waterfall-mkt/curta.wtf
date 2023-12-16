@@ -46,7 +46,7 @@ const CourseLeaderboardTableDesktopSkeleton: FC = () => {
       },
       {
         accessorKey: 'submitTimestamp',
-        header: () => 'Submit timestamp',
+        header: () => 'Submission timestamp',
         cell: () => (
           <div className="flex flex-col gap-0.5">
             <div className="h-5 w-16 animate-pulse rounded-md bg-gray-350" />

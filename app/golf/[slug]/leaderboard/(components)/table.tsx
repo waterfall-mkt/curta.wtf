@@ -72,7 +72,7 @@ const CourseLeaderboardTableDesktop: FC<CourseLeaderboardTableInternalProps> = (
       },
       {
         accessorKey: 'submitTimestamp',
-        header: () => 'Submit timestamp',
+        header: () => 'Submission timestamp',
         cell: ({ row }) => {
           const date = new Date(1000 * row.original.submitTimestamp);
 
