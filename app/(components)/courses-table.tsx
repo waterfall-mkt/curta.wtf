@@ -83,7 +83,7 @@ const CourseTableDesktop: FC<CourseTableInternalProps> = ({ data, sorting, setSo
       },
       {
         accessorKey: 'numSolved',
-        header: () => <div className="ml-auto">Optimizers</div>,
+        header: () => <div className="ml-auto">Submissions</div>,
         cell: ({ row }) => <div className="flex justify-end">{row.original.numSolved}</div>,
         footer: (props) => props.column.id,
       },
@@ -152,7 +152,7 @@ const CourseTableMobile: FC<CourseTableInternalProps> = ({ data, sorting, setSor
         cell: ({ row }) => (
           <div className="flex flex-col gap-0.5">
             <div className="line-clamp-1 overflow-hidden text-ellipsis">{row.original.name}</div>
-            <div className="text-xs text-gray-200">{row.original.numSolved} solves</div>
+            <div className="text-xs text-gray-200">{row.original.numSolved} submissions</div>
           </div>
         ),
         footer: (props) => props.column.id,
