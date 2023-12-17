@@ -21,7 +21,7 @@ const fetchCourseLeaderboardById = async (
     .select('*, solver:users(*)', { count: 'exact' })
     .eq('courseId', id)
     .eq('chainId', chainId)
-    .order('submitTimestamp', { ascending: false })
+    .order('gasUsed', { ascending: false })
     .returns<DbGolfCourseSolve[]>();
 
   if ((error && status !== 406) || !data || (data && data.length === 0)) {
@@ -33,20 +33,6 @@ const fetchCourseLeaderboardById = async (
     const key = solve.solver.address.toLowerCase();
 
     if (!bestSolvesObject[key]) {
-      bestSolvesObject[key] = {
-        // Identifier
-        courseId: solve.courseId,
-        chainId: solve.chainId,
-        solver: solve.solver,
-        submitTx: solve.submitTx,
-        // Solve information
-        gasUsed: solve.gasUsed,
-        target: solve.target,
-        solution: solve.solution,
-        submitBlock: solve.submitBlock,
-        submitTimestamp: solve.submitTimestamp,
-      };
-    } else if (solve.gasUsed < bestSolvesObject[key].gasUsed) {
       bestSolvesObject[key] = {
         // Identifier
         courseId: solve.courseId,
