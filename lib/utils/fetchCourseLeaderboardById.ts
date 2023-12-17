@@ -21,7 +21,7 @@ const fetchCourseLeaderboardById = async (
     .select('*, solver:users(*)', { count: 'exact' })
     .eq('courseId', id)
     .eq('chainId', chainId)
-    .order('gasUsed', { ascending: false })
+    .order('gasUsed', { ascending: true })
     .returns<DbGolfCourseSolve[]>();
 
   if ((error && status !== 406) || !data || (data && data.length === 0)) {

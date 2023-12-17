@@ -30,7 +30,7 @@ const fetchCourseLeadingSolvesById = async (
     .eq('isRecord', true)
     .eq('courseId', id)
     .eq('chainId', chainId)
-    .order('gasUsed', { ascending: false })
+    .order('submitTimestamp', { ascending: false })
     .returns<DbGolfCourseSolve[]>();
 
   if ((error && status !== 406) || !data || (data && data.length === 0)) {
