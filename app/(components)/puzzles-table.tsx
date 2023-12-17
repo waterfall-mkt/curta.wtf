@@ -186,7 +186,7 @@ const PuzzleTableMobile: FC<PuzzleTableInternalProps> = ({ data, sorting, setSor
       },
       {
         accessorKey: 'numberSolved',
-        header: () => <div className="ml-auto">Optimizers</div>,
+        header: () => <div className="ml-auto">Solvers</div>,
         cell: ({ row }) => <div className="flex justify-end">{row.original.numberSolved}</div>,
         footer: (props) => props.column.id,
       },

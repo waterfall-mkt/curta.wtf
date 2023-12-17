@@ -19,7 +19,6 @@ const fetchCourseLeaderboardById = async (
   const { data, status, error } = await supabase
     .from('golf_courses_solves')
     .select('*, solver:users(*)', { count: 'exact' })
-    .eq('isRecord', true)
     .eq('courseId', id)
     .eq('chainId', chainId)
     .order('submitTimestamp', { ascending: false })
