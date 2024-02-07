@@ -23,6 +23,11 @@ const nextConfig = {
   pageExtensions: ['ts', 'tsx', 'js', 'jsx', 'md', 'mdx'],
   redirects: async () => [
     {
+      source: '/farcaster',
+      destination: 'https://warpcast.com/~/channel/curta',
+      permanent: true,
+    },
+    {
       source: '/docs/overview',
       destination: '/docs',
       permanent: true,
