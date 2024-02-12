@@ -1,0 +1,404 @@
+// -----------------------------------------------------------------------------
+// Connection
+// -----------------------------------------------------------------------------
+
+datasource db {
+  provider     = "mysql"
+  url          = env("DATABASE_URL")
+  relationMode = "prisma"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+// -----------------------------------------------------------------------------
+// User profile
+// -----------------------------------------------------------------------------
+
+model UserInfo {
+  address        String   @id
+  username       String   @unique @default(cuid())
+  displayName    String?
+  bio            String?  @db.Text
+  image          String?
+  twitter        String?
+  github         String?
+  farcaster      String?
+  website        String?
+  isPuzzleAuthor Boolean  @default(false) @map("is_puzzle_author")
+  createdAt      DateTime @default(now()) @map("created_at")
+
+  user User @relation(fields: [address], references: [address], onDelete: Cascade)
+
+  @@index([address])
+  @@map("user_info")
+}
+
+// -----------------------------------------------------------------------------
+// General
+// -----------------------------------------------------------------------------
+
+model Chain {
+  id        Int      @id
+  name      String
+  isTestnet Boolean  @default(false) @map("is_testnet")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  puzzles             Puzzle[]
+  puzzleSolves        PuzzleSolve[]
+  golfCourses         GolfCourse[]
+  teams               Team[]
+  teamMemberApprovals TeamMemberApproval[]
+  teamTransfers       TeamTransfer[]
+  golfCommits         GolfCourseCommit[]
+  golfSolves          GolfCourseSolve[]
+
+  @@map("chains")
+}
+
+model Company {
+  id          String   @id @default(cuid())
+  name        String
+  image       String?
+  description String?  @db.Text
+  website     String?
+  twitter     String?
+  github      String?
+  farcaster   String?
+  address     String?
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  @@map("companies")
+}
+
+model Event {
+  id          String   @id @default(cuid())
+  name        String
+  slug        String   @unique
+  image       String?
+  description String?  @db.Text
+  link        String?
+  location    String?
+  startDate   DateTime @map("start_date")
+  endDate     DateTime @map("end_date")
+  isTestnet   Boolean  @default(false) @map("is_testnet")
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  puzzles     Puzzle[]
+  golfCourses GolfCourse[]
+
+  @@map("events")
+}
+
+// -----------------------------------------------------------------------------
+// Golf
+// -----------------------------------------------------------------------------
+
+model GolfCourse {
+  // On-chain identifier
+  id              Int
+  chainId         Int      @map("chain_id")
+  address         String
+  // Metadata
+  name            String
+  description     String?  @db.Text()
+  allowedOpcodes  String?
+  bytecode        String   @db.Text()
+  solidity        String?  @db.Text()
+  huff            String?  @db.Text()
+  github          String?
+  // Leader information
+  leaderAddress   String?  @map("leader_address")
+  leaderBlock     Int?     @map("leader_block")
+  leaderGas       Int?     @map("leader_gas")
+  leaderTimestamp Int?     @map("leader_timestamp")
+  leaderTx        String?  @map("leader_tx")
+  // Added information
+  addedBlock      Int      @map("added_block")
+  addedTimestamp  Int      @map("added_timestamp")
+  addedTx         String   @map("added_tx")
+  // Miscellaneous
+  disabled        Boolean  @default(false)
+  eventId         String?  @map("event_id")
+  createdAt       DateTime @default(now()) @map("created_at")
+
+  leader User?             @relation(fields: [leaderAddress], references: [address], onDelete: SetNull)
+  chain  Chain             @relation(fields: [chainId], references: [id], onDelete: Restrict)
+  event  Event?            @relation(fields: [eventId], references: [id], onDelete: SetNull)
+  solves GolfCourseSolve[]
+
+  @@id([id, chainId])
+  @@index([leaderAddress])
+  @@index([chainId])
+  @@index([eventId])
+  @@map("golf_courses")
+}
+
+model GolfCourseCommit {
+  chainId         Int      @map("chain_id")
+  key             String
+  userAddress     String   @map("user_address")
+  commitBlock     Int      @map("commit_block")
+  commitTimestamp Int      @map("commit_timestamp")
+  commitTx        String   @map("commit_tx")
+  createdAt       DateTime @default(now()) @map("created_at")
+
+  chain Chain @relation(fields: [chainId], references: [id], onDelete: Restrict)
+  user  User  @relation(fields: [userAddress], references: [address], onDelete: Restrict)
+
+  @@id([chainId, key])
+  @@index([userAddress])
+  @@index([commitBlock])
+  @@index([chainId])
+  @@map("golf_course_commits")
+}
+
+model GolfCourseSolve {
+  // On-chain identifier
+  courseId        Int      @map("course_id")
+  chainId         Int      @map("chain_id")
+  solverAddress   String   @map("solver_address")
+  submitTx        String   @map("submit_tx")
+  // Submission information
+  gasUsed         Int      @map("gas_used")
+  solution        String   @db.Text()
+  submitBlock     Int      @map("submit_block")
+  submitTimestamp Int      @map("submit_timestamp")
+  // Metadata
+  target          String
+  isRecord        Boolean? @default(false) @map("is_record")
+  createdAt       DateTime @default(now()) @map("created_at")
+
+  course GolfCourse @relation(fields: [courseId, chainId], references: [id, chainId], onDelete: Cascade)
+  chain  Chain      @relation(fields: [chainId], references: [id], onDelete: Restrict)
+  solver User       @relation(fields: [solverAddress], references: [address], onDelete: Restrict)
+
+  @@id([courseId, chainId, solverAddress, submitTx])
+  @@index([courseId, chainId])
+  @@index([chainId])
+  @@index([solverAddress])
+  @@map("golf_course_solves")
+}
+
+// -----------------------------------------------------------------------------
+// Puzzles
+// -----------------------------------------------------------------------------
+
+model Puzzle {
+  // On-chain identifier
+  id                  Int      @map("puzzle_id")
+  chainId             Int      @map("chain_id")
+  address             String
+  // Author
+  authorAddress       String   @map("author_address")
+  // Metadata
+  name                String
+  bytecode            String   @db.Text()
+  solidity            String?  @db.Text()
+  huff                String?  @db.Text()
+  // Added information
+  addedBlock          Int      @map("added_block")
+  addedTimestamp      Int      @map("added_timestamp")
+  addedTx             String   @map("added_tx")
+  // First solve information
+  firstSolverAddress  String?  @map("first_solver_address")
+  firstSolveBlock     Int?     @map("first_solve_block")
+  firstSolveTimestamp Int?     @map("first_solve_timestamp")
+  firstSolveTx        String?  @map("first_solve_tx")
+  // Solution
+  solutionLink        String?
+  github              String?
+  // Miscellaneous
+  disabled            Boolean  @default(false)
+  eventId             String?  @map("event_id")
+  createdAt           DateTime @default(now()) @map("created_at")
+
+  author      User   @relation(fields: [authorAddress], references: [address], onDelete: Restrict)
+  firstSolver User?  @relation(name: "puzzle_first_solver", fields: [firstSolverAddress], references: [address], onDelete: SetNull)
+  chain       Chain  @relation(fields: [chainId], references: [id], onDelete: Restrict)
+  event       Event? @relation(fields: [eventId], references: [id], onDelete: SetNull)
+
+  solves PuzzleSolve[]
+
+  @@id([id, chainId])
+  @@unique([id, chainId])
+  @@unique([address, chainId])
+  @@index([authorAddress])
+  @@index([firstSolverAddress])
+  @@index([chainId])
+  @@index([eventId])
+  @@map("puzzles")
+}
+
+model PuzzleSolve {
+  // On-chain identifier
+  puzzleId       Int      @map("puzzle_id")
+  chainId        Int      @map("chain_id")
+  solverAddress  String   @map("solver_address")
+  // Solve information
+  rank           Int?
+  phase          Int?
+  solution       String?
+  solveBlock     Int?     @map("solve_block")
+  solveTimestamp Int?     @map("solve_timestamp")
+  solveTx        String?  @map("solve_tx")
+  createdAt      DateTime @default(now()) @map("created_at")
+
+  puzzle Puzzle @relation(fields: [puzzleId, chainId], references: [id, chainId], onDelete: Cascade)
+  chain  Chain  @relation(fields: [chainId], references: [id], onDelete: Restrict)
+  solver User   @relation(fields: [solverAddress], references: [address], onDelete: Restrict)
+
+  @@id([puzzleId, chainId, solverAddress])
+  @@index([puzzleId, chainId])
+  @@index([chainId])
+  @@index([solverAddress])
+  @@map("puzzle_solves")
+}
+
+// -----------------------------------------------------------------------------
+// Teams
+// -----------------------------------------------------------------------------
+
+model Team {
+  // On-chain identifier
+  id            Int      @map("team_id")
+  chainId       Int      @map("chain_id")
+  // Metadata
+  leaderAddress String   @map("leader_address")
+  name          String?
+  image         String?
+  createdAt     DateTime @default(now()) @map("created_at")
+
+  chain           Chain                @relation(fields: [chainId], references: [id], onDelete: Restrict)
+  leader          User                 @relation(fields: [leaderAddress], references: [address], onDelete: Restrict)
+  fromTransfers   TeamTransfer[]       @relation(name: "team_tranfers_from")
+  toTransfers     TeamTransfer[]       @relation(name: "team_tranfers_to")
+  memberApprovals TeamMemberApproval[]
+
+  @@id([id, chainId])
+  @@index([chainId])
+  @@index([leaderAddress])
+  @@map("teams")
+}
+
+model TeamMemberApproval {
+  teamId      Int      @map("team_id")
+  chainId     Int      @map("chain_id")
+  userAddress String   @map("user_address")
+  approved    Boolean
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  chain Chain @relation(fields: [chainId], references: [id], onDelete: Restrict)
+  team  Team  @relation(fields: [teamId, chainId], references: [id, chainId], onDelete: Cascade)
+  user  User  @relation(fields: [userAddress], references: [address], onDelete: Restrict)
+
+  @@id([teamId, chainId, userAddress])
+  @@index([chainId])
+  @@index([teamId, chainId])
+  @@index([userAddress])
+  @@map("team_member_approvals")
+}
+
+model TeamTransfer {
+  id          String   @id @default(cuid())
+  userAddress String   @map("user_address")
+  chainId     Int      @map("chain_id")
+  fromTeamId  Int?     @map("from_team_id")
+  toTeamId    Int      @map("to_team_id")
+  block       Int
+  timestamp   Int
+  tx          String
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  chain Chain @relation(fields: [chainId], references: [id], onDelete: Restrict)
+  user  User  @relation(fields: [userAddress], references: [address], onDelete: Restrict)
+  from  Team? @relation(name: "team_tranfers_from", fields: [fromTeamId, chainId], references: [id, chainId], onDelete: Restrict)
+  to    Team  @relation(name: "team_tranfers_to", fields: [toTeamId, chainId], references: [id, chainId], onDelete: Restrict)
+
+  @@index([chainId])
+  @@index([userAddress])
+  @@index([fromTeamId, chainId])
+  @@index([toTeamId, chainId])
+  @@map("team_transfers")
+}
+
+// -----------------------------------------------------------------------------
+// Authentication (auth.js)
+// -----------------------------------------------------------------------------
+
+enum Role {
+  ADMIN
+  MODERATOR
+  USER
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String  @map("user_id")
+  type              String
+  provider          String
+  providerAccountId String  @map("provider_account_id")
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@index([userId])
+  @@map("accounts")
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique @map("session_token")
+  userId       String   @map("user_id")
+  expires      DateTime
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("sessions")
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  address       String    @unique
+  email         String?   @unique
+  emailVerified DateTime? @map("email_verified")
+  image         String?
+  role          Role      @default(USER)
+
+  info UserInfo?
+
+  accounts           Account[]
+  sessions           Session[]
+  authoredPuzzles    Puzzle[]
+  firstSolvePuzzles  Puzzle[]             @relation(name: "puzzle_first_solver")
+  puzzleSolves       PuzzleSolve[]
+  leadingTeams       Team[]
+  teamTransfers      TeamTransfer[]
+  teamApprovals      TeamMemberApproval[]
+  leadingGolfCourses GolfCourse[]
+  golfCommits        GolfCourseCommit[]
+  golfSolves         GolfCourseSolve[]
+
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("users")
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+  @@map("verification_tokens")
+}
