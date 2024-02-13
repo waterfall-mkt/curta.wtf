@@ -75,7 +75,7 @@ model Company {
 model Event {
   id          String   @id @default(cuid())
   name        String
-  slug        String   @unique
+  slug        String
   image       String?
   description String?  @db.Text
   link        String?
@@ -88,6 +88,7 @@ model Event {
   puzzles     Puzzle[]
   golfCourses GolfCourse[]
 
+  @@unique([slug, isTestnet])
   @@map("events")
 }
 
@@ -187,7 +188,7 @@ model GolfCourseSolve {
 
 model Puzzle {
   // On-chain identifier
-  id                  Int      @map("puzzle_id")
+  id                  Int
   chainId             Int      @map("chain_id")
   address             String
   // Author
@@ -222,8 +223,6 @@ model Puzzle {
   solves PuzzleSolve[]
 
   @@id([id, chainId])
-  @@unique([id, chainId])
-  @@unique([address, chainId])
   @@index([authorAddress])
   @@index([firstSolverAddress])
   @@index([chainId])
