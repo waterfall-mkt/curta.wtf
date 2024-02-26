@@ -1,10 +1,12 @@
-import { type FC, useId } from 'react';
+'use client';
+
+import { useId } from 'react';
 
 import { getChainInfo, getShortenedAddress } from '@/lib/utils';
 
 import PillLinkButton from '@/components/templates/pill-link-button';
 
-const LinksDisplay: FC = () => {
+const LinksDisplay: React.FC = () => {
   const id = useId();
 
   return (

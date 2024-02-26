@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 
-import AuthorsDisplay from './(components)/authors-display';
+import AuthorFacepile from './(components)/author-facepile';
 import LinksDisplay from './(components)/links-display';
 import HomeTableTabs from './(components)/table-tabs';
 
@@ -40,8 +40,8 @@ export const metadata: Metadata = {
 // Page
 // -----------------------------------------------------------------------------
 
-export default async function Home() {
-  const [{ data: authors }, { data: puzzles }, { data: courses }] = await Promise.all([
+export default async function Page() {
+  const [authors, { data: puzzles }, { data: courses }] = await Promise.all([
     fetchAuthors(),
     fetchPuzzles(),
     fetchCourses(),
@@ -73,7 +73,7 @@ export default async function Home() {
               <div className="text-xl leading-normal text-gray-150 md:text-2xl">{description}</div>
             </div>
             <div className="flex flex-col space-y-4 sm:flex-row sm:space-x-8 sm:space-y-0">
-              <AuthorsDisplay data={authors} />
+              <AuthorFacepile data={authors} />
               <LinksDisplay />
             </div>
           </div>

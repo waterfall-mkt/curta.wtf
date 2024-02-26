@@ -1,3 +1,4 @@
+import Avatar from './avatar';
 import Badge from './badge';
 import Button, { ButtonGroup } from './button';
 import Card from './card';
@@ -16,6 +17,7 @@ import { useToast } from './toaster/useToast';
 import Tooltip from './tooltip';
 
 export {
+  Avatar,
   Badge,
   Button,
   ButtonGroup,

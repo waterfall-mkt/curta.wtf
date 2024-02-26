@@ -15,7 +15,7 @@ export default async function Image() {
     new URL('../node_modules/@fontsource/inter/files/inter-latin-600-normal.woff', import.meta.url),
   ).then((res) => res.arrayBuffer());
 
-  const [{ data: authors }, { data: puzzles }, { data: solvesCount }] = await Promise.all([
+  const [authors, { data: puzzles }, { data: solvesCount }] = await Promise.all([
     fetchAuthors(),
     fetchPuzzlesCount(),
     fetchPuzzlesSolvesCount(),
