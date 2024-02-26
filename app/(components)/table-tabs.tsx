@@ -1,14 +1,14 @@
 'use client';
 
 import { useSearchParams } from 'next/navigation';
-import type { FC } from 'react';
 
 import CourseTable from './courses-table';
-import PuzzleTable from './puzzles-table';
+import PuzzlesDataTable from './puzzles-data-table';
+import type { PuzzleValue } from './types';
 import clsx from 'clsx';
 import { twMerge } from 'tailwind-merge';
 
-import type { GolfCourse, Puzzle } from '@/lib/types/protocol';
+import type { GolfCourse } from '@/lib/types/protocol';
 
 import { Card, Tabs } from '@/components/ui';
 
@@ -18,7 +18,7 @@ import { Card, Tabs } from '@/components/ui';
 
 type HomeTableTabsProps = {
   className?: string;
-  puzzles: Puzzle[];
+  puzzles: PuzzleValue[];
   courses: GolfCourse[];
 };
 
@@ -26,11 +26,11 @@ type HomeTableTabsProps = {
 // Component
 // -----------------------------------------------------------------------------
 
-const HomeTableTabs: FC<HomeTableTabsProps> = ({ className, puzzles, courses }) => {
+const HomeTableTabs: React.FC<HomeTableTabsProps> = ({ className, puzzles, courses }) => {
   const searchParams = useSearchParams();
 
   const tabs = [
-    { name: 'Puzzles', value: 'puzzles', content: <PuzzleTable data={puzzles} /> },
+    { name: 'Puzzles', value: 'puzzles', content: <PuzzlesDataTable data={puzzles} /> },
     { name: 'Golf', value: 'golf', content: <CourseTable data={courses} /> },
   ];
 

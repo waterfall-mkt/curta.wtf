@@ -1,13 +1,13 @@
 'use client';
 
-import { type FC, Fragment, useMemo, useState } from 'react';
+import { Fragment, useMemo, useState } from 'react';
 
+import type { PuzzleValue } from '../types';
 import PuzzleTableCountdown from './countdown';
-import PuzzleTableInfo from './puzzle-table-info';
+import PuzzleTableInfo from './info';
 import type { ColumnDef, Row, SortingState } from '@tanstack/react-table';
 import { ExternalLink, FileCheck } from 'lucide-react';
 
-import type { Puzzle } from '@/lib/types/protocol';
 import { getChainInfo, getPuzzleTimeLeft } from '@/lib/utils';
 
 import AddressLinkClient from '@/components/templates/address-link-client';
@@ -22,16 +22,16 @@ import type { TableProps } from '@/components/ui/table/types';
 // -----------------------------------------------------------------------------
 
 type PuzzleTableProps = {
-  data: Puzzle[];
+  data: PuzzleValue[];
 };
 
-type PuzzleTableInternalProps = Omit<TableProps<Puzzle>, 'columns'>;
+type PuzzleTableInternalProps = Omit<TableProps<PuzzleValue>, 'columns'>;
 
 // -----------------------------------------------------------------------------
 // Component
 // -----------------------------------------------------------------------------
 
-const PuzzleTable: FC<PuzzleTableProps> = ({ data }) => {
+const PuzzleTable: React.FC<PuzzleTableProps> = ({ data }) => {
   const [sorting, setSorting] = useState<SortingState>([]);
 
   return (
@@ -42,8 +42,8 @@ const PuzzleTable: FC<PuzzleTableProps> = ({ data }) => {
   );
 };
 
-const PuzzleTableDesktop: FC<PuzzleTableInternalProps> = ({ data, sorting, setSorting }) => {
-  const columns: ColumnDef<Puzzle>[] = useMemo(
+const PuzzleTableDesktop: React.FC<PuzzleTableInternalProps> = ({ data, sorting, setSorting }) => {
+  const columns: ColumnDef<PuzzleValue>[] = useMemo(
     () => [
       {
         accessorKey: 'addedTimestamp',
@@ -56,10 +56,14 @@ const PuzzleTableDesktop: FC<PuzzleTableInternalProps> = ({ data, sorting, setSo
         header: () => 'Puzzle',
         cell: ({ row }) => (
           <PuzzleTableInfo
-            phase={getPuzzleTimeLeft(row.original.firstSolveTimestamp).phase}
+            phase={
+              row.original.firstSolveTimestamp
+                ? getPuzzleTimeLeft(row.original.firstSolveTimestamp).phase
+                : 0
+            }
             id={row.original.id}
             name={row.original.name}
-            author={row.original.author}
+            user={row.original.author.info ?? undefined}
           />
         ),
         footer: (props) => props.column.id,
@@ -78,12 +82,11 @@ const PuzzleTableDesktop: FC<PuzzleTableInternalProps> = ({ data, sorting, setSo
         cell: ({ row }) =>
           row.original.firstSolver ? (
             <UserHoverCard
-              address={row.original.firstSolver}
+              address={row.original.firstSolverAddress as `0x${string}`}
               trigger={
                 <AddressLinkClient
                   className="text-gray-100"
-                  address={row.original.firstSolver}
-                  prefetchedEnsName={row.original.firstSolverEnsName}
+                  address={row.original.firstSolverAddress as `0x${string}`}
                 />
               }
             />
@@ -93,9 +96,9 @@ const PuzzleTableDesktop: FC<PuzzleTableInternalProps> = ({ data, sorting, setSo
         footer: (props) => props.column.id,
       },
       {
-        accessorKey: 'numberSolved',
+        accessorKey: '_count.solves',
         header: () => 'Solvers',
-        cell: ({ row }) => row.original.numberSolved,
+        cell: ({ row }) => row.original._count.solves,
         footer: (props) => props.column.id,
       },
       {
@@ -104,14 +107,14 @@ const PuzzleTableDesktop: FC<PuzzleTableInternalProps> = ({ data, sorting, setSo
         cell: ({ row }) => {
           return (
             <div className="flex items-center justify-end gap-1">
-              {row.original.solution ? (
+              {row.original.solutionLink ? (
                 <IconButton
                   variant="outline"
                   intent="neutral"
-                  title={row.original.solution}
+                  title={row.original.solutionLink}
                   onClick={(e) => {
                     e.stopPropagation();
-                    window.open(row.original.solution, '_blank');
+                    window.open(row.original.solutionLink ?? '', '_blank');
                   }}
                   aria-label={`View chain ${row.original.chainId} puzzle #${row.original.id}'s solution.`}
                 >
@@ -162,8 +165,8 @@ const PuzzleTableDesktop: FC<PuzzleTableInternalProps> = ({ data, sorting, setSo
   );
 };
 
-const PuzzleTableMobile: FC<PuzzleTableInternalProps> = ({ data, sorting, setSorting }) => {
-  const columns = useMemo<ColumnDef<Puzzle>[]>(
+const PuzzleTableMobile: React.FC<PuzzleTableInternalProps> = ({ data, sorting, setSorting }) => {
+  const columns = useMemo<ColumnDef<PuzzleValue>[]>(
     () => [
       {
         accessorKey: 'addedTimestamp',
@@ -176,10 +179,14 @@ const PuzzleTableMobile: FC<PuzzleTableInternalProps> = ({ data, sorting, setSor
         header: () => 'Puzzle',
         cell: ({ row }) => (
           <PuzzleTableInfo
-            phase={getPuzzleTimeLeft(row.original.firstSolveTimestamp).phase}
+            phase={
+              row.original.firstSolveTimestamp
+                ? getPuzzleTimeLeft(row.original.firstSolveTimestamp).phase
+                : 0
+            }
             id={row.original.id}
             name={row.original.name}
-            author={row.original.author}
+            user={row.original.author?.info ?? undefined}
           />
         ),
         footer: (props) => props.column.id,
@@ -187,7 +194,7 @@ const PuzzleTableMobile: FC<PuzzleTableInternalProps> = ({ data, sorting, setSor
       {
         accessorKey: 'numberSolved',
         header: () => <div className="ml-auto">Solvers</div>,
-        cell: ({ row }) => <div className="flex justify-end">{row.original.numberSolved}</div>,
+        cell: ({ row }) => <div className="flex justify-end">{row.original._count.solves}</div>,
         footer: (props) => props.column.id,
       },
       {
@@ -215,7 +222,7 @@ const PuzzleTableMobile: FC<PuzzleTableInternalProps> = ({ data, sorting, setSor
   );
 };
 
-const PuzzleTableMobileSubComponent: FC<{ data: Puzzle }> = ({ data }) => {
+const PuzzleTableMobileSubComponent: React.FC<{ data: PuzzleValue }> = ({ data }) => {
   return (
     <div className="grid grid-cols-2 gap-2 p-3">
       <Stat
@@ -225,14 +232,13 @@ const PuzzleTableMobileSubComponent: FC<{ data: Puzzle }> = ({ data }) => {
       <Stat
         name="First solver"
         value={
-          data.firstSolver ? (
+          data.firstSolverAddress ? (
             <UserHoverCard
-              address={data.firstSolver}
+              address={data.firstSolverAddress as `0x${string}`}
               trigger={
                 <AddressLinkClient
                   className="text-gray-100"
-                  address={data.firstSolver}
-                  prefetchedEnsName={data.firstSolverEnsName}
+                  address={data.firstSolverAddress as `0x${string}`}
                 />
               }
             />
@@ -242,14 +248,14 @@ const PuzzleTableMobileSubComponent: FC<{ data: Puzzle }> = ({ data }) => {
         }
       />
       <div className="col-span-2 flex gap-1">
-        {data.solution ? (
+        {data.solutionLink ? (
           <Button
             className="w-full"
             size="sm"
             variant="outline"
             intent="neutral"
             rightIcon={<ExternalLink />}
-            href={data.solution}
+            href={data.solutionLink}
             newTab
           >
             Solution
@@ -275,7 +281,7 @@ const PuzzleTableMobileSubComponent: FC<{ data: Puzzle }> = ({ data }) => {
 // Helper functions
 // -----------------------------------------------------------------------------
 
-export const getRowRoute = ({ row }: { row: Row<Puzzle> }): `/${string}` => {
+export const getRowRoute = ({ row }: { row: Row<PuzzleValue> }): `/${string}` => {
   return `/puzzle/${row.original.chainId}:${row.original.id}`;
 };
 

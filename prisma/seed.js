@@ -8,7 +8,7 @@ const prisma = new PrismaClient();
 // Config
 // -----------------------------------------------------------------------------
 
-const ADD_CHAINS = false;
+const ADD_CHAINS = true;
 
 const load = async () => {
   // ---------------------------------------------------------------------------
