@@ -1,6 +1,6 @@
 import { ImageResponse } from 'next/server';
 
-import { fetchAuthors, fetchPuzzlesCount, fetchPuzzlesSolvesCount } from '@/lib/utils';
+import { db } from '@/lib/db';
 
 // -----------------------------------------------------------------------------
 // Image
@@ -15,11 +15,17 @@ export default async function Image() {
     new URL('../node_modules/@fontsource/inter/files/inter-latin-600-normal.woff', import.meta.url),
   ).then((res) => res.arrayBuffer());
 
-  const [authors, { data: puzzles }, { data: solvesCount }] = await Promise.all([
-    fetchAuthors(),
-    fetchPuzzlesCount(),
-    fetchPuzzlesSolvesCount(),
+  const [authors, puzzles, solves, solversArr] = await Promise.all([
+    db.userInfo.count({ where: { isPuzzleAuthor: true } }),
+    db.puzzle.count(),
+    db.puzzleSolve.count(),
+    db.$queryRaw`SELECT COUNT(DISTINCT solver_address) FROM puzzle_solves` as Promise<
+      {
+        'count(distinct solver_address)': bigint;
+      }[]
+    >,
   ]);
+  const solvers = solversArr[0]['count(distinct solver_address)'];
 
   return new ImageResponse(
     (
@@ -93,7 +99,7 @@ export default async function Image() {
                       letterSpacing: '-0.05em',
                     }}
                   >
-                    {authors.length}
+                    {authors}
                   </div>
                   <div style={{ display: 'flex', color: '#758195', fontSize: 24, lineHeight: 1 }}>
                     Authors
@@ -128,7 +134,7 @@ export default async function Image() {
                       letterSpacing: '-0.05em',
                     }}
                   >
-                    {puzzles.count}
+                    {puzzles}
                   </div>
                   <div style={{ display: 'flex', color: '#758195', fontSize: 24, lineHeight: 1 }}>
                     Puzzles
@@ -164,7 +170,7 @@ export default async function Image() {
                       letterSpacing: '-0.05em',
                     }}
                   >
-                    {solvesCount.solvers}
+                    {solvers.toString()}
                   </div>
                   <div style={{ display: 'flex', color: '#758195', fontSize: 24, lineHeight: 1 }}>
                     Solvers
@@ -200,7 +206,7 @@ export default async function Image() {
                       letterSpacing: '-0.05em',
                     }}
                   >
-                    {solvesCount.solves}
+                    {solves}
                   </div>
                   <div style={{ display: 'flex', color: '#758195', fontSize: 24, lineHeight: 1 }}>
                     Solves
@@ -249,9 +255,3 @@ export default async function Image() {
     },
   );
 }
-
-// -----------------------------------------------------------------------------
-// Next.js config
-// -----------------------------------------------------------------------------
-
-export const runtime = 'edge';
