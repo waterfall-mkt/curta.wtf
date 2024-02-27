@@ -41,7 +41,7 @@ export const metadata: Metadata = {
 // -----------------------------------------------------------------------------
 
 export default async function Page() {
-  const [authors, puzzles, { data: courses }] = await Promise.all([
+  const [authors, puzzles, courses] = await Promise.all([
     fetchAuthors(),
     fetchPuzzles(),
     fetchCourses(),

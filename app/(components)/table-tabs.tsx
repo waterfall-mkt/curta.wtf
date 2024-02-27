@@ -2,13 +2,11 @@
 
 import { useSearchParams } from 'next/navigation';
 
-import CourseTable from './courses-table';
-import PuzzlesDataTable from './puzzles-data-table';
-import type { PuzzleValue } from './types';
+import GolfCourseDataTable from './golf-course-data-table';
+import PuzzleDataTable from './puzzle-data-table';
+import type { GolfCourseValue, PuzzleValue } from './types';
 import clsx from 'clsx';
 import { twMerge } from 'tailwind-merge';
-
-import type { GolfCourse } from '@/lib/types/protocol';
 
 import { Card, Tabs } from '@/components/ui';
 
@@ -19,7 +17,7 @@ import { Card, Tabs } from '@/components/ui';
 type HomeTableTabsProps = {
   className?: string;
   puzzles: PuzzleValue[];
-  courses: GolfCourse[];
+  courses: GolfCourseValue[];
 };
 
 // -----------------------------------------------------------------------------
@@ -30,8 +28,8 @@ const HomeTableTabs: React.FC<HomeTableTabsProps> = ({ className, puzzles, cours
   const searchParams = useSearchParams();
 
   const tabs = [
-    { name: 'Puzzles', value: 'puzzles', content: <PuzzlesDataTable data={puzzles} /> },
-    { name: 'Golf', value: 'golf', content: <CourseTable data={courses} /> },
+    { name: 'Puzzles', value: 'puzzles', content: <PuzzleDataTable data={puzzles} /> },
+    { name: 'Golf', value: 'golf', content: <GolfCourseDataTable data={courses} /> },
   ];
 
   const defaultValue = searchParams.get('tab')?.toLowerCase() ?? tabs[0].value;

@@ -3,8 +3,8 @@
 import { Fragment, useMemo, useState } from 'react';
 
 import type { PuzzleValue } from '../types';
-import PuzzleTableCountdown from './countdown';
-import PuzzleTableInfo from './info';
+import PuzzleDataTableCountdown from './countdown';
+import PuzzleDataTableInfo from './info';
 import type { ColumnDef, Row, SortingState } from '@tanstack/react-table';
 import { ExternalLink, FileCheck } from 'lucide-react';
 
@@ -21,28 +21,32 @@ import type { TableProps } from '@/components/ui/table/types';
 // Props
 // -----------------------------------------------------------------------------
 
-type PuzzleTableProps = {
+type PuzzleDataTableProps = {
   data: PuzzleValue[];
 };
 
-type PuzzleTableInternalProps = Omit<TableProps<PuzzleValue>, 'columns'>;
+type PuzzleDataTableInternalProps = Omit<TableProps<PuzzleValue>, 'columns'>;
 
 // -----------------------------------------------------------------------------
 // Component
 // -----------------------------------------------------------------------------
 
-const PuzzleTable: React.FC<PuzzleTableProps> = ({ data }) => {
+const PuzzleDataTable: React.FC<PuzzleDataTableProps> = ({ data }) => {
   const [sorting, setSorting] = useState<SortingState>([]);
 
   return (
     <Fragment>
-      <PuzzleTableDesktop data={data} sorting={sorting} setSorting={setSorting} />
-      <PuzzleTableMobile data={data} sorting={sorting} setSorting={setSorting} />
+      <PuzzleDataTableDesktop data={data} sorting={sorting} setSorting={setSorting} />
+      <PuzzleDataTableMobile data={data} sorting={sorting} setSorting={setSorting} />
     </Fragment>
   );
 };
 
-const PuzzleTableDesktop: React.FC<PuzzleTableInternalProps> = ({ data, sorting, setSorting }) => {
+const PuzzleDataTableDesktop: React.FC<PuzzleDataTableInternalProps> = ({
+  data,
+  sorting,
+  setSorting,
+}) => {
   const columns: ColumnDef<PuzzleValue>[] = useMemo(
     () => [
       {
@@ -55,7 +59,7 @@ const PuzzleTableDesktop: React.FC<PuzzleTableInternalProps> = ({ data, sorting,
         accessorKey: 'name',
         header: () => 'Puzzle',
         cell: ({ row }) => (
-          <PuzzleTableInfo
+          <PuzzleDataTableInfo
             phase={
               row.original.firstSolveTimestamp
                 ? getPuzzleTimeLeft(row.original.firstSolveTimestamp).phase
@@ -72,7 +76,7 @@ const PuzzleTableDesktop: React.FC<PuzzleTableInternalProps> = ({ data, sorting,
         accessorKey: 'timeLeft',
         header: () => 'Time till next phase',
         cell: ({ row }) => (
-          <PuzzleTableCountdown firstSolveTimestamp={row.original.firstSolveTimestamp} />
+          <PuzzleDataTableCountdown firstSolveTimestamp={row.original.firstSolveTimestamp} />
         ),
         footer: (props) => props.column.id,
       },
@@ -165,7 +169,11 @@ const PuzzleTableDesktop: React.FC<PuzzleTableInternalProps> = ({ data, sorting,
   );
 };
 
-const PuzzleTableMobile: React.FC<PuzzleTableInternalProps> = ({ data, sorting, setSorting }) => {
+const PuzzleDataTableMobile: React.FC<PuzzleDataTableInternalProps> = ({
+  data,
+  sorting,
+  setSorting,
+}) => {
   const columns = useMemo<ColumnDef<PuzzleValue>[]>(
     () => [
       {
@@ -178,7 +186,7 @@ const PuzzleTableMobile: React.FC<PuzzleTableInternalProps> = ({ data, sorting, 
         accessorKey: 'name',
         header: () => 'Puzzle',
         cell: ({ row }) => (
-          <PuzzleTableInfo
+          <PuzzleDataTableInfo
             phase={
               row.original.firstSolveTimestamp
                 ? getPuzzleTimeLeft(row.original.firstSolveTimestamp).phase
@@ -214,7 +222,7 @@ const PuzzleTableMobile: React.FC<PuzzleTableInternalProps> = ({ data, sorting, 
       data={data}
       sorting={sorting}
       setSorting={setSorting}
-      renderSubComponent={({ row }) => <PuzzleTableMobileSubComponent data={row.original} />}
+      renderSubComponent={({ row }) => <PuzzleDataTableMobileSubComponent data={row.original} />}
       getRowRoute={getRowRoute}
       topRounded={false}
       noBorder
@@ -222,12 +230,12 @@ const PuzzleTableMobile: React.FC<PuzzleTableInternalProps> = ({ data, sorting, 
   );
 };
 
-const PuzzleTableMobileSubComponent: React.FC<{ data: PuzzleValue }> = ({ data }) => {
+const PuzzleDataTableMobileSubComponent: React.FC<{ data: PuzzleValue }> = ({ data }) => {
   return (
     <div className="grid grid-cols-2 gap-2 p-3">
       <Stat
         name="Time till next phase"
-        value={<PuzzleTableCountdown firstSolveTimestamp={data.firstSolveTimestamp} />}
+        value={<PuzzleDataTableCountdown firstSolveTimestamp={data.firstSolveTimestamp} />}
       />
       <Stat
         name="First solver"
@@ -285,4 +293,4 @@ export const getRowRoute = ({ row }: { row: Row<PuzzleValue> }): `/${string}` =>
   return `/puzzle/${row.original.chainId}:${row.original.id}`;
 };
 
-export default PuzzleTable;
+export default PuzzleDataTable;
