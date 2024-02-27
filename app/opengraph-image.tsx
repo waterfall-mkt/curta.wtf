@@ -257,3 +257,5 @@ export default async function Image() {
     },
   );
 }
+
+export const runtime = 'edge';
