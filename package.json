@@ -70,7 +70,7 @@
     "typescript": "5.1.6",
     "viem": "^1.18.9",
     "wagmi": "^1.4.6",
-    "webpack": "^5.89.0"
+    "webpack": "^5.90.3"
   },
   "devDependencies": {
     "@trivago/prettier-plugin-sort-imports": "^4.3.0",
