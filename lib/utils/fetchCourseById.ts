@@ -1,5 +1,3 @@
-import { cache } from 'react';
-
 import type { PostgrestError } from '@supabase/supabase-js';
 
 import { ethereumClient } from '@/lib/client';
@@ -35,9 +33,9 @@ const fetchCourseById = async (id: number, chainId: number): Promise<CourseRespo
     return { data: null, status, error };
   }
 
-  const leaderEnsName = await cache(async () =>
-    data.leader ? await ethereumClient.getEnsName({ address: data.leader.address }) : undefined,
-  )();
+  const leaderEnsName = data.leader
+    ? await ethereumClient.getEnsName({ address: data.leader.address })
+    : undefined;
 
   const course: GolfCourse = {
     // Identifier

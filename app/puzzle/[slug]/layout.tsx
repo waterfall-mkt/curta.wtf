@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { cache, type ReactNode } from 'react';
+import { cache } from 'react';
 
 import PuzzleHeader from './(components)/header';
 import PuzzleTabs from './(components)/tabs-nav';
@@ -60,7 +60,7 @@ export default async function PuzzleLayout({
   children,
 }: {
   params: { slug: string };
-  children: ReactNode;
+  children: React.ReactNode;
 }) {
   const ids = getChainIdAndId(params.slug);
 
