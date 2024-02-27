@@ -1,6 +1,19 @@
 import { ImageResponse } from 'next/server';
 
-import { db } from '@/lib/db';
+import { Client } from '@planetscale/database';
+import { PrismaPlanetScale } from '@prisma/adapter-planetscale';
+import { PrismaClient } from '@prisma/client';
+
+// -----------------------------------------------------------------------------
+// Prisma
+// -----------------------------------------------------------------------------
+
+const client = new Client({ url: process.env.DATABASE_URL });
+const adapter = new PrismaPlanetScale(client);
+const db = new PrismaClient({
+  adapter,
+  log: process.env.NODE_ENV === 'development' ? ['query', 'error', 'warn'] : ['error'],
+});
 
 // -----------------------------------------------------------------------------
 // Image

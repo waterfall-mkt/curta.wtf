@@ -17,9 +17,15 @@ dependencies:
   '@next/mdx':
     specifier: ^13.5.6
     version: 13.5.6(@mdx-js/loader@2.3.0)(@mdx-js/react@2.3.0)
+  '@planetscale/database':
+    specifier: ^1.16.0
+    version: 1.16.0
+  '@prisma/adapter-planetscale':
+    specifier: 5.11.0-dev.5
+    version: 5.11.0-dev.5(@planetscale/database@1.16.0)
   '@prisma/client':
-    specifier: ^5.9.1
-    version: 5.9.1(prisma@5.9.1)
+    specifier: 5.11.0-dev.5
+    version: 5.11.0-dev.5(prisma@5.11.0-dev.5)
   '@radix-ui/react-accordion':
     specifier: ^1.1.2
     version: 1.1.2(@types/react-dom@18.2.7)(@types/react@18.2.18)(react-dom@18.2.0)(react@18.2.0)
@@ -126,8 +132,8 @@ dependencies:
     specifier: ^2.1.0
     version: 2.1.0(react@18.2.0)
   prisma:
-    specifier: ^5.9.1
-    version: 5.9.1
+    specifier: 5.11.0-dev.5
+    version: 5.11.0-dev.5
   prismjs:
     specifier: ^1.29.0
     version: 1.29.0
@@ -175,7 +181,7 @@ dependencies:
     version: 1.18.9(typescript@5.1.6)
   wagmi:
     specifier: ^1.4.6
-    version: 1.4.6(@types/react@18.2.18)(react-dom@18.2.0)(react@18.2.0)(typescript@5.1.6)(viem@1.18.9)
+    version: 1.4.6(@planetscale/database@1.16.0)(@types/react@18.2.18)(react-dom@18.2.0)(react@18.2.0)(typescript@5.1.6)(viem@1.18.9)
   webpack:
     specifier: ^5.89.0
     version: 5.89.0
@@ -960,8 +966,22 @@ packages:
       tslib: 2.6.2
     dev: true
 
-  /@prisma/client@5.9.1(prisma@5.9.1):
-    resolution: {integrity: sha512-caSOnG4kxcSkhqC/2ShV7rEoWwd3XrftokxJqOCMVvia4NYV/TPtJlS9C2os3Igxw/Qyxumj9GBQzcStzECvtQ==}
+  /@planetscale/database@1.16.0:
+    resolution: {integrity: sha512-HNUrTqrd8aTRZYMDcsoZ62s36sIWkMMmKZBOehoCWR2WrfNPKq+Q1yQef5okl3pSVlldFnu2h/dbHjOsDTHXug==}
+    engines: {node: '>=16'}
+    dev: false
+
+  /@prisma/adapter-planetscale@5.11.0-dev.5(@planetscale/database@1.16.0):
+    resolution: {integrity: sha512-+hRsoKA12l+47VuqeIjYq0fF6VInDyqARC3R5L8x+blX38qAQ04ZBQ1891sTj6f7MyL+0di7RTDxPzKGf8Bqug==}
+    peerDependencies:
+      '@planetscale/database': ^1.15.0
+    dependencies:
+      '@planetscale/database': 1.16.0
+      '@prisma/driver-adapter-utils': 5.11.0-dev.5
+    dev: false
+
+  /@prisma/client@5.11.0-dev.5(prisma@5.11.0-dev.5):
+    resolution: {integrity: sha512-JjlvAooCJf7ZVVrY39aXR2JwDpXE9VAeYwLZdmgrjkA8dAyJjbe8gEn+AiSr3w08gBX+Zs37cD9p/v9/Yon0Cg==}
     engines: {node: '>=16.13'}
     requiresBuild: true
     peerDependencies:
@@ -970,39 +990,45 @@ packages:
       prisma:
         optional: true
     dependencies:
-      prisma: 5.9.1
+      prisma: 5.11.0-dev.5
     dev: false
 
-  /@prisma/debug@5.9.1:
-    resolution: {integrity: sha512-yAHFSFCg8KVoL0oRUno3m60GAjsUKYUDkQ+9BA2X2JfVR3kRVSJFc/GpQ2fSORi4pSHZR9orfM4UC9OVXIFFTA==}
+  /@prisma/debug@5.11.0-dev.5:
+    resolution: {integrity: sha512-BLq8z4orU/oGTDGZfsASMxkW8taqGRcAAwUStd48xXFSphh3q+1kwKvWoR8iuiC4SS5LAUpU/q/GB0+vZLO9sA==}
     dev: false
 
-  /@prisma/engines-version@5.9.0-32.23fdc5965b1e05fc54e5f26ed3de66776b93de64:
-    resolution: {integrity: sha512-HFl7275yF0FWbdcNvcSRbbu9JCBSLMcurYwvWc8WGDnpu7APxQo2ONtZrUggU3WxLxUJ2uBX+0GOFIcJeVeOOQ==}
+  /@prisma/driver-adapter-utils@5.11.0-dev.5:
+    resolution: {integrity: sha512-PjBBxhmWbfCnt2vcX/qboNs2Sld18UyPv9H26PJThp10mY42Cv7PR0S4uRx+gSBJjn2dg7XiHxVNaRxmg8v+HQ==}
+    dependencies:
+      '@prisma/debug': 5.11.0-dev.5
     dev: false
 
-  /@prisma/engines@5.9.1:
-    resolution: {integrity: sha512-gkdXmjxQ5jktxWNdDA5aZZ6R8rH74JkoKq6LD5mACSvxd2vbqWeWIOV0Py5wFC8vofOYShbt6XUeCIUmrOzOnQ==}
+  /@prisma/engines-version@5.11.0-1.af6ceee5db79017870b8793ce19ab0440083dacd:
+    resolution: {integrity: sha512-2FTviRW66ta+v1kRojRoTvvffwzFXPrnaRsCKx0AS0Rkq8u3fIoFwYswagRBD0DTuJeLLyfeWAew5Z5ld6W6Ug==}
+    dev: false
+
+  /@prisma/engines@5.11.0-dev.5:
+    resolution: {integrity: sha512-N13EO8eZl5GVCamJItmrQBD8yoJtlvdGK2OkJ7MJo39OPH/CoT39vDqabSdgupm6/v29gp/2TkqjrFwnCh3tBA==}
     requiresBuild: true
     dependencies:
-      '@prisma/debug': 5.9.1
-      '@prisma/engines-version': 5.9.0-32.23fdc5965b1e05fc54e5f26ed3de66776b93de64
-      '@prisma/fetch-engine': 5.9.1
-      '@prisma/get-platform': 5.9.1
+      '@prisma/debug': 5.11.0-dev.5
+      '@prisma/engines-version': 5.11.0-1.af6ceee5db79017870b8793ce19ab0440083dacd
+      '@prisma/fetch-engine': 5.11.0-dev.5
+      '@prisma/get-platform': 5.11.0-dev.5
     dev: false
 
-  /@prisma/fetch-engine@5.9.1:
-    resolution: {integrity: sha512-l0goQOMcNVOJs1kAcwqpKq3ylvkD9F04Ioe1oJoCqmz05mw22bNAKKGWuDd3zTUoUZr97va0c/UfLNru+PDmNA==}
+  /@prisma/fetch-engine@5.11.0-dev.5:
+    resolution: {integrity: sha512-2/3SPOwS7v3uWoQNwArlJpxBM9v4P4Rkqwaveww7Z8tigoQIdVe9ys09r9Gv7yANcyrJr39sRMT2Xymj/GNQKQ==}
     dependencies:
-      '@prisma/debug': 5.9.1
-      '@prisma/engines-version': 5.9.0-32.23fdc5965b1e05fc54e5f26ed3de66776b93de64
-      '@prisma/get-platform': 5.9.1
+      '@prisma/debug': 5.11.0-dev.5
+      '@prisma/engines-version': 5.11.0-1.af6ceee5db79017870b8793ce19ab0440083dacd
+      '@prisma/get-platform': 5.11.0-dev.5
     dev: false
 
-  /@prisma/get-platform@5.9.1:
-    resolution: {integrity: sha512-6OQsNxTyhvG+T2Ksr8FPFpuPeL4r9u0JF0OZHUBI/Uy9SS43sPyAIutt4ZEAyqWQt104ERh70EZedkHZKsnNbg==}
+  /@prisma/get-platform@5.11.0-dev.5:
+    resolution: {integrity: sha512-VCdz1uGGngxobBzW3qsHS7NFx+lphLj8Fpn55nqjfyd02zd4HtbVxFTbtQH4ixrgZNgZwuhzZHh3riGrsaR4PA==}
     dependencies:
-      '@prisma/debug': 5.9.1
+      '@prisma/debug': 5.11.0-dev.5
     dev: false
 
   /@radix-ui/primitive@1.0.1:
@@ -1790,7 +1816,7 @@ packages:
       react-remove-scroll: 2.5.4(@types/react@18.2.18)(react@18.2.0)
       ua-parser-js: 1.0.37
       viem: 1.18.9(typescript@5.1.6)
-      wagmi: 1.4.6(@types/react@18.2.18)(react-dom@18.2.0)(react@18.2.0)(typescript@5.1.6)(viem@1.18.9)
+      wagmi: 1.4.6(@planetscale/database@1.16.0)(@types/react@18.2.18)(react-dom@18.2.0)(react@18.2.0)(typescript@5.1.6)(viem@1.18.9)
     transitivePeerDependencies:
       - '@types/react'
     dev: false
@@ -2515,7 +2541,7 @@ packages:
       yoga-wasm-web: 0.3.3
     dev: false
 
-  /@wagmi/connectors@3.1.4(@types/react@18.2.18)(react@18.2.0)(typescript@5.1.6)(viem@1.18.9):
+  /@wagmi/connectors@3.1.4(@planetscale/database@1.16.0)(@types/react@18.2.18)(react@18.2.0)(typescript@5.1.6)(viem@1.18.9):
     resolution: {integrity: sha512-DrYPXByoP9o+xko9R6whKz1cjaJ7HZ+9P27WkW7bhYUWU/sPeDZAvWiLmPwNAhQy8U7A/teAxyUtbExaOdc8zw==}
     peerDependencies:
       typescript: '>=5.0.4'
@@ -2528,10 +2554,10 @@ packages:
       '@ledgerhq/connect-kit-loader': 1.1.2
       '@safe-global/safe-apps-provider': 0.17.1(typescript@5.1.6)
       '@safe-global/safe-apps-sdk': 8.1.0(typescript@5.1.6)
-      '@walletconnect/ethereum-provider': 2.10.2(@walletconnect/modal@2.6.2)
+      '@walletconnect/ethereum-provider': 2.10.2(@planetscale/database@1.16.0)(@walletconnect/modal@2.6.2)
       '@walletconnect/legacy-provider': 2.0.0
       '@walletconnect/modal': 2.6.2(@types/react@18.2.18)(react@18.2.0)
-      '@walletconnect/utils': 2.10.2
+      '@walletconnect/utils': 2.10.2(@planetscale/database@1.16.0)
       abitype: 0.8.7(typescript@5.1.6)
       eventemitter3: 4.0.7
       typescript: 5.1.6
@@ -2557,7 +2583,7 @@ packages:
       - zod
     dev: false
 
-  /@wagmi/core@1.4.6(@types/react@18.2.18)(react@18.2.0)(typescript@5.1.6)(viem@1.18.9):
+  /@wagmi/core@1.4.6(@planetscale/database@1.16.0)(@types/react@18.2.18)(react@18.2.0)(typescript@5.1.6)(viem@1.18.9):
     resolution: {integrity: sha512-6SYcRZulzVNXCZ77EtJ7WfqirmMR+Svb5H/3Lqh0sDGwuW9kdH9G3hBDLf8LMJ1ImiWFsSDR5cl2qo7ZreYllA==}
     peerDependencies:
       typescript: '>=5.0.4'
@@ -2566,7 +2592,7 @@ packages:
       typescript:
         optional: true
     dependencies:
-      '@wagmi/connectors': 3.1.4(@types/react@18.2.18)(react@18.2.0)(typescript@5.1.6)(viem@1.18.9)
+      '@wagmi/connectors': 3.1.4(@planetscale/database@1.16.0)(@types/react@18.2.18)(react@18.2.0)(typescript@5.1.6)(viem@1.18.9)
       abitype: 0.8.7(typescript@5.1.6)
       eventemitter3: 4.0.7
       typescript: 5.1.6
@@ -2594,7 +2620,7 @@ packages:
       - zod
     dev: false
 
-  /@walletconnect/core@2.10.2:
+  /@walletconnect/core@2.10.2(@planetscale/database@1.16.0):
     resolution: {integrity: sha512-JQz/xp3SLEpTeRQctdck2ugSBVEpMxoSE+lFi2voJkZop1hv6P+uqr6E4PzjFluAjeAnKlT1xvra0aFWjPWVcw==}
     dependencies:
       '@walletconnect/heartbeat': 1.2.1
@@ -2602,14 +2628,14 @@ packages:
       '@walletconnect/jsonrpc-types': 1.0.3
       '@walletconnect/jsonrpc-utils': 1.0.8
       '@walletconnect/jsonrpc-ws-connection': 1.0.13
-      '@walletconnect/keyvaluestorage': 1.1.0
+      '@walletconnect/keyvaluestorage': 1.1.0(@planetscale/database@1.16.0)
       '@walletconnect/logger': 2.0.1
       '@walletconnect/relay-api': 1.0.9
       '@walletconnect/relay-auth': 1.0.4
       '@walletconnect/safe-json': 1.0.2
       '@walletconnect/time': 1.0.2
-      '@walletconnect/types': 2.10.2
-      '@walletconnect/utils': 2.10.2
+      '@walletconnect/types': 2.10.2(@planetscale/database@1.16.0)
+      '@walletconnect/utils': 2.10.2(@planetscale/database@1.16.0)
       events: 3.3.0
       lodash.isequal: 4.5.0
       uint8arrays: 3.1.1
@@ -2655,7 +2681,7 @@ packages:
       tslib: 1.14.1
     dev: false
 
-  /@walletconnect/ethereum-provider@2.10.2(@walletconnect/modal@2.6.2):
+  /@walletconnect/ethereum-provider@2.10.2(@planetscale/database@1.16.0)(@walletconnect/modal@2.6.2):
     resolution: {integrity: sha512-QMYFZ6+rVq2CJLdIPdKK0j1Qm66UA27oQU5V2SrL8EVwl7wFfm0Bq7fnL+qAWeDpn612dNeNErpk/ROa1zWlWg==}
     peerDependencies:
       '@walletconnect/modal': '>=2'
@@ -2668,10 +2694,10 @@ packages:
       '@walletconnect/jsonrpc-types': 1.0.3
       '@walletconnect/jsonrpc-utils': 1.0.8
       '@walletconnect/modal': 2.6.2(@types/react@18.2.18)(react@18.2.0)
-      '@walletconnect/sign-client': 2.10.2
-      '@walletconnect/types': 2.10.2
-      '@walletconnect/universal-provider': 2.10.2
-      '@walletconnect/utils': 2.10.2
+      '@walletconnect/sign-client': 2.10.2(@planetscale/database@1.16.0)
+      '@walletconnect/types': 2.10.2(@planetscale/database@1.16.0)
+      '@walletconnect/universal-provider': 2.10.2(@planetscale/database@1.16.0)
+      '@walletconnect/utils': 2.10.2(@planetscale/database@1.16.0)
       events: 3.3.0
     transitivePeerDependencies:
       - '@azure/app-configuration'
@@ -2753,7 +2779,7 @@ packages:
       - utf-8-validate
     dev: false
 
-  /@walletconnect/keyvaluestorage@1.1.0:
+  /@walletconnect/keyvaluestorage@1.1.0(@planetscale/database@1.16.0):
     resolution: {integrity: sha512-CjDBs1WmLGstYRoxWx9oAskTKj1deu7gvPycxZo2jYMa85hAYe762AITKWW1i2OJ8y9+5WJTGDAy3inVl8pjtw==}
     peerDependencies:
       '@react-native-async-storage/async-storage': 1.x
@@ -2763,7 +2789,7 @@ packages:
     dependencies:
       '@walletconnect/safe-json': 1.0.2
       idb-keyval: 6.2.1
-      unstorage: 1.9.0(idb-keyval@6.2.1)
+      unstorage: 1.9.0(@planetscale/database@1.16.0)(idb-keyval@6.2.1)
     transitivePeerDependencies:
       - '@azure/app-configuration'
       - '@azure/cosmos'
@@ -2906,17 +2932,17 @@ packages:
       tslib: 1.14.1
     dev: false
 
-  /@walletconnect/sign-client@2.10.2:
+  /@walletconnect/sign-client@2.10.2(@planetscale/database@1.16.0):
     resolution: {integrity: sha512-vviSLV3f92I0bReX+OLr1HmbH0uIzYEQQFd1MzIfDk9PkfFT/LLAHhUnDaIAMkIdippqDcJia+5QEtT4JihL3Q==}
     dependencies:
-      '@walletconnect/core': 2.10.2
+      '@walletconnect/core': 2.10.2(@planetscale/database@1.16.0)
       '@walletconnect/events': 1.0.1
       '@walletconnect/heartbeat': 1.2.1
       '@walletconnect/jsonrpc-utils': 1.0.8
       '@walletconnect/logger': 2.0.1
       '@walletconnect/time': 1.0.2
-      '@walletconnect/types': 2.10.2
-      '@walletconnect/utils': 2.10.2
+      '@walletconnect/types': 2.10.2(@planetscale/database@1.16.0)
+      '@walletconnect/utils': 2.10.2(@planetscale/database@1.16.0)
       events: 3.3.0
     transitivePeerDependencies:
       - '@azure/app-configuration'
@@ -2941,13 +2967,13 @@ packages:
       tslib: 1.14.1
     dev: false
 
-  /@walletconnect/types@2.10.2:
+  /@walletconnect/types@2.10.2(@planetscale/database@1.16.0):
     resolution: {integrity: sha512-luNV+07Wdla4STi9AejseCQY31tzWKQ5a7C3zZZaRK/di+rFaAAb7YW04OP4klE7tw/mJRGPTlekZElmHxO8kQ==}
     dependencies:
       '@walletconnect/events': 1.0.1
       '@walletconnect/heartbeat': 1.2.1
       '@walletconnect/jsonrpc-types': 1.0.3
-      '@walletconnect/keyvaluestorage': 1.1.0
+      '@walletconnect/keyvaluestorage': 1.1.0(@planetscale/database@1.16.0)
       '@walletconnect/logger': 2.0.1
       events: 3.3.0
     transitivePeerDependencies:
@@ -2965,7 +2991,7 @@ packages:
       - supports-color
     dev: false
 
-  /@walletconnect/universal-provider@2.10.2:
+  /@walletconnect/universal-provider@2.10.2(@planetscale/database@1.16.0):
     resolution: {integrity: sha512-wFgI0LbQ3D56sgaUMsgOHCM5m8WLxiC71BGuCKQfApgsbNMVKugYVy2zWHyUyi8sqTQHI+uSaVpDev4UHq9LEw==}
     dependencies:
       '@walletconnect/jsonrpc-http-connection': 1.0.7
@@ -2973,9 +2999,9 @@ packages:
       '@walletconnect/jsonrpc-types': 1.0.3
       '@walletconnect/jsonrpc-utils': 1.0.8
       '@walletconnect/logger': 2.0.1
-      '@walletconnect/sign-client': 2.10.2
-      '@walletconnect/types': 2.10.2
-      '@walletconnect/utils': 2.10.2
+      '@walletconnect/sign-client': 2.10.2(@planetscale/database@1.16.0)
+      '@walletconnect/types': 2.10.2(@planetscale/database@1.16.0)
+      '@walletconnect/utils': 2.10.2(@planetscale/database@1.16.0)
       events: 3.3.0
     transitivePeerDependencies:
       - '@azure/app-configuration'
@@ -2995,7 +3021,7 @@ packages:
       - utf-8-validate
     dev: false
 
-  /@walletconnect/utils@2.10.2:
+  /@walletconnect/utils@2.10.2(@planetscale/database@1.16.0):
     resolution: {integrity: sha512-syxXRpc2yhSknMu3IfiBGobxOY7fLfLTJuw+ppKaeO6WUdZpIit3wfuGOcc0Ms3ZPFCrGfyGOoZsCvgdXtptRg==}
     dependencies:
       '@stablelib/chacha20poly1305': 1.0.1
@@ -3006,7 +3032,7 @@ packages:
       '@walletconnect/relay-api': 1.0.9
       '@walletconnect/safe-json': 1.0.2
       '@walletconnect/time': 1.0.2
-      '@walletconnect/types': 2.10.2
+      '@walletconnect/types': 2.10.2(@planetscale/database@1.16.0)
       '@walletconnect/window-getters': 1.0.1
       '@walletconnect/window-metadata': 1.0.1
       detect-browser: 5.3.0
@@ -7042,13 +7068,13 @@ packages:
       react: 18.2.0
     dev: false
 
-  /prisma@5.9.1:
-    resolution: {integrity: sha512-Hy/8KJZz0ELtkw4FnG9MS9rNWlXcJhf98Z2QMqi0QiVMoS8PzsBkpla0/Y5hTlob8F3HeECYphBjqmBxrluUrQ==}
+  /prisma@5.11.0-dev.5:
+    resolution: {integrity: sha512-1JNmxvAloartQGuCV05yUvha7PkQxiWydspVUySDxHcJKAiVa4W14o/BDQpc94/UaOroJzTZ71hKnwTwx6/SDw==}
     engines: {node: '>=16.13'}
     hasBin: true
     requiresBuild: true
     dependencies:
-      '@prisma/engines': 5.9.1
+      '@prisma/engines': 5.11.0-dev.5
     dev: false
 
   /prismjs@1.29.0:
@@ -8218,7 +8244,7 @@ packages:
       unist-util-visit-parents: 5.1.3
     dev: false
 
-  /unstorage@1.9.0(idb-keyval@6.2.1):
+  /unstorage@1.9.0(@planetscale/database@1.16.0)(idb-keyval@6.2.1):
     resolution: {integrity: sha512-VpD8ZEYc/le8DZCrny3bnqKE4ZjioQxBRnWE+j5sGNvziPjeDlaS1NaFFHzl/kkXaO3r7UaF8MGQrs14+1B4pQ==}
     peerDependencies:
       '@azure/app-configuration': ^1.4.1
@@ -8256,6 +8282,7 @@ packages:
       idb-keyval:
         optional: true
     dependencies:
+      '@planetscale/database': 1.16.0
       anymatch: 3.1.3
       chokidar: 3.5.3
       destr: 2.0.2
@@ -8455,7 +8482,7 @@ packages:
       - zod
     dev: false
 
-  /wagmi@1.4.6(@types/react@18.2.18)(react-dom@18.2.0)(react@18.2.0)(typescript@5.1.6)(viem@1.18.9):
+  /wagmi@1.4.6(@planetscale/database@1.16.0)(@types/react@18.2.18)(react-dom@18.2.0)(react@18.2.0)(typescript@5.1.6)(viem@1.18.9):
     resolution: {integrity: sha512-A5Kryru0QT8E+dpkw83uDbfuGgyR1GdGzay2TALI7sf2kqVair8N0DuCj7ohrCStLRY1oAibXWGolRrmce4psg==}
     peerDependencies:
       react: '>=17.0.0'
@@ -8468,7 +8495,7 @@ packages:
       '@tanstack/query-sync-storage-persister': 4.36.1
       '@tanstack/react-query': 4.36.1(react-dom@18.2.0)(react@18.2.0)
       '@tanstack/react-query-persist-client': 4.36.1(@tanstack/react-query@4.36.1)
-      '@wagmi/core': 1.4.6(@types/react@18.2.18)(react@18.2.0)(typescript@5.1.6)(viem@1.18.9)
+      '@wagmi/core': 1.4.6(@planetscale/database@1.16.0)(@types/react@18.2.18)(react@18.2.0)(typescript@5.1.6)(viem@1.18.9)
       abitype: 0.8.7(typescript@5.1.6)
       react: 18.2.0
       typescript: 5.1.6
