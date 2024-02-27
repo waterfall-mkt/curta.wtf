@@ -1,6 +1,6 @@
 import { ImageResponse } from 'next/server';
 
-// import { db } from '@/lib/db';
+import { db } from '@/lib/db';
 
 // -----------------------------------------------------------------------------
 // Image
@@ -15,7 +15,7 @@ export default async function Image() {
     new URL('../node_modules/@fontsource/inter/files/inter-latin-600-normal.woff', import.meta.url),
   ).then((res) => res.arrayBuffer());
 
-  /* const [authors, puzzles, solves, solversArr] = await Promise.all([
+  const [authors, puzzles, solves, solversArr] = await Promise.all([
     db.userInfo.count({ where: { isPuzzleAuthor: true } }),
     db.puzzle.count(),
     db.puzzleSolve.count(),
@@ -26,8 +26,6 @@ export default async function Image() {
     >,
   ]);
   const solvers = solversArr[0]['count(distinct solver_address)'];
- */
-  const [authors, puzzles, solves, solvers] = [1, 2, 2, 2];
 
   return new ImageResponse(
     (
@@ -257,5 +255,3 @@ export default async function Image() {
     },
   );
 }
-
-export const runtime = 'edge';
