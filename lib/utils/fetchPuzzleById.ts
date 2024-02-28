@@ -23,8 +23,8 @@ const fetchPuzzleById = async (id: number, chainId: number) => {
           _count: { select: { solves: true } },
         },
       }),
-    [`puzzles-${id}-${chainId}`],
-    { tags: ['puzzles', `puzzles-${chainId}`, `puzzles-${id}-${chainId}`], revalidate: 3600 },
+    [`puzzles-${chainId}-${id}`],
+    { tags: ['puzzles', `puzzles-${chainId}`, `puzzles-${chainId}-${id}`], revalidate: 300 },
   )();
 };
 

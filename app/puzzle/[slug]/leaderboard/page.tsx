@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation';
 
-import PuzzleSolvesTable from './(components)/table';
+import PuzzleSolvesDataTable from './(components)/data-table';
 
 import { fetchPuzzleById, fetchPuzzleSolvesById, getChainIdAndId } from '@/lib/utils';
 
@@ -16,7 +16,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
 
   const { chainId, id } = ids;
 
-  const [puzzle, { data: solves }] = await Promise.all([
+  const [puzzle, solves] = await Promise.all([
     fetchPuzzleById(id, chainId),
     fetchPuzzleSolvesById(id, chainId),
   ]);
@@ -33,7 +33,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
       role="tabpanel"
       aria-labelledby={`trigger-/puzzle/${normalizedSlug}/leaderboard`}
     >
-      <PuzzleSolvesTable data={solves} puzzleAddedTimestamp={puzzle.addedTimestamp} />
+      <PuzzleSolvesDataTable data={solves} puzzleAddedTimestamp={puzzle.addedTimestamp} />
     </div>
   );
 }

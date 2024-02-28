@@ -1,13 +1,13 @@
 'use client';
 
-import { type FC, Fragment, useMemo } from 'react';
+import { Fragment, useMemo } from 'react';
 
 import type { ColumnDef } from '@tanstack/react-table';
 import { ExternalLink } from 'lucide-react';
 
 import { IconButton, Table } from '@/components/ui';
 
-const PuzzleSolvesTableSkeleton: FC = () => {
+const PuzzleSolvesTableSkeleton: React.FC = () => {
   return (
     <Fragment>
       <PuzzleSolvesTableDesktopSkeleton />
@@ -16,7 +16,7 @@ const PuzzleSolvesTableSkeleton: FC = () => {
   );
 };
 
-const PuzzleSolvesTableDesktopSkeleton: FC = () => {
+const PuzzleSolvesTableDesktopSkeleton: React.FC = () => {
   const columns: ColumnDef<null>[] = useMemo(
     () => [
       {
@@ -73,7 +73,7 @@ const PuzzleSolvesTableDesktopSkeleton: FC = () => {
   return <Table className="hidden md:block" columns={columns} data={Array(11).fill(null)} />;
 };
 
-const PuzzleSolvesTableMobileSkeleton: FC = () => {
+const PuzzleSolvesTableMobileSkeleton: React.FC = () => {
   const columns: ColumnDef<null>[] = useMemo(
     () => [
       {
