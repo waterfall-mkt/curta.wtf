@@ -1,11 +1,9 @@
 'use client';
 
-import type { FC } from 'react';
-
 import { motion } from 'framer-motion';
 import { Puzzle } from 'lucide-react';
 
-const PuzzleFeature: FC = () => {
+const PuzzleFeature: React.FC = () => {
   // Width of the SVG.
   const WIDTH = 256;
   // Height of the SVG.
