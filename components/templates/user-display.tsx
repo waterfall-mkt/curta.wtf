@@ -1,4 +1,4 @@
-import { cache, type ReactNode } from 'react';
+import { cache } from 'react';
 
 import clsx from 'clsx';
 import { Github } from 'lucide-react';
@@ -25,7 +25,7 @@ type UserDisplayProps = {
   className?: string;
   address: Address;
   displaySocials?: boolean;
-  children?: ReactNode;
+  children?: React.ReactNode;
 };
 
 // ---------------------------------------–-------------------------------------

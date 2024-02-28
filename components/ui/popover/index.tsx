@@ -1,6 +1,6 @@
 'use client';
 
-import { type ForwardedRef, forwardRef, Fragment } from 'react';
+import { forwardRef, Fragment } from 'react';
 
 import { popoverArrowStyles, popoverStyles } from './styles';
 import type { PopoverProps } from './types';
@@ -26,7 +26,7 @@ const Popover = forwardRef(
       children,
       ...rest
     }: PopoverProps,
-    ref: ForwardedRef<HTMLDivElement>,
+    ref: React.ForwardedRef<HTMLDivElement>,
   ) => {
     const ContentParent = inPortal ? PopoverPrimitive.Portal : Fragment;
 

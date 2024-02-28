@@ -1,7 +1,5 @@
 'use client';
 
-import type { MouseEvent } from 'react';
-
 import { TableAccordionButtonProps } from './types';
 import { ChevronDown, ChevronUp } from 'lucide-react';
 
@@ -12,7 +10,7 @@ import { IconButton } from '@/components/ui';
 // -----------------------------------------------------------------------------
 
 const TableAccordionButton = <T,>({ row }: TableAccordionButtonProps<T>) => {
-  const handleClick = (e: MouseEvent) => {
+  const handleClick = (e: React.MouseEvent) => {
     row.toggleExpanded();
     e.stopPropagation();
   };

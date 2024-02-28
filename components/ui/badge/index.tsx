@@ -1,5 +1,3 @@
-import type { FC } from 'react';
-
 import { badgeVariants } from './styles';
 import type { BadgeProps } from './types';
 import clsx from 'clsx';
@@ -9,7 +7,7 @@ import { twMerge } from 'tailwind-merge';
 // Component
 // -----------------------------------------------------------------------------
 
-const Badge: FC<BadgeProps> = ({
+const Badge: React.FC<BadgeProps> = ({
   className,
   size = 'md',
   variant = 'primary',

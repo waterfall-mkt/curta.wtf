@@ -1,6 +1,4 @@
-import type { FC } from 'react';
-
-export const BaseIcon: FC<JSX.IntrinsicElements['svg']> = ({ className, ...rest }) => {
+export const BaseIcon: React.FC<JSX.IntrinsicElements['svg']> = ({ className, ...rest }) => {
   return (
     <svg
       width="24"
@@ -22,7 +20,7 @@ export const BaseIcon: FC<JSX.IntrinsicElements['svg']> = ({ className, ...rest 
   );
 };
 
-export const EthereumIcon: FC<JSX.IntrinsicElements['svg']> = ({ className, ...rest }) => {
+export const EthereumIcon: React.FC<JSX.IntrinsicElements['svg']> = ({ className, ...rest }) => {
   return (
     <svg
       width="24"
@@ -49,7 +47,7 @@ export const EthereumIcon: FC<JSX.IntrinsicElements['svg']> = ({ className, ...r
   );
 };
 
-export const HuffIcon: FC<JSX.IntrinsicElements['svg']> = ({ className, ...rest }) => {
+export const HuffIcon: React.FC<JSX.IntrinsicElements['svg']> = ({ className, ...rest }) => {
   return (
     <svg
       width="24"
@@ -71,7 +69,7 @@ export const HuffIcon: FC<JSX.IntrinsicElements['svg']> = ({ className, ...rest 
   );
 };
 
-export const OpenSeaIcon: FC<JSX.IntrinsicElements['svg']> = ({ className, ...rest }) => {
+export const OpenSeaIcon: React.FC<JSX.IntrinsicElements['svg']> = ({ className, ...rest }) => {
   return (
     <svg
       width="24"
@@ -95,7 +93,7 @@ export const OpenSeaIcon: FC<JSX.IntrinsicElements['svg']> = ({ className, ...re
   );
 };
 
-export const XIcon: FC<JSX.IntrinsicElements['svg']> = ({ className, ...rest }) => {
+export const XIcon: React.FC<JSX.IntrinsicElements['svg']> = ({ className, ...rest }) => {
   return (
     <svg
       width="24"

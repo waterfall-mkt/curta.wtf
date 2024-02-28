@@ -1,7 +1,5 @@
 'use client';
 
-import type { ReactNode } from 'react';
-
 import { darkTheme, getDefaultWallets, RainbowKitProvider } from '@rainbow-me/rainbowkit';
 import { configureChains, createConfig, WagmiConfig } from 'wagmi';
 import { base, baseGoerli, mainnet, sepolia } from 'wagmi/chains';
@@ -36,7 +34,7 @@ export const config = createConfig({
 // Layout
 // -----------------------------------------------------------------------------
 
-export default function Web3Provider({ children }: { children: ReactNode }) {
+export default function Web3Provider({ children }: { children: React.ReactNode }) {
   return (
     <WagmiConfig config={config}>
       <RainbowKitProvider theme={darkTheme()} modalSize="compact" chains={chains}>

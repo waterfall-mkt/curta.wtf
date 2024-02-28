@@ -1,4 +1,4 @@
-import { cache, type FC } from 'react';
+import { cache } from 'react';
 
 import clsx from 'clsx';
 import { twMerge } from 'tailwind-merge';
@@ -23,7 +23,7 @@ export type AddressLinkProps = {
 // Component
 // ---------------------------------------–-------------------------------------
 
-const AddressLink: FC<AddressLinkProps> = async ({
+const AddressLink: React.FC<AddressLinkProps> = async ({
   className,
   address,
   chainId = 1,

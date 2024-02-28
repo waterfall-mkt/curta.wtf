@@ -1,5 +1,3 @@
-import type { FC } from 'react';
-
 import { getChainInfo } from '@/lib/utils';
 
 // ---------------------------------------–-------------------------------------
@@ -15,7 +13,7 @@ type IdWithChainLogoProps = {
 // Component
 // ---------------------------------------–-------------------------------------
 
-const IdWithChainLogo: FC<IdWithChainLogoProps> = ({ id, chainId }) => {
+const IdWithChainLogo: React.FC<IdWithChainLogoProps> = ({ id, chainId }) => {
   const Logo = getChainInfo(chainId).logo;
 
   return (

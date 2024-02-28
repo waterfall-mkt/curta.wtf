@@ -1,4 +1,4 @@
-import { type FC, type ForwardedRef, forwardRef } from 'react';
+import { forwardRef } from 'react';
 
 import { selectContainerStyles, selectIconContainerVariants, selectVariants } from './styles';
 import type { SelectComposition, SelectItemProps, SelectProps } from './types';
@@ -10,7 +10,7 @@ import { twMerge } from 'tailwind-merge';
 // Component
 // -----------------------------------------------------------------------------
 
-const Select: FC<SelectProps> & SelectComposition = ({
+const Select: React.FC<SelectProps> & SelectComposition = ({
   className,
   size = 'md',
   variant = 'primary',
@@ -52,7 +52,7 @@ const Select: FC<SelectProps> & SelectComposition = ({
 );
 
 export const SelectItem = forwardRef(
-  ({ ...rest }: SelectItemProps, ref: ForwardedRef<HTMLOptionElement>) => (
+  ({ ...rest }: SelectItemProps, ref: React.ForwardedRef<HTMLOptionElement>) => (
     <option {...rest} ref={ref} />
   ),
 );

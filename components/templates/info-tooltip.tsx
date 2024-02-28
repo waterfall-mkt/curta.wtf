@@ -1,5 +1,3 @@
-import type { FC } from 'react';
-
 import { HelpCircle } from 'lucide-react';
 
 import { GLOSSARY } from '@/lib/constants/glossary';
@@ -18,7 +16,7 @@ type InfoTooltipProps = {
 // Component
 // -----------------------------------------------------------------------------
 
-const InfoTooltip: FC<InfoTooltipProps> = ({ term }) => {
+const InfoTooltip: React.FC<InfoTooltipProps> = ({ term }) => {
   return (
     <Tooltip content={GLOSSARY[term]}>
       <span>

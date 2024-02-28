@@ -1,6 +1,6 @@
 'use client';
 
-import { type ForwardedRef, forwardRef } from 'react';
+import { forwardRef } from 'react';
 
 import { tableButtonVariants } from './styles';
 import type { TableButtonProps } from './types';
@@ -14,7 +14,7 @@ import { twMerge } from 'tailwind-merge';
 const TableButton = forwardRef(
   (
     { className, disabled, onClick, children, ...rest }: TableButtonProps,
-    forwardRef: ForwardedRef<HTMLButtonElement>,
+    forwardRef: React.ForwardedRef<HTMLButtonElement>,
   ) => (
     <button
       ref={forwardRef}

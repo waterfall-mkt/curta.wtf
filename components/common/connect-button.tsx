@@ -1,7 +1,5 @@
 'use client';
 
-import type { FC } from 'react';
-
 import { ConnectButton as RainbowConnect } from '@rainbow-me/rainbowkit';
 
 import { Button } from '@/components/ui';
@@ -18,7 +16,7 @@ type ConnectButtonProps = {
 // Component
 // ---------------------------------------–-------------------------------------
 
-const ConnectButton: FC<ConnectButtonProps> = ({ className }) => {
+const ConnectButton: React.FC<ConnectButtonProps> = ({ className }) => {
   return (
     <RainbowConnect.Custom>
       {({ account, chain, openAccountModal, openChainModal, openConnectModal, mounted }) => {

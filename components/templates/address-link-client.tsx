@@ -1,6 +1,6 @@
 'use client';
 
-import { type FC, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import clsx from 'clsx';
 import { twMerge } from 'tailwind-merge';
@@ -25,7 +25,7 @@ type AddressLinkClientProps = {
 // Component
 // ---------------------------------------–-------------------------------------
 
-const AddressLinkClient: FC<AddressLinkClientProps> = ({
+const AddressLinkClient: React.FC<AddressLinkClientProps> = ({
   className,
   address,
   chainId = 1,

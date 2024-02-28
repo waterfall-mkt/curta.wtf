@@ -1,4 +1,4 @@
-import { type FC, Fragment } from 'react';
+import { Fragment } from 'react';
 
 import { ArrowUpRight } from 'lucide-react';
 
@@ -6,7 +6,7 @@ import { FOOTER_PAGES, SOCIAL_LINKS } from '@/lib/constants/site';
 
 import { Button, IconButton } from '@/components/ui';
 
-const Footer: FC = () => {
+const Footer: React.FC = () => {
   return (
     <div className="flex flex-col gap-4 border-t border-stroke px-4 py-6 lg:flex-row lg:justify-between lg:gap-0 lg:px-10">
       {/* Navigation */}

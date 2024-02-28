@@ -1,6 +1,6 @@
 'use client';
 
-import { type FC, type ForwardedRef, forwardRef } from 'react';
+import { forwardRef } from 'react';
 
 import {
   toastCloseStyles,
@@ -30,7 +30,10 @@ import { IconButton } from '@/components/ui';
 // -----------------------------------------------------------------------------
 
 const Toast = forwardRef(
-  ({ className, intent = 'neutral', ...rest }: ToastProps, ref: ForwardedRef<HTMLLIElement>) => (
+  (
+    { className, intent = 'neutral', ...rest }: ToastProps,
+    ref: React.ForwardedRef<HTMLLIElement>,
+  ) => (
     <ToastPrimitives.Root
       ref={ref}
       className={twMerge(clsx(toastVariants({ intent }), className))}
@@ -40,13 +43,13 @@ const Toast = forwardRef(
 );
 
 const ToastAction = forwardRef(
-  ({ ...rest }: ToastActionProps, ref: ForwardedRef<HTMLButtonElement>) => (
+  ({ ...rest }: ToastActionProps, ref: React.ForwardedRef<HTMLButtonElement>) => (
     <ToastPrimitives.Action ref={ref} asChild {...rest} />
   ),
 );
 
 const ToastClose = forwardRef(
-  ({ className, intent, ...rest }: ToastCloseProps, ref: ForwardedRef<HTMLButtonElement>) => (
+  ({ className, intent, ...rest }: ToastCloseProps, ref: React.ForwardedRef<HTMLButtonElement>) => (
     <ToastPrimitives.Close ref={ref} toast-close="" asChild {...rest}>
       <IconButton
         size="sm"
@@ -63,7 +66,7 @@ const ToastClose = forwardRef(
 const ToastDescription = forwardRef(
   (
     { className, intent = 'neutral', ...rest }: ToastDescriptionProps,
-    ref: ForwardedRef<HTMLDivElement>,
+    ref: React.ForwardedRef<HTMLDivElement>,
   ) => (
     <ToastPrimitives.Description
       ref={ref}
@@ -73,7 +76,7 @@ const ToastDescription = forwardRef(
   ),
 );
 
-const Toaster: FC = () => {
+const Toaster: React.FC = () => {
   const { toasts } = useToast();
 
   return (
@@ -101,7 +104,7 @@ const ToastProvider = ToastPrimitives.Provider;
 const ToastTitle = forwardRef(
   (
     { className, intent = 'neutral', ...rest }: ToastTitleProps,
-    ref: ForwardedRef<HTMLDivElement>,
+    ref: React.ForwardedRef<HTMLDivElement>,
   ) => (
     <ToastPrimitives.Title
       ref={ref}
@@ -112,7 +115,7 @@ const ToastTitle = forwardRef(
 );
 
 const ToastViewport = forwardRef(
-  ({ className, ...rest }: ToastViewportProps, ref: ForwardedRef<HTMLOListElement>) => (
+  ({ className, ...rest }: ToastViewportProps, ref: React.ForwardedRef<HTMLOListElement>) => (
     <ToastPrimitives.Viewport
       ref={ref}
       className={twMerge(clsx(toastViewportStyles, className))}

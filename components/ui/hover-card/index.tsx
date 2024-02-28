@@ -1,6 +1,6 @@
 'use client';
 
-import { type ForwardedRef, forwardRef, Fragment } from 'react';
+import { forwardRef, Fragment } from 'react';
 
 import { hoverCardArrowStyles, hoverCardStyles } from './styles';
 import type { HoverCardProps } from './types';
@@ -26,7 +26,7 @@ const HoverCard = forwardRef(
       children,
       ...rest
     }: HoverCardProps,
-    ref: ForwardedRef<HTMLDivElement>,
+    ref: React.ForwardedRef<HTMLDivElement>,
   ) => {
     const ContentParent = inPortal ? HoverCardPrimitive.Portal : Fragment;
 

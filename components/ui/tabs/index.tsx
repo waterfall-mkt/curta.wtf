@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { type FC, type ForwardedRef, forwardRef } from 'react';
+import { forwardRef } from 'react';
 
 import {
   tabsContentStyles,
@@ -30,7 +30,7 @@ import { Badge } from '@/components/ui';
 // -----------------------------------------------------------------------------
 
 const TabsContent = forwardRef(
-  ({ className, ...rest }: TabsContentProps, ref: ForwardedRef<HTMLDivElement>) => (
+  ({ className, ...rest }: TabsContentProps, ref: React.ForwardedRef<HTMLDivElement>) => (
     <TabsPrimitive.Content
       className={twMerge(clsx(tabsContentStyles, className))}
       {...rest}
@@ -40,80 +40,82 @@ const TabsContent = forwardRef(
 );
 
 const TabsList = forwardRef(
-  ({ className, ...rest }: TabsListProps, ref: ForwardedRef<HTMLDivElement>) => (
+  ({ className, ...rest }: TabsListProps, ref: React.ForwardedRef<HTMLDivElement>) => (
     <TabsPrimitive.List className={twMerge(clsx(tabsListStyles, className))} {...rest} ref={ref} />
   ),
 );
 
-const TabsRoot: FC<TabsRootProps> = TabsPrimitive.Root;
+const TabsRoot: React.FC<TabsRootProps> = TabsPrimitive.Root;
 
-const TabsTrigger = forwardRef((props: TabsTriggerProps, ref: ForwardedRef<HTMLButtonElement>) => {
-  // Return early if `asChild` is used, so features/props native to this
-  // component do not get passed down to the `TabsPrimitive.Trigger` component.
-  if (props.asChild) return <TabsPrimitive.Trigger {...props} />;
+const TabsTrigger = forwardRef(
+  (props: TabsTriggerProps, ref: React.ForwardedRef<HTMLButtonElement>) => {
+    // Return early if `asChild` is used, so features/props native to this
+    // component do not get passed down to the `TabsPrimitive.Trigger` component.
+    if (props.asChild) return <TabsPrimitive.Trigger {...props} />;
 
-  // Destructure props. `asChild` is false-y here, but we destructure it out
-  // because we don't want to pass it in if the trigger has an `href` prop.
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { className, icon, stat, href, newTab, children, asChild, ...rest } = props;
+    // Destructure props. `asChild` is false-y here, but we destructure it out
+    // because we don't want to pass it in if the trigger has an `href` prop.
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { className, icon, stat, href, newTab, children, asChild, ...rest } = props;
 
-  if (href) {
+    if (href) {
+      return (
+        <TabsPrimitive.Trigger
+          className={twMerge(clsx(tabsTriggerStyles, className))}
+          ref={ref}
+          asChild={true}
+          {...rest}
+        >
+          <Link
+            className={clsx(tabsTriggerLinkStyles, rest.disabled ? 'pointer-events-none' : '')}
+            href={href}
+            {...(newTab ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+          >
+            <span className={clsx(tabsTriggerContentStyles)}>
+              {icon ? <span className={clsx(tabsTriggerIconStyles)}>{icon}</span> : null}
+              <span>{children}</span>
+              {stat !== undefined ? (
+                <Badge
+                  className={clsx(tabsTriggerStatStyles)}
+                  size="sm"
+                  variant="secondary"
+                  intent="neutral"
+                  type="number"
+                >
+                  {stat}
+                </Badge>
+              ) : null}
+            </span>
+          </Link>
+        </TabsPrimitive.Trigger>
+      );
+    }
+
     return (
       <TabsPrimitive.Trigger
         className={twMerge(clsx(tabsTriggerStyles, className))}
         ref={ref}
-        asChild={true}
         {...rest}
       >
-        <Link
-          className={clsx(tabsTriggerLinkStyles, rest.disabled ? 'pointer-events-none' : '')}
-          href={href}
-          {...(newTab ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-        >
-          <span className={clsx(tabsTriggerContentStyles)}>
-            {icon ? <span className={clsx(tabsTriggerIconStyles)}>{icon}</span> : null}
-            <span>{children}</span>
-            {stat !== undefined ? (
-              <Badge
-                className={clsx(tabsTriggerStatStyles)}
-                size="sm"
-                variant="secondary"
-                intent="neutral"
-                type="number"
-              >
-                {stat}
-              </Badge>
-            ) : null}
-          </span>
-        </Link>
+        <span className={clsx(tabsTriggerContentStyles)}>
+          {icon ? <span className={clsx(tabsTriggerIconStyles)}>{icon}</span> : null}
+          <span>{children}</span>
+          {stat !== undefined ? (
+            <Badge
+              className={clsx(tabsTriggerStatStyles)}
+              size="sm"
+              variant="secondary"
+              intent="neutral"
+              type="number"
+            >
+              {stat}
+            </Badge>
+          ) : null}
+        </span>
       </TabsPrimitive.Trigger>
     );
-  }
-
-  return (
-    <TabsPrimitive.Trigger
-      className={twMerge(clsx(tabsTriggerStyles, className))}
-      ref={ref}
-      {...rest}
-    >
-      <span className={clsx(tabsTriggerContentStyles)}>
-        {icon ? <span className={clsx(tabsTriggerIconStyles)}>{icon}</span> : null}
-        <span>{children}</span>
-        {stat !== undefined ? (
-          <Badge
-            className={clsx(tabsTriggerStatStyles)}
-            size="sm"
-            variant="secondary"
-            intent="neutral"
-            type="number"
-          >
-            {stat}
-          </Badge>
-        ) : null}
-      </span>
-    </TabsPrimitive.Trigger>
-  );
-});
+  },
+);
 
 // -----------------------------------------------------------------------------
 // Export

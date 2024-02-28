@@ -1,6 +1,6 @@
 'use client';
 
-import { type FC, useMemo } from 'react';
+import { useMemo } from 'react';
 
 import type { ColumnDef } from '@tanstack/react-table';
 import clsx from 'clsx';
@@ -25,7 +25,7 @@ type PhaseTableRowType = { phase: Phase; meaning: string; length: string };
 // Component
 // ---------------------------------------–-------------------------------------
 
-const PhaseTable: FC<PhaseTableProps> = ({ className }) => {
+const PhaseTable: React.FC<PhaseTableProps> = ({ className }) => {
   const columns = useMemo<ColumnDef<PhaseTableRowType>[]>(
     () => [
       {

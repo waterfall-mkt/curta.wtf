@@ -1,6 +1,6 @@
 'use client';
 
-import { type FC, Fragment, type ReactNode } from 'react';
+import { Fragment } from 'react';
 
 import AddressLinkClient from './address-link-client';
 import ENSAvatarClient from './ens-avatar-client';
@@ -16,12 +16,17 @@ import { Button, ButtonGroup, HoverCard, IconButton } from '@/components/ui';
 
 type UserHoverCardProps = {
   address: Address;
-  trigger: ReactNode;
+  trigger: React.ReactNode;
   triggerAsChild?: boolean;
   inPortal?: boolean;
 };
 
-const UserHoverCard: FC<UserHoverCardProps> = ({ address, trigger, triggerAsChild, inPortal }) => {
+const UserHoverCard: React.FC<UserHoverCardProps> = ({
+  address,
+  trigger,
+  triggerAsChild,
+  inPortal,
+}) => {
   const { data, error, isLoading, mutate } = useSWR<DbUser>(
     `/api/user?address=${address}`,
     (url) => fetch(url).then((res) => res.json()),

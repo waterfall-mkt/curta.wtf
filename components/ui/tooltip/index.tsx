@@ -1,6 +1,6 @@
 'use client';
 
-import { type ForwardedRef, forwardRef, Fragment } from 'react';
+import { forwardRef, Fragment } from 'react';
 
 import { tooltipArrowStyles, tooltipStyles } from './styles';
 import type { TooltipProps } from './types';
@@ -25,7 +25,7 @@ const Tooltip = forwardRef(
       children,
       ...rest
     }: TooltipProps,
-    ref: ForwardedRef<HTMLDivElement>,
+    ref: React.ForwardedRef<HTMLDivElement>,
   ) => {
     const ContentParent = inPortal ? RadixTooltip.Portal : Fragment;
 

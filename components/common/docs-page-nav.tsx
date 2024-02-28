@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { type FC, useMemo } from 'react';
+import { useMemo } from 'react';
 
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 
@@ -20,7 +20,7 @@ type DocsPageNavProps = {
 // Component
 // -----------------------------------------------------------------------------
 
-const DocsPageNav: FC<DocsPageNavProps> = ({ sections }) => {
+const DocsPageNav: React.FC<DocsPageNavProps> = ({ sections }) => {
   const pathname = usePathname();
   const pages = useMemo(
     () =>

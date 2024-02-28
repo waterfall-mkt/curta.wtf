@@ -1,7 +1,5 @@
 'use client';
 
-import type { ComponentPropsWithoutRef, FC } from 'react';
-
 import type { Address } from 'viem';
 
 import AddressLinkClient from '@/components/templates/address-link-client';
@@ -17,14 +15,17 @@ type AddressDisplayClientProps = {
   label?: string;
   prefetchedEnsName?: string;
   prefetchedEnsAvatar?: string;
-  hoverCardProps?: Omit<ComponentPropsWithoutRef<typeof UserHoverCard>, 'address' | 'trigger'>;
+  hoverCardProps?: Omit<
+    React.ComponentPropsWithoutRef<typeof UserHoverCard>,
+    'address' | 'trigger'
+  >;
 };
 
 // ---------------------------------------–-------------------------------------
 // Component
 // ---------------------------------------–-------------------------------------
 
-const AddressDisplayClient: FC<AddressDisplayClientProps> = ({
+const AddressDisplayClient: React.FC<AddressDisplayClientProps> = ({
   address,
   label,
   prefetchedEnsName,

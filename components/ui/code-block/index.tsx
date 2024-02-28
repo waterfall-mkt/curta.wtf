@@ -1,7 +1,5 @@
 'use client';
 
-import type { FC } from 'react';
-
 import CodeBlockActions from './actions';
 import CodeBlockFileName from './file-name';
 import CodeBlockLanguageLogo from './language-logo';
@@ -40,7 +38,7 @@ require('prismjs/components/prism-diff');
 // Component
 // -----------------------------------------------------------------------------
 
-const CodeBlock: FC<CodeBlockProps> = ({
+const CodeBlock: React.FC<CodeBlockProps> = ({
   className,
   fileName,
   headerLabel,

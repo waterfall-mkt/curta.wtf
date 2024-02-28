@@ -1,15 +1,6 @@
 'use client';
 
-import {
-  type ChangeEvent,
-  type ForwardedRef,
-  forwardRef,
-  useEffect,
-  useId,
-  useImperativeHandle,
-  useRef,
-  useState,
-} from 'react';
+import { forwardRef, useEffect, useId, useImperativeHandle, useRef, useState } from 'react';
 
 import InputCurrencyLabel from './currency-label';
 import InputIconContainer from './icon-container';
@@ -37,7 +28,7 @@ const Input = forwardRef(
       onChange,
       ...rest
     }: InputProps,
-    ref: ForwardedRef<HTMLInputElement>,
+    ref: React.ForwardedRef<HTMLInputElement>,
   ) => {
     const [invalid, setInvalid] = useState<boolean>(false);
     const inputRef = useRef<HTMLInputElement>(null);
@@ -51,7 +42,7 @@ const Input = forwardRef(
       setInvalid(!inputRef.current?.validity.valid ?? false);
     }, [inputRef, setInvalid]);
 
-    const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
       setInvalid(!event.target.validity.valid);
       onChange?.(event);
     };

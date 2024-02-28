@@ -1,6 +1,6 @@
 'use client';
 
-import { type FC, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { codeBlockActionsVariants } from './styles';
 import type { CodeBlockActionsProps } from './types';
@@ -12,7 +12,7 @@ import { IconButton, Select } from '@/components/ui';
 // Component
 // -----------------------------------------------------------------------------
 
-const CodeBlockActions: FC<CodeBlockActionsProps> = ({ code, switcher, inHeader }) => {
+const CodeBlockActions: React.FC<CodeBlockActionsProps> = ({ code, switcher, inHeader }) => {
   const [copied, setCopied] = useState<boolean>(false);
   const [mounted, setMounted] = useState<boolean>(false);
 

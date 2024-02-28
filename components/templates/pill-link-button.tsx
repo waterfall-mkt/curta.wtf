@@ -1,5 +1,3 @@
-import type { FC } from 'react';
-
 import clsx from 'clsx';
 import { twMerge } from 'tailwind-merge';
 
@@ -16,7 +14,13 @@ type PillLinkButtonProps = JSX.IntrinsicElements['a'] & {
 // Component
 // -----------------------------------------------------------------------------
 
-const PillLinkButton: FC<PillLinkButtonProps> = ({ className, site, href, children, ...rest }) => {
+const PillLinkButton: React.FC<PillLinkButtonProps> = ({
+  className,
+  site,
+  href,
+  children,
+  ...rest
+}) => {
   return (
     <a
       href={href}
@@ -45,7 +49,10 @@ const PillLinkButton: FC<PillLinkButtonProps> = ({ className, site, href, childr
   );
 };
 
-const PillLinkButtonEtherscanIcon: FC<JSX.IntrinsicElements['svg']> = ({ className, ...rest }) => {
+const PillLinkButtonEtherscanIcon: React.FC<JSX.IntrinsicElements['svg']> = ({
+  className,
+  ...rest
+}) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -66,7 +73,10 @@ const PillLinkButtonEtherscanIcon: FC<JSX.IntrinsicElements['svg']> = ({ classNa
   );
 };
 
-const PillLinkButtonGithubIcon: FC<JSX.IntrinsicElements['svg']> = ({ className, ...rest }) => {
+const PillLinkButtonGithubIcon: React.FC<JSX.IntrinsicElements['svg']> = ({
+  className,
+  ...rest
+}) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

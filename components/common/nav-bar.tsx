@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { type FC, Fragment, useCallback, useEffect, useState } from 'react';
+import { Fragment, useCallback, useEffect, useState } from 'react';
 
 import ConnectButton from './connect-button';
 import Logo from './logo';
@@ -29,7 +29,7 @@ type NavBarInternalProps = {
 // Component
 // ---------------------------------------–-------------------------------------
 
-const NavBarInternal: FC = () => {
+const NavBarInternal: React.FC = () => {
   const [yScroll, setYScroll] = useState<number>(0);
 
   // Update scroll position
@@ -58,7 +58,7 @@ const NavBarInternal: FC = () => {
   );
 };
 
-const NavBarDesktop: FC<NavBarInternalProps> = ({ selected, yScroll }) => {
+const NavBarDesktop: React.FC<NavBarInternalProps> = ({ selected, yScroll }) => {
   return (
     <nav
       className={clsx(
@@ -94,7 +94,7 @@ const NavBarDesktop: FC<NavBarInternalProps> = ({ selected, yScroll }) => {
   );
 };
 
-const NavBarMobile: FC<NavBarInternalProps> = ({ yScroll }) => {
+const NavBarMobile: React.FC<NavBarInternalProps> = ({ yScroll }) => {
   const [mounted, setMounted] = useState<boolean>(false);
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const { address, isConnected } = useAccount();
