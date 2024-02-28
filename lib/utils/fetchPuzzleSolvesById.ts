@@ -16,6 +16,7 @@ const fetchPuzzleSolvesById = async (id: number, chainId: number) => {
       await db.puzzleSolve.findMany({
         where: { puzzleId: id, chainId },
         include: { solver: { include: { info: true } } },
+        orderBy: { rank: 'asc' },
       }),
     [`puzzle-solves-${chainId}-${id}`],
     {

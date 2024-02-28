@@ -1,15 +1,14 @@
 'use client';
 
 import Image from 'next/image';
-import type { ComponentPropsWithoutRef, ForwardedRef } from 'react';
 import { forwardRef } from 'react';
 
 import cloudflareLoader from '@/lib/services/cloudflare-loader';
 
 const PuzzleWriteUpImage = forwardRef(
   (
-    { src, alt, ...rest }: ComponentPropsWithoutRef<typeof Image>,
-    ref: ForwardedRef<HTMLImageElement>,
+    { src, alt, ...rest }: React.ComponentPropsWithoutRef<typeof Image>,
+    ref: React.ForwardedRef<HTMLImageElement>,
   ) => {
     const normalizedSrc =
       typeof src === 'string'
