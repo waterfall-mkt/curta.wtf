@@ -35,7 +35,7 @@ export async function generateMetadata({
 
   // Fetch puzzle and response and return empty metadata object if either don't
   // exist.
-  const [{ data: puzzle }, response] = await Promise.all([
+  const [puzzle, response] = await Promise.all([
     fetchPuzzleById(ids.id, ids.chainId),
     cache(
       async () =>

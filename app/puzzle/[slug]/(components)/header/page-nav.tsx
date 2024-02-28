@@ -1,10 +1,7 @@
 'use client';
 
-import type { FC } from 'react';
-
+import type { PuzzleValue } from '../types';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-
-import type { Puzzle } from '@/lib/types/protocol';
 
 import { ButtonGroup, IconButton } from '@/components/ui';
 
@@ -13,15 +10,15 @@ import { ButtonGroup, IconButton } from '@/components/ui';
 // -----------------------------------------------------------------------------
 
 type PuzzleHeaderPageNavProps = {
-  prevPuzzle: Puzzle | null;
-  nextPuzzle: Puzzle | null;
+  prevPuzzle: PuzzleValue | null;
+  nextPuzzle: PuzzleValue | null;
 };
 
 // -----------------------------------------------------------------------------
 // Component
 // -----------------------------------------------------------------------------
 
-const PuzzleHeaderPageNav: FC<PuzzleHeaderPageNavProps> = ({ prevPuzzle, nextPuzzle }) => {
+const PuzzleHeaderPageNav: React.FC<PuzzleHeaderPageNavProps> = ({ prevPuzzle, nextPuzzle }) => {
   return (
     <ButtonGroup className="hidden sm:flex">
       <IconButton

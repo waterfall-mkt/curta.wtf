@@ -17,11 +17,10 @@ export default async function Page({ params }: { params: { slug: string } }) {
 
   const { chainId, id } = ids;
 
-  const { data: puzzle, error } = await fetchPuzzleById(id, chainId);
+  const puzzle = await fetchPuzzleById(id, chainId);
 
-  // Return 404 if `puzzle` is `null` or there was an `error` in fetching the
-  // data.
-  if (!puzzle || error) return notFound();
+  // Return 404 if `puzzle` is `null`.
+  if (!puzzle) return notFound();
 
   const languages = ['Bytecode']
     .concat(puzzle.solidity ? ['Solidity'] : [])

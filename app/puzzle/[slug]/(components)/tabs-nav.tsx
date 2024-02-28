@@ -1,7 +1,6 @@
 'use client';
 
 import { usePathname } from 'next/navigation';
-import type { FC, ReactNode } from 'react';
 
 import { Tabs } from '@/components/ui';
 
@@ -12,14 +11,14 @@ import { Tabs } from '@/components/ui';
 type PuzzleTabsNavProps = {
   slug: string;
   hasWriteup: boolean;
-  children: ReactNode;
+  children: React.ReactNode;
 };
 
 // -----------------------------------------------------------------------------
 // Component
 // -----------------------------------------------------------------------------
 
-const PuzzleTabs: FC<PuzzleTabsNavProps> = ({ slug, hasWriteup, children }) => {
+const PuzzleTabs: React.FC<PuzzleTabsNavProps> = ({ slug, hasWriteup, children }) => {
   const pathname = usePathname();
   const normalizedSlug = decodeURIComponent(slug.toLowerCase());
 

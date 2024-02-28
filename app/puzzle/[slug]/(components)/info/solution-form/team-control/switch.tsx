@@ -1,6 +1,6 @@
 'use client';
 
-import { type FC, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import * as RadioGroup from '@radix-ui/react-radio-group';
 import clsx from 'clsx';
@@ -35,10 +35,9 @@ type PuzzleInfoSolutionFormTeamControlSwitchProps = {
 // Component
 // -----------------------------------------------------------------------------
 
-const PuzzleInfoSolutionFormTeamControlSwitch: FC<PuzzleInfoSolutionFormTeamControlSwitchProps> = ({
-  userTeam,
-  approvals,
-}) => {
+const PuzzleInfoSolutionFormTeamControlSwitch: React.FC<
+  PuzzleInfoSolutionFormTeamControlSwitchProps
+> = ({ userTeam, approvals }) => {
   const [search, setSearch] = useState<string>('');
   const [teamId, setTeamId] = useState<string>('');
   const [mounted, setMounted] = useState<boolean>(false);
@@ -282,7 +281,7 @@ const PuzzleInfoSolutionFormTeamControlSwitch: FC<PuzzleInfoSolutionFormTeamCont
   );
 };
 
-const NewTeamForm: FC<{ name: string }> = ({ name }) => {
+const NewTeamForm: React.FC<{ name: string }> = ({ name }) => {
   const [mounted, setMounted] = useState<boolean>(false);
   const { toast } = useToast();
   const { chain } = useNetwork();

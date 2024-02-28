@@ -16,14 +16,13 @@ export default async function Page({ params }: { params: { slug: string } }) {
 
   const { chainId, id } = ids;
 
-  const [{ data: puzzle, error }, { data: solves }] = await Promise.all([
+  const [puzzle, { data: solves }] = await Promise.all([
     fetchPuzzleById(id, chainId),
     fetchPuzzleSolvesById(id, chainId),
   ]);
 
-  // Return 404 if `puzzle` is `null` or there was an `error` in fetching the
-  // data.
-  if (!puzzle || error) return notFound();
+  // Return 404 if `puzzle` is `null`.
+  if (!puzzle) return notFound();
 
   const normalizedSlug = decodeURIComponent(params.slug.toLowerCase());
 

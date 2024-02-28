@@ -46,7 +46,7 @@ const AddressLinkClient: FC<AddressLinkClientProps> = ({
     <a
       className={twMerge(
         clsx(
-          '-mx-0.5 line-clamp-1 w-fit text-ellipsis rounded-md px-0.5 text-gray-200 transition-colors hover:text-gray-100 hover:underline',
+          'line-clamp-1 w-fit text-ellipsis rounded-md text-gray-200 transition-colors hover:text-gray-100 hover:underline',
           className,
         ),
       )}

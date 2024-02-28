@@ -1,8 +1,9 @@
 'use client';
 
-import { type FC, useState } from 'react';
+import { useState } from 'react';
 
-import type { Puzzle } from '@/lib/types/protocol';
+import type { PuzzleValue } from './types';
+
 import { getChainInfo } from '@/lib/utils';
 
 import LogoIcon from '@/components/common/logo-icon';
@@ -13,7 +14,7 @@ import { CodeBlock } from '@/components/ui';
 // -----------------------------------------------------------------------------
 
 type PuzzleProblemDisplayProps = {
-  puzzle: Puzzle;
+  puzzle: PuzzleValue;
   languages: string[];
 };
 
@@ -21,7 +22,7 @@ type PuzzleProblemDisplayProps = {
 // Component
 // -----------------------------------------------------------------------------
 
-const PuzzleProblemDisplay: FC<PuzzleProblemDisplayProps> = ({ puzzle, languages }) => {
+const PuzzleProblemDisplay: React.FC<PuzzleProblemDisplayProps> = ({ puzzle, languages }) => {
   const [language, setLanguage] = useState<string>(() =>
     puzzle.solidity ? 'Solidity' : puzzle.huff ? 'Huff' : 'Bytecode',
   );

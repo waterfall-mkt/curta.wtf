@@ -1,6 +1,6 @@
 'use client';
 
-import { type FC, Fragment, useEffect, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 
 import PuzzleInfoSolutionFormTeamControlManageTeam from './manage-team';
 import fetchApprovals from './server-action';
@@ -14,7 +14,7 @@ import type { Team, TeamMemberApproval } from '@/lib/types/protocol';
 import Avatar from '@/components/templates/avatar';
 import { Button, IconButton, Modal, Tooltip } from '@/components/ui';
 
-const PuzzleInfoSolutionFormTeamControl: FC = () => {
+const PuzzleInfoSolutionFormTeamControl: React.FC = () => {
   const [mounted, setMounted] = useState<boolean>(false);
   const [approvals, setApprovals] = useState<TeamMemberApproval[]>([]);
   const { address } = useAccount();

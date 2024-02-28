@@ -1,6 +1,6 @@
 'use client';
 
-import { type FC, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { ExternalLink, UserMinus, UserPlus } from 'lucide-react';
 import type { Address } from 'viem';
@@ -34,7 +34,7 @@ type PuzzleInfoSolutionFormTeamControlManageTeamProps = {
 // Component
 // ---------------------------------------–-------------------------------------
 
-const PuzzleInfoSolutionFormTeamControlManageTeam: FC<
+const PuzzleInfoSolutionFormTeamControlManageTeam: React.FC<
   PuzzleInfoSolutionFormTeamControlManageTeamProps
 > = ({ connectedAddress, team }) => {
   // Always use Base or Base Goerli for the Team Registry.
@@ -88,7 +88,7 @@ const PuzzleInfoSolutionFormTeamControlManageTeam: FC<
   );
 };
 
-const UserActions: FC<{ member: Team['members'][0] }> = ({ member }) => {
+const UserActions: React.FC<{ member: Team['members'][0] }> = ({ member }) => {
   const [mounted, setMounted] = useState<boolean>(false);
   const { toast } = useToast();
   const { chain } = useNetwork();

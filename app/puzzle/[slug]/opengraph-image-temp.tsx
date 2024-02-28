@@ -34,18 +34,24 @@ export default async function Image({ params }: { params: { slug: string } }) {
   if (!ids) return null;
 
   const { chainId, id } = ids;
-  const [{ data: puzzle }, { colors }] = await Promise.all([
+  const [puzzle, { colors }] = await Promise.all([
     fetchPuzzleById(id, chainId),
     fetchPuzzleFlagColors(id, chainId),
   ]);
   if (!puzzle) return null;
 
-  const author = getShortenedAddress(puzzle.author.address).substring(2).toUpperCase();
-  const phase = getPuzzleTimeLeft(puzzle.firstSolveTimestamp).phase;
-  const solves = puzzle.numberSolved;
+  const author = getShortenedAddress(puzzle.author.address as `0x${string}`)
+    .substring(2)
+    .toUpperCase();
+  const phase = puzzle.firstSolveTimestamp
+    ? getPuzzleTimeLeft(puzzle.firstSolveTimestamp).phase
+    : 0;
+  const solves = puzzle._count.solves;
   const name = puzzle.name;
   const firstSolveTimestamp = puzzle.firstSolveTimestamp
-    ? getTimeLeftString(puzzle.firstSolveTime ?? 0)
+    ? getTimeLeftString(
+        puzzle.firstSolveTimestamp ? puzzle.firstSolveTimestamp - puzzle.addedTimestamp : 0,
+      )
     : '–';
   const defaultColors = PRESET_FLAG_COLOR_CONFIGS[0]; // Default to the first preset color which is Waterfall
   const flagColors = colors

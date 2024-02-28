@@ -1,14 +1,14 @@
-import type { FC } from 'react';
+import { cache } from 'react';
 
+import type { PuzzleValue } from '../types';
 import PuzzleHeaderPageNav from './page-nav';
 import { ExternalLink, FileCheck, Github } from 'lucide-react';
 
-import type { Puzzle } from '@/lib/types/protocol';
+import { ethereumClient } from '@/lib/client';
 import { fetchPuzzleById, getChainInfo } from '@/lib/utils';
 
 import AddressLink from '@/components/templates/address-link';
-import Avatar from '@/components/templates/avatar';
-import ENSAvatar from '@/components/templates/ens-avatar';
+import UserAvatar from '@/components/templates/user-avatar';
 import UserHoverCard from '@/components/templates/user-hover-card';
 import { Button, ButtonGroup, IconButton, Tooltip } from '@/components/ui';
 
@@ -17,15 +17,15 @@ import { Button, ButtonGroup, IconButton, Tooltip } from '@/components/ui';
 // -----------------------------------------------------------------------------
 
 type PuzzleHeaderProps = {
-  puzzle: Puzzle;
+  puzzle: PuzzleValue;
 };
 
 // -----------------------------------------------------------------------------
 // Component
 // -----------------------------------------------------------------------------
 
-const PuzzleHeader: FC<PuzzleHeaderProps> = async ({ puzzle }) => {
-  const [{ data: prevPuzzle }, { data: nextPuzzle }] = await Promise.all([
+const PuzzleHeader: React.FC<PuzzleHeaderProps> = async ({ puzzle }) => {
+  const [prevPuzzle, nextPuzzle] = await Promise.all([
     fetchPuzzleById(puzzle.id - 1, puzzle.chainId),
     fetchPuzzleById(puzzle.id + 1, puzzle.chainId),
   ]);
@@ -33,9 +33,9 @@ const PuzzleHeader: FC<PuzzleHeaderProps> = async ({ puzzle }) => {
   const links = [
     {
       name: 'Solution',
-      href: puzzle.solution,
+      href: puzzle.solutionLink,
       icon: <FileCheck />,
-      disabled: !puzzle.solution,
+      disabled: !puzzle.solutionLink,
     },
     {
       name: 'Source',
@@ -50,6 +50,13 @@ const PuzzleHeader: FC<PuzzleHeaderProps> = async ({ puzzle }) => {
       disabled: false,
     },
   ];
+
+  const authorEnsName = await cache(
+    async () => await ethereumClient.getEnsName({ address: puzzle.authorAddress as `0x${string}` }),
+  )();
+  const authorEnsAvatar = await cache(async () =>
+    authorEnsName ? await ethereumClient.getEnsAvatar({ name: authorEnsName }) : undefined,
+  )();
 
   return (
     <div className="mx-auto flex w-full max-w-[90rem] flex-col justify-center gap-3 px-4 sm:flex-row sm:gap-0 lg:px-20">
@@ -66,20 +73,16 @@ const PuzzleHeader: FC<PuzzleHeaderProps> = async ({ puzzle }) => {
               value: (
                 <div className="flex grow items-center gap-1.5">
                   <div className="h-5 w-5 rounded-full">
-                    {puzzle.author.ensName ? (
-                      <ENSAvatar size={20} name={puzzle.author.ensName} />
-                    ) : (
-                      <Avatar size={20} src="" alt={puzzle.author.address} />
-                    )}
+                    <UserAvatar image={authorEnsAvatar} size={20} name={puzzle.author.address} />
                   </div>
                   <UserHoverCard
-                    address={puzzle.author.address}
+                    address={puzzle.author.address as `0x${string}`}
                     trigger={
                       <AddressLink
                         className="max-w-[13rem] overflow-hidden text-ellipsis font-medium text-gray-50"
-                        address={puzzle.author.address}
+                        address={puzzle.author.address as `0x${string}`}
                         chainId={puzzle.chainId}
-                        label={puzzle.author.displayName}
+                        label={puzzle.author.info?.displayName ?? undefined}
                       />
                     }
                     inPortal
@@ -102,7 +105,7 @@ const PuzzleHeader: FC<PuzzleHeaderProps> = async ({ puzzle }) => {
       </div>
       <ButtonGroup className="ml-auto hidden sm:flex">
         {links.map((item, index) =>
-          !item.disabled ? (
+          !item.disabled && item.href !== null ? (
             <Tooltip content={item.name} key={index} inPortal>
               <IconButton href={item.href} variant="outline" intent="neutral" size="lg" newTab>
                 {item.icon}
@@ -113,7 +116,7 @@ const PuzzleHeader: FC<PuzzleHeaderProps> = async ({ puzzle }) => {
       </ButtonGroup>
       <ButtonGroup className="sm:hidden">
         {links.map((item, index) =>
-          !item.disabled ? (
+          !item.disabled && item.href !== null ? (
             <Button
               className="grow"
               key={index}

@@ -1,6 +1,6 @@
 'use client';
 
-import { type FC, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { getPuzzleTimeLeft } from '@/lib/utils';
 
@@ -16,7 +16,7 @@ type PuzzleInfoTimeLeftTimelineProps = {
 // Component
 // -----------------------------------------------------------------------------
 
-const PuzzleInfoTimeLeftTimeline: FC<PuzzleInfoTimeLeftTimelineProps> = ({
+const PuzzleInfoTimeLeftTimeline: React.FC<PuzzleInfoTimeLeftTimelineProps> = ({
   firstSolveTimestamp,
 }) => {
   const [mounted, setMounted] = useState<boolean>(false);
