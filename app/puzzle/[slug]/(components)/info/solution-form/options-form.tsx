@@ -1,4 +1,4 @@
-import { type Dispatch, type FC, type SetStateAction, useId, useState } from 'react';
+import { useId, useState } from 'react';
 
 import InfoTooltip from '@/components/templates/info-tooltip';
 import { Button, Input, Switch } from '@/components/ui';
@@ -9,8 +9,8 @@ import { Button, Input, Switch } from '@/components/ui';
 
 type PuzzleInfoSolutionFormOptionsFormProps = {
   simulateTx: boolean;
-  setGasLimit: Dispatch<SetStateAction<string>>;
-  setSimulateTx: Dispatch<SetStateAction<boolean>>;
+  setGasLimit: React.Dispatch<React.SetStateAction<string>>;
+  setSimulateTx: React.Dispatch<React.SetStateAction<boolean>>;
   onOpenChange: (open: boolean) => void;
 };
 
@@ -18,7 +18,7 @@ type PuzzleInfoSolutionFormOptionsFormProps = {
 // Component
 // -----------------------------------------------------------------------------
 
-const PuzzleInfoSolutionFormOptionsForm: FC<PuzzleInfoSolutionFormOptionsFormProps> = ({
+const PuzzleInfoSolutionFormOptionsForm: React.FC<PuzzleInfoSolutionFormOptionsFormProps> = ({
   simulateTx,
   setGasLimit,
   setSimulateTx,

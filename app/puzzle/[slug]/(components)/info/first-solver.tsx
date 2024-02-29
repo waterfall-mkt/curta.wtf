@@ -1,8 +1,9 @@
-import type { FC } from 'react';
+import { cache } from 'react';
 
+import type { PuzzleValue } from '../types';
 import { ExternalLink } from 'lucide-react';
 
-import type { Puzzle } from '@/lib/types/protocol';
+import { ethereumClient } from '@/lib/client';
 import { getChainInfo, getShortenedAddress, getTimeLeftString } from '@/lib/utils';
 
 // -----------------------------------------------------------------------------
@@ -10,17 +11,23 @@ import { getChainInfo, getShortenedAddress, getTimeLeftString } from '@/lib/util
 // -----------------------------------------------------------------------------
 
 type PuzzleInfoFirstSolverProps = {
-  puzzle: Puzzle;
+  puzzle: PuzzleValue;
 };
 
 // -----------------------------------------------------------------------------
 // Component
 // -----------------------------------------------------------------------------
 
-const PuzzleInfoFirstSolver: FC<PuzzleInfoFirstSolverProps> = ({ puzzle }) => {
+const PuzzleInfoFirstSolver: React.FC<PuzzleInfoFirstSolverProps> = async ({ puzzle }) => {
+  const firstSolverEnsName = await cache(async () =>
+    ethereumClient.getEnsName({
+      address: puzzle.firstSolverAddress as `0x${string}`,
+    }),
+  )();
+
   return (
     <div className="flex grow flex-col items-center gap-2 p-4">
-      {puzzle.firstSolver ? (
+      {puzzle.firstSolverAddress ? (
         <a
           className="relative flex w-full flex-col items-center justify-center rounded-lg bg-tw-green py-2.5"
           href={`https://${getChainInfo(puzzle.chainId).blockExplorer}/tx/${puzzle.firstSolveTx}`}
@@ -29,7 +36,7 @@ const PuzzleInfoFirstSolver: FC<PuzzleInfoFirstSolverProps> = ({ puzzle }) => {
         >
           <div className="text-center text-sm font-book text-[#09491E]">First Blood</div>
           <div className="text-2xl font-medium text-gray-50">
-            {puzzle.firstSolverEnsName ?? getShortenedAddress(puzzle.firstSolver)}
+            {firstSolverEnsName ?? getShortenedAddress(puzzle.firstSolverAddress as `0x${string}`)}
           </div>
           <ExternalLink className="absolute right-2 top-2 h-3 w-3 text-[#09491E]" />
         </a>
@@ -42,12 +49,14 @@ const PuzzleInfoFirstSolver: FC<PuzzleInfoFirstSolverProps> = ({ puzzle }) => {
       {[
         {
           name: 'Solve Time',
-          value: puzzle.firstSolveTime ? getTimeLeftString(puzzle.firstSolveTime) : '—',
+          value: puzzle.firstSolveTimestamp
+            ? getTimeLeftString(puzzle.firstSolveTimestamp - puzzle.addedTimestamp)
+            : '—',
           title: puzzle.firstSolveTimestamp
             ? new Date(puzzle.firstSolveTimestamp * 1000).toString()
             : '',
         },
-        { name: 'Total Solves', value: puzzle.numberSolved },
+        { name: 'Total Solves', value: puzzle._count.solves },
       ].map(({ name, value, title }) => {
         const nameId = `stat-name-${name.replace(' ', '-').toLowerCase()}`;
         const valueId = `stat-value-${name.replace(' ', '-').toLowerCase()}`;

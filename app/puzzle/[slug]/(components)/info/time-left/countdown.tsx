@@ -1,6 +1,6 @@
 'use client';
 
-import { type FC, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import type { Phase } from '@/lib/types/protocol';
 import { getPuzzleTimeLeft, getTimeLeftString } from '@/lib/utils';
@@ -18,7 +18,7 @@ type PuzzleInfoTimeLeftCountdownProps = {
 // Component
 // -----------------------------------------------------------------------------
 
-const PuzzleInfoTimeLeftCountdown: FC<PuzzleInfoTimeLeftCountdownProps> = ({
+const PuzzleInfoTimeLeftCountdown: React.FC<PuzzleInfoTimeLeftCountdownProps> = ({
   phase,
   firstSolveTimestamp,
 }) => {

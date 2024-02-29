@@ -1,6 +1,6 @@
 'use client';
 
-import { type FC, useMemo } from 'react';
+import { useMemo } from 'react';
 
 import type { LeaderboardPuzzlesTableInternalProps } from '.';
 import type { ColumnDef } from '@tanstack/react-table';
@@ -15,7 +15,7 @@ import Stat from '@/components/templates/stat';
 import TeamDisplayClient from '@/components/templates/team-display-client';
 import { Button, Table } from '@/components/ui';
 
-const LeaderboardPuzzlesTableMobile: FC<LeaderboardPuzzlesTableInternalProps> = ({
+const LeaderboardPuzzlesTableMobile: React.FC<LeaderboardPuzzlesTableInternalProps> = ({
   data,
   highlightValues,
   sorting,
@@ -88,7 +88,7 @@ const LeaderboardPuzzlesTableMobile: FC<LeaderboardPuzzlesTableInternalProps> = 
   );
 };
 
-const LeaderboardPuzzlesTableMobileSubComponent: FC<{ data: PuzzleSolver }> = ({ data }) => {
+const LeaderboardPuzzlesTableMobileSubComponent: React.FC<{ data: PuzzleSolver }> = ({ data }) => {
   return (
     <div className="flex flex-col">
       <div className="grid grid-cols-2 gap-2 p-3">

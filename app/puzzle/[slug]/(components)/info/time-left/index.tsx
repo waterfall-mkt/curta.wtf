@@ -1,11 +1,12 @@
-import type { FC } from 'react';
+import { cache } from 'react';
 
+import type { PuzzleValue } from '../../types';
 import PuzzleInfoTimeLeftAccordion from './accordion';
 import PuzzleInfoTimeLeftCountdown from './countdown';
 import PuzzleInfoTimeLeftTimeline from './timeline';
 import { ArrowUpRight, Box } from 'lucide-react';
 
-import type { Puzzle } from '@/lib/types/protocol';
+import { ethereumClient } from '@/lib/client';
 import { getChainInfo, getPuzzleTimeLeft, getShortenedAddress } from '@/lib/utils';
 
 // -----------------------------------------------------------------------------
@@ -13,15 +14,23 @@ import { getChainInfo, getPuzzleTimeLeft, getShortenedAddress } from '@/lib/util
 // -----------------------------------------------------------------------------
 
 type PuzzleInfoTimeLeftProps = {
-  puzzle: Puzzle;
+  puzzle: PuzzleValue;
 };
 
 // -----------------------------------------------------------------------------
 // Component
 // -----------------------------------------------------------------------------
 
-const PuzzleInfoTimeLeft: FC<PuzzleInfoTimeLeftProps> = ({ puzzle }) => {
-  const { phase } = getPuzzleTimeLeft(puzzle.firstSolveTimestamp);
+const PuzzleInfoTimeLeft: React.FC<PuzzleInfoTimeLeftProps> = async ({ puzzle }) => {
+  const phase = puzzle.firstSolveTimestamp
+    ? getPuzzleTimeLeft(puzzle.firstSolveTimestamp).phase
+    : 0;
+
+  const authorEnsName = await cache(async () =>
+    ethereumClient.getEnsName({
+      address: puzzle.authorAddress as `0x${string}`,
+    }),
+  )();
 
   return (
     <div className="flex grow flex-col items-center gap-2 p-4">
@@ -29,7 +38,7 @@ const PuzzleInfoTimeLeft: FC<PuzzleInfoTimeLeftProps> = ({ puzzle }) => {
         <div className="text-center text-sm font-book text-gray-150">Time Left</div>
         <PuzzleInfoTimeLeftCountdown
           phase={phase}
-          firstSolveTimestamp={puzzle.firstSolveTimestamp}
+          firstSolveTimestamp={puzzle.firstSolveTimestamp ?? 0}
         />
       </div>
       {/* We need a wrapper here because the accordion requires client-side
@@ -84,14 +93,14 @@ const PuzzleInfoTimeLeft: FC<PuzzleInfoTimeLeftProps> = ({ puzzle }) => {
             )}
           </div>
           <div className="w-3">
-            <PuzzleInfoTimeLeftTimeline firstSolveTimestamp={puzzle.firstSolveTimestamp} />
+            <PuzzleInfoTimeLeftTimeline firstSolveTimestamp={puzzle.firstSolveTimestamp ?? 0} />
           </div>
           <div className="flex w-full flex-col gap-2">
             {[
               {
                 name: 'Phase 0',
                 value: `Added by ${
-                  puzzle.author.ensName ?? getShortenedAddress(puzzle.author.address)
+                  authorEnsName ?? getShortenedAddress(puzzle.authorAddress as `0x${string}`)
                 }`,
                 href: `https://${getChainInfo(puzzle.chainId).blockExplorer}/tx/${puzzle.addedTx}`,
               },
@@ -107,7 +116,7 @@ const PuzzleInfoTimeLeft: FC<PuzzleInfoTimeLeftProps> = ({ puzzle }) => {
               {
                 name: 'Phase 2',
                 value: 'Solutions revealed',
-                href: puzzle.solution ? puzzle.solution : undefined,
+                href: puzzle.solutionLink ? puzzle.solutionLink : undefined,
               },
               { name: 'Phase 3', value: 'Submissions closed' },
             ].map(({ name, value, href }) => (

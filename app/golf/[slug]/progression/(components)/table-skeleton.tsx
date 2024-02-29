@@ -1,13 +1,13 @@
 'use client';
 
-import { type FC, Fragment, useMemo } from 'react';
+import { Fragment, useMemo } from 'react';
 
 import type { ColumnDef } from '@tanstack/react-table';
 import { ArrowDown, ExternalLink } from 'lucide-react';
 
 import { IconButton, Table } from '@/components/ui';
 
-const CourseProgressionTableSkeleton: FC = () => {
+const CourseProgressionTableSkeleton: React.FC = () => {
   return (
     <Fragment>
       <CourseProgressionTableDesktopSkeleton />
@@ -16,7 +16,7 @@ const CourseProgressionTableSkeleton: FC = () => {
   );
 };
 
-const CourseProgressionTableDesktopSkeleton: FC = () => {
+const CourseProgressionTableDesktopSkeleton: React.FC = () => {
   const columns: ColumnDef<null>[] = useMemo(
     () => [
       {
@@ -77,7 +77,7 @@ const CourseProgressionTableDesktopSkeleton: FC = () => {
   return <Table className="hidden md:block" columns={columns} data={Array(11).fill(null)} />;
 };
 
-const CourseProgressionTableMobileSkeleton: FC = () => {
+const CourseProgressionTableMobileSkeleton: React.FC = () => {
   const columns: ColumnDef<null>[] = useMemo(
     () => [
       {

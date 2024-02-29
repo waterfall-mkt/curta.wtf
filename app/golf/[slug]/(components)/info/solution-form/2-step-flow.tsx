@@ -1,6 +1,6 @@
 'use client';
 
-import { type FC, type ReactNode, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import clsx from 'clsx';
 import { Check, Dot } from 'lucide-react';
@@ -23,7 +23,7 @@ type CourseInfoSolutionForm2StepFlowProps = {
 // Component
 // -----------------------------------------------------------------------------
 
-const CourseInfoSolutionForm2StepFlow: FC<CourseInfoSolutionForm2StepFlowProps> = ({
+const CourseInfoSolutionForm2StepFlow: React.FC<CourseInfoSolutionForm2StepFlowProps> = ({
   bytecode,
   chainId,
 }) => {
@@ -127,7 +127,7 @@ const CourseInfoSolutionForm2StepFlow: FC<CourseInfoSolutionForm2StepFlowProps> 
   );
 };
 
-const Countdown: FC<{ commitTimestamp?: number }> = ({ commitTimestamp }) => {
+const Countdown: React.FC<{ commitTimestamp?: number }> = ({ commitTimestamp }) => {
   const [secondsLeft, setSecondsLeft] = useState<number>();
 
   useEffect(() => {
@@ -157,10 +157,10 @@ const Countdown: FC<{ commitTimestamp?: number }> = ({ commitTimestamp }) => {
   );
 };
 
-const Step: FC<{
+const Step: React.FC<{
   state: 'none' | 'pending' | 'completed';
   value?: number;
-  children?: ReactNode;
+  children?: React.ReactNode;
 }> = ({ state, value, children }) => {
   return (
     <div className="relative flex h-6 w-6 items-center justify-center">

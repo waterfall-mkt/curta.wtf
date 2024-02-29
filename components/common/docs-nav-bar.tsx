@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { type FC, Fragment, type UIEvent, useMemo, useState } from 'react';
+import { Fragment, useMemo, useState } from 'react';
 
 import * as Accordion from '@radix-ui/react-accordion';
 import * as Dialog from '@radix-ui/react-dialog';
@@ -32,7 +32,7 @@ type DocsNavBarInternalProps = {
 // Component
 // -----------------------------------------------------------------------------
 
-const DocsNavBar: FC<DocsNavBarProps> = ({ sections }) => {
+const DocsNavBar: React.FC<DocsNavBarProps> = ({ sections }) => {
   const pathname = usePathname();
 
   return (
@@ -43,7 +43,7 @@ const DocsNavBar: FC<DocsNavBarProps> = ({ sections }) => {
   );
 };
 
-const DocsNavBarDesktop: FC<DocsNavBarInternalProps> = ({ sections, selected }) => {
+const DocsNavBarDesktop: React.FC<DocsNavBarInternalProps> = ({ sections, selected }) => {
   return (
     <aside
       className="hide-scrollbar sticky top-[6.5rem] -mx-0.5 -ml-3 hidden min-w-[14rem] max-w-[14rem] flex-col overflow-x-hidden overflow-y-scroll px-0.5 focus-visible:outline-none lg:top-[7.5rem] lg:flex"
@@ -69,7 +69,7 @@ const DocsNavBarDesktop: FC<DocsNavBarInternalProps> = ({ sections, selected }) 
   );
 };
 
-const DocsNavBarMobile: FC<DocsNavBarInternalProps> = ({ sections, selected }) => {
+const DocsNavBarMobile: React.FC<DocsNavBarInternalProps> = ({ sections, selected }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [scrollIsAtLeft, setScrollIsAtLeft] = useState<boolean>(true);
   const [scrollIsAtRight, setScrollIsAtRight] = useState<boolean>(false);
@@ -94,7 +94,7 @@ const DocsNavBarMobile: FC<DocsNavBarInternalProps> = ({ sections, selected }) =
 
   // Function for setting scroll values to conditionally render gradient
   // overflows.
-  const onScroll = (event: UIEvent<HTMLDivElement>) => {
+  const onScroll = (event: React.UIEvent<HTMLDivElement>) => {
     const target = event.target as HTMLDivElement;
     const scrollLeft = target.scrollLeft;
     const scrollWidth = target.scrollWidth;
@@ -165,7 +165,11 @@ const DocsNavBarMobile: FC<DocsNavBarInternalProps> = ({ sections, selected }) =
 // Internal components
 // -----------------------------------------------------------------------------
 
-const DocsNavBarInternal: FC<DocsNavBarInternalProps> = ({ sections, selected, setIsOpen }) => {
+const DocsNavBarInternal: React.FC<DocsNavBarInternalProps> = ({
+  sections,
+  selected,
+  setIsOpen,
+}) => {
   return (
     <Fragment>
       {sections.map((section, index) => (
@@ -235,7 +239,7 @@ const DocsNavBarInternal: FC<DocsNavBarInternalProps> = ({ sections, selected, s
   );
 };
 
-const DocsNavBarInternalButton: FC<{
+const DocsNavBarInternalButton: React.FC<{
   page: Page;
   marginTop?: boolean;
   selected?: string;

@@ -1,9 +1,11 @@
-import type { FC } from 'react';
-
 import clsx from 'clsx';
 import { twMerge } from 'tailwind-merge';
 
-const ComponentsDisplay: FC<JSX.IntrinsicElements['div']> = ({ className, children, ...rest }) => {
+const ComponentsDisplay: React.FC<JSX.IntrinsicElements['div']> = ({
+  className,
+  children,
+  ...rest
+}) => {
   return (
     <div
       className={twMerge(

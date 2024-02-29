@@ -1,6 +1,6 @@
 'use client';
 
-import { type FC, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { isAddress } from 'viem';
 import { useEnsAvatar, useEnsName } from 'wagmi';
@@ -22,7 +22,7 @@ type ENSAvatarClientProps = {
 // Component
 // ---------------------------------------–-------------------------------------
 
-const ENSAvatarClient: FC<ENSAvatarClientProps> = ({
+const ENSAvatarClient: React.FC<ENSAvatarClientProps> = ({
   className,
   nameOrAddress,
   size = 40,

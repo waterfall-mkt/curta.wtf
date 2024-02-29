@@ -1,5 +1,3 @@
-import type { FC, ReactNode } from 'react';
-
 import type { Page } from '@/lib/types/site';
 
 import DocsNavBar from '@/components/common/docs-nav-bar';
@@ -12,14 +10,14 @@ import ContainerLayout from '@/components/layouts/container';
 
 type DocsContainerLayoutProps = {
   sections: { name: string; groups: ({ name: string; pages: Page[] } | Page)[] }[];
-  children: ReactNode;
+  children: React.ReactNode;
 };
 
 // -----------------------------------------------------------------------------
 // Component
 // -----------------------------------------------------------------------------
 
-const DocsContainerLayout: FC<DocsContainerLayoutProps> = ({ sections, children }) => {
+const DocsContainerLayout: React.FC<DocsContainerLayoutProps> = ({ sections, children }) => {
   return (
     <ContainerLayout className="flex flex-col space-x-0 px-0 pt-0 lg:flex-row lg:space-x-16 lg:px-20 lg:pb-16 lg:pt-12">
       <DocsNavBar sections={sections} />

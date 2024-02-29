@@ -1,6 +1,6 @@
 'use client';
 
-import { type FC, Fragment, useState } from 'react';
+import { Fragment, useState } from 'react';
 
 import LeaderboardPuzzlesTableDesktop from './desktop';
 import LeaderboardPuzzlesTableMobile from './mobile';
@@ -24,7 +24,7 @@ export type LeaderboardPuzzlesTableInternalProps = Omit<TableProps<PuzzleSolver>
 // Component
 // -----------------------------------------------------------------------------
 
-const LeaderboardPuzzlesTable: FC<LeaderboardPuzzlesTableProps> = ({ data }) => {
+const LeaderboardPuzzlesTable: React.FC<LeaderboardPuzzlesTableProps> = ({ data }) => {
   const [sorting, setSorting] = useState<SortingState>([]);
 
   return (

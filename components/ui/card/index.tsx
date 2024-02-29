@@ -1,5 +1,3 @@
-import type { FC } from 'react';
-
 import { cardBodyVariants, cardFooterStyles, cardHeaderVariants, cardStyles } from './styles';
 import type {
   CardBodyProps,
@@ -15,19 +13,19 @@ import { twMerge } from 'tailwind-merge';
 // Component
 // -----------------------------------------------------------------------------
 
-const Card: FC<CardProps> & CardComposition = ({ className, ...rest }) => (
+const Card: React.FC<CardProps> & CardComposition = ({ className, ...rest }) => (
   <div className={twMerge(clsx(cardStyles, className))} {...rest} />
 );
 
-const CardBody: FC<CardBodyProps> = ({ className, noPadding = false, ...rest }) => (
+const CardBody: React.FC<CardBodyProps> = ({ className, noPadding = false, ...rest }) => (
   <div className={twMerge(clsx(cardBodyVariants({ noPadding }), className))} {...rest} />
 );
 
-const CardFooter: FC<CardFooterProps> = ({ className, ...rest }) => (
+const CardFooter: React.FC<CardFooterProps> = ({ className, ...rest }) => (
   <div className={twMerge(clsx(cardFooterStyles, className))} {...rest} />
 );
 
-const CardHeader: FC<CardHeaderProps> = ({ className, noPadding = false, ...rest }) => (
+const CardHeader: React.FC<CardHeaderProps> = ({ className, noPadding = false, ...rest }) => (
   <div className={twMerge(clsx(cardHeaderVariants({ noPadding }), className))} {...rest} />
 );
 

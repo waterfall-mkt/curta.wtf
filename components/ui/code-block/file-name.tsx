@@ -1,6 +1,6 @@
 'use client';
 
-import { type FC, type UIEvent, useState } from 'react';
+import { useState } from 'react';
 
 import {
   codeBlockHeaderFileNameContainerHideOverflowVariants,
@@ -14,7 +14,7 @@ import type { CodeBlockFileNameProps } from './types';
 // Component
 // -----------------------------------------------------------------------------
 
-const CodeBlockFileName: FC<CodeBlockFileNameProps> = ({
+const CodeBlockFileName: React.FC<CodeBlockFileNameProps> = ({
   fileName,
   headerLabel,
   containerized,
@@ -23,7 +23,7 @@ const CodeBlockFileName: FC<CodeBlockFileNameProps> = ({
   const [scrollIsAtLeft, setScrollIsAtLeft] = useState<boolean>(true);
   const [scrollIsAtRight, setScrollIsAtRight] = useState<boolean>(false);
 
-  const onScroll = (event: UIEvent<HTMLDivElement>) => {
+  const onScroll = (event: React.UIEvent<HTMLDivElement>) => {
     const target = event.target as HTMLDivElement;
     const scrollLeft = target.scrollLeft;
     const scrollWidth = target.scrollWidth;

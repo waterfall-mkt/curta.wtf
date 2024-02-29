@@ -1,5 +1,3 @@
-import type { FC, ReactNode } from 'react';
-
 import InfoTooltip from './info-tooltip';
 
 import { GLOSSARY } from '@/lib/constants/glossary';
@@ -10,7 +8,7 @@ import { GLOSSARY } from '@/lib/constants/glossary';
 
 type StatProps = {
   name: string;
-  value: ReactNode;
+  value: React.ReactNode;
   term?: keyof typeof GLOSSARY;
 };
 
@@ -18,7 +16,7 @@ type StatProps = {
 // Component
 // -----------------------------------------------------------------------------
 
-const Stat: FC<StatProps> = ({ name, value, term }) => {
+const Stat: React.FC<StatProps> = ({ name, value, term }) => {
   return (
     <div className="flex flex-col items-start justify-center">
       <div className="flex items-center space-x-1.5">

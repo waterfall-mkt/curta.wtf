@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import type { ReactNode } from 'react';
 
 import CourseHeader from './(components)/header';
 import CourseTabs from './(components)/tabs-nav';
@@ -24,7 +23,7 @@ export async function generateMetadata({
   // Return empty object if `slug` is an invalid format.
   if (!ids) return {};
 
-  const { data: course } = await fetchCourseById(ids.id, ids.chainId);
+  const course = await fetchCourseById(ids.id, ids.chainId);
   if (!course) return {};
 
   const title = `Golf Course #${course.id}`;
@@ -60,7 +59,7 @@ export default async function CourseLayout({
   children,
 }: {
   params: { slug: string };
-  children: ReactNode;
+  children: React.ReactNode;
 }) {
   const ids = getChainIdAndId(params.slug, 8453);
 
@@ -69,11 +68,10 @@ export default async function CourseLayout({
 
   const { chainId, id } = ids;
 
-  const { data: course, error } = await fetchCourseById(id, chainId);
+  const course = await fetchCourseById(id, chainId);
 
-  // Return 404 if `puzzle` is `null` or there was an `error` in fetching the
-  // data.
-  if (!course || error) return notFound();
+  // Return 404 if `course` is `null`.
+  if (!course) return notFound();
 
   return (
     <ContainerLayout className="max-w-none px-0 pt-4 lg:px-0 lg:pt-6">

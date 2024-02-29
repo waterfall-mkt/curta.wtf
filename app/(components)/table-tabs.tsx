@@ -1,14 +1,12 @@
 'use client';
 
 import { useSearchParams } from 'next/navigation';
-import type { FC } from 'react';
 
-import CourseTable from './courses-table';
-import PuzzleTable from './puzzles-table';
+import GolfCourseDataTable from './golf-course-data-table';
+import PuzzleDataTable from './puzzle-data-table';
+import type { GolfCourseValue, PuzzleValue } from './types';
 import clsx from 'clsx';
 import { twMerge } from 'tailwind-merge';
-
-import type { GolfCourse, Puzzle } from '@/lib/types/protocol';
 
 import { Card, Tabs } from '@/components/ui';
 
@@ -18,20 +16,20 @@ import { Card, Tabs } from '@/components/ui';
 
 type HomeTableTabsProps = {
   className?: string;
-  puzzles: Puzzle[];
-  courses: GolfCourse[];
+  puzzles: PuzzleValue[];
+  courses: GolfCourseValue[];
 };
 
 // -----------------------------------------------------------------------------
 // Component
 // -----------------------------------------------------------------------------
 
-const HomeTableTabs: FC<HomeTableTabsProps> = ({ className, puzzles, courses }) => {
+const HomeTableTabs: React.FC<HomeTableTabsProps> = ({ className, puzzles, courses }) => {
   const searchParams = useSearchParams();
 
   const tabs = [
-    { name: 'Puzzles', value: 'puzzles', content: <PuzzleTable data={puzzles} /> },
-    { name: 'Golf', value: 'golf', content: <CourseTable data={courses} /> },
+    { name: 'Puzzles', value: 'puzzles', content: <PuzzleDataTable data={puzzles} /> },
+    { name: 'Golf', value: 'golf', content: <GolfCourseDataTable data={courses} /> },
   ];
 
   const defaultValue = searchParams.get('tab')?.toLowerCase() ?? tabs[0].value;

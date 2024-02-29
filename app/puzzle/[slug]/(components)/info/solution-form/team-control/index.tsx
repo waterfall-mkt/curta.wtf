@@ -1,20 +1,21 @@
-'use client';
+/* 'use client';
 
-import { type FC, Fragment, useEffect, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 
 import PuzzleInfoSolutionFormTeamControlManageTeam from './manage-team';
 import fetchApprovals from './server-action';
 import PuzzleInfoSolutionFormTeamControlSwitch from './switch';
+import type { Team } from '@prisma/client';
 import { ArrowLeftRight } from 'lucide-react';
 import useSWR from 'swr';
 import { useAccount } from 'wagmi';
 
-import type { Team, TeamMemberApproval } from '@/lib/types/protocol';
+import type { TeamMemberApproval } from '@/lib/types/protocol';
 
 import Avatar from '@/components/templates/avatar';
 import { Button, IconButton, Modal, Tooltip } from '@/components/ui';
 
-const PuzzleInfoSolutionFormTeamControl: FC = () => {
+const PuzzleInfoSolutionFormTeamControl: React.FC = () => {
   const [mounted, setMounted] = useState<boolean>(false);
   const [approvals, setApprovals] = useState<TeamMemberApproval[]>([]);
   const { address } = useAccount();
@@ -42,9 +43,9 @@ const PuzzleInfoSolutionFormTeamControl: FC = () => {
     setApprovals(address && mounted ? await fetchApprovals(address) : []);
   };
 
-  const combinedTeam = team ? { ...team, members: members ?? team.members } : undefined;
+  const combinedTeam = team ? { ...team, members: members } : undefined;
   const isTeamLeader =
-    address && combinedTeam?.id && combinedTeam.leader?.address === address.toLowerCase();
+    address && combinedTeam?.id && combinedTeam.leaderAddress === address.toLowerCase();
 
   return (
     <div className="flex h-11 grow items-center justify-between rounded-b-xl border border-t-0 border-gray-300 pl-4 pr-2">
@@ -56,7 +57,7 @@ const PuzzleInfoSolutionFormTeamControl: FC = () => {
                 <span className="text-sm">Submitting for</span>
                 <Tooltip content={`#${team.id}`}>
                   <button className="flex h-5 items-center gap-1 rounded bg-gray-450 px-1.5 transition-colors hover:bg-gray-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-250">
-                    <Avatar src={team.avatar ?? ''} alt={`Team #${team.id}`} size={16} />
+                    <Avatar src={team.image ?? ''} alt={`Team #${team.id}`} size={16} />
                     <span className="text-xs font-medium leading-4">
                       {team.name ?? `Team #${team.id}`}
                     </span>
@@ -121,3 +122,4 @@ const PuzzleInfoSolutionFormTeamControl: FC = () => {
 };
 
 export default PuzzleInfoSolutionFormTeamControl;
+ */

@@ -1,9 +1,7 @@
-import type { FC } from 'react';
-
+import type { GolfCourseValue } from '../types';
 import CourseHeaderPageNav from './page-nav';
 import { ExternalLink, Github } from 'lucide-react';
 
-import type { GolfCourse } from '@/lib/types/protocol';
 import { fetchCourseById, getChainInfo } from '@/lib/utils';
 
 import { Button, ButtonGroup, IconButton, Tooltip } from '@/components/ui';
@@ -13,15 +11,15 @@ import { Button, ButtonGroup, IconButton, Tooltip } from '@/components/ui';
 // -----------------------------------------------------------------------------
 
 type CourseHeaderProps = {
-  course: GolfCourse;
+  course: GolfCourseValue;
 };
 
 // -----------------------------------------------------------------------------
 // Component
 // -----------------------------------------------------------------------------
 
-const CourseHeader: FC<CourseHeaderProps> = async ({ course }) => {
-  const [{ data: prevCourse }, { data: nextCourse }] = await Promise.all([
+const CourseHeader: React.FC<CourseHeaderProps> = async ({ course }) => {
+  const [prevCourse, nextCourse] = await Promise.all([
     fetchCourseById(course.id - 1, course.chainId),
     fetchCourseById(course.id + 1, course.chainId),
   ]);

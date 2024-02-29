@@ -1,6 +1,19 @@
 import { ImageResponse } from 'next/server';
 
-import { fetchAuthors, fetchPuzzlesCount, fetchPuzzlesSolvesCount } from '@/lib/utils';
+import { Client } from '@planetscale/database';
+import { PrismaPlanetScale } from '@prisma/adapter-planetscale';
+import { PrismaClient } from '@prisma/client';
+
+// -----------------------------------------------------------------------------
+// Prisma
+// -----------------------------------------------------------------------------
+
+const client = new Client({ url: process.env.DATABASE_URL });
+const adapter = new PrismaPlanetScale(client);
+const db = new PrismaClient({
+  adapter,
+  log: process.env.NODE_ENV === 'development' ? ['query', 'error', 'warn'] : ['error'],
+});
 
 // -----------------------------------------------------------------------------
 // Image
@@ -15,11 +28,17 @@ export default async function Image() {
     new URL('../node_modules/@fontsource/inter/files/inter-latin-600-normal.woff', import.meta.url),
   ).then((res) => res.arrayBuffer());
 
-  const [{ data: authors }, { data: puzzles }, { data: solvesCount }] = await Promise.all([
-    fetchAuthors(),
-    fetchPuzzlesCount(),
-    fetchPuzzlesSolvesCount(),
+  const [authors, puzzles, solves, solversArr] = await Promise.all([
+    db.userInfo.count({ where: { isPuzzleAuthor: true } }),
+    db.puzzle.count(),
+    db.puzzleSolve.count(),
+    db.$queryRaw`SELECT COUNT(DISTINCT solver_address) FROM puzzle_solves` as Promise<
+      {
+        'count(distinct solver_address)': bigint;
+      }[]
+    >,
   ]);
+  const solvers = solversArr[0]['count(distinct solver_address)'];
 
   return new ImageResponse(
     (
@@ -93,7 +112,7 @@ export default async function Image() {
                       letterSpacing: '-0.05em',
                     }}
                   >
-                    {authors.length}
+                    {authors}
                   </div>
                   <div style={{ display: 'flex', color: '#758195', fontSize: 24, lineHeight: 1 }}>
                     Authors
@@ -128,7 +147,7 @@ export default async function Image() {
                       letterSpacing: '-0.05em',
                     }}
                   >
-                    {puzzles.count}
+                    {puzzles}
                   </div>
                   <div style={{ display: 'flex', color: '#758195', fontSize: 24, lineHeight: 1 }}>
                     Puzzles
@@ -164,7 +183,7 @@ export default async function Image() {
                       letterSpacing: '-0.05em',
                     }}
                   >
-                    {solvesCount.solvers}
+                    {solvers.toString()}
                   </div>
                   <div style={{ display: 'flex', color: '#758195', fontSize: 24, lineHeight: 1 }}>
                     Solvers
@@ -200,7 +219,7 @@ export default async function Image() {
                       letterSpacing: '-0.05em',
                     }}
                   >
-                    {solvesCount.solves}
+                    {solves}
                   </div>
                   <div style={{ display: 'flex', color: '#758195', fontSize: 24, lineHeight: 1 }}>
                     Solves
@@ -251,7 +270,7 @@ export default async function Image() {
 }
 
 // -----------------------------------------------------------------------------
-// Next.js config
+// Next.js
 // -----------------------------------------------------------------------------
 
 export const runtime = 'edge';

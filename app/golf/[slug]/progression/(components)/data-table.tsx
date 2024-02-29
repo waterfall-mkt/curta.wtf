@@ -1,12 +1,12 @@
 'use client';
 
-import { type FC, Fragment, useMemo, useState } from 'react';
+import { Fragment, useMemo, useState } from 'react';
 
+import type { CourseProgressionValue } from './types';
 import type { SortingState } from '@tanstack/react-table';
 import type { ColumnDef } from '@tanstack/react-table';
 import { ArrowDown, ExternalLink } from 'lucide-react';
 
-import type { GolfCourseSolve } from '@/lib/types/protocol';
 import { getChainInfo } from '@/lib/utils';
 
 import AddressDisplayClient from '@/components/templates/address-display-client';
@@ -17,42 +17,41 @@ import type { TableProps } from '@/components/ui/table/types';
 // Props
 // -----------------------------------------------------------------------------
 
-type CourseProgressionTableProps = {
-  data: GolfCourseSolve[];
+type CourseProgressionDataTableProps = {
+  data: CourseProgressionValue[];
 };
 
-type CourseProgressionTableInternalProps = Omit<TableProps<GolfCourseSolve>, 'columns'>;
+type CourseProgressionDataTableInternalProps = Omit<TableProps<CourseProgressionValue>, 'columns'>;
 
 // -----------------------------------------------------------------------------
 // Component
 // -----------------------------------------------------------------------------
 
-const CourseProgressionTable: FC<CourseProgressionTableProps> = ({ data }) => {
+const CourseProgressionDataTable: React.FC<CourseProgressionDataTableProps> = ({ data }) => {
   const [sorting, setSorting] = useState<SortingState>([]);
 
   return (
     <Fragment>
-      <CourseProgressionTableDesktop data={data} sorting={sorting} setSorting={setSorting} />
-      <CourseProgressionTableMobile data={data} sorting={sorting} setSorting={setSorting} />
+      <CourseProgressionDataTableDesktop data={data} sorting={sorting} setSorting={setSorting} />
+      <CourseProgressionDataTableMobile data={data} sorting={sorting} setSorting={setSorting} />
     </Fragment>
   );
 };
 
-const CourseProgressionTableDesktop: FC<CourseProgressionTableInternalProps> = ({
+const CourseProgressionDataTableDesktop: React.FC<CourseProgressionDataTableInternalProps> = ({
   data,
   sorting,
   setSorting,
 }) => {
-  const columns: ColumnDef<GolfCourseSolve>[] = useMemo(
+  const columns: ColumnDef<CourseProgressionValue>[] = useMemo(
     () => [
       {
         accessorKey: 'solver',
         header: () => 'Player',
         cell: ({ row }) => (
           <AddressDisplayClient
-            address={row.original.solver.address}
-            label={row.original.solver.displayName}
-            prefetchedEnsName={row.original.solver.ensName}
+            address={row.original.solver.address as `0x${string}`}
+            label={row.original.solver.info?.displayName ?? undefined}
           />
         ),
         footer: (props) => props.column.id,
@@ -138,21 +137,20 @@ const CourseProgressionTableDesktop: FC<CourseProgressionTableInternalProps> = (
   );
 };
 
-const CourseProgressionTableMobile: FC<CourseProgressionTableInternalProps> = ({
+const CourseProgressionDataTableMobile: React.FC<CourseProgressionDataTableInternalProps> = ({
   data,
   sorting,
   setSorting,
 }) => {
-  const columns: ColumnDef<GolfCourseSolve>[] = useMemo(
+  const columns: ColumnDef<CourseProgressionValue>[] = useMemo(
     () => [
       {
         accessorKey: 'solver',
         header: () => 'Player',
         cell: ({ row }) => (
           <AddressDisplayClient
-            address={row.original.solver.address}
-            label={row.original.solver.displayName}
-            prefetchedEnsName={row.original.solver.ensName}
+            address={row.original.solver.address as `0x${string}`}
+            label={row.original.solver.info?.displayName ?? undefined}
           />
         ),
         footer: (props) => props.column.id,
@@ -220,4 +218,4 @@ const CourseProgressionTableMobile: FC<CourseProgressionTableInternalProps> = ({
   );
 };
 
-export default CourseProgressionTable;
+export default CourseProgressionDataTable;

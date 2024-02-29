@@ -1,8 +1,6 @@
 import { type NextRequest, NextResponse } from 'next/server';
 
-import supabase from '@/lib/services/supabase';
-import type { DbTeam } from '@/lib/types/api';
-import type { Team } from '@/lib/types/protocol';
+import { db } from '@/lib/db';
 
 export async function GET(req: NextRequest) {
   const address = req.nextUrl.searchParams.get('address');
@@ -13,51 +11,24 @@ export async function GET(req: NextRequest) {
 
   const addressNormalized = address?.toLowerCase() ?? '';
 
-  // Fetch user's team.
-  const {
-    data: userData,
-    status: userStatus,
-    error: userError,
-  } = await supabase
-    .from('team_members')
-    .select('teamid, chainId')
-    .eq('user', addressNormalized)
-    .returns<{ teamid: number; chainId: number }[]>()
-    .single();
+  // Fetch user w/ teams.
+  const user = await db.user.findFirst({
+    where: { address: addressNormalized },
+    include: {
+      teamTransfers: {
+        // Read from `TeamRegistry` on Base Sepolia if testnet; Base otherwise.
+        where: { chainId: process.env.NEXT_PUBLIC_IS_TESTNET ? 84532 : 8453 },
+        include: { to: true },
+        orderBy: { timestamp: 'desc' },
+      },
+    },
+  });
 
-  if ((userError && userStatus !== 406) || !userData) {
+  if (!user || user.teamTransfers.length === 0 || user.teamTransfers[0].toTeamId === 0) {
     return NextResponse.json({ message: 'User not on a team.' }, { status: 404 });
   }
 
-  // Fetch team.
-  const {
-    data: teamData,
-    status: teamStatus,
-    error: teamError,
-  } = await supabase
-    .from('teams')
-    .select('*, leader:users(*)')
-    .eq('id', userData.teamid)
-    .eq('chainId', userData.chainId)
-    .returns<DbTeam[]>()
-    .single();
-
-  if ((teamError && teamStatus !== 406) || !teamData) {
-    return NextResponse.json({ message: 'User not on a team.' }, { status: 404 });
-  }
-
-  const teamDataCasted: Team = {
-    // Identifier
-    id: teamData.id,
-    chainId: teamData.chainId,
-    leader: teamData.leader,
-    // Team information
-    name: teamData.name,
-    avatar: teamData.avatar,
-    members: [], // Purposely empty.
-  };
-
-  return NextResponse.json(teamDataCasted, { status: teamStatus });
+  return NextResponse.json(user.teamTransfers[0].to, { status: 200 });
 }
 
 // -----------------------------------------------------------------------------

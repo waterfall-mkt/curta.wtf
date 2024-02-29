@@ -1,5 +1,4 @@
 import type { Metadata } from 'next';
-import type { ReactNode } from 'react';
 
 import 'katex/dist/katex.min.css';
 
@@ -26,6 +25,6 @@ export const metadata: Metadata = {
 // Layout
 // -----------------------------------------------------------------------------
 
-export default function DocsLayout({ children }: { children: ReactNode }) {
+export default function DocsLayout({ children }: { children: React.ReactNode }) {
   return <DocsContainerLayout sections={DOCS_PAGES}>{children}</DocsContainerLayout>;
 }

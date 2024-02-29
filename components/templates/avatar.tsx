@@ -1,7 +1,5 @@
 'use client';
 
-import type { FC } from 'react';
-
 import * as RadixAvatar from '@radix-ui/react-avatar';
 import BoringAvatar from 'boring-avatars';
 import clsx from 'clsx';
@@ -22,7 +20,7 @@ type AvatarProps = {
 // Component
 // ---------------------------------------–-------------------------------------
 
-const Avatar: FC<AvatarProps> = ({ className, src, alt, size = 40 }) => {
+const Avatar: React.FC<AvatarProps> = ({ className, src, alt, size = 40 }) => {
   return (
     <RadixAvatar.Root>
       <RadixAvatar.Image

@@ -1,12 +1,13 @@
 'use client';
 
-import { type FC, Fragment, useMemo, useState } from 'react';
+import { Fragment, useMemo, useState } from 'react';
 
+import { PuzzleSolveValue } from './types';
 import type { SortingState } from '@tanstack/react-table';
 import type { ColumnDef } from '@tanstack/react-table';
 import { ExternalLink } from 'lucide-react';
 
-import type { PuzzleSolve } from '@/lib/types/protocol';
+import type { Phase } from '@/lib/types/protocol';
 import { getChainInfo, getTimeLeftString } from '@/lib/utils';
 
 import AddressDisplayClient from '@/components/templates/address-display-client';
@@ -18,12 +19,12 @@ import type { TableProps } from '@/components/ui/table/types';
 // Props
 // -----------------------------------------------------------------------------
 
-type PuzzleSolvesTableProps = {
-  data: PuzzleSolve[];
+type PuzzleSolvesDataTableProps = {
+  data: PuzzleSolveValue[];
   puzzleAddedTimestamp: number;
 };
 
-type PuzzleSolvesTableInternalProps = Omit<TableProps<PuzzleSolve>, 'columns'> & {
+type PuzzleSolvesDataTableInternalProps = Omit<TableProps<PuzzleSolveValue>, 'columns'> & {
   puzzleAddedTimestamp: number;
 };
 
@@ -31,18 +32,21 @@ type PuzzleSolvesTableInternalProps = Omit<TableProps<PuzzleSolve>, 'columns'> &
 // Component
 // -----------------------------------------------------------------------------
 
-const PuzzleSolvesTable: FC<PuzzleSolvesTableProps> = ({ data, puzzleAddedTimestamp }) => {
+const PuzzleSolvesDataTable: React.FC<PuzzleSolvesDataTableProps> = ({
+  data,
+  puzzleAddedTimestamp,
+}) => {
   const [sorting, setSorting] = useState<SortingState>([]);
 
   return (
     <Fragment>
-      <PuzzleSolvesTableDesktop
+      <PuzzleSolvesDataTableDesktop
         data={data}
         puzzleAddedTimestamp={puzzleAddedTimestamp}
         sorting={sorting}
         setSorting={setSorting}
       />
-      <PuzzleSolvesTableMobile
+      <PuzzleSolvesDataTableMobile
         data={data}
         puzzleAddedTimestamp={puzzleAddedTimestamp}
         sorting={sorting}
@@ -52,13 +56,13 @@ const PuzzleSolvesTable: FC<PuzzleSolvesTableProps> = ({ data, puzzleAddedTimest
   );
 };
 
-const PuzzleSolvesTableDesktop: FC<PuzzleSolvesTableInternalProps> = ({
+const PuzzleSolvesDataTableDesktop: React.FC<PuzzleSolvesDataTableInternalProps> = ({
   data,
   puzzleAddedTimestamp,
   sorting,
   setSorting,
 }) => {
-  const columns: ColumnDef<PuzzleSolve>[] = useMemo(
+  const columns: ColumnDef<PuzzleSolveValue>[] = useMemo(
     () => [
       {
         accessorKey: 'rank',
@@ -72,10 +76,8 @@ const PuzzleSolvesTableDesktop: FC<PuzzleSolvesTableInternalProps> = ({
         header: () => 'Player',
         cell: ({ row }) => (
           <AddressDisplayClient
-            address={row.original.solver.address}
-            label={row.original.solver.displayName}
-            prefetchedEnsName={row.original.solverEnsName}
-            prefetchedEnsAvatar={row.original.solverEnsAvatar}
+            address={row.original.solver.address as `0x${string}`}
+            label={row.original.solver.info?.displayName ?? undefined}
           />
         ),
         footer: (props) => props.column.id,
@@ -84,8 +86,16 @@ const PuzzleSolvesTableDesktop: FC<PuzzleSolvesTableInternalProps> = ({
         accessorKey: 'firstSolveTime',
         header: () => 'Time taken',
         cell: ({ row }) => (
-          <div title={new Date(1000 * row.original.solveTimestamp).toString()}>
-            {getTimeLeftString(row.original.solveTimestamp - puzzleAddedTimestamp)}
+          <div
+            title={
+              row.original.solveTimestamp
+                ? new Date(1000 * row.original.solveTimestamp).toString()
+                : undefined
+            }
+          >
+            {row.original.solveTimestamp
+              ? getTimeLeftString(row.original.solveTimestamp - puzzleAddedTimestamp)
+              : '–'}
           </div>
         ),
         footer: (props) => props.column.id,
@@ -94,9 +104,11 @@ const PuzzleSolvesTableDesktop: FC<PuzzleSolvesTableInternalProps> = ({
       {
         accessorKey: 'phase',
         header: () => 'Phase',
-        cell: ({ row }) => (
-          <PhaseTag phase={row.original.phase} isPinging={row.original.phase < 3} />
-        ),
+        cell: ({ row }) => {
+          const phase = (row.original.phase ?? 0) as Phase;
+
+          return <PhaseTag phase={phase} isPinging={phase < 3} />;
+        },
         footer: (props) => props.column.id,
         size: 105,
       },
@@ -146,13 +158,13 @@ const PuzzleSolvesTableDesktop: FC<PuzzleSolvesTableInternalProps> = ({
   );
 };
 
-const PuzzleSolvesTableMobile: FC<PuzzleSolvesTableInternalProps> = ({
+const PuzzleSolvesDataTableMobile: React.FC<PuzzleSolvesDataTableInternalProps> = ({
   data,
   puzzleAddedTimestamp,
   sorting,
   setSorting,
 }) => {
-  const columns: ColumnDef<PuzzleSolve>[] = useMemo(
+  const columns: ColumnDef<PuzzleSolveValue>[] = useMemo(
     () => [
       {
         accessorKey: 'rank',
@@ -166,10 +178,8 @@ const PuzzleSolvesTableMobile: FC<PuzzleSolvesTableInternalProps> = ({
         header: () => 'Player',
         cell: ({ row }) => (
           <AddressDisplayClient
-            address={row.original.solver.address}
-            label={row.original.solver.displayName}
-            prefetchedEnsName={row.original.solverEnsName}
-            prefetchedEnsAvatar={row.original.solverEnsAvatar}
+            address={row.original.solver.address as `0x${string}`}
+            label={row.original.solver.info?.displayName ?? undefined}
           />
         ),
         footer: (props) => props.column.id,
@@ -180,9 +190,17 @@ const PuzzleSolvesTableMobile: FC<PuzzleSolvesTableInternalProps> = ({
         cell: ({ row }) => (
           <div
             className="flex flex-col"
-            title={new Date(1000 * row.original.solveTimestamp).toString()}
+            title={
+              row.original.solveTimestamp
+                ? new Date(1000 * row.original.solveTimestamp).toString()
+                : undefined
+            }
           >
-            <div>{getTimeLeftString(row.original.solveTimestamp - puzzleAddedTimestamp)}</div>
+            <div>
+              {row.original.solveTimestamp
+                ? getTimeLeftString(row.original.solveTimestamp - puzzleAddedTimestamp)
+                : '–'}
+            </div>
             <div className="text-xs text-gray-200">Phase {row.original.phase}</div>
           </div>
         ),
@@ -204,4 +222,4 @@ const PuzzleSolvesTableMobile: FC<PuzzleSolvesTableInternalProps> = ({
   );
 };
 
-export default PuzzleSolvesTable;
+export default PuzzleSolvesDataTable;

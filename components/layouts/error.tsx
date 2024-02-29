@@ -1,5 +1,3 @@
-import type { FC, ReactNode } from 'react';
-
 import { Button } from '@/components/ui';
 
 // ---------------------------------------–-------------------------------------
@@ -8,14 +6,14 @@ import { Button } from '@/components/ui';
 
 type ErrorLayoutProps = {
   statusCode?: number;
-  children?: ReactNode;
+  children?: React.ReactNode;
 };
 
 // ---------------------------------------–-------------------------------------
 // Component
 // ---------------------------------------–-------------------------------------
 
-const ErrorLayout: FC<ErrorLayoutProps> = ({ statusCode, children }) => {
+const ErrorLayout: React.FC<ErrorLayoutProps> = ({ statusCode, children }) => {
   const header = statusCode === 404 ? 'PageNotFound()' : `InternalServerError(${statusCode})`;
   const message = statusCode === 404 ? '0x924C0FAD' : '0x2145B8F0';
 

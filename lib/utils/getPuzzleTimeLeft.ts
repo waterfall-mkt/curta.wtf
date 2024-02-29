@@ -1,4 +1,4 @@
-import { Phase } from '@/lib/types/protocol';
+import type { Phase } from '@/lib/types/protocol';
 
 const getPuzzleTimeLeft = (value: number): { phase: Phase; timeLeft: number } => {
   if (value === 0) return { phase: 0, timeLeft: 0 };

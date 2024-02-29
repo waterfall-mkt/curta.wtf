@@ -1,14 +1,14 @@
 'use client';
 
-import { type FC, Fragment, type ReactNode } from 'react';
+import { Fragment } from 'react';
 
 import AddressLinkClient from './address-link-client';
 import ENSAvatarClient from './ens-avatar-client';
+import type { UserApiValue } from '@/app/api/user/route';
 import { ArrowUpRight, ExternalLink, Github, Puzzle } from 'lucide-react';
 import useSWR from 'swr';
 import type { Address } from 'viem';
 
-import { DbUser } from '@/lib/types/api';
 import { getChainInfo, getShortenedAddress } from '@/lib/utils';
 
 import LogoIcon from '@/components/common/logo-icon';
@@ -16,13 +16,18 @@ import { Button, ButtonGroup, HoverCard, IconButton } from '@/components/ui';
 
 type UserHoverCardProps = {
   address: Address;
-  trigger: ReactNode;
+  trigger: React.ReactNode;
   triggerAsChild?: boolean;
   inPortal?: boolean;
 };
 
-const UserHoverCard: FC<UserHoverCardProps> = ({ address, trigger, triggerAsChild, inPortal }) => {
-  const { data, error, isLoading, mutate } = useSWR<DbUser>(
+const UserHoverCard: React.FC<UserHoverCardProps> = ({
+  address,
+  trigger,
+  triggerAsChild,
+  inPortal,
+}) => {
+  const { data, error, isLoading, mutate } = useSWR<UserApiValue>(
     `/api/user?address=${address}`,
     (url) => fetch(url).then((res) => res.json()),
     { revalidateOnMount: false },
@@ -47,14 +52,14 @@ const UserHoverCard: FC<UserHoverCardProps> = ({ address, trigger, triggerAsChil
             <ButtonGroup>
               {[
                 {
-                  href: `https://twitter.com/${data?.twitter}`,
+                  href: `https://twitter.com/${data?.info?.twitter}`,
                   icon: <LogoIcon.X />,
-                  disabled: !data?.twitter,
+                  disabled: !data?.info?.twitter,
                 },
                 {
-                  href: `https://github.com/${data?.github}`,
+                  href: `https://github.com/${data?.info?.github}`,
                   icon: <Github />,
-                  disabled: !data?.github,
+                  disabled: !data?.info?.github,
                 },
                 {
                   href: `https://${getChainInfo(1).blockExplorer}/address/${address}`,
@@ -81,12 +86,12 @@ const UserHoverCard: FC<UserHoverCardProps> = ({ address, trigger, triggerAsChil
           <div className="flex flex-col gap-1">
             <div className="flex h-5 items-center gap-2">
               <span className="font-medium leading-5 text-gray-50">
-                {data?.displayName ? data?.displayName : getShortenedAddress(address)}
+                {data?.info?.displayName ? data?.info?.displayName : getShortenedAddress(address)}
               </span>
               {[
                 {
                   children: 'Author',
-                  display: data?.isPuzzleAuthor,
+                  display: data?.info?.isPuzzleAuthor,
                 },
               ].map((item, index) => {
                 if (!item.display) return null;
@@ -106,10 +111,10 @@ const UserHoverCard: FC<UserHoverCardProps> = ({ address, trigger, triggerAsChil
               <ArrowUpRight className="h-2.5 w-2.5" />
             </span>
           </div>
-          {data?.bio ? <div className="text-sm text-gray-100">{data.bio}</div> : null}
+          {data?.info?.bio ? <div className="text-sm text-gray-100">{data.info.bio}</div> : null}
           <span className="flex items-center gap-1 text-sm font-book text-gray-200">
             <Puzzle className="h-3.5 w-3.5" />
-            <span className="font-medium text-gray-100">{data?.puzzlesSolved ?? 0}</span>
+            <span className="font-medium text-gray-100">{data?._count.puzzleSolves ?? 0}</span>
             <span> solves</span>
           </span>
         </Fragment>

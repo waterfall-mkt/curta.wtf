@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import type { FC, ReactNode } from 'react';
 
 import type { PageSlug } from '@/lib/types/site';
 
@@ -11,14 +10,19 @@ type CredentialFeatureProps = {
   href: PageSlug;
   name: string;
   description: string;
-  children: ReactNode;
+  children: React.ReactNode;
 };
 
 // -----------------------------------------------------------------------------
 // Component
 // -----------------------------------------------------------------------------
 
-const CredentialFeature: FC<CredentialFeatureProps> = ({ href, name, description, children }) => {
+const CredentialFeature: React.FC<CredentialFeatureProps> = ({
+  href,
+  name,
+  description,
+  children,
+}) => {
   return (
     <Link
       className="group overflow-hidden rounded-xl border border-stroke bg-gray-600 no-underline transition-colors hover:border-gray-250"

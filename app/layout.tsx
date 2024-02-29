@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
-import type { ReactNode } from 'react';
 
 import '@rainbow-me/rainbowkit/styles.css';
 import { Analytics } from '@vercel/analytics/react';
@@ -43,7 +42,7 @@ export const metadata: Metadata = {
 // Layout
 // -----------------------------------------------------------------------------
 
-export default function RootLayout({ children }: { children: ReactNode }) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={clsx('dark', inter.className)} style={{ background: '#0D1017' }}>
       <body className={inter.variable}>

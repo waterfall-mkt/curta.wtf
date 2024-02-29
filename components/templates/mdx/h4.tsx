@@ -1,13 +1,12 @@
 'use client';
 
 import { usePathname } from 'next/navigation';
-import type { FC } from 'react';
 
 import { Link } from 'lucide-react';
 
 import { useToast } from '@/components/ui';
 
-const H4: FC<JSX.IntrinsicElements['h4']> = ({ children, ...rest }) => {
+const H4: React.FC<JSX.IntrinsicElements['h4']> = ({ children, ...rest }) => {
   const pathname = usePathname();
   const { toast } = useToast();
 

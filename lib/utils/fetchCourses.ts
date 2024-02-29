@@ -1,70 +1,28 @@
 'use server';
 
-import type { PostgrestError } from '@supabase/supabase-js';
+import { unstable_cache } from 'next/cache';
 
-import supabase from '@/lib/services/supabase';
-import type { DbGolfCourse } from '@/lib/types/api';
-import type { GolfCourse, PartialUser } from '@/lib/types/protocol';
-
-type CoursesResponse = {
-  data: GolfCourse[];
-  status: number;
-  error: PostgrestError | null;
-};
+import { db } from '@/lib/db';
 
 /**
  * Fetches and returns all Courses from all chains from the database.
- * @returns An object containing data for the Courses, the status code, and the
- * error in the shape `{ data: GolfCourse[], status: number, error: PostgrestError | null }`.
  */
-const fetchCourses = async (): Promise<CoursesResponse> => {
-  const { data, status, error } = await supabase
-    .from('golf_courses')
-    .select('*, leader:users(*), event:events(id)')
-    .not('address', 'is', null)
-    .filter('disabled', 'not.is', 'true')
-    .order('addedTimestamp', { ascending: false })
-    .returns<DbGolfCourse[]>();
+const fetchCourses = async () => {
+  const isTestnet = Boolean(process.env.NEXT_PUBLIC_IS_TESTNET);
 
-  if ((error && status !== 406) || !data || (data && data.length === 0)) {
-    return { data: [], status, error };
-  }
-
-  const courses: GolfCourse[] = [];
-  for (const course of data) {
-    courses.push({
-      // Identifier
-      id: course.id,
-      chainId: course.chainId,
-      // Course static information
-      address: course.address,
-      name: course.name,
-      description: course.description,
-      // Course dynamic information
-      numLeaders: course.numLeaders,
-      numSolved: course.numSolved,
-      allowedOpcodes: course.allowedOpcodes,
-      github: course.github,
-      disabled: course.disabled,
-      event: course.event,
-      // Course leader information
-      leader: { ...course.leader } as PartialUser,
-      leaderBlock: course.leaderBlock,
-      leaderGas: course.leaderGas,
-      leaderTimestamp: course.leaderTimestamp,
-      leaderTx: course.leaderTx,
-      // Course source code
-      bytecode: course.bytecode,
-      solidity: course.solidity,
-      huff: course.huff,
-      // Added information
-      addedBlock: course.addedBlock,
-      addedTimestamp: course.addedTimestamp,
-      addedTx: course.addedTx,
-    });
-  }
-
-  return { data: courses, status, error };
+  return await unstable_cache(
+    async () =>
+      await db.golfCourse.findMany({
+        include: {
+          leader: { include: { info: true } },
+          _count: { select: { solves: true } },
+        },
+        where: { chain: { isTestnet }, disabled: false },
+        orderBy: { addedTimestamp: 'desc' },
+      }),
+    [`courses-${isTestnet}`],
+    { tags: ['courses'], revalidate: 3600 },
+  )();
 };
 
 export default fetchCourses;

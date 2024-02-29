@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { type FC, type ForwardedRef, forwardRef } from 'react';
+import { forwardRef } from 'react';
 
 import { buttonGroupStyles, buttonIconVariants, buttonVariants } from './styles';
 import type { ButtonGroupProps, ButtonProps } from './types';
@@ -28,7 +28,7 @@ const Button = forwardRef(
       children,
       ...rest
     }: ButtonProps,
-    ref: ForwardedRef<HTMLButtonElement>,
+    ref: React.ForwardedRef<HTMLButtonElement>,
   ) => {
     const fixedDisabledState = disabled && variant !== 'secondary';
 
@@ -80,7 +80,7 @@ const Button = forwardRef(
   },
 );
 
-export const ButtonGroup: FC<ButtonGroupProps> = ({ className, children, ...rest }) => {
+export const ButtonGroup: React.FC<ButtonGroupProps> = ({ className, children, ...rest }) => {
   return (
     <div className={twMerge(clsx(buttonGroupStyles, className))} {...rest}>
       {children}

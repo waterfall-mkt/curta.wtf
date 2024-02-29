@@ -1,7 +1,5 @@
 'use client';
 
-import type { FC, ReactNode } from 'react';
-
 import * as Accordion from '@radix-ui/react-accordion';
 import { ChevronRight } from 'lucide-react';
 
@@ -15,14 +13,17 @@ import PhaseTagPing from '@/components/templates/phase-tag/ping';
 
 type PuzzleInfoTimeLeftAccordionProps = {
   phase: Phase;
-  children: ReactNode;
+  children: React.ReactNode;
 };
 
 // -----------------------------------------------------------------------------
 // Component
 // -----------------------------------------------------------------------------
 
-const PuzzleInfoTimeLeftAccordion: FC<PuzzleInfoTimeLeftAccordionProps> = ({ phase, children }) => {
+const PuzzleInfoTimeLeftAccordion: React.FC<PuzzleInfoTimeLeftAccordionProps> = ({
+  phase,
+  children,
+}) => {
   const text =
     phase === 0
       ? 'Puzzle added'

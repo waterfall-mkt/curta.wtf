@@ -1,8 +1,8 @@
 'use client';
 
-import type { FC } from 'react';
+import type { UserInfo } from '@prisma/client';
 
-import type { PartialUser, Phase } from '@/lib/types/protocol';
+import type { Phase } from '@/lib/types/protocol';
 
 import AddressLinkClient from '@/components/templates/address-link-client';
 import PhaseTagPing from '@/components/templates/phase-tag/ping';
@@ -12,18 +12,18 @@ import UserHoverCard from '@/components/templates/user-hover-card';
 // Props
 // -----------------------------------------------------------------------------
 
-type PuzzleTableInfoProps = {
+type PuzzleDataTableInfoProps = {
   id: number;
   phase: Phase;
   name: string;
-  author: PartialUser;
+  user?: UserInfo;
 };
 
 // -----------------------------------------------------------------------------
 // Component
 // -----------------------------------------------------------------------------
 
-const PuzzleTableInfo: FC<PuzzleTableInfoProps> = ({ id, phase, name, author }) => {
+const PuzzleDataTableInfo: React.FC<PuzzleDataTableInfoProps> = ({ id, phase, name, user }) => {
   return (
     <div className="relative flex items-center space-x-4">
       <PhaseTagPing phase={phase} isPinging={phase < 3} />
@@ -31,20 +31,21 @@ const PuzzleTableInfo: FC<PuzzleTableInfoProps> = ({ id, phase, name, author }) 
         <div className="line-clamp-1 overflow-ellipsis text-left text-sm text-gray-100">
           {name ?? `Puzzle #${id}`}
         </div>
-        <UserHoverCard
-          address={author.address}
-          trigger={
-            <AddressLinkClient
-              className="mt-0.5 text-xs"
-              address={author.address}
-              prefetchedEnsName={author.ensName}
-              label={author.displayName}
-            />
-          }
-        />
+        {user ? (
+          <UserHoverCard
+            address={user.address as `0x${string}`}
+            trigger={
+              <AddressLinkClient
+                className="mt-0.5 text-xs"
+                address={user.address as `0x${string}`}
+                label={user.displayName ?? undefined}
+              />
+            }
+          />
+        ) : null}
       </div>
     </div>
   );
 };
 
-export default PuzzleTableInfo;
+export default PuzzleDataTableInfo;

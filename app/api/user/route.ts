@@ -1,7 +1,13 @@
 import { type NextRequest, NextResponse } from 'next/server';
 
-import supabase from '@/lib/services/supabase';
-import type { DbUser } from '@/lib/types/api';
+import type { User, UserInfo } from '@prisma/client';
+
+import { db } from '@/lib/db';
+
+export type UserApiValue = User & {
+  info: UserInfo | null;
+  _count: { puzzleSolves: number };
+};
 
 export async function GET(req: NextRequest) {
   const address = req.nextUrl.searchParams.get('address');
@@ -17,32 +23,25 @@ export async function GET(req: NextRequest) {
   const addressNormalized = address?.toLowerCase() ?? '';
   const usernameNormalized = username?.toLowerCase() ?? '';
 
-  const { data, status, error } = await supabase
-    .from('users')
-    .select('*')
-    .or(`address.eq.${addressNormalized},username.eq.${usernameNormalized}}`)
-    .returns<DbUser[]>()
-    .single();
+  const user = await db.user.findFirst({
+    where: {
+      info: {
+        OR: [{ address: addressNormalized }, { username: usernameNormalized }],
+      },
+    },
+    include: {
+      info: true,
+      _count: {
+        select: { puzzleSolves: true },
+      },
+    },
+  });
 
-  if ((error && status !== 406) || !data) {
+  if (!user) {
     return NextResponse.json({ message: 'User not found.' }, { status: 404 });
   }
 
-  const userData: DbUser = {
-    // Primary key
-    address: data.address,
-    // User information
-    username: data.username,
-    bio: data.bio,
-    displayName: data.displayName,
-    twitter: data.twitter,
-    github: data.github,
-    // Curta Puzzles-specific
-    puzzlesSolved: data.puzzlesSolved,
-    isPuzzleAuthor: data.isPuzzleAuthor,
-  };
-
-  return NextResponse.json(userData, { status });
+  return NextResponse.json(user, { status: 200 });
 }
 
 // -----------------------------------------------------------------------------

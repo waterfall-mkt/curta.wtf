@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { type ForwardedRef, forwardRef } from 'react';
+import { forwardRef } from 'react';
 
 import { iconButtonIconVariants, iconButtonVariants } from './styles';
 import type { IconButtonProps } from './types';
@@ -26,7 +26,7 @@ const IconButton = forwardRef(
       children,
       ...rest
     }: IconButtonProps,
-    ref: ForwardedRef<HTMLButtonElement>,
+    ref: React.ForwardedRef<HTMLButtonElement>,
   ) => {
     const fixedDisabledState = disabled && variant !== 'secondary';
 

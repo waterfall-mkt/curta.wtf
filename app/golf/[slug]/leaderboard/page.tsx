@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation';
 
-import CourseLeaderboardTable from './(components)/table';
+import CourseLeaderboardDataTable from './(components)/data-table';
 
 import { fetchCourseLeaderboardById, getChainIdAndId } from '@/lib/utils';
 
@@ -16,7 +16,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
 
   const { chainId, id } = ids;
 
-  const { data: solves } = await fetchCourseLeaderboardById(id, chainId);
+  const solves = await fetchCourseLeaderboardById(id, chainId);
 
   const normalizedSlug = decodeURIComponent(params.slug.toLowerCase());
 
@@ -27,7 +27,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
       role="tabpanel"
       aria-labelledby={`trigger-/golf/${normalizedSlug}/leaderboard`}
     >
-      <CourseLeaderboardTable data={solves} />
+      <CourseLeaderboardDataTable data={solves} />
     </div>
   );
 }

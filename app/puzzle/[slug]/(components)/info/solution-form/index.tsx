@@ -1,9 +1,10 @@
 'use client';
 
-import { type FC, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
+import type { PuzzleValue } from '../../types';
 import PuzzleInfoSolutionFormOptionsForm from './options-form';
-import PuzzleInfoSolutionFormTeamControl from './team-control';
+// import PuzzleInfoSolutionFormTeamControl from './team-control';
 import PuzzleInfoSolutionFormTipForm from './tip-form';
 import clsx from 'clsx';
 import { ExternalLink, Heart, Settings } from 'lucide-react';
@@ -17,7 +18,6 @@ import {
 } from 'wagmi';
 
 import { CURTA_ABI } from '@/lib/constants/abi';
-import type { Puzzle } from '@/lib/types/protocol';
 import { getChainInfo, getPuzzleTimeLeft } from '@/lib/utils';
 
 import ConnectButton from '@/components/common/connect-button';
@@ -28,15 +28,17 @@ import { Button, IconButton, Input, Popover, useToast } from '@/components/ui';
 // -----------------------------------------------------------------------------
 
 type PuzzleInfoSolutionFormProps = {
-  puzzle: Puzzle;
+  puzzle: PuzzleValue;
 };
 
 // -----------------------------------------------------------------------------
 // Component
 // -----------------------------------------------------------------------------
 
-const PuzzleInfoSolutionForm: FC<PuzzleInfoSolutionFormProps> = ({ puzzle }) => {
-  const { phase } = getPuzzleTimeLeft(puzzle.firstSolveTimestamp);
+const PuzzleInfoSolutionForm: React.FC<PuzzleInfoSolutionFormProps> = ({ puzzle }) => {
+  const phase = puzzle.firstSolveTimestamp
+    ? getPuzzleTimeLeft(puzzle.firstSolveTimestamp).phase
+    : 0;
   const [solution, setSolution] = useState<string>('');
   const [tip, setTip] = useState<string>(phase > 1 ? '0.02' : '0');
   const [gasLimit, setGasLimit] = useState<string>('0');
@@ -137,42 +139,43 @@ const PuzzleInfoSolutionForm: FC<PuzzleInfoSolutionFormProps> = ({ puzzle }) => 
           errorMessage=""
           rightIcon={
             <div className="flex -space-x-[1px]">
-              <Popover
-                className="w-[16rem]"
-                open={isTipFormOpen}
-                onOpenChange={setIsTipFormOpen}
-                trigger={
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    intent="neutral"
-                    className="rounded-none rounded-l-lg bg-gray-600 focus-visible:rounded-sm focus-visible:rounded-l-lg active:bg-gray-450"
-                    rightIcon={
-                      Number(tip) > (phase > 1 ? 0.02 : 0) ? (
-                        <Heart className="ease-[cubic-bezier(0.34,0.99,0.71,1.42)] fill-red-400 text-red-400" />
-                      ) : (
-                        <Heart />
-                      )
-                    }
-                  >
-                    {phase > 1
-                      ? Number(tip) <= 0.02
-                        ? '0.02 ETH'
-                        : `${Math.round(Number(tip) * 1000) / 1000} ETH`
-                      : Number(tip) === 0
-                      ? 'Tip author'
-                      : `${Math.round(Number(tip) * 1000) / 1000} ETH`}
-                  </Button>
-                }
-              >
-                <PuzzleInfoSolutionFormTipForm
-                  phase={phase}
-                  author={puzzle.author}
-                  chainId={puzzle.chainId}
-                  onChange={setTip}
+              {puzzle.author.info ? (
+                <Popover
+                  className="w-[16rem]"
+                  open={isTipFormOpen}
                   onOpenChange={setIsTipFormOpen}
-                />
-              </Popover>
+                  trigger={
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      intent="neutral"
+                      className="rounded-none rounded-l-lg bg-gray-600 focus-visible:rounded-sm focus-visible:rounded-l-lg active:bg-gray-450"
+                      rightIcon={
+                        Number(tip) > (phase > 1 ? 0.02 : 0) ? (
+                          <Heart className="ease-[cubic-bezier(0.34,0.99,0.71,1.42)] fill-red-400 text-red-400" />
+                        ) : (
+                          <Heart />
+                        )
+                      }
+                    >
+                      {phase > 1
+                        ? Number(tip) <= 0.02
+                          ? '0.02 ETH'
+                          : `${Math.round(Number(tip) * 1000) / 1000} ETH`
+                        : Number(tip) === 0
+                        ? 'Tip author'
+                        : `${Math.round(Number(tip) * 1000) / 1000} ETH`}
+                    </Button>
+                  }
+                >
+                  <PuzzleInfoSolutionFormTipForm
+                    phase={phase}
+                    author={puzzle.author.info}
+                    onChange={setTip}
+                    onOpenChange={setIsTipFormOpen}
+                  />
+                </Popover>
+              ) : null}
               <Popover
                 className="w-[16rem]"
                 open={isOptionsFormOpen}
@@ -198,7 +201,7 @@ const PuzzleInfoSolutionForm: FC<PuzzleInfoSolutionFormProps> = ({ puzzle }) => 
             </div>
           }
         />
-        {puzzle.event ? <PuzzleInfoSolutionFormTeamControl /> : null}
+        {/* {puzzle.event ? <PuzzleInfoSolutionFormTeamControl /> : null} */}
       </div>
       {!chain || !mounted ? (
         <ConnectButton className="w-full" />

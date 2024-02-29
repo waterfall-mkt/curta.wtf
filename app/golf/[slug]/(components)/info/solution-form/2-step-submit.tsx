@@ -1,5 +1,6 @@
-import { type FC, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
+import type { GolfCourseValue } from '../../types';
 import { ExternalLink } from 'lucide-react';
 import { type Hash, zeroAddress } from 'viem';
 import {
@@ -11,7 +12,6 @@ import {
 } from 'wagmi';
 
 import { CURTA_GOLF_ABI } from '@/lib/constants/abi';
-import type { GolfCourse } from '@/lib/types/protocol';
 import { getChainInfo, getGolfCommitKey } from '@/lib/utils';
 
 import { Button, useToast } from '@/components/ui';
@@ -22,17 +22,16 @@ import { Button, useToast } from '@/components/ui';
 
 type CourseInfoSolutionForm2StepSubmitButtonProps = {
   bytecode: Hash;
-  course: GolfCourse;
+  course: GolfCourseValue;
 };
 
 // -----------------------------------------------------------------------------
 // Component
 // -----------------------------------------------------------------------------
 
-const CourseInfoSolutionForm2StepSubmitButton: FC<CourseInfoSolutionForm2StepSubmitButtonProps> = ({
-  bytecode,
-  course,
-}) => {
+const CourseInfoSolutionForm2StepSubmitButton: React.FC<
+  CourseInfoSolutionForm2StepSubmitButtonProps
+> = ({ bytecode, course }) => {
   const [mounted, setMounted] = useState<boolean>(false);
   const { address } = useAccount();
   const { toast } = useToast();
@@ -47,7 +46,7 @@ const CourseInfoSolutionForm2StepSubmitButton: FC<CourseInfoSolutionForm2StepSub
     bytecode,
   });
   const { data: getCommitData } = useContractRead({
-    address: getChainInfo(course.chainId).golf,
+    address: (course.curtaGolfAddress as `0x${string}`) ?? getChainInfo(course.chainId).golf,
     chainId: course.chainId,
     abi: CURTA_GOLF_ABI,
     functionName: 'getCommit',
@@ -59,7 +58,7 @@ const CourseInfoSolutionForm2StepSubmitButton: FC<CourseInfoSolutionForm2StepSub
   // ---------------------------------------------------------------------------
 
   const { config: commitConfig } = usePrepareContractWrite({
-    address: getChainInfo(course.chainId).golf,
+    address: (course.curtaGolfAddress as `0x${string}`) ?? getChainInfo(course.chainId).golf,
     abi: CURTA_GOLF_ABI,
     functionName: 'commit',
     args: [commitKey],
@@ -139,7 +138,7 @@ const CourseInfoSolutionForm2StepSubmitButton: FC<CourseInfoSolutionForm2StepSub
   // ---------------------------------------------------------------------------
 
   const { config: submitConfig } = usePrepareContractWrite({
-    address: getChainInfo(course.chainId).golf,
+    address: (course.curtaGolfAddress as `0x${string}`) ?? getChainInfo(course.chainId).golf,
     abi: CURTA_GOLF_ABI,
     functionName: 'submit',
     // We always use a salt of 0 on the front-end.

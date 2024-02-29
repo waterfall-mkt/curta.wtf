@@ -1,4 +1,4 @@
-import { cache, type ReactNode } from 'react';
+import { cache } from 'react';
 
 import clsx from 'clsx';
 import { Github } from 'lucide-react';
@@ -6,8 +6,7 @@ import { twMerge } from 'tailwind-merge';
 import type { Address } from 'viem';
 
 import { ethereumClient } from '@/lib/client';
-import supabase from '@/lib/services/supabase';
-import type { DbUser } from '@/lib/types/api';
+import { db } from '@/lib/db';
 import { getShortenedAddress } from '@/lib/utils';
 
 import LogoIcon from '@/components/common/logo-icon';
@@ -25,7 +24,7 @@ type UserDisplayProps = {
   className?: string;
   address: Address;
   displaySocials?: boolean;
-  children?: ReactNode;
+  children?: React.ReactNode;
 };
 
 // ---------------------------------------–-------------------------------------
@@ -39,16 +38,10 @@ export default async function UserDisplay({
   children,
 }: UserDisplayProps) {
   const ensName = await cache(async () => await ethereumClient.getEnsName({ address }))();
-  const { data: user } = await cache(
-    async () =>
-      await supabase
-        .from('users')
-        .select('*')
-        .eq('address', address.toLowerCase())
-        .returns<DbUser[]>()
-        .single(),
+  const userInfo = await cache(
+    async () => await db.userInfo.findFirst({ where: { address: address.toLowerCase() } }),
   )();
-  const displayName = user?.displayName ?? ensName ?? getShortenedAddress(address);
+  const displayName = userInfo?.displayName ?? ensName ?? getShortenedAddress(address);
 
   return (
     <div key={address} className={twMerge(clsx('flex items-center justify-between', className))}>
@@ -73,23 +66,23 @@ export default async function UserDisplay({
           />
         </div>
       </div>
-      {displaySocials && (user?.twitter || user?.github) ? (
+      {displaySocials && (userInfo?.twitter || userInfo?.github) ? (
         <ButtonGroup>
-          {user?.twitter ? (
+          {userInfo?.twitter ? (
             <IconButton
               variant="outline"
               intent="neutral"
-              href={`https://twitter.com/${user.twitter}`}
+              href={`https://twitter.com/${userInfo.twitter}`}
               newTab
             >
               <LogoIcon.X />
             </IconButton>
           ) : null}
-          {user?.github ? (
+          {userInfo?.github ? (
             <IconButton
               variant="outline"
               intent="neutral"
-              href={`https://github.com/${user.github}`}
+              href={`https://github.com/${userInfo.github}`}
               newTab
             >
               <Github />

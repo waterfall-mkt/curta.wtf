@@ -1,6 +1,6 @@
 'use client';
 
-import { type ForwardedRef, forwardRef } from 'react';
+import { forwardRef } from 'react';
 
 import { switchStyles, switchThumbStyles } from './styles';
 import type { SwitchProps } from './types';
@@ -11,7 +11,7 @@ import clsx from 'clsx';
 // Component
 // -----------------------------------------------------------------------------
 
-const Switch = forwardRef((props: SwitchProps, ref: ForwardedRef<HTMLButtonElement>) => (
+const Switch = forwardRef((props: SwitchProps, ref: React.ForwardedRef<HTMLButtonElement>) => (
   <SwitchPrimitives.Root className={clsx(switchStyles)} ref={ref} {...props}>
     <SwitchPrimitives.Thumb className={clsx(switchThumbStyles)} />
   </SwitchPrimitives.Root>

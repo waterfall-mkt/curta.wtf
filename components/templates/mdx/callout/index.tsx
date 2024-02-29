@@ -1,12 +1,10 @@
-import type { FC } from 'react';
-
 import { calloutIconContainerVariants, calloutIconVariants, calloutVariants } from './styles';
 import type { CalloutProps } from './types';
 import clsx from 'clsx';
 import { AlertCircle, CheckCircle2, Info, Lightbulb, XCircle } from 'lucide-react';
 import { twMerge } from 'tailwind-merge';
 
-const Callout: FC<CalloutProps> = ({
+const Callout: React.FC<CalloutProps> = ({
   className,
   size = 'md',
   intent = 'primary',

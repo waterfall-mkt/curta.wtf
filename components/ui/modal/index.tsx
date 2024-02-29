@@ -1,6 +1,6 @@
 'use client';
 
-import { type FC, type ForwardedRef, forwardRef } from 'react';
+import { forwardRef } from 'react';
 
 import {
   modalCloseStyles,
@@ -30,24 +30,26 @@ import { Card, IconButton } from '@/components/ui';
 // Component
 // -----------------------------------------------------------------------------
 
-const ModalBody: FC<ModalBodyProps> = Card.Body;
+const ModalBody: React.FC<ModalBodyProps> = Card.Body;
 
-const ModalClose = forwardRef((props: ModalCloseProps, ref: ForwardedRef<HTMLButtonElement>) => (
-  <ModalPrimitive.Close ref={ref} asChild>
-    <IconButton
-      variant="secondary"
-      intent="neutral"
-      size="sm"
-      className={clsx(modalCloseStyles)}
-      aria-label="Close modal"
-      {...props}
-    >
-      <X />
-    </IconButton>
-  </ModalPrimitive.Close>
-));
+const ModalClose = forwardRef(
+  (props: ModalCloseProps, ref: React.ForwardedRef<HTMLButtonElement>) => (
+    <ModalPrimitive.Close ref={ref} asChild>
+      <IconButton
+        variant="secondary"
+        intent="neutral"
+        size="sm"
+        className={clsx(modalCloseStyles)}
+        aria-label="Close modal"
+        {...props}
+      >
+        <X />
+      </IconButton>
+    </ModalPrimitive.Close>
+  ),
+);
 
-const ModalContent: FC<ModalContentProps> = ({
+const ModalContent: React.FC<ModalContentProps> = ({
   className,
   breakpoint = 'sm',
   description,
@@ -79,15 +81,15 @@ const ModalContent: FC<ModalContentProps> = ({
   </ModalPrimitive.Portal>
 );
 
-const ModalHeader: FC<ModalHeaderProps> = ({ align = 'center', ...rest }) => (
+const ModalHeader: React.FC<ModalHeaderProps> = ({ align = 'center', ...rest }) => (
   <Card.Header className={modalHeaderVariants({ align })} {...rest} />
 );
 
-const ModalRoot: FC<ModalRootProps> = ModalPrimitive.Root;
+const ModalRoot: React.FC<ModalRootProps> = ModalPrimitive.Root;
 
-const ModalTitle: FC<ModalTitleProps> = ModalPrimitive.Title;
+const ModalTitle: React.FC<ModalTitleProps> = ModalPrimitive.Title;
 
-const ModalTrigger: FC<ModalTriggerProps> = ModalPrimitive.Trigger;
+const ModalTrigger: React.FC<ModalTriggerProps> = ModalPrimitive.Trigger;
 
 // -----------------------------------------------------------------------------
 // Export

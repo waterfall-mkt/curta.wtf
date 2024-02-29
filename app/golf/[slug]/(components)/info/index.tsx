@@ -1,21 +1,20 @@
-import type { FC } from 'react';
-
+import type { GolfCourseValue } from '../types';
 import CourseInfoLeader from './leader';
 import CourseInfoSolutionForm from './solution-form';
-
-import type { GolfCourse } from '@/lib/types/protocol';
 
 // -----------------------------------------------------------------------------
 // Props
 // -----------------------------------------------------------------------------
 
-type CourseInfoProps = { course: GolfCourse };
+type CourseInfoProps = {
+  course: GolfCourseValue;
+};
 
 // -----------------------------------------------------------------------------
 // Component
 // -----------------------------------------------------------------------------
 
-const CourseInfo: FC<CourseInfoProps> = ({ course }) => {
+const CourseInfo: React.FC<CourseInfoProps> = ({ course }) => {
   return (
     <div className="flex h-fit w-full flex-col justify-center rounded-[1.25rem] border border-stroke bg-gray-600 md:min-w-[20rem] md:max-w-[20rem]">
       <CourseInfoLeader course={course} />

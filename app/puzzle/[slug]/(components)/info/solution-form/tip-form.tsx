@@ -1,8 +1,10 @@
-import { type FC, useState } from 'react';
+import { useState } from 'react';
 
-import type { PartialUser, Phase } from '@/lib/types/protocol';
-import { getChainInfo, getShortenedAddress } from '@/lib/utils';
+import type { UserInfo } from '@prisma/client';
 
+import type { Phase } from '@/lib/types/protocol';
+
+import AddressLinkClient from '@/components/templates/address-link-client';
 import { Button, Input } from '@/components/ui';
 
 // -----------------------------------------------------------------------------
@@ -11,8 +13,7 @@ import { Button, Input } from '@/components/ui';
 
 type PuzzleInfoSolutionFormTipFormProps = {
   phase: Phase;
-  author: PartialUser;
-  chainId: number;
+  author: UserInfo;
   onChange: (value: string) => void;
   onOpenChange: (open: boolean) => void;
 };
@@ -21,10 +22,9 @@ type PuzzleInfoSolutionFormTipFormProps = {
 // Component
 // -----------------------------------------------------------------------------
 
-const PuzzleInfoSolutionFormTipForm: FC<PuzzleInfoSolutionFormTipFormProps> = ({
+const PuzzleInfoSolutionFormTipForm: React.FC<PuzzleInfoSolutionFormTipFormProps> = ({
   phase,
   author,
-  chainId,
   onChange,
   onOpenChange,
 }) => {
@@ -48,14 +48,10 @@ const PuzzleInfoSolutionFormTipForm: FC<PuzzleInfoSolutionFormTipFormProps> = ({
         </span>
         {phase > 1 && !isValidValue(value) ? ' W' : ' w'}
         ill be transferred to{' '}
-        <a
-          className="-mx-0.5 rounded-sm px-0.5 font-medium text-gray-100 no-underline hover:underline"
-          href={`https://${getChainInfo(chainId).blockExplorer}/address/${author.address}`}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          {author.ensName ?? getShortenedAddress(author.address)}
-        </a>
+        <AddressLinkClient
+          className="rounded-sm font-medium text-gray-100 no-underline hover:underline"
+          address={author.address as `0x${string}`}
+        />
         .
       </span>
 

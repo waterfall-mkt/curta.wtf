@@ -1,5 +1,3 @@
-import type { FC } from 'react';
-
 import PhaseTagPing from './ping';
 
 import { GLOSSARY } from '@/lib/constants/glossary';
@@ -20,7 +18,7 @@ export type PhaseTagProps = {
 // Component
 // ---------------------------------------–-------------------------------------
 
-const PhaseTag: FC<PhaseTagProps> = ({ phase, isPinging = true }) => {
+const PhaseTag: React.FC<PhaseTagProps> = ({ phase, isPinging = true }) => {
   return (
     <Tooltip content={GLOSSARY[`PHASE_${phase}` satisfies keyof typeof GLOSSARY]}>
       <button className="relative flex w-fit items-center space-x-2 rounded-lg bg-white/10 px-3 py-1 backdrop-blur focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-250">

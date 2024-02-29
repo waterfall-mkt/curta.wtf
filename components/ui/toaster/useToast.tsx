@@ -1,6 +1,6 @@
 'use client';
 
-import { type ReactElement, type ReactNode, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { ToastAction } from '.';
 import type { ToastProps } from './types';
@@ -52,9 +52,9 @@ type Toast = Omit<ToasterToast, 'id'>;
 
 type ToasterToast = ToastProps & {
   id: string;
-  title?: ReactNode;
-  description?: ReactNode;
-  action?: ReactElement<typeof ToastAction>;
+  title?: React.ReactNode;
+  description?: React.ReactNode;
+  action?: React.ReactElement<typeof ToastAction>;
 };
 
 // ---------------------------------------–-------------------------------------

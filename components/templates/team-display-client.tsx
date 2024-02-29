@@ -1,6 +1,6 @@
 'use client';
 
-import { type ComponentPropsWithoutRef, type FC, Fragment } from 'react';
+import { Fragment } from 'react';
 
 import type { Team } from '@/lib/types/protocol';
 
@@ -14,14 +14,17 @@ import UserHoverCard from '@/components/templates/user-hover-card';
 
 type TeamDisplayClientProps = {
   team: Team;
-  hoverCardProps?: Omit<ComponentPropsWithoutRef<typeof UserHoverCard>, 'address' | 'trigger'>;
+  hoverCardProps?: Omit<
+    React.ComponentPropsWithoutRef<typeof UserHoverCard>,
+    'address' | 'trigger'
+  >;
 };
 
 // ---------------------------------------–-------------------------------------
 // Component
 // ---------------------------------------–-------------------------------------
 
-const TeamDisplayClient: FC<TeamDisplayClientProps> = ({ team, hoverCardProps }) => {
+const TeamDisplayClient: React.FC<TeamDisplayClientProps> = ({ team, hoverCardProps }) => {
   return (
     <div className="flex items-center gap-3.5">
       <div className="overflow-hidden rounded-full">

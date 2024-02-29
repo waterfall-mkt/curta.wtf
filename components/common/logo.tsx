@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import type { FC } from 'react';
 
 import clsx from 'clsx';
 import { twMerge } from 'tailwind-merge';
@@ -18,7 +17,7 @@ type LogoProps = {
 // Component
 // ---------------------------------------–-------------------------------------
 
-const Logo: FC<LogoProps> = ({ className, href = '/', size = 'md' }) => {
+const Logo: React.FC<LogoProps> = ({ className, href = '/', size = 'md' }) => {
   return (
     <Link
       href={href}

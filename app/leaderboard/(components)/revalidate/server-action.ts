@@ -1,9 +1,9 @@
 'use server';
 
-import { revalidatePath } from 'next/cache';
+import { revalidateTag } from 'next/cache';
 
 export default async function action(lastUpdated: Date) {
   if (lastUpdated.getTime() <= Date.now() - 60_000) {
-    await revalidatePath('/leaderboard');
+    await revalidateTag('/leaderboard');
   }
 }

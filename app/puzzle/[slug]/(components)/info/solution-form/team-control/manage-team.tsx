@@ -1,7 +1,8 @@
-'use client';
+/* 'use client';
 
-import { type FC, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
+import type { Team } from '@prisma/client';
 import { ExternalLink, UserMinus, UserPlus } from 'lucide-react';
 import type { Address } from 'viem';
 import {
@@ -13,7 +14,6 @@ import {
 } from 'wagmi';
 
 import { TEAM_REGISTRY_ABI } from '@/lib/constants/abi';
-import type { Team } from '@/lib/types/protocol';
 import { getChainInfo, getShortenedAddress } from '@/lib/utils';
 
 import AddressDisplayClient from '@/components/templates/address-display-client';
@@ -34,7 +34,7 @@ type PuzzleInfoSolutionFormTeamControlManageTeamProps = {
 // Component
 // ---------------------------------------–-------------------------------------
 
-const PuzzleInfoSolutionFormTeamControlManageTeam: FC<
+const PuzzleInfoSolutionFormTeamControlManageTeam: React.FC<
   PuzzleInfoSolutionFormTeamControlManageTeamProps
 > = ({ connectedAddress, team }) => {
   // Always use Base or Base Goerli for the Team Registry.
@@ -88,7 +88,7 @@ const PuzzleInfoSolutionFormTeamControlManageTeam: FC<
   );
 };
 
-const UserActions: FC<{ member: Team['members'][0] }> = ({ member }) => {
+const UserActions: React.FC<{ member: Team['members'][0] }> = ({ member }) => {
   const [mounted, setMounted] = useState<boolean>(false);
   const { toast } = useToast();
   const { chain } = useNetwork();
@@ -289,3 +289,4 @@ const UserActions: FC<{ member: Team['members'][0] }> = ({ member }) => {
 };
 
 export default PuzzleInfoSolutionFormTeamControlManageTeam;
+ */

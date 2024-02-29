@@ -17,11 +17,10 @@ export default async function Page({ params }: { params: { slug: string } }) {
 
   const { chainId, id } = ids;
 
-  const { data: course, error } = await fetchCourseById(id, chainId);
+  const course = await fetchCourseById(id, chainId);
 
-  // Return 404 if `course` is `null` or there was an `error` in fetching the
-  // data.
-  if (!course || error) return notFound();
+  // Return 404 if `course` is `null`.
+  if (!course) return notFound();
 
   const languages = ['Bytecode']
     .concat(course.solidity ? ['Solidity'] : [])

@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import type { FC, ReactNode } from 'react';
 
 import clsx from 'clsx';
 import { ArrowUpRight } from 'lucide-react';
@@ -13,18 +12,18 @@ import { Tooltip } from '@/components/ui';
 
 type LinkFeatureProps = {
   className?: string;
-  icon: ReactNode;
+  icon: React.ReactNode;
   href: string;
   name: string;
   description?: string;
-  children?: ReactNode;
+  children?: React.ReactNode;
 };
 
 // -----------------------------------------------------------------------------
 // Component
 // -----------------------------------------------------------------------------
 
-const LinkFeature: FC<LinkFeatureProps> = (props) => {
+const LinkFeature: React.FC<LinkFeatureProps> = (props) => {
   const description = props.description;
 
   // Display tooltip if description is too long.
@@ -39,7 +38,7 @@ const LinkFeature: FC<LinkFeatureProps> = (props) => {
   return <LinkFeatureInternal {...props} />;
 };
 
-const LinkFeatureInternal: FC<LinkFeatureProps> = ({
+const LinkFeatureInternal: React.FC<LinkFeatureProps> = ({
   className,
   icon,
   href,

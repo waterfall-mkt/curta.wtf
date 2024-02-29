@@ -1,30 +1,32 @@
 'use client';
 
-import type { FC, KeyboardEventHandler, ReactNode } from 'react';
+import type { KeyboardEventHandler } from 'react';
 
-import type { PartialUser } from '@/lib/types/protocol';
+import type { UserInfo } from '@prisma/client';
+
 import { getChainInfo } from '@/lib/utils';
 
+import UserAvatar from '@/components/templates/user-avatar';
 import UserHoverCard from '@/components/templates/user-hover-card';
 
 // ---------------------------------------–-------------------------------------
 // Props
 // ---------------------------------------–-------------------------------------
 
-type AuthorAvatarProps = {
-  author: PartialUser;
+type AuthorFacepileAvatarProps = {
+  user: UserInfo;
   index: number;
-  children: ReactNode;
+  ensAvatar?: string;
 };
 
 // ---------------------------------------–-------------------------------------
 // Component
 // ---------------------------------------–-------------------------------------
 
-const AuthorAvatar: FC<AuthorAvatarProps> = ({ author, index, children }) => {
-  const href = author.twitter
-    ? `https://twitter.com/${author.twitter}`
-    : `https://${getChainInfo(1).blockExplorer}/address/${author.address}`;
+const AuthorFacepileAvatar: React.FC<AuthorFacepileAvatarProps> = ({ user, index, ensAvatar }) => {
+  const href = user.twitter
+    ? `https://twitter.com/${user.twitter}`
+    : `https://${getChainInfo(1).blockExplorer}/address/${user.address}`;
 
   const onKeyDown: KeyboardEventHandler<HTMLButtonElement> = (e) => {
     if (e.key === 'ArrowLeft' && index > 0) {
@@ -35,22 +37,26 @@ const AuthorAvatar: FC<AuthorAvatarProps> = ({ author, index, children }) => {
     }
   };
 
+  const image = user.image ?? ensAvatar;
+
   return (
     <UserHoverCard
-      address={author.address}
+      address={user.address as `0x${string}`}
       trigger={
         <button
           id={`author-avatar-${index}`}
           className="group rounded-full transition-transform focus-visible:z-[10] focus-visible:scale-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-250"
-          title={href}
           onClick={() => window.open(href, '_blank')}
           onKeyDown={onKeyDown}
           tabIndex={0}
-          aria-label={`View author ${author.address}'s Twitter or address.`}
+          aria-label={`View ${user.address}'s X or address.`}
         >
-          <div className="relative h-[52px] w-[52px] rounded-full bg-gray-600 outline-none ring-[3px] ring-gray-600 transition-transform hover:z-[10] hover:scale-110 hover:ring-0 group-focus-visible:scale-100 group-focus-visible:ring-0">
-            {children}
-          </div>
+          <UserAvatar
+            className="relative h-[52px] w-[52px] rounded-full bg-gray-600 outline-none ring-[3px] ring-gray-600 transition-transform hover:z-[10] hover:scale-110 hover:ring-0 group-focus-visible:scale-100 group-focus-visible:ring-0"
+            image={image}
+            size={52}
+            name={user.address}
+          />
         </button>
       }
       triggerAsChild
@@ -58,6 +64,4 @@ const AuthorAvatar: FC<AuthorAvatarProps> = ({ author, index, children }) => {
   );
 };
 
-AuthorAvatar.displayName = 'AuthorAvatar';
-
-export default AuthorAvatar;
+export default AuthorFacepileAvatar;

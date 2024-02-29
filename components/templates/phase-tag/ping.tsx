@@ -1,9 +1,7 @@
-import type { FC } from 'react';
-
 import type { PhaseTagProps } from '.';
 import clsx from 'clsx';
 
-const PhaseTagPing: FC<PhaseTagProps & JSX.IntrinsicElements['div']> = ({
+const PhaseTagPing: React.FC<PhaseTagProps & JSX.IntrinsicElements['div']> = ({
   phase,
   title = `Phase ${phase}`,
   isPinging = true,

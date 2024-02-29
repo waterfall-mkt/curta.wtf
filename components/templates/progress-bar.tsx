@@ -1,5 +1,3 @@
-import type { FC } from 'react';
-
 // -----------------------------------------------------------------------------
 // Props
 // -----------------------------------------------------------------------------
@@ -13,7 +11,7 @@ type ProgressBarProps = JSX.IntrinsicElements['div'] & {
 // Component
 // -----------------------------------------------------------------------------
 
-const ProgressBar: FC<ProgressBarProps> = ({ value, total, ...rest }) => {
+const ProgressBar: React.FC<ProgressBarProps> = ({ value, total, ...rest }) => {
   const percentage = (100 * value) / total;
 
   return (
