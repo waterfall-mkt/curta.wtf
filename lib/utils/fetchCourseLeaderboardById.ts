@@ -1,59 +1,51 @@
 'use server';
 
-import type { PostgrestError } from '@supabase/supabase-js';
+import { unstable_cache } from 'next/cache';
 
-import supabase from '@/lib/services/supabase';
-import type { DbGolfCourseSolve } from '@/lib/types/api';
-import type { GolfCourseSolve, GolfCourseSolver } from '@/lib/types/protocol';
+import { db } from '@/lib/db';
 
-type CourseLeaderboardResponse = {
-  data: GolfCourseSolver[];
-  status: number;
-  error: PostgrestError | null;
-};
+const fetchCourseLeaderboardById = async (id: number, chainId: number) => {
+  const data = await unstable_cache(
+    async () =>
+      await db.golfCourseSolve.findMany({
+        where: { courseId: id, chainId },
+        include: { solver: { include: { info: true } } },
+        orderBy: [{ gasUsed: 'asc' }, { submitTimestamp: 'asc' }],
+      }),
+    [`golf-course-leaderboard-${chainId}-${id}`],
+    {
+      tags: ['golf-courses', `golf-course-${chainId}-${id}`],
+      revalidate: 300,
+    },
+  )();
 
-const fetchCourseLeaderboardById = async (
-  id: number,
-  chainId: number,
-): Promise<CourseLeaderboardResponse> => {
-  const { data, status, error } = await supabase
-    .from('golf_courses_solves')
-    .select('*, solver:users(*)', { count: 'exact' })
-    .eq('courseId', id)
-    .eq('chainId', chainId)
-    .order('gasUsed', { ascending: true })
-    .returns<DbGolfCourseSolve[]>();
+  const bestSolvesObject: { [key: string]: (typeof data)[0] } = {};
 
-  if ((error && status !== 406) || !data || (data && data.length === 0)) {
-    return { data: [], status, error };
-  }
-
-  const bestSolvesObject: { [key: string]: GolfCourseSolve } = {};
   data.map((solve) => {
-    const key = solve.solver.address.toLowerCase();
+    const key = solve.solverAddress.toLowerCase();
 
     if (!bestSolvesObject[key]) {
       bestSolvesObject[key] = {
         // Identifier
         courseId: solve.courseId,
         chainId: solve.chainId,
+        solverAddress: solve.solverAddress,
         solver: solve.solver,
         submitTx: solve.submitTx,
-        // Solve information
+        // Submission information
         gasUsed: solve.gasUsed,
-        target: solve.target,
         solution: solve.solution,
         submitBlock: solve.submitBlock,
         submitTimestamp: solve.submitTimestamp,
+        // Metadata
+        target: solve.target,
+        isRecord: solve.isRecord,
+        createdAt: solve.createdAt,
       };
     }
   });
 
-  return {
-    data: Object.values(bestSolvesObject).map((solve, i) => ({ ...solve, rank: i + 1 })),
-    status: 200,
-    error: null,
-  };
+  return Object.values(bestSolvesObject).map((solve, i) => ({ ...solve, rank: i + 1 }));
 };
 
 export default fetchCourseLeaderboardById;

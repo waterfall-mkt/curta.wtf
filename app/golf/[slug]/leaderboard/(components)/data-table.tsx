@@ -1,12 +1,12 @@
 'use client';
 
-import { type FC, Fragment, useMemo, useState } from 'react';
+import { Fragment, useMemo, useState } from 'react';
 
+import type { CourseLeaderboardValue } from './types';
 import type { SortingState } from '@tanstack/react-table';
 import type { ColumnDef } from '@tanstack/react-table';
 import { ExternalLink } from 'lucide-react';
 
-import type { GolfCourseSolver } from '@/lib/types/protocol';
 import { getChainInfo } from '@/lib/utils';
 
 import AddressDisplayClient from '@/components/templates/address-display-client';
@@ -17,33 +17,33 @@ import type { TableProps } from '@/components/ui/table/types';
 // Props
 // -----------------------------------------------------------------------------
 
-type CourseLeaderboardTableProps = {
-  data: GolfCourseSolver[];
+type CourseLeaderboardDataTableProps = {
+  data: CourseLeaderboardValue[];
 };
 
-type CourseLeaderboardTableInternalProps = Omit<TableProps<GolfCourseSolver>, 'columns'>;
+type CourseLeaderboardDataTableInternalProps = Omit<TableProps<CourseLeaderboardValue>, 'columns'>;
 
 // -----------------------------------------------------------------------------
 // Component
 // -----------------------------------------------------------------------------
 
-const CourseLeaderboardTable: FC<CourseLeaderboardTableProps> = ({ data }) => {
+const CourseLeaderboardDataTable: React.FC<CourseLeaderboardDataTableProps> = ({ data }) => {
   const [sorting, setSorting] = useState<SortingState>([]);
 
   return (
     <Fragment>
-      <CourseLeaderboardTableDesktop data={data} sorting={sorting} setSorting={setSorting} />
-      <CourseLeaderboardTableMobile data={data} sorting={sorting} setSorting={setSorting} />
+      <CourseLeaderboardDataTableDesktop data={data} sorting={sorting} setSorting={setSorting} />
+      <CourseLeaderboardDataTableMobile data={data} sorting={sorting} setSorting={setSorting} />
     </Fragment>
   );
 };
 
-const CourseLeaderboardTableDesktop: FC<CourseLeaderboardTableInternalProps> = ({
+const CourseLeaderboardDataTableDesktop: React.FC<CourseLeaderboardDataTableInternalProps> = ({
   data,
   sorting,
   setSorting,
 }) => {
-  const columns: ColumnDef<GolfCourseSolver>[] = useMemo(
+  const columns: ColumnDef<CourseLeaderboardValue>[] = useMemo(
     () => [
       {
         accessorKey: 'rank',
@@ -57,9 +57,8 @@ const CourseLeaderboardTableDesktop: FC<CourseLeaderboardTableInternalProps> = (
         header: () => 'Player',
         cell: ({ row }) => (
           <AddressDisplayClient
-            address={row.original.solver.address}
-            label={row.original.solver.displayName}
-            prefetchedEnsName={row.original.solver.ensName}
+            address={row.original.solverAddress as `0x${string}`}
+            label={row.original.solver.info?.displayName ?? undefined}
           />
         ),
         footer: (props) => props.column.id,
@@ -135,12 +134,12 @@ const CourseLeaderboardTableDesktop: FC<CourseLeaderboardTableInternalProps> = (
   );
 };
 
-const CourseLeaderboardTableMobile: FC<CourseLeaderboardTableInternalProps> = ({
+const CourseLeaderboardDataTableMobile: React.FC<CourseLeaderboardDataTableInternalProps> = ({
   data,
   sorting,
   setSorting,
 }) => {
-  const columns: ColumnDef<GolfCourseSolver>[] = useMemo(
+  const columns: ColumnDef<CourseLeaderboardValue>[] = useMemo(
     () => [
       {
         accessorKey: 'rank',
@@ -154,9 +153,8 @@ const CourseLeaderboardTableMobile: FC<CourseLeaderboardTableInternalProps> = ({
         header: () => 'Player',
         cell: ({ row }) => (
           <AddressDisplayClient
-            address={row.original.solver.address}
-            label={row.original.solver.displayName}
-            prefetchedEnsName={row.original.solver.ensName}
+            address={row.original.solver.address as `0x${string}`}
+            label={row.original.solver.info?.displayName ?? undefined}
           />
         ),
         footer: (props) => props.column.id,
@@ -214,4 +212,4 @@ const CourseLeaderboardTableMobile: FC<CourseLeaderboardTableInternalProps> = ({
   );
 };
 
-export default CourseLeaderboardTable;
+export default CourseLeaderboardDataTable;
