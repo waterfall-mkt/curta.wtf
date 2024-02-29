@@ -1,16 +1,8 @@
 'use server';
 
-import type { PostgrestError } from '@supabase/supabase-js';
+import { db } from '@/lib/db';
 
-import supabase from '@/lib/services/supabase';
-
-type PuzzlesCountResponse = {
-  data: { count: number; lastUpdated: number };
-  status: number;
-  error: PostgrestError | null;
-};
-
-const fetchPuzzlesCount = async (): Promise<PuzzlesCountResponse> => {
+const fetchPuzzlesCount = async () => {
   let lastUpdated: number;
   // We fetch this so the request gets cached.
   try {
@@ -23,17 +15,11 @@ const fetchPuzzlesCount = async (): Promise<PuzzlesCountResponse> => {
   }
 
   // Fetch puzzles.
-  const { data, status, error } = await supabase
-    .from('puzzles')
-    .select('id')
-    .not('address', 'is', null)
-    .returns<number[]>();
+  const count = await db.puzzle.count({
+    where: { chain: { isTestnet: Boolean(process.env.NEXT_PUBLIC_IS_TESTNET) } },
+  });
 
-  if ((error && status !== 406) || !data || (data && data.length === 0)) {
-    return { data: { count: 0, lastUpdated }, status, error };
-  }
-
-  return { data: { count: data.length, lastUpdated }, status, error };
+  return { data: { count, lastUpdated }, status: 200 };
 };
 
 export default fetchPuzzlesCount;
