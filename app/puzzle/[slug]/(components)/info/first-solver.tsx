@@ -19,11 +19,14 @@ type PuzzleInfoFirstSolverProps = {
 // -----------------------------------------------------------------------------
 
 const PuzzleInfoFirstSolver: React.FC<PuzzleInfoFirstSolverProps> = async ({ puzzle }) => {
-  const firstSolverEnsName = await cache(async () =>
-    ethereumClient.getEnsName({
-      address: puzzle.firstSolverAddress as `0x${string}`,
-    }),
-  )();
+  const firstSolverEnsName =
+    puzzle.firstSolverAddress !== null
+      ? await cache(async () =>
+          ethereumClient.getEnsName({
+            address: puzzle.firstSolverAddress as `0x${string}`,
+          }),
+        )()
+      : null;
 
   return (
     <div className="flex grow flex-col items-center gap-2 p-4">
