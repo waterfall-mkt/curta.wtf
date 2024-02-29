@@ -6,8 +6,9 @@ import { getPuzzleRowRoute, type LeaderboardPuzzlesDataTableInternalProps } from
 import type { ColumnDef } from '@tanstack/react-table';
 import { Crown, ExternalLink } from 'lucide-react';
 
-import type { PuzzleSolve, PuzzleSolver } from '@/lib/types/protocol';
+import type { Phase } from '@/lib/types/protocol';
 import { getChainInfo, getTimeLeftString } from '@/lib/utils';
+import type { LeaderboardPuzzleSolver } from '@/lib/utils/fetchLeaderboardPuzzles';
 
 import AddressDisplayClient from '@/components/templates/address-display-client';
 import AddressLinkClient from '@/components/templates/address-link-client';
@@ -24,7 +25,7 @@ const LeaderboardPuzzlesDataTableDesktop: React.FC<LeaderboardPuzzlesDataTableIn
   sorting,
   setSorting,
 }) => {
-  const columns: ColumnDef<PuzzleSolver>[] = useMemo(
+  const columns: ColumnDef<LeaderboardPuzzleSolver>[] = useMemo(
     () => [
       {
         accessorKey: 'rank',
@@ -38,11 +39,7 @@ const LeaderboardPuzzlesDataTableDesktop: React.FC<LeaderboardPuzzlesDataTableIn
         header: () => 'Player',
         cell: ({ row }) =>
           row.original.team === undefined ? (
-            <AddressDisplayClient
-              address={row.original.solver}
-              prefetchedEnsName={row.original.solverEnsName}
-              prefetchedEnsAvatar={row.original.solverEnsAvatar}
-            />
+            <AddressDisplayClient address={row.original.solverAddress as `0x${string}`} />
           ) : (
             <TeamDisplayClient team={row.original.team} />
           ),
@@ -126,10 +123,10 @@ const LeaderboardPuzzlesDataTableDesktop: React.FC<LeaderboardPuzzlesDataTableIn
   );
 };
 
-const LeaderboardPuzzlesDataTableDesktopSubComponent: React.FC<{ data: PuzzleSolve[] }> = ({
-  data,
-}) => {
-  const columns = useMemo<ColumnDef<PuzzleSolve>[]>(
+const LeaderboardPuzzlesDataTableDesktopSubComponent: React.FC<{
+  data: LeaderboardPuzzleSolver['solves'];
+}> = ({ data }) => {
+  const columns = useMemo<ColumnDef<LeaderboardPuzzleSolver['solves'][0]>[]>(
     () => [
       {
         accessorKey: 'puzzle.addedTimestamp',
@@ -153,13 +150,12 @@ const LeaderboardPuzzlesDataTableDesktopSubComponent: React.FC<{ data: PuzzleSol
               </div>
               {row.original.puzzle ? (
                 <UserHoverCard
-                  address={row.original.puzzle.author.address}
+                  address={row.original.puzzle.authorAddress as `0x${string}`}
                   trigger={
                     <AddressLinkClient
                       className="mt-0.5 text-xs text-gray-200"
-                      address={row.original.puzzle.author.address}
-                      prefetchedEnsName={row.original.solverEnsName}
-                      label={row.original.puzzle.author.displayName}
+                      address={row.original.puzzle.authorAddress as `0x${string}`}
+                      label={row.original.puzzle.author.info?.displayName ?? undefined}
                     />
                   }
                 />
@@ -174,10 +170,18 @@ const LeaderboardPuzzlesDataTableDesktopSubComponent: React.FC<{ data: PuzzleSol
         accessorKey: 'firstSolveTime',
         header: () => 'Time taken',
         cell: ({ row }) => (
-          <div title={new Date(1000 * row.original.solveTimestamp).toString()}>
-            {getTimeLeftString(
-              row.original.solveTimestamp - (row.original.puzzle?.addedTimestamp ?? 0),
-            )}
+          <div
+            title={
+              row.original.solveTimestamp
+                ? new Date(1000 * row.original.solveTimestamp).toString()
+                : undefined
+            }
+          >
+            {row.original.solveTimestamp
+              ? getTimeLeftString(
+                  row.original.solveTimestamp - (row.original.puzzle?.addedTimestamp ?? 0),
+                )
+              : '–'}
           </div>
         ),
         footer: (props) => props.column.id,
@@ -193,7 +197,7 @@ const LeaderboardPuzzlesDataTableDesktopSubComponent: React.FC<{ data: PuzzleSol
         ),
         cell: ({ row }) => {
           const rank = row.original.rank;
-          const total = row.original.puzzle?.numberSolved ?? 0;
+          const total = row.original.puzzle?._count.solves ?? 0;
 
           return (
             <div className="flex w-fit flex-col">
@@ -204,7 +208,7 @@ const LeaderboardPuzzlesDataTableDesktopSubComponent: React.FC<{ data: PuzzleSol
                 {row.original.phase === 0 ? <Crown className="h-4 w-4 text-gold" /> : null}
               </div>
               <ProgressBar
-                value={total - rank}
+                value={total - (rank ?? 0)}
                 total={total - 1}
                 aria-label={`${row.original.solver} ranked ${row.original.rank}.`}
               />
@@ -218,7 +222,9 @@ const LeaderboardPuzzlesDataTableDesktopSubComponent: React.FC<{ data: PuzzleSol
         accessorKey: 'phase',
         header: () => 'Phase solved',
         cell: ({ row }) => {
-          return <PhaseTag phase={row.original.phase} isPinging={row.original.phase < 3} />;
+          const phase = (row.original.phase ?? 0) as Phase;
+
+          return <PhaseTag phase={phase} isPinging={phase < 3} />;
         },
         footer: (props) => props.column.id,
         size: 105,
@@ -226,7 +232,7 @@ const LeaderboardPuzzlesDataTableDesktopSubComponent: React.FC<{ data: PuzzleSol
       {
         accessorKey: 'points',
         header: () => <div className="ml-auto">Points</div>,
-        cell: ({ row }) => <div className="text-right">{3 - row.original.phase}</div>,
+        cell: ({ row }) => <div className="text-right">{3 - (row.original.phase ?? 0)}</div>,
         footer: (props) => props.column.id,
         size: 65,
       },
@@ -251,7 +257,7 @@ const LeaderboardPuzzlesDataTableDesktopSubComponent: React.FC<{ data: PuzzleSol
                     '_blank',
                   );
                 }}
-                aria-label={`View ${row.original.solver}'s solution of puzzle ${row.original.puzzleId} on chain ${row.original.chainId}.`}
+                aria-label={`View ${row.original.solverAddress}'s solution of puzzle ${row.original.puzzleId} on chain ${row.original.chainId}.`}
               >
                 <ExternalLink />
               </IconButton>

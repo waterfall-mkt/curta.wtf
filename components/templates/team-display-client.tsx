@@ -2,7 +2,7 @@
 
 import { Fragment } from 'react';
 
-import type { Team } from '@/lib/types/protocol';
+import type { Team, User, UserInfo } from '@prisma/client';
 
 import Avatar from '@/components/templates/avatar';
 import ENSAvatarClient from '@/components/templates/ens-avatar-client';
@@ -13,7 +13,10 @@ import UserHoverCard from '@/components/templates/user-hover-card';
 // ---------------------------------------–-------------------------------------
 
 type TeamDisplayClientProps = {
-  team: Team;
+  team: Team & {
+    leader: User & { info: UserInfo | null };
+    members: (User & { info: UserInfo | null })[];
+  };
   hoverCardProps?: Omit<
     React.ComponentPropsWithoutRef<typeof UserHoverCard>,
     'address' | 'trigger'
@@ -28,7 +31,7 @@ const TeamDisplayClient: React.FC<TeamDisplayClientProps> = ({ team, hoverCardPr
   return (
     <div className="flex items-center gap-3.5">
       <div className="overflow-hidden rounded-full">
-        <Avatar src={team.avatar ?? ''} alt={`Team #${team.id}`} size={40} />
+        <Avatar src={team.image ?? ''} alt={`Team #${team.id}`} size={40} />
       </div>
       <div>
         <div className="flex items-center gap-1.5 text-sm text-gray-100">
@@ -39,7 +42,7 @@ const TeamDisplayClient: React.FC<TeamDisplayClientProps> = ({ team, hoverCardPr
                 {team.members.slice(0, 3).map((member, index) => (
                   <UserHoverCard
                     key={index}
-                    address={member.address}
+                    address={member.address as `0x${string}`}
                     trigger={
                       <div className="z-[1] rounded-full ring-2 ring-gray-700 transition-transform hover:z-[5] hover:scale-110">
                         <ENSAvatarClient nameOrAddress={member.address} size={12} />

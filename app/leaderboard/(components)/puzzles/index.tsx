@@ -21,30 +21,28 @@ const LeaderboardPuzzles: React.FC<LeaderboardPuzzlesProps> = async ({ puzzles }
   const maxSeason = Math.ceil(puzzles / 5);
 
   // Fetch all events.
-  const { data: events } = await fetchEvents();
-  let defaultData: LeaderboardPuzzlesResponse['data'];
+  const events = await fetchEvents();
+  let defaultData: LeaderboardPuzzlesResponse;
   let defaultFilter = `season_${maxSeason}`;
-  if (events.length > 0 && events[events.length - 1].endDate > Date.now() / 1000) {
+  if (events.length > 0 && new Date(events[events.length - 1].endDate) > new Date()) {
     // If the latest event is still ongoing, make the default season the event.
-    const { data } = await fetchLeaderboardPuzzles({
+    defaultData = await fetchLeaderboardPuzzles({
       minPuzzleIndex: 0,
       maxPuzzleIndex: Number.MAX_SAFE_INTEGER - 1,
       filter: `event_${events[events.length - 1].slug}`,
       eventSlug: events[events.length - 1].slug,
     });
-    defaultData = data;
     defaultFilter = `event_${events[events.length - 1].slug}`;
   } else {
     const minPuzzleIndex = (maxSeason - 1) * 5;
     const maxPuzzleIndex = Math.min(puzzles, maxSeason * 5) - 1;
 
     // Otherwise, default to the latest season.
-    const { data } = await fetchLeaderboardPuzzles({
+    defaultData = await fetchLeaderboardPuzzles({
       minPuzzleIndex,
       maxPuzzleIndex,
       filter: `season_${maxSeason}`,
     });
-    defaultData = data;
   }
 
   return (

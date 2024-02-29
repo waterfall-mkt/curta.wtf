@@ -6,10 +6,10 @@ import { Fragment, useCallback, useEffect, useState } from 'react';
 import LeaderboardPuzzlesDataTable from './data-table';
 import fetchLeaderboardData from './server-action';
 import LeaderboardPuzzlesTableSkeleton from './table-skeleton';
+import type { Event } from '@prisma/client';
 import clsx from 'clsx';
 import { ChevronRightCircle, ExternalLink } from 'lucide-react';
 
-import type { Event } from '@/lib/types/protocol';
 import type { LeaderboardPuzzlesResponse } from '@/lib/utils/fetchLeaderboardPuzzles';
 
 import PhaseTagPing from '@/components/templates/phase-tag/ping';
@@ -23,7 +23,7 @@ type LeaderboardPuzzlesContentProps = {
   maxSeason: number;
   puzzles: number;
   events: Event[];
-  defaultData: LeaderboardPuzzlesResponse['data'];
+  defaultData: LeaderboardPuzzlesResponse;
   defaultFilter: string;
 };
 
@@ -76,19 +76,21 @@ const LeaderboardPuzzlesContent: React.FC<LeaderboardPuzzlesContentProps> = ({
   const [filter, setFilter] = useState<string>(getFilter(filterTypeAndValue));
   const [season, setSeason] = useState<number>(defaultSeason);
   const [eventSlug, setEventSlug] = useState<string>(defaultEventSlug);
-  const [data, setData] = useState<LeaderboardPuzzlesResponse['data']>();
+  const [data, setData] = useState<LeaderboardPuzzlesResponse>();
   const [scrollIsAtLeft, setScrollIsAtLeft] = useState<boolean>(true);
   const [scrollIsAtRight, setScrollIsAtRight] = useState<boolean>(false);
   const router = useRouter();
   const pathname = usePathname();
   const isSeasonOver = season * 5 <= puzzles;
+  // `1_000_000_000_000` is some nonsensical timestamp in the future: ~Sep. 26,
+  // 33568.
   const isEventOver =
-    (events.find((event) => event.slug === eventSlug)?.endDate ?? Number.MAX_SAFE_INTEGER) <
-    Date.now() / 1000;
+    new Date(events.find((event) => event.slug === eventSlug)?.endDate ?? 1_000_000_000_000) <
+    new Date();
 
   const fetchAndSetData = useCallback(
     async (filter: LeaderboardPuzzlesFilterAndValue) => {
-      setData((await fetchLeaderboardData(filter, puzzles)).data);
+      setData(await fetchLeaderboardData(filter, puzzles));
     },
     [puzzles],
   );
