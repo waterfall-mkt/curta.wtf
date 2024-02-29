@@ -10,7 +10,6 @@ export { default as fetchPuzzleFlagColors } from './fetchPuzzleFlagColors';
 export { default as fetchPuzzles } from './fetchPuzzles';
 export { default as fetchPuzzlesCount } from './fetchPuzzlesCount';
 export { default as fetchPuzzleSolvesById } from './fetchPuzzleSolvesById';
-export { default as fetchPuzzlesSolvesCount } from './fetchPuzzlesSolvesCount';
 export { default as fetchUserTeamApprovals } from './fetchUserTeamApprovals';
 export { default as formatValueToPrecision } from './formatValueToPrecision';
 export { default as getBaseMetadata } from './getBaseMetadata';
