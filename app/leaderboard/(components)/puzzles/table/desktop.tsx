@@ -1,6 +1,6 @@
 'use client';
 
-import { type FC, useMemo } from 'react';
+import { useMemo } from 'react';
 
 import { getPuzzleRowRoute, type LeaderboardPuzzlesTableInternalProps } from '.';
 import type { ColumnDef } from '@tanstack/react-table';
@@ -19,7 +19,7 @@ import TeamDisplayClient from '@/components/templates/team-display-client';
 import UserHoverCard from '@/components/templates/user-hover-card';
 import { IconButton, Table } from '@/components/ui';
 
-const LeaderboardPuzzlesTableDesktop: FC<LeaderboardPuzzlesTableInternalProps> = ({
+const LeaderboardPuzzlesTableDesktop: React.FC<LeaderboardPuzzlesTableInternalProps> = ({
   data,
   sorting,
   setSorting,
@@ -126,7 +126,9 @@ const LeaderboardPuzzlesTableDesktop: FC<LeaderboardPuzzlesTableInternalProps> =
   );
 };
 
-const LeaderboardPuzzlesTableDesktopSubComponent: FC<{ data: PuzzleSolve[] }> = ({ data }) => {
+const LeaderboardPuzzlesTableDesktopSubComponent: React.FC<{ data: PuzzleSolve[] }> = ({
+  data,
+}) => {
   const columns = useMemo<ColumnDef<PuzzleSolve>[]>(
     () => [
       {

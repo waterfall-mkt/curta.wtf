@@ -1,5 +1,3 @@
-import type { FC } from 'react';
-
 import LeaderboardPuzzlesContent from './content';
 
 import { fetchEvents, fetchLeaderboardPuzzles } from '@/lib/utils';
@@ -19,7 +17,7 @@ type LeaderboardPuzzlesProps = {
 // Component
 // -----------------------------------------------------------------------------
 
-const LeaderboardPuzzles: FC<LeaderboardPuzzlesProps> = async ({ puzzles }) => {
+const LeaderboardPuzzles: React.FC<LeaderboardPuzzlesProps> = async ({ puzzles }) => {
   const maxSeason = Math.ceil(puzzles / 5);
 
   // Fetch all events.

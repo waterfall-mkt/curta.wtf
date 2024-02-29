@@ -1,15 +1,7 @@
 'use client';
 
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import {
-  type ChangeEvent,
-  type FC,
-  Fragment,
-  type UIEvent,
-  useCallback,
-  useEffect,
-  useState,
-} from 'react';
+import { Fragment, useCallback, useEffect, useState } from 'react';
 
 import fetchLeaderboardData from './server-action';
 import LeaderboardPuzzlesTable from './table';
@@ -44,7 +36,7 @@ export type LeaderboardPuzzlesFilterAndValue =
 // Component
 // -----------------------------------------------------------------------------
 
-const LeaderboardPuzzlesContent: FC<LeaderboardPuzzlesContentProps> = ({
+const LeaderboardPuzzlesContent: React.FC<LeaderboardPuzzlesContentProps> = ({
   maxSeason,
   puzzles,
   events,
@@ -131,7 +123,7 @@ const LeaderboardPuzzlesContent: FC<LeaderboardPuzzlesContentProps> = ({
   //     * Component state
   //     * URL search params
   //     * Displayed data
-  const onFilterChange = async (e: ChangeEvent<HTMLSelectElement>) => {
+  const onFilterChange = async (e: React.ChangeEvent<HTMLSelectElement>) => {
     const value = e.target.value;
     setFilter(value);
     updateSearchParams(value);
@@ -160,7 +152,7 @@ const LeaderboardPuzzlesContent: FC<LeaderboardPuzzlesContentProps> = ({
 
   // Function for setting scroll values to conditionally render gradient
   // overflows.
-  const onScroll = (event: UIEvent<HTMLDivElement>) => {
+  const onScroll = (event: React.UIEvent<HTMLDivElement>) => {
     const target = event.target as HTMLDivElement;
     const scrollLeft = target.scrollLeft;
     const scrollWidth = target.scrollWidth;

@@ -1,7 +1,5 @@
 'use client';
 
-import type { FC } from 'react';
-
 import revalidateData from './server-action';
 import { RefreshCw } from 'lucide-react';
 import TimeAgo from 'react-timeago';
@@ -21,7 +19,7 @@ type LeaderboardRevalidateProps = {
 // Component
 // -----------------------------------------------------------------------------
 
-export const LeaderboardRevalidate: FC<LeaderboardRevalidateProps> = ({ lastUpdated }) => {
+export const LeaderboardRevalidate: React.FC<LeaderboardRevalidateProps> = ({ lastUpdated }) => {
   const { toast } = useToast();
 
   return (
