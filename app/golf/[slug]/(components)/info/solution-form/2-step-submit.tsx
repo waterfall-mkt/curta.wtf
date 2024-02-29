@@ -244,7 +244,7 @@ const CourseInfoSolutionForm2StepSubmitButton: React.FC<
       }}
       disabled={bytecode.length === 0 || !submit || submitIsLoading}
     >
-      Reveal
+      {submit ? 'Reveal' : 'Invalid solution'}
     </Button>
   );
 };

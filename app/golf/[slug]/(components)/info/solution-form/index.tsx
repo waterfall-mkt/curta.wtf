@@ -12,7 +12,6 @@ import { isHex } from 'viem';
 import { useNetwork, useSwitchNetwork } from 'wagmi';
 
 import ConnectButton from '@/components/common/connect-button';
-import { Callout } from '@/components/templates/mdx';
 import { Button, Input } from '@/components/ui';
 
 // -----------------------------------------------------------------------------
@@ -120,9 +119,6 @@ const CourseInfoSolutionForm: React.FC<CourseInfoSolutionFormProps> = ({ course 
                 <hr className="grow rounded-full border-t border-stroke" />
               </div>
               <CourseInfoSolutionForm2StepFlow bytecode={submission} chainId={course.chainId} />
-              <Callout className="my-0" size="sm" intent="primary">
-                The solution has not been simulated.
-              </Callout>
             </motion.div>
           ) : null}
         </AnimatePresence>
