@@ -1,13 +1,13 @@
 'use client';
 
-import { type FC, useMemo } from 'react';
+import { useMemo } from 'react';
 
 import type { ColumnDef } from '@tanstack/react-table';
 
 import InfoTooltip from '@/components/templates/info-tooltip';
 import { Table } from '@/components/ui';
 
-const LeaderboardPuzzlesTableSkeletonMobile: FC = () => {
+const LeaderboardPuzzlesTableSkeletonMobile: React.FC = () => {
   const columns: ColumnDef<null>[] = useMemo(
     () => [
       {

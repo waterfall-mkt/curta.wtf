@@ -1,9 +1,9 @@
-import { type FC, Fragment } from 'react';
+import { Fragment } from 'react';
 
 import LeaderboardPuzzlesTableSkeletonDesktop from './desktop';
 import LeaderboardPuzzlesTableSkeletonMobile from './mobile';
 
-const LeaderboardPuzzlesTableSkeleton: FC = () => {
+const LeaderboardPuzzlesTableSkeleton: React.FC = () => {
   return (
     <Fragment>
       <LeaderboardPuzzlesTableSkeletonDesktop />

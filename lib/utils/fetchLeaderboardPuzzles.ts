@@ -1,22 +1,48 @@
 'use server';
 
-import type { PostgrestError } from '@supabase/supabase-js';
-import type { Address } from 'viem';
+import type { Event, Puzzle, PuzzleSolve, Team, User, UserInfo } from '@prisma/client';
 
-import supabase from '@/lib/services/supabase';
-import type { DbPuzzleSolve, DbTeam, DbTeamMember } from '@/lib/types/api';
-import type { Phase, PuzzleSolve, PuzzleSolver, Team } from '@/lib/types/protocol';
+import { db } from '@/lib/db';
 
 export type LeaderboardPuzzlesResponse = {
-  data: {
-    data: PuzzleSolver[];
-    puzzles: number;
-    solvers: number;
-    solves: number;
-    filter: string;
+  data: LeaderboardPuzzleSolver[];
+  puzzles: number;
+  solvers: number;
+  solves: number;
+  filter: string;
+};
+
+export type LeaderboardPuzzleSolver = {
+  // Identifier
+  solverAddress: string;
+  solver: User & { info: UserInfo | null };
+  // Leaderboard information
+  rank: number;
+  count: {
+    phase0: number;
+    phase1: number;
+    phase2: number;
+    total: number;
   };
-  status: number;
-  error: PostgrestError | null;
+  points: number;
+  speedScore: number;
+  solves: (PuzzleSolve & {
+    solver: User & { info: UserInfo | null };
+    puzzle?: Pick<
+      Puzzle,
+      'id' | 'chainId' | 'name' | 'authorAddress' | 'addedTimestamp' | 'eventId'
+    > & {
+      author: User & { info: UserInfo | null };
+      event: Event | null;
+      index: number;
+      _count: { solves: number };
+    };
+    // Miscellanous information
+  })[];
+  team?: Team & {
+    leader: User & { info: UserInfo | null };
+    members: (User & { info: UserInfo | null })[];
+  };
 };
 
 /**
@@ -24,8 +50,6 @@ export type LeaderboardPuzzlesResponse = {
  * across all chains ranked by the method described [**here**](https://www.curta.wtf/docs/leaderboard#curta-puzzles).
  * @param param0 An object containing the minimum and maximum puzzle IDs to
  * fetch solves for in the shape `{ minPuzzleIndex: number; maxPuzzleIndex: number; filter: string; excludeEvents?: boolean; }`.
- * @returns An object containing data for the solves, the status code, and the
- * error in the shape `{ data: { data: PuzzleSolve[]; solvers: number; solves: number; filter: string }; status: number; error: PostgrestError | null }`.
  */
 const fetchLeaderboardPuzzles = async ({
   minPuzzleIndex,
@@ -41,41 +65,46 @@ const fetchLeaderboardPuzzles = async ({
   eventSlug?: string;
 }): Promise<LeaderboardPuzzlesResponse> => {
   // Fetch solves.
-  const { data, status, error } = await supabase
-    .from('puzzles_solves')
-    .select('*, solver:users(*)')
-    .order('solveTimestamp', { ascending: true })
-    .returns<DbPuzzleSolve[]>();
+  const solves = await db.puzzleSolve.findMany({
+    where: { chain: { isTestnet: Boolean(process.env.NEXT_PUBLIC_IS_TESTNET) } },
+    include: { solver: { include: { info: true } } },
+    orderBy: { solveTimestamp: 'asc' },
+  });
 
-  if ((error && status !== 406) || !data || (data && data.length === 0)) {
-    return {
-      data: { data: [], puzzles: 0, solvers: 0, solves: 0, filter },
-      status,
-      error,
-    };
+  if (solves.length === 0) {
+    return { data: [], puzzles: 0, solvers: 0, solves: 0, filter };
   }
 
   // Fetch puzzles.
-  const { data: puzzles } = await supabase
-    .from('puzzles')
-    .select('id, chainId, name, author:users(*), numberSolved, addedTimestamp, eventId:events(*)')
-    .not('address', 'is', null)
-    .order('addedTimestamp', { ascending: true })
-    .returns<(Required<PuzzleSolve>['puzzle'] & { eventId?: null | { slug: string } })[]>();
+  const puzzles = await db.puzzle.findMany({
+    where: { chain: { isTestnet: Boolean(process.env.NEXT_PUBLIC_IS_TESTNET) } },
+    select: {
+      id: true,
+      chainId: true,
+      name: true,
+      authorAddress: true,
+      author: { include: { info: true } },
+      addedTimestamp: true,
+      eventId: true,
+      event: true,
+      _count: { select: { solves: true } },
+    },
+    orderBy: { addedTimestamp: 'asc' },
+  });
 
-  const solversObject: { [key: string]: PuzzleSolver } = {};
-  const puzzleMap: Map<string, Required<PuzzleSolve>['puzzle'] & { index: number }> = new Map();
+  const solversObject: { [key: string]: LeaderboardPuzzleSolver } = {};
+  const puzzleMap: Map<string, (typeof puzzles)[0] & { index: number }> = new Map();
 
   // Go through the list of puzzles to make them addressable via puzzle ID and
   // chain ID.
-  puzzles?.forEach((puzzle, index) => {
+  puzzles.forEach((puzzle, index) => {
     // Exclude events if specified, or if the puzzle is not in the queried
     // range.
     if (
       (excludeEvents && puzzle.eventId) ||
       index < minPuzzleIndex ||
       index > maxPuzzleIndex ||
-      (eventSlug && puzzle.eventId?.slug !== eventSlug)
+      (eventSlug && puzzle.event?.slug !== eventSlug)
     ) {
       return;
     }
@@ -85,43 +114,54 @@ const fetchLeaderboardPuzzles = async ({
   });
 
   // Fetch team and team members if event leaderboard.
-  let teams: DbTeam[] = [];
-  let teamMembers: DbTeamMember[] = [];
+  let teams: (Team & { leader: User & { info: UserInfo | null } })[] = [];
+  const teamMembers: (User & { info: UserInfo | null; teamId: number })[] = [];
+  const teamMembershipSet: Set<string> = new Set();
   if (eventSlug) {
-    const { data: dbTeamMembers } = await supabase
-      .from('team_members')
-      .select('*')
-      .returns<DbTeamMember[]>();
-    const { data: dbTeams } = await supabase
-      .from('teams')
-      .select('*, leader:users(*)')
-      .returns<DbTeam[]>();
-
-    teams = dbTeams ?? [];
-    teamMembers = dbTeamMembers ?? [];
+    teams = await db.team.findMany({
+      where: { chain: { isTestnet: Boolean(process.env.NEXT_PUBLIC_IS_TESTNET) } },
+      include: {
+        leader: { include: { info: true } },
+      },
+    });
+    const teamTransfers = await db.teamTransfer.findMany({
+      where: {
+        chain: { isTestnet: Boolean(process.env.NEXT_PUBLIC_IS_TESTNET) },
+      },
+      include: { user: { include: { info: true } } },
+      orderBy: { timestamp: 'desc' },
+    });
+    teamTransfers.map((transfer) => {
+      if (!teamMembershipSet.has(transfer.userAddress.toLowerCase())) {
+        teamMembers.push({ ...transfer.user, teamId: transfer.toTeamId });
+        teamMembershipSet.add(transfer.userAddress.toLowerCase());
+      }
+    });
   }
 
   // The keys are in the form `teamId`. We ignore `chainId` here. Then, make a
   // mapping of the teams.
-  const teamMap = new Map<number, Team>();
-  const memberToTeamMap: Map<Address, number> = new Map();
+  const teamMap = new Map<
+    number,
+    Team & {
+      leader: User & { info: UserInfo | null };
+      members: (User & { info: UserInfo | null })[];
+    }
+  >();
+  const memberToTeamMap: Map<string, number> = new Map();
   teams.forEach((team) => {
     teamMap.set(team.id, {
-      id: team.id,
-      chainId: team.chainId,
-      leader: team.leader,
-      name: team.name,
-      avatar: team.avatar,
+      ...team,
       members: [],
     });
   });
   teamMembers.forEach((member) => {
-    memberToTeamMap.set(member.user, member.teamid);
-    const team = teamMap.get(member.teamid);
+    memberToTeamMap.set(member.address.toLowerCase(), member.teamId);
+    const team = teamMap.get(member.teamId);
     if (team) {
-      teamMap.set(member.teamid, {
+      teamMap.set(member.teamId, {
         ...team,
-        members: [...team.members, { address: member.user }],
+        members: [...team.members, member],
       });
     }
   });
@@ -129,16 +169,16 @@ const fetchLeaderboardPuzzles = async ({
   // The keys are in the form `${teamId}_${puzzleId}_${chainId}`.
   const teamPuzzlesSolved = new Set<string>();
   // Keep track of unique solvers (addresses).
-  const uniqueSolvers = new Set<Address>();
+  const uniqueSolvers = new Set<string>();
   // Filter solves within query.
-  const filteredData = data.filter((item) => puzzleMap.has(`${item.puzzleId}|${item.chainId}`));
+  const filteredData = solves.filter((item) => puzzleMap.has(`${item.puzzleId}|${item.chainId}`));
   filteredData.forEach((item) => {
-    const solver = item.solver.address.toLowerCase() as Address;
+    const solverAddress = item.solverAddress.toLowerCase();
     // Keep track of unique solvers.
-    uniqueSolvers.add(solver);
+    uniqueSolvers.add(solverAddress);
     // Aggregate scores by team (`0` means individual).
-    const teamId = memberToTeamMap.get(solver) ?? 0;
-    const solverKey = teamId > 0 ? `team_${teamId}` : solver;
+    const teamId = memberToTeamMap.get(solverAddress) ?? 0;
+    const solverKey = teamId > 0 ? `team_${teamId}` : solverAddress;
     if (teamId > 0) {
       const teamPuzzleKey = `${teamId}_${item.puzzleId}_${item.chainId}`;
 
@@ -151,12 +191,13 @@ const fetchLeaderboardPuzzles = async ({
     if (!solversObject[solverKey]) {
       solversObject[solverKey] = {
         rank: 0,
-        solver: solver,
+        solverAddress: solverAddress,
+        solver: item.solver,
         count: { phase0: 0, phase1: 0, phase2: 0, total: 0 },
         points: 0,
         speedScore: 0,
         solves: [],
-        team: teamMap.get(teamId),
+        //team: teamMap.get(teamId),
       };
     }
 
@@ -177,30 +218,20 @@ const fetchLeaderboardPuzzles = async ({
     }
     solversObject[solverKey].count.total++;
     solversObject[solverKey].solves.push({
-      // Identifier
-      puzzleId: item.puzzleId,
-      chainId: item.chainId,
-      solver: item.solver,
-      // Solve information
-      rank: item.rank,
-      phase: item.phase as Phase,
-      solution: item.solution,
+      ...item,
       puzzle: puzzleMap.get(`${item.puzzleId}|${item.chainId}`),
-      // Solve transaction information
-      solveTimestamp: item.solveTimestamp,
-      solveTx: item.solveTx,
     });
   });
 
   // Sort solvers by speed score, then by points. Then, return the top 100 w/
   // rank.
-  const solvers: PuzzleSolver[] = Object.values(solversObject)
+  const solvers: LeaderboardPuzzleSolver[] = Object.values(solversObject)
     .map((item) => {
       const sum = item.solves.reduce(
         (a, b) =>
           a +
-          (b.rank - 1) /
-            Math.max(1, (puzzleMap.get(`${b.puzzleId}|${b.chainId}`)?.numberSolved ?? 1) - 1),
+          ((b.rank ?? 0) - 1) /
+            Math.max(1, (puzzleMap.get(`${b.puzzleId}|${b.chainId}`)?._count.solves ?? 1) - 1),
         0,
       );
 
@@ -215,15 +246,11 @@ const fetchLeaderboardPuzzles = async ({
     .map((item, index) => ({ ...item, rank: index + 1 }));
 
   return {
-    data: {
-      data: solvers,
-      puzzles: puzzleMap.size,
-      solvers: uniqueSolvers.size,
-      solves: filteredData.length,
-      filter,
-    },
-    status,
-    error,
+    data: solvers,
+    puzzles: puzzleMap.size,
+    solvers: uniqueSolvers.size,
+    solves: filteredData.length,
+    filter,
   };
 };
 

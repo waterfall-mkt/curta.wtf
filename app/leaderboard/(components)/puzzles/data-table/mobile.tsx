@@ -2,12 +2,12 @@
 
 import { useMemo } from 'react';
 
-import type { LeaderboardPuzzlesTableInternalProps } from '.';
+import type { LeaderboardPuzzlesDataTableInternalProps } from '.';
 import type { ColumnDef } from '@tanstack/react-table';
 import { ChevronRight, Crown, ExternalLink } from 'lucide-react';
 
-import type { PuzzleSolver } from '@/lib/types/protocol';
 import { getChainInfo, getTimeLeftString } from '@/lib/utils';
+import type { LeaderboardPuzzleSolver } from '@/lib/utils/fetchLeaderboardPuzzles';
 
 import AddressDisplayClient from '@/components/templates/address-display-client';
 import InfoTooltip from '@/components/templates/info-tooltip';
@@ -15,13 +15,13 @@ import Stat from '@/components/templates/stat';
 import TeamDisplayClient from '@/components/templates/team-display-client';
 import { Button, Table } from '@/components/ui';
 
-const LeaderboardPuzzlesTableMobile: React.FC<LeaderboardPuzzlesTableInternalProps> = ({
+const LeaderboardPuzzlesDataTableMobile: React.FC<LeaderboardPuzzlesDataTableInternalProps> = ({
   data,
   highlightValues,
   sorting,
   setSorting,
 }) => {
-  const columns = useMemo<ColumnDef<PuzzleSolver>[]>(
+  const columns = useMemo<ColumnDef<LeaderboardPuzzleSolver>[]>(
     () => [
       {
         accessorKey: 'rank',
@@ -35,11 +35,7 @@ const LeaderboardPuzzlesTableMobile: React.FC<LeaderboardPuzzlesTableInternalPro
         header: () => 'Player',
         cell: ({ row }) =>
           row.original.team === undefined ? (
-            <AddressDisplayClient
-              address={row.original.solver}
-              prefetchedEnsName={row.original.solverEnsName}
-              prefetchedEnsAvatar={row.original.solverEnsAvatar}
-            />
+            <AddressDisplayClient address={row.original.solverAddress as `0x${string}`} />
           ) : (
             <TeamDisplayClient team={row.original.team} />
           ),
@@ -80,7 +76,7 @@ const LeaderboardPuzzlesTableMobile: React.FC<LeaderboardPuzzlesTableInternalPro
       highlightValues={highlightValues}
       setSorting={setSorting}
       renderSubComponent={({ row }) => (
-        <LeaderboardPuzzlesTableMobileSubComponent data={row.original} />
+        <LeaderboardPuzzlesDataTableMobileSubComponent data={row.original} />
       )}
       topRounded={false}
       noBorder
@@ -88,7 +84,9 @@ const LeaderboardPuzzlesTableMobile: React.FC<LeaderboardPuzzlesTableInternalPro
   );
 };
 
-const LeaderboardPuzzlesTableMobileSubComponent: React.FC<{ data: PuzzleSolver }> = ({ data }) => {
+const LeaderboardPuzzlesDataTableMobileSubComponent: React.FC<{
+  data: LeaderboardPuzzleSolver;
+}> = ({ data }) => {
   return (
     <div className="flex flex-col">
       <div className="grid grid-cols-2 gap-2 p-3">
@@ -115,7 +113,11 @@ const LeaderboardPuzzlesTableMobileSubComponent: React.FC<{ data: PuzzleSolver }
             <Stat name="Chain" value={getChainInfo(solve.chainId).name} />
             <Stat
               name="Time taken"
-              value={getTimeLeftString(solve.solveTimestamp - (solve.puzzle?.addedTimestamp ?? 0))}
+              value={
+                solve.solveTimestamp
+                  ? getTimeLeftString(solve.solveTimestamp - (solve.puzzle?.addedTimestamp ?? 0))
+                  : '–'
+              }
             />
             <Stat
               name="Puzzle rank"
@@ -123,7 +125,7 @@ const LeaderboardPuzzlesTableMobileSubComponent: React.FC<{ data: PuzzleSolver }
                 <div className="flex items-center gap-1">
                   <span>
                     {solve.rank}{' '}
-                    <span className="text-gray-200">/ {solve.puzzle?.numberSolved ?? 0}</span>
+                    <span className="text-gray-200">/ {solve.puzzle?._count.solves ?? 0}</span>
                   </span>
                   {solve.phase === 0 ? <Crown className="h-4 w-4 text-gold" /> : null}
                 </div>
@@ -131,7 +133,7 @@ const LeaderboardPuzzlesTableMobileSubComponent: React.FC<{ data: PuzzleSolver }
               term="PUZZLE_RANK"
             />
             <Stat name="Phase solved" value={solve.phase} />
-            <Stat name="Points" value={3 - solve.phase} />
+            <Stat name="Points" value={3 - (solve.phase ?? 0)} />
             <div className="col-span-2 flex gap-1">
               <Button
                 className="w-full"
@@ -162,4 +164,4 @@ const LeaderboardPuzzlesTableMobileSubComponent: React.FC<{ data: PuzzleSolver }
   );
 };
 
-export default LeaderboardPuzzlesTableMobile;
+export default LeaderboardPuzzlesDataTableMobile;
