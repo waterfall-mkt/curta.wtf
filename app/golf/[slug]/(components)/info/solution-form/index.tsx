@@ -1,16 +1,18 @@
 'use client';
 
-import { Fragment, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import type { GolfCourseValue } from '../../types';
 import CourseInfoSolutionForm2StepFlow from './2-step-flow';
 import CourseInfoSolutionForm2StepSubmitButton from './2-step-submit';
 import CourseInfoSolutionFormOpcodesAccordion from './opcodes-accordion';
+import { AnimatePresence, motion } from 'framer-motion';
 import { ArrowDown } from 'lucide-react';
 import { isHex } from 'viem';
 import { useNetwork, useSwitchNetwork } from 'wagmi';
 
 import ConnectButton from '@/components/common/connect-button';
+import { Callout } from '@/components/templates/mdx';
 import { Button, Input } from '@/components/ui';
 
 // -----------------------------------------------------------------------------
@@ -99,19 +101,31 @@ const CourseInfoSolutionForm: React.FC<CourseInfoSolutionFormProps> = ({ course 
             </div>
           )}
         </div> */}
-        {isHex(submission) ? (
-          <Fragment>
-            <div className="relative flex h-6 w-full items-center justify-center" role="separator">
-              <hr className="w-full border-t border-stroke" />
-              <div className="absolute top-0 mx-0 flex h-6 w-6 items-center justify-center rounded-full bg-gray-450 text-gray-200 ring-4 ring-gray-600">
-                <ArrowDown className="h-3 w-3" />
+        <AnimatePresence>
+          {isHex(submission) ? (
+            <motion.div
+              className="flex w-full flex-col gap-2"
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: 'auto', opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+            >
+              <div
+                className="relative flex h-6 w-full items-center justify-center gap-1"
+                role="separator"
+              >
+                <hr className="grow rounded-full border-t border-stroke" />
+                <div className="flex h-6 w-6 items-center justify-center rounded-full bg-gray-450 text-gray-200">
+                  <ArrowDown className="h-3 w-3" />
+                </div>
+                <hr className="grow rounded-full border-t border-stroke" />
               </div>
-            </div>
-            <div className="flex w-full flex-col gap-2">
               <CourseInfoSolutionForm2StepFlow bytecode={submission} chainId={course.chainId} />
-            </div>
-          </Fragment>
-        ) : null}
+              <Callout className="my-0" size="sm" intent="primary">
+                The solution has not been simulated.
+              </Callout>
+            </motion.div>
+          ) : null}
+        </AnimatePresence>
       </div>
       {!chain || !mounted ? (
         <ConnectButton className="w-full" />
