@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation';
 
-import CourseProgressionTable from './(components)/table';
+import CourseProgressionDataTable from './(components)/data-table';
 
 import { fetchCourseLeadingSolvesById, getChainIdAndId } from '@/lib/utils';
 
@@ -27,7 +27,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
       role="tabpanel"
       aria-labelledby={`trigger-/golf/${normalizedSlug}/progression`}
     >
-      <CourseProgressionTable data={solves} />
+      <CourseProgressionDataTable data={solves} />
     </div>
   );
 }

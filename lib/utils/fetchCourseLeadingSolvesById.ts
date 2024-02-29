@@ -1,55 +1,47 @@
 'use server';
 
-import type { PostgrestError } from '@supabase/supabase-js';
+import { unstable_cache } from 'next/cache';
 
-import supabase from '@/lib/services/supabase';
-import type { DbGolfCourseSolve } from '@/lib/types/api';
-import { GolfCourseSolve } from '@/lib/types/protocol';
-
-type CourseSolvesResponse = {
-  data: GolfCourseSolve[];
-  status: number;
-  error: PostgrestError | null;
-};
+import { db } from '@/lib/db';
 
 /**
  * Returns the solves for a Course from the database with the given ID and chain
  * ID.
  * @param id The ID of the course.
  * @param chainId The ID of the chain the course is on.
- * @returns An object containing data for the solves, the status code, and the
- * error in the shape `{ data: GolfCourseSolve[], status: number, error: PostgrestError | null }`.
  */
-const fetchCourseLeadingSolvesById = async (
-  id: number,
-  chainId: number,
-): Promise<CourseSolvesResponse> => {
-  const { data, status, error } = await supabase
-    .from('golf_courses_solves')
-    .select('*, solver:users(*)', { count: 'exact' })
-    .eq('isRecord', true)
-    .eq('courseId', id)
-    .eq('chainId', chainId)
-    .order('submitTimestamp', { ascending: false })
-    .returns<DbGolfCourseSolve[]>();
+const fetchCourseLeadingSolvesById = async (id: number, chainId: number) => {
+  const data = await unstable_cache(
+    async () =>
+      await db.golfCourseSolve.findMany({
+        where: { courseId: id, chainId, isRecord: true },
+        include: { solver: { include: { info: true } } },
+        orderBy: [{ gasUsed: 'asc' }, { submitTimestamp: 'asc' }],
+      }),
+    [`golf-course-leaderboard-${chainId}-${id}`],
+    {
+      tags: ['golf-courses', `golf-course-${chainId}-${id}`],
+      revalidate: 300,
+    },
+  )();
 
-  if ((error && status !== 406) || !data || (data && data.length === 0)) {
-    return { data: [], status, error };
-  }
-
-  const solves: GolfCourseSolve[] = data.map((solve, i) => {
+  const solves: ((typeof data)[0] & { gasDiff?: number })[] = data.map((solve, i) => {
     return {
       // Identifier
       courseId: solve.courseId,
       chainId: solve.chainId,
+      solverAddress: solve.solverAddress,
       solver: solve.solver,
       submitTx: solve.submitTx,
-      // Solve information
+      // Submission information
       gasUsed: solve.gasUsed,
-      target: solve.target,
       solution: solve.solution,
       submitBlock: solve.submitBlock,
       submitTimestamp: solve.submitTimestamp,
+      // Metadata
+      target: solve.target,
+      isRecord: solve.isRecord,
+      createdAt: solve.createdAt,
       // Metadata
       gasDiff: i < data.length - 1 ? data[i + 1].gasUsed - solve.gasUsed : undefined,
     };
