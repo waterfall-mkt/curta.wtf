@@ -1,4 +1,4 @@
-'use client';
+/* 'use client';
 
 import { useEffect, useState } from 'react';
 
@@ -425,3 +425,4 @@ const NewTeamForm: React.FC<{ name: string }> = ({ name }) => {
 };
 
 export default PuzzleInfoSolutionFormTeamControlSwitch;
+ */

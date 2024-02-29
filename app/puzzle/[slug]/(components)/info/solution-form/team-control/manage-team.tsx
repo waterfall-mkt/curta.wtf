@@ -1,7 +1,8 @@
-'use client';
+/* 'use client';
 
 import { useEffect, useState } from 'react';
 
+import type { Team } from '@prisma/client';
 import { ExternalLink, UserMinus, UserPlus } from 'lucide-react';
 import type { Address } from 'viem';
 import {
@@ -13,7 +14,6 @@ import {
 } from 'wagmi';
 
 import { TEAM_REGISTRY_ABI } from '@/lib/constants/abi';
-import type { Team } from '@/lib/types/protocol';
 import { getChainInfo, getShortenedAddress } from '@/lib/utils';
 
 import AddressDisplayClient from '@/components/templates/address-display-client';
@@ -289,3 +289,4 @@ const UserActions: React.FC<{ member: Team['members'][0] }> = ({ member }) => {
 };
 
 export default PuzzleInfoSolutionFormTeamControlManageTeam;
+ */

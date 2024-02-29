@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 
 import type { PuzzleValue } from '../../types';
 import PuzzleInfoSolutionFormOptionsForm from './options-form';
-import PuzzleInfoSolutionFormTeamControl from './team-control';
+// import PuzzleInfoSolutionFormTeamControl from './team-control';
 import PuzzleInfoSolutionFormTipForm from './tip-form';
 import clsx from 'clsx';
 import { ExternalLink, Heart, Settings } from 'lucide-react';
@@ -201,7 +201,7 @@ const PuzzleInfoSolutionForm: React.FC<PuzzleInfoSolutionFormProps> = ({ puzzle 
             </div>
           }
         />
-        {puzzle.event ? <PuzzleInfoSolutionFormTeamControl /> : null}
+        {/* {puzzle.event ? <PuzzleInfoSolutionFormTeamControl /> : null} */}
       </div>
       {!chain || !mounted ? (
         <ConnectButton className="w-full" />
