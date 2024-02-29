@@ -1,23 +1,23 @@
-import type { FC } from 'react';
-
+import type { GolfCourseValue } from '../types';
 import { ExternalLink } from 'lucide-react';
 
-import type { GolfCourse } from '@/lib/types/protocol';
-import { formatValueToPrecision, getChainInfo, getShortenedAddress } from '@/lib/utils';
+import { formatValueToPrecision, getChainInfo } from '@/lib/utils';
+
+import AddressLinkClient from '@/components/templates/address-link-client';
 
 // -----------------------------------------------------------------------------
 // Props
 // -----------------------------------------------------------------------------
 
 type CourseInfoLeaderProps = {
-  course: GolfCourse;
+  course: GolfCourseValue;
 };
 
 // -----------------------------------------------------------------------------
 // Component
 // -----------------------------------------------------------------------------
 
-const CourseInfoLeader: FC<CourseInfoLeaderProps> = ({ course }) => {
+const CourseInfoLeader: React.FC<CourseInfoLeaderProps> = ({ course }) => {
   return (
     <div className="flex grow flex-col items-center gap-2 p-4">
       {course.leader?.address ? (
@@ -28,9 +28,10 @@ const CourseInfoLeader: FC<CourseInfoLeaderProps> = ({ course }) => {
           rel="noopener noreferrer"
         >
           <div className="text-center text-sm font-book text-[#09491E]">King of the Hill</div>
-          <div className="text-2xl font-medium text-gray-50">
-            {course.leader.ensName ?? getShortenedAddress(course.leader.address)}
-          </div>
+          <AddressLinkClient
+            className="text-2xl font-medium text-gray-50"
+            address={course.leader.address as `0x${string}`}
+          />
           <ExternalLink className="absolute right-2 top-2 h-3 w-3 text-[#09491E]" />
         </a>
       ) : (
@@ -45,7 +46,7 @@ const CourseInfoLeader: FC<CourseInfoLeaderProps> = ({ course }) => {
           value: course.leaderGas ? formatValueToPrecision(course.leaderGas, 2) : '—',
           title: course.leaderGas ? String(course.leaderGas) : undefined,
         },
-        { name: 'Total Submissions', value: course.numSolved },
+        { name: 'Total Submissions', value: course._count.solves },
       ].map(({ name, value, title }) => {
         const nameId = `stat-name-${name.replace(' ', '-').toLowerCase()}`;
         const valueId = `stat-value-${name.replace(' ', '-').toLowerCase()}`;

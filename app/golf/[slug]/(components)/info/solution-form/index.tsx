@@ -1,7 +1,8 @@
 'use client';
 
-import { type FC, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
+import type { GolfCourseValue } from '../../types';
 import CourseInfoSolutionForm2StepFlow from './2-step-flow';
 import CourseInfoSolutionForm2StepSubmitButton from './2-step-submit';
 import CourseInfoSolutionFormOpcodesAccordion from './opcodes-accordion';
@@ -19,7 +20,6 @@ import {
 } from 'wagmi';
 
 import { CURTA_GOLF_ABI } from '@/lib/constants/abi';
-import type { GolfCourse } from '@/lib/types/protocol';
 import { getChainInfo } from '@/lib/utils';
 
 import ConnectButton from '@/components/common/connect-button';
@@ -31,14 +31,14 @@ import { Button, Input, Tooltip, useToast } from '@/components/ui';
 // -----------------------------------------------------------------------------
 
 type CourseInfoSolutionFormProps = {
-  course: GolfCourse;
+  course: GolfCourseValue;
 };
 
 // -----------------------------------------------------------------------------
 // Component
 // -----------------------------------------------------------------------------
 
-const CourseInfoSolutionForm: FC<CourseInfoSolutionFormProps> = ({ course }) => {
+const CourseInfoSolutionForm: React.FC<CourseInfoSolutionFormProps> = ({ course }) => {
   const [mounted, setMounted] = useState<boolean>(false);
   const [submission, setSubmission] = useState<string>('');
   const [submissionMethod, setSubmissionMethod] = useState<string>();
@@ -160,7 +160,11 @@ const CourseInfoSolutionForm: FC<CourseInfoSolutionFormProps> = ({ course }) => 
 
   return (
     <div className="flex w-full flex-col items-center gap-3 p-4">
-      <CourseInfoSolutionFormOpcodesAccordion allowedOpcodes={course.allowedOpcodes} />
+      <CourseInfoSolutionFormOpcodesAccordion
+        allowedOpcodes={
+          (course.allowedOpcodes as `0x${string}`) ?? '0xffffffffffffffffffffffffffffffff'
+        }
+      />
       <div className="flex w-full flex-col gap-2">
         <Input
           className="h-10 w-full"

@@ -1,10 +1,7 @@
 'use client';
 
-import type { FC } from 'react';
-
+import type { GolfCourseValue } from '../types';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-
-import type { GolfCourse } from '@/lib/types/protocol';
 
 import { ButtonGroup, IconButton } from '@/components/ui';
 
@@ -13,15 +10,15 @@ import { ButtonGroup, IconButton } from '@/components/ui';
 // -----------------------------------------------------------------------------
 
 type CourseHeaderPageNavProps = {
-  prevCourse: GolfCourse | null;
-  nextCourse: GolfCourse | null;
+  prevCourse: GolfCourseValue | null;
+  nextCourse: GolfCourseValue | null;
 };
 
 // -----------------------------------------------------------------------------
 // Component
 // -----------------------------------------------------------------------------
 
-const CourseHeaderPageNav: FC<CourseHeaderPageNavProps> = ({ prevCourse, nextCourse }) => {
+const CourseHeaderPageNav: React.FC<CourseHeaderPageNavProps> = ({ prevCourse, nextCourse }) => {
   return (
     <ButtonGroup className="hidden sm:flex">
       <IconButton

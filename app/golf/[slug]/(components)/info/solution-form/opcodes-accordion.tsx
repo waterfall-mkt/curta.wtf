@@ -1,6 +1,6 @@
 'use client';
 
-import { type FC, type UIEvent, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 
 import * as Accordion from '@radix-ui/react-accordion';
 import clsx from 'clsx';
@@ -23,9 +23,9 @@ type CourseInfoSolutionFormOpcodesAccordionProps = {
 // Component
 // -----------------------------------------------------------------------------
 
-const CourseInfoSolutionFormOpcodesAccordion: FC<CourseInfoSolutionFormOpcodesAccordionProps> = ({
-  allowedOpcodes,
-}) => {
+const CourseInfoSolutionFormOpcodesAccordion: React.FC<
+  CourseInfoSolutionFormOpcodesAccordionProps
+> = ({ allowedOpcodes }) => {
   const [scrollIsAtTop, setScrollIsAtTop] = useState<boolean>(true);
   const [scrollIsAtBottom, setScrollIsAtBottom] = useState<boolean>(false);
 
@@ -56,7 +56,7 @@ const CourseInfoSolutionFormOpcodesAccordion: FC<CourseInfoSolutionFormOpcodesAc
 
   // Function for setting scroll values to conditionally render gradient
   // overflows.
-  const onScroll = (event: UIEvent<HTMLDivElement>) => {
+  const onScroll = (event: React.UIEvent<HTMLDivElement>) => {
     const target = event.target as HTMLDivElement;
     const scrollTop = target.scrollTop;
     const scrollHeight = target.scrollHeight;

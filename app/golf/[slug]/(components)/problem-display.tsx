@@ -1,8 +1,8 @@
 'use client';
 
-import { type FC, useState } from 'react';
+import { useState } from 'react';
 
-import type { GolfCourse } from '@/lib/types/protocol';
+import type { GolfCourseValue } from './types';
 
 import LogoIcon from '@/components/common/logo-icon';
 import { CodeBlock } from '@/components/ui';
@@ -12,7 +12,7 @@ import { CodeBlock } from '@/components/ui';
 // -----------------------------------------------------------------------------
 
 type CourseProblemDisplayProps = {
-  course: GolfCourse;
+  course: GolfCourseValue;
   languages: string[];
 };
 
@@ -20,7 +20,7 @@ type CourseProblemDisplayProps = {
 // Component
 // -----------------------------------------------------------------------------
 
-const CourseProblemDisplay: FC<CourseProblemDisplayProps> = ({ course, languages }) => {
+const CourseProblemDisplay: React.FC<CourseProblemDisplayProps> = ({ course, languages }) => {
   const [language, setLanguage] = useState<string>(() =>
     course.solidity ? 'Solidity' : course.huff ? 'Huff' : 'Bytecode',
   );

@@ -1,7 +1,6 @@
 'use client';
 
 import { usePathname } from 'next/navigation';
-import type { FC, ReactNode } from 'react';
 
 import { Tabs } from '@/components/ui';
 
@@ -12,14 +11,14 @@ import { Tabs } from '@/components/ui';
 type CourseTabsNavProps = {
   slug: string;
   hasDescription: boolean;
-  children: ReactNode;
+  children: React.ReactNode;
 };
 
 // -----------------------------------------------------------------------------
 // Component
 // -----------------------------------------------------------------------------
 
-const CourseTabs: FC<CourseTabsNavProps> = ({ slug, children }) => {
+const CourseTabs: React.FC<CourseTabsNavProps> = ({ slug, children }) => {
   const pathname = usePathname();
   const normalizedSlug = decodeURIComponent(slug.toLowerCase());
 
