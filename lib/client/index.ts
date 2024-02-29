@@ -1,5 +1,5 @@
 import { createPublicClient, fallback, http } from 'viem';
-import { base, baseGoerli, mainnet, sepolia } from 'viem/chains';
+import { base, baseGoerli, baseSepolia, mainnet, sepolia } from 'viem/chains';
 
 const alchemyBase = http(
   `https://base-mainnet.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_ID}`,
@@ -7,6 +7,10 @@ const alchemyBase = http(
 
 const alchemyBaseGoerli = http(
   `https://base-goerli.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_ID}`,
+);
+
+const alchemyBaseSepolia = http(
+  `https://base-sepolia.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_ID}`,
 );
 
 const alchemyEthereum = http(
@@ -25,6 +29,11 @@ export const baseClient = createPublicClient({
 export const baseGoerliClient = createPublicClient({
   chain: baseGoerli,
   transport: fallback([alchemyBaseGoerli, http()]),
+});
+baseSepolia;
+export const baseSepoliaClient = createPublicClient({
+  chain: baseSepolia,
+  transport: fallback([alchemyBaseSepolia, http()]),
 });
 
 export const ethereumClient = createPublicClient({

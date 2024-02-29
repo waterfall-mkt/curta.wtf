@@ -37,8 +37,8 @@ type PuzzleInfoSolutionFormTeamControlManageTeamProps = {
 const PuzzleInfoSolutionFormTeamControlManageTeam: React.FC<
   PuzzleInfoSolutionFormTeamControlManageTeamProps
 > = ({ connectedAddress, team }) => {
-  // Always use Base or Base Goerli for the Team Registry.
-  const chainId = process.env.NEXT_PUBLIC_IS_TESTNET ? 84531 : 8453;
+  // Always use Base or Base Sepolia for the Team Registry.
+  const chainId = process.env.NEXT_PUBLIC_IS_TESTNET ? 84532 : 8453;
 
   return (
     <div className="flex flex-col gap-2 p-4">
@@ -97,8 +97,8 @@ const UserActions: React.FC<{ member: Team['members'][0] }> = ({ member }) => {
   // Set `mounted` to true on page load.
   useEffect(() => setMounted(true), []);
 
-  // Always use Base or Base Goerli for the Team Registry.
-  const chainId = process.env.NEXT_PUBLIC_IS_TESTNET ? 84531 : 8453;
+  // Always use Base or Base Sepolia for the Team Registry.
+  const chainId = process.env.NEXT_PUBLIC_IS_TESTNET ? 84532 : 8453;
 
   // ---------------------------------------–-----------------------------------
   // Remove member
