@@ -2,7 +2,7 @@
 
 import { darkTheme, getDefaultWallets, RainbowKitProvider } from '@rainbow-me/rainbowkit';
 import { configureChains, createConfig, WagmiConfig } from 'wagmi';
-import { base, baseGoerli, mainnet, sepolia } from 'wagmi/chains';
+import { base, baseGoerli, baseSepolia, mainnet, sepolia } from 'wagmi/chains';
 import { alchemyProvider } from 'wagmi/providers/alchemy';
 import { publicProvider } from 'wagmi/providers/public';
 
@@ -13,7 +13,7 @@ import { publicProvider } from 'wagmi/providers/public';
 const { chains, publicClient, webSocketPublicClient } = configureChains(
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
-  process.env.NEXT_PUBLIC_IS_TESTNET ? [baseGoerli, sepolia] : [base, mainnet],
+  process.env.NEXT_PUBLIC_IS_TESTNET ? [baseGoerli, baseSepolia, sepolia] : [base, mainnet],
   [alchemyProvider({ apiKey: process.env.NEXT_PUBLIC_ALCHEMY_ID }), publicProvider()],
 );
 

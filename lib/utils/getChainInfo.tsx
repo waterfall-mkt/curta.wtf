@@ -1,5 +1,3 @@
-import type { FC, SVGProps } from 'react';
-
 import { type Address, zeroAddress } from 'viem';
 
 import LogoIcon from '@/components/common/logo-icon';
@@ -23,7 +21,7 @@ type ChainInfo = {
   name: string;
   id: number;
   network: string;
-  logo: FC<SVGProps<SVGSVGElement>>;
+  logo: React.FC<React.SVGProps<SVGSVGElement>>;
   blockExplorer: string;
   // Curta Golf-specific
   golf: Address;
@@ -49,9 +47,9 @@ const getChainInfo = (chainId: number): ChainInfo => {
       logo: LogoIcon.Base,
       blockExplorer: 'basescan.org',
       // Curta Golf-specific
-      golf: '0xb8d97b24935c70cd931bbc6150e2596570997ce9',
+      golf: '0x8ccd70b1b74ea505dba39d2d11c3ab6a2cb14a8c',
       // Curta Puzzles-specific
-      puzzles: '0x00000000D1329c5cd5386091066d49112e590969',
+      puzzles: '0x00000000d1329c5cd5386091066d49112e590969',
       teamRegistry: '0xfacade0bcaebb9b48bd1f613d2fd9b9865a3e61d',
     };
   } else if (chainId === 84531) {
@@ -64,7 +62,20 @@ const getChainInfo = (chainId: number): ChainInfo => {
       // Curta Golf-specific
       golf: '0x8936272ebecc127d21bdc0dbd35978dc7bb7f358',
       // Curta Puzzles-specific
-      puzzles: '0x00000000D1329c5cd5386091066d49112e590969',
+      puzzles: '0x00000000d1329c5cd5386091066d49112e590969',
+      teamRegistry: '0xfacade0bcaebb9b48bd1f613d2fd9b9865a3e61d',
+    };
+  } else if (chainId === 84532) {
+    return {
+      name: 'Base Sepolia',
+      id: chainId,
+      network: 'base-sepolia',
+      logo: LogoIcon.Base,
+      blockExplorer: 'sepolia.basescan.org',
+      // Curta Golf-specific
+      golf: '0x1070e238650a95f24193f1c3fbf4c5dc7805b668',
+      // Curta Puzzles-specific
+      puzzles: '0x00000000d1329c5cd5386091066d49112e590969',
       teamRegistry: '0xfacade0bcaebb9b48bd1f613d2fd9b9865a3e61d',
     };
   } else if (chainId === 11155111) {

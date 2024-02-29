@@ -11,13 +11,14 @@
  */
 const getChainIdAndId = (
   slug: string,
-  defaultChainId: 1 | 8453 | 11155111 | 84531 = 1,
+  defaultChainId: 1 | 8453 | 11155111 | 84531 | 84532 = 1,
 ): { chainId: number; id: number } | null => {
   // Note: if any chain's name is a substring of another chain's name, replace
   // the longer chain's name first.
   const [x, y] = decodeURIComponent(
     slug
       .toLowerCase()
+      .replace('base-sepolia', '84532')
       .replace('base-goerli', '84531')
       .replace('sepolia', '11155111')
       .replace('eth', '1')

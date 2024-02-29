@@ -57,8 +57,8 @@ const PuzzleInfoSolutionFormTeamControlSwitch: React.FC<
   // Chain interaction
   // ---------------------------------------–-----------------------------------
 
-  // Always use Base or Base Goerli for the Team Registry.
-  const chainId = process.env.NEXT_PUBLIC_IS_TESTNET ? 84531 : 8453;
+  // Always use Base or Base Sepolia for the Team Registry.
+  const chainId = process.env.NEXT_PUBLIC_IS_TESTNET ? 84532 : 8453;
 
   const { config } = usePrepareContractWrite({
     address: getChainInfo(chainId).teamRegistry,
@@ -294,8 +294,8 @@ const NewTeamForm: React.FC<{ name: string }> = ({ name }) => {
   // Chain interaction
   // ---------------------------------------–-----------------------------------
 
-  // Always use Base or Base Goerli for the Team Registry.
-  const chainId = process.env.NEXT_PUBLIC_IS_TESTNET ? 84531 : 8453;
+  // Always use Base or Base Sepolia for the Team Registry.
+  const chainId = process.env.NEXT_PUBLIC_IS_TESTNET ? 84532 : 8453;
 
   const { config } = usePrepareContractWrite({
     address: getChainInfo(chainId).teamRegistry,
