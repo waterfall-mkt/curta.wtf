@@ -54,7 +54,7 @@ const CourseProblemDisplay: React.FC<CourseProblemDisplayProps> = ({ course, lan
 
   return (
     <CodeBlock language="none" showLineNumbers={false} breakLines {...props}>
-      {course.bytecode}
+      {course.bytecode ?? '0x'}
     </CodeBlock>
   );
 };
