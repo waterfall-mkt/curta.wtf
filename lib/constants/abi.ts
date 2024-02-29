@@ -663,8 +663,8 @@ export const CURTA_GOLF_ABI = [
   },
   {
     inputs: [
-      { internalType: 'address', name: 'spender', type: 'address' },
-      { internalType: 'uint256', name: 'id', type: 'uint256' },
+      { internalType: 'address', name: '_spender', type: 'address' },
+      { internalType: 'uint256', name: '_id', type: 'uint256' },
     ],
     name: 'approve',
     outputs: [],
@@ -672,7 +672,7 @@ export const CURTA_GOLF_ABI = [
     type: 'function',
   },
   {
-    inputs: [{ internalType: 'address', name: 'owner', type: 'address' }],
+    inputs: [{ internalType: 'address', name: '_owner', type: 'address' }],
     name: 'balanceOf',
     outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
     stateMutability: 'view',
@@ -729,6 +729,23 @@ export const CURTA_GOLF_ABI = [
     type: 'function',
   },
   {
+    inputs: [{ internalType: 'uint256', name: '_id', type: 'uint256' }],
+    name: 'getTokenData',
+    outputs: [
+      {
+        components: [
+          { internalType: 'address', name: 'owner', type: 'address' },
+          { internalType: 'uint96', name: 'metadata', type: 'uint96' },
+        ],
+        internalType: 'struct KingERC721.TokenData',
+        name: 'tokenData',
+        type: 'tuple',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
     inputs: [
       { internalType: 'address', name: '', type: 'address' },
       { internalType: 'address', name: '', type: 'address' },
@@ -753,7 +770,7 @@ export const CURTA_GOLF_ABI = [
     type: 'function',
   },
   {
-    inputs: [{ internalType: 'uint256', name: 'id', type: 'uint256' }],
+    inputs: [{ internalType: 'uint256', name: '_id', type: 'uint256' }],
     name: 'ownerOf',
     outputs: [{ internalType: 'address', name: 'owner', type: 'address' }],
     stateMutability: 'view',
@@ -775,9 +792,9 @@ export const CURTA_GOLF_ABI = [
   },
   {
     inputs: [
-      { internalType: 'address', name: 'from', type: 'address' },
-      { internalType: 'address', name: 'to', type: 'address' },
-      { internalType: 'uint256', name: 'id', type: 'uint256' },
+      { internalType: 'address', name: '_from', type: 'address' },
+      { internalType: 'address', name: '_to', type: 'address' },
+      { internalType: 'uint256', name: '_id', type: 'uint256' },
     ],
     name: 'safeTransferFrom',
     outputs: [],
@@ -786,10 +803,10 @@ export const CURTA_GOLF_ABI = [
   },
   {
     inputs: [
-      { internalType: 'address', name: 'from', type: 'address' },
-      { internalType: 'address', name: 'to', type: 'address' },
-      { internalType: 'uint256', name: 'id', type: 'uint256' },
-      { internalType: 'bytes', name: 'data', type: 'bytes' },
+      { internalType: 'address', name: '_from', type: 'address' },
+      { internalType: 'address', name: '_to', type: 'address' },
+      { internalType: 'uint256', name: '_id', type: 'uint256' },
+      { internalType: 'bytes', name: '_data', type: 'bytes' },
     ],
     name: 'safeTransferFrom',
     outputs: [],
@@ -808,8 +825,8 @@ export const CURTA_GOLF_ABI = [
   },
   {
     inputs: [
-      { internalType: 'address', name: 'operator', type: 'address' },
-      { internalType: 'bool', name: 'approved', type: 'bool' },
+      { internalType: 'address', name: '_operator', type: 'address' },
+      { internalType: 'bool', name: '_approved', type: 'bool' },
     ],
     name: 'setApprovalForAll',
     outputs: [],
@@ -836,21 +853,10 @@ export const CURTA_GOLF_ABI = [
     type: 'function',
   },
   {
-    inputs: [
-      { internalType: 'uint32', name: '_courseId', type: 'uint32' },
-      { internalType: 'bytes', name: '_solution', type: 'bytes' },
-      { internalType: 'address', name: '_recipient', type: 'address' },
-    ],
-    name: 'submitDirectly',
-    outputs: [{ internalType: 'uint32', name: '', type: 'uint32' }],
-    stateMutability: 'nonpayable',
-    type: 'function',
-  },
-  {
-    inputs: [{ internalType: 'bytes4', name: 'interfaceId', type: 'bytes4' }],
+    inputs: [{ internalType: 'bytes4', name: '_interfaceId', type: 'bytes4' }],
     name: 'supportsInterface',
     outputs: [{ internalType: 'bool', name: '', type: 'bool' }],
-    stateMutability: 'view',
+    stateMutability: 'pure',
     type: 'function',
   },
   {
@@ -869,9 +875,9 @@ export const CURTA_GOLF_ABI = [
   },
   {
     inputs: [
-      { internalType: 'address', name: 'from', type: 'address' },
-      { internalType: 'address', name: 'to', type: 'address' },
-      { internalType: 'uint256', name: 'id', type: 'uint256' },
+      { internalType: 'address', name: '_from', type: 'address' },
+      { internalType: 'address', name: '_to', type: 'address' },
+      { internalType: 'uint256', name: '_id', type: 'uint256' },
     ],
     name: 'transferFrom',
     outputs: [],
