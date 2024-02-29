@@ -2,8 +2,8 @@
 
 import { Fragment, useState } from 'react';
 
-import LeaderboardPuzzlesTableDesktop from './desktop';
-import LeaderboardPuzzlesTableMobile from './mobile';
+import LeaderboardPuzzlesDataTableDesktop from './desktop';
+import LeaderboardPuzzlesDataTableMobile from './mobile';
 import type { Row, SortingState } from '@tanstack/react-table';
 
 import type { PuzzleSolve, PuzzleSolver } from '@/lib/types/protocol';
@@ -14,23 +14,23 @@ import type { TableProps } from '@/components/ui/table/types';
 // Props
 // -----------------------------------------------------------------------------
 
-type LeaderboardPuzzlesTableProps = {
+type LeaderboardPuzzlesDataTableProps = {
   data: PuzzleSolver[];
 };
 
-export type LeaderboardPuzzlesTableInternalProps = Omit<TableProps<PuzzleSolver>, 'columns'>;
+export type LeaderboardPuzzlesDataTableInternalProps = Omit<TableProps<PuzzleSolver>, 'columns'>;
 
 // -----------------------------------------------------------------------------
 // Component
 // -----------------------------------------------------------------------------
 
-const LeaderboardPuzzlesTable: React.FC<LeaderboardPuzzlesTableProps> = ({ data }) => {
+const LeaderboardPuzzlesDataTable: React.FC<LeaderboardPuzzlesDataTableProps> = ({ data }) => {
   const [sorting, setSorting] = useState<SortingState>([]);
 
   return (
     <Fragment>
-      <LeaderboardPuzzlesTableDesktop data={data} sorting={sorting} setSorting={setSorting} />
-      <LeaderboardPuzzlesTableMobile data={data} sorting={sorting} setSorting={setSorting} />
+      <LeaderboardPuzzlesDataTableDesktop data={data} sorting={sorting} setSorting={setSorting} />
+      <LeaderboardPuzzlesDataTableMobile data={data} sorting={sorting} setSorting={setSorting} />
     </Fragment>
   );
 };
@@ -39,4 +39,4 @@ export const getPuzzleRowRoute = ({ row }: { row: Row<PuzzleSolve> }): `/${strin
   return `/puzzle/${row.original.chainId}:${row.original.puzzleId}`;
 };
 
-export default LeaderboardPuzzlesTable;
+export default LeaderboardPuzzlesDataTable;

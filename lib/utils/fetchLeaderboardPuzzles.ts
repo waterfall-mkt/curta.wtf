@@ -24,8 +24,6 @@ export type LeaderboardPuzzlesResponse = {
  * across all chains ranked by the method described [**here**](https://www.curta.wtf/docs/leaderboard#curta-puzzles).
  * @param param0 An object containing the minimum and maximum puzzle IDs to
  * fetch solves for in the shape `{ minPuzzleIndex: number; maxPuzzleIndex: number; filter: string; excludeEvents?: boolean; }`.
- * @returns An object containing data for the solves, the status code, and the
- * error in the shape `{ data: { data: PuzzleSolve[]; solvers: number; solves: number; filter: string }; status: number; error: PostgrestError | null }`.
  */
 const fetchLeaderboardPuzzles = async ({
   minPuzzleIndex,

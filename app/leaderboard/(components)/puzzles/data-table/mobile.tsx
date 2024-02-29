@@ -2,7 +2,7 @@
 
 import { useMemo } from 'react';
 
-import type { LeaderboardPuzzlesTableInternalProps } from '.';
+import type { LeaderboardPuzzlesDataTableInternalProps } from '.';
 import type { ColumnDef } from '@tanstack/react-table';
 import { ChevronRight, Crown, ExternalLink } from 'lucide-react';
 
@@ -15,7 +15,7 @@ import Stat from '@/components/templates/stat';
 import TeamDisplayClient from '@/components/templates/team-display-client';
 import { Button, Table } from '@/components/ui';
 
-const LeaderboardPuzzlesTableMobile: React.FC<LeaderboardPuzzlesTableInternalProps> = ({
+const LeaderboardPuzzlesDataTableMobile: React.FC<LeaderboardPuzzlesDataTableInternalProps> = ({
   data,
   highlightValues,
   sorting,
@@ -80,7 +80,7 @@ const LeaderboardPuzzlesTableMobile: React.FC<LeaderboardPuzzlesTableInternalPro
       highlightValues={highlightValues}
       setSorting={setSorting}
       renderSubComponent={({ row }) => (
-        <LeaderboardPuzzlesTableMobileSubComponent data={row.original} />
+        <LeaderboardPuzzlesDataTableMobileSubComponent data={row.original} />
       )}
       topRounded={false}
       noBorder
@@ -88,7 +88,9 @@ const LeaderboardPuzzlesTableMobile: React.FC<LeaderboardPuzzlesTableInternalPro
   );
 };
 
-const LeaderboardPuzzlesTableMobileSubComponent: React.FC<{ data: PuzzleSolver }> = ({ data }) => {
+const LeaderboardPuzzlesDataTableMobileSubComponent: React.FC<{ data: PuzzleSolver }> = ({
+  data,
+}) => {
   return (
     <div className="flex flex-col">
       <div className="grid grid-cols-2 gap-2 p-3">
@@ -162,4 +164,4 @@ const LeaderboardPuzzlesTableMobileSubComponent: React.FC<{ data: PuzzleSolver }
   );
 };
 
-export default LeaderboardPuzzlesTableMobile;
+export default LeaderboardPuzzlesDataTableMobile;

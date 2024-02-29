@@ -3,8 +3,8 @@
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { Fragment, useCallback, useEffect, useState } from 'react';
 
+import LeaderboardPuzzlesDataTable from './data-table';
 import fetchLeaderboardData from './server-action';
-import LeaderboardPuzzlesTable from './table';
 import LeaderboardPuzzlesTableSkeleton from './table-skeleton';
 import clsx from 'clsx';
 import { ChevronRightCircle, ExternalLink } from 'lucide-react';
@@ -278,7 +278,7 @@ const LeaderboardPuzzlesContent: React.FC<LeaderboardPuzzlesContentProps> = ({
       </div>
 
       {!loading ? (
-        <LeaderboardPuzzlesTable data={data ? data.data : defaultData.data} />
+        <LeaderboardPuzzlesDataTable data={data ? data.data : defaultData.data} />
       ) : (
         <LeaderboardPuzzlesTableSkeleton />
       )}

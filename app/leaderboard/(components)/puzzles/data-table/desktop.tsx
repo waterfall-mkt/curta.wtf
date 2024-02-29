@@ -2,7 +2,7 @@
 
 import { useMemo } from 'react';
 
-import { getPuzzleRowRoute, type LeaderboardPuzzlesTableInternalProps } from '.';
+import { getPuzzleRowRoute, type LeaderboardPuzzlesDataTableInternalProps } from '.';
 import type { ColumnDef } from '@tanstack/react-table';
 import { Crown, ExternalLink } from 'lucide-react';
 
@@ -19,7 +19,7 @@ import TeamDisplayClient from '@/components/templates/team-display-client';
 import UserHoverCard from '@/components/templates/user-hover-card';
 import { IconButton, Table } from '@/components/ui';
 
-const LeaderboardPuzzlesTableDesktop: React.FC<LeaderboardPuzzlesTableInternalProps> = ({
+const LeaderboardPuzzlesDataTableDesktop: React.FC<LeaderboardPuzzlesDataTableInternalProps> = ({
   data,
   sorting,
   setSorting,
@@ -118,7 +118,7 @@ const LeaderboardPuzzlesTableDesktop: React.FC<LeaderboardPuzzlesTableInternalPr
       sorting={sorting}
       setSorting={setSorting}
       renderSubComponent={({ row }) => (
-        <LeaderboardPuzzlesTableDesktopSubComponent data={row.original.solves} />
+        <LeaderboardPuzzlesDataTableDesktopSubComponent data={row.original.solves} />
       )}
       topRounded={false}
       noBorder
@@ -126,7 +126,7 @@ const LeaderboardPuzzlesTableDesktop: React.FC<LeaderboardPuzzlesTableInternalPr
   );
 };
 
-const LeaderboardPuzzlesTableDesktopSubComponent: React.FC<{ data: PuzzleSolve[] }> = ({
+const LeaderboardPuzzlesDataTableDesktopSubComponent: React.FC<{ data: PuzzleSolve[] }> = ({
   data,
 }) => {
   const columns = useMemo<ColumnDef<PuzzleSolve>[]>(
@@ -270,4 +270,4 @@ const LeaderboardPuzzlesTableDesktopSubComponent: React.FC<{ data: PuzzleSolve[]
   );
 };
 
-export default LeaderboardPuzzlesTableDesktop;
+export default LeaderboardPuzzlesDataTableDesktop;
