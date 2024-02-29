@@ -29,7 +29,7 @@ const CourseInfoLeader: React.FC<CourseInfoLeaderProps> = ({ course }) => {
         >
           <div className="text-center text-sm font-book text-[#09491E]">King of the Hill</div>
           <AddressLinkClient
-            className="text-2xl font-medium text-gray-50"
+            className="text-2xl font-medium text-gray-50 hover:text-gray-50"
             address={course.leader.address as `0x${string}`}
           />
           <ExternalLink className="absolute right-2 top-2 h-3 w-3 text-[#09491E]" />
