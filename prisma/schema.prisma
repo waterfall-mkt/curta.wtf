@@ -98,31 +98,32 @@ model Event {
 
 model GolfCourse {
   // On-chain identifier
-  id              Int
-  chainId         Int      @map("chain_id")
-  address         String?
+  id               Int
+  chainId          Int      @map("chain_id")
+  address          String?
+  curtaGolfAddress String?  @map("curta_golf_address")
   // Metadata
-  name            String?
-  description     String?  @db.Text()
-  allowedOpcodes  String?
-  bytecode        String?  @db.Text()
-  solidity        String?  @db.Text()
-  huff            String?  @db.Text()
-  github          String?
+  name             String?
+  description      String?  @db.Text()
+  allowedOpcodes   String?
+  bytecode         String?  @db.Text()
+  solidity         String?  @db.Text()
+  huff             String?  @db.Text()
+  github           String?
   // Leader information
-  leaderAddress   String?  @map("leader_address")
-  leaderBlock     Int?     @map("leader_block")
-  leaderGas       Int?     @map("leader_gas")
-  leaderTimestamp Int?     @map("leader_timestamp")
-  leaderTx        String?  @map("leader_tx")
+  leaderAddress    String?  @map("leader_address")
+  leaderBlock      Int?     @map("leader_block")
+  leaderGas        Int?     @map("leader_gas")
+  leaderTimestamp  Int?     @map("leader_timestamp")
+  leaderTx         String?  @map("leader_tx")
   // Added information
-  addedBlock      Int?     @map("added_block")
-  addedTimestamp  Int?     @map("added_timestamp")
-  addedTx         String?  @map("added_tx")
+  addedBlock       Int?     @map("added_block")
+  addedTimestamp   Int?     @map("added_timestamp")
+  addedTx          String?  @map("added_tx")
   // Miscellaneous
-  disabled        Boolean  @default(false)
-  eventId         String?  @map("event_id")
-  createdAt       DateTime @default(now()) @map("created_at")
+  disabled         Boolean  @default(false)
+  eventId          String?  @map("event_id")
+  createdAt        DateTime @default(now()) @map("created_at")
 
   leader User?             @relation(fields: [leaderAddress], references: [address], onDelete: SetNull)
   chain  Chain             @relation(fields: [chainId], references: [id], onDelete: Restrict)

@@ -46,7 +46,7 @@ const CourseInfoSolutionForm2StepSubmitButton: React.FC<
     bytecode,
   });
   const { data: getCommitData } = useContractRead({
-    address: getChainInfo(course.chainId).golf,
+    address: (course.curtaGolfAddress as `0x${string}`) ?? getChainInfo(course.chainId).golf,
     chainId: course.chainId,
     abi: CURTA_GOLF_ABI,
     functionName: 'getCommit',
@@ -58,7 +58,7 @@ const CourseInfoSolutionForm2StepSubmitButton: React.FC<
   // ---------------------------------------------------------------------------
 
   const { config: commitConfig } = usePrepareContractWrite({
-    address: getChainInfo(course.chainId).golf,
+    address: (course.curtaGolfAddress as `0x${string}`) ?? getChainInfo(course.chainId).golf,
     abi: CURTA_GOLF_ABI,
     functionName: 'commit',
     args: [commitKey],
@@ -138,7 +138,7 @@ const CourseInfoSolutionForm2StepSubmitButton: React.FC<
   // ---------------------------------------------------------------------------
 
   const { config: submitConfig } = usePrepareContractWrite({
-    address: getChainInfo(course.chainId).golf,
+    address: (course.curtaGolfAddress as `0x${string}`) ?? getChainInfo(course.chainId).golf,
     abi: CURTA_GOLF_ABI,
     functionName: 'submit',
     // We always use a salt of 0 on the front-end.
