@@ -30,8 +30,12 @@ export default async function Image() {
 
   const [authors, puzzles, solves, solversArr] = await Promise.all([
     db.userInfo.count({ where: { isPuzzleAuthor: true } }),
-    db.puzzle.count(),
-    db.puzzleSolve.count(),
+    db.puzzle.count({
+      where: { chain: { isTestnet: Boolean(process.env.NEXT_PUBLIC_IS_TESTNET) } },
+    }),
+    db.puzzleSolve.count({
+      where: { chain: { isTestnet: Boolean(process.env.NEXT_PUBLIC_IS_TESTNET) } },
+    }),
     db.$queryRaw`SELECT COUNT(DISTINCT solver_address) FROM puzzle_solves` as Promise<
       {
         'count(distinct solver_address)': bigint;
