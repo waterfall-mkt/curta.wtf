@@ -9,8 +9,7 @@ datasource db {
 }
 
 generator client {
-  provider        = "prisma-client-js"
-  previewFeatures = ["driverAdapters"]
+  provider = "prisma-client-js"
 }
 
 // -----------------------------------------------------------------------------
@@ -101,12 +100,12 @@ model GolfCourse {
   // On-chain identifier
   id              Int
   chainId         Int      @map("chain_id")
-  address         String
+  address         String?
   // Metadata
-  name            String
+  name            String?
   description     String?  @db.Text()
   allowedOpcodes  String?
-  bytecode        String   @db.Text()
+  bytecode        String?  @db.Text()
   solidity        String?  @db.Text()
   huff            String?  @db.Text()
   github          String?
@@ -117,9 +116,9 @@ model GolfCourse {
   leaderTimestamp Int?     @map("leader_timestamp")
   leaderTx        String?  @map("leader_tx")
   // Added information
-  addedBlock      Int      @map("added_block")
-  addedTimestamp  Int      @map("added_timestamp")
-  addedTx         String   @map("added_tx")
+  addedBlock      Int?     @map("added_block")
+  addedTimestamp  Int?     @map("added_timestamp")
+  addedTx         String?  @map("added_tx")
   // Miscellaneous
   disabled        Boolean  @default(false)
   eventId         String?  @map("event_id")
