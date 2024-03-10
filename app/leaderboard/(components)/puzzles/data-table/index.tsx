@@ -29,6 +29,7 @@ export type LeaderboardPuzzlesDataTableInternalProps = Omit<
 
 const LeaderboardPuzzlesDataTable: React.FC<LeaderboardPuzzlesDataTableProps> = ({ data }) => {
   const [sorting, setSorting] = useState<SortingState>([]);
+  console.log(data);
 
   return (
     <Fragment>

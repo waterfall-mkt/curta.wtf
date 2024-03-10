@@ -74,17 +74,18 @@ model Company {
 }
 
 model Event {
-  id          String   @id @default(cuid())
-  name        String
-  slug        String
-  image       String?
-  description String?  @db.Text
-  link        String?
-  location    String?
-  startDate   DateTime @map("start_date")
-  endDate     DateTime @map("end_date")
-  isTestnet   Boolean  @default(false) @map("is_testnet")
-  createdAt   DateTime @default(now()) @map("created_at")
+  id           String   @id @default(cuid())
+  name         String
+  slug         String
+  image        String?
+  description  String?  @db.Text
+  link         String?
+  location     String?
+  startDate    DateTime @map("start_date")
+  endDate      DateTime @map("end_date")
+  groupPuzzles Boolean  @default(false) @map("group_puzzles")
+  isTestnet    Boolean  @default(false) @map("is_testnet")
+  createdAt    DateTime @default(now()) @map("created_at")
 
   puzzles     Puzzle[]
   golfCourses GolfCourse[]

@@ -95,6 +95,12 @@ const fetchLeaderboardPuzzles = async ({
   const solversObject: { [key: string]: LeaderboardPuzzleSolver } = {};
   const puzzleMap: Map<string, (typeof puzzles)[0] & { index: number }> = new Map();
 
+  // Fetch event to see if it exists.
+  let event;
+  if (eventSlug) {
+    event = await db.event.findFirst({ where: { slug: eventSlug } });
+  }
+
   // Go through the list of puzzles to make them addressable via puzzle ID and
   // chain ID.
   puzzles.forEach((puzzle, index) => {
@@ -117,7 +123,7 @@ const fetchLeaderboardPuzzles = async ({
   let teams: (Team & { leader: User & { info: UserInfo | null } })[] = [];
   const teamMembers: (User & { info: UserInfo | null; teamId: number })[] = [];
   const teamMembershipSet: Set<string> = new Set();
-  if (eventSlug) {
+  if (eventSlug && event?.groupPuzzles) {
     teams = await db.team.findMany({
       where: { chain: { isTestnet: Boolean(process.env.NEXT_PUBLIC_IS_TESTNET) } },
       include: {
@@ -127,6 +133,7 @@ const fetchLeaderboardPuzzles = async ({
     const teamTransfers = await db.teamTransfer.findMany({
       where: {
         chain: { isTestnet: Boolean(process.env.NEXT_PUBLIC_IS_TESTNET) },
+        ...{ timestamp: { lte: new Date(event.endDate).valueOf() / 1000 } },
       },
       include: { user: { include: { info: true } } },
       orderBy: { timestamp: 'desc' },
@@ -197,7 +204,7 @@ const fetchLeaderboardPuzzles = async ({
         points: 0,
         speedScore: 0,
         solves: [],
-        //team: teamMap.get(teamId),
+        team: teamMap.get(teamId),
       };
     }
 
