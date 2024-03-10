@@ -114,7 +114,7 @@ const UserHoverCard: React.FC<UserHoverCardProps> = ({
           {data?.info?.bio ? <div className="text-sm text-gray-100">{data.info.bio}</div> : null}
           <span className="flex items-center gap-1 text-sm font-book text-gray-200">
             <Puzzle className="h-3.5 w-3.5" />
-            <span className="font-medium text-gray-100">{data?._count.puzzleSolves ?? 0}</span>
+            <span className="font-medium text-gray-100">{data?._count?.puzzleSolves ?? 0}</span>
             <span> solves</span>
           </span>
         </Fragment>
