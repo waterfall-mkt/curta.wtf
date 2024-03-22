@@ -85,7 +85,7 @@ const UserHoverCard: React.FC<UserHoverCardProps> = ({
           </div>
           <div className="flex flex-col gap-1">
             <div className="flex h-5 items-center gap-2">
-              <span className="font-medium leading-5 text-gray-50">
+              <span className="line-clamp-1 overflow-hidden text-ellipsis font-medium leading-5 text-gray-50">
                 {data?.info?.displayName ? data?.info?.displayName : getShortenedAddress(address)}
               </span>
               {[
