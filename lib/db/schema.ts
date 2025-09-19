@@ -9,7 +9,6 @@ import {
   text,
   timestamp,
   uniqueIndex,
-  varchar,
 } from 'drizzle-orm/pg-core';
 
 // -----------------------------------------------------------------------------
@@ -25,15 +24,15 @@ export const roleEnum = pgEnum('role', ['ADMIN', 'MODERATOR', 'USER']);
 export const userInfo = pgTable(
   'user_info',
   {
-    address: varchar('address', { length: 255 }).primaryKey(),
-    username: varchar('username', { length: 255 }).unique().notNull().default(generateCuid()),
-    displayName: varchar('display_name', { length: 255 }),
+    address: text('address').primaryKey(),
+    username: text('username').unique().notNull().default(generateCuid()),
+    displayName: text('display_name'),
     bio: text('bio'),
-    image: varchar('image', { length: 255 }),
-    twitter: varchar('twitter', { length: 255 }),
-    github: varchar('github', { length: 255 }),
-    farcaster: varchar('farcaster', { length: 255 }),
-    website: varchar('website', { length: 255 }),
+    image: text('image'),
+    twitter: text('twitter'),
+    github: text('github'),
+    farcaster: text('farcaster'),
+    website: text('website'),
     isPuzzleAuthor: boolean('is_puzzle_author').default(false).notNull(),
     createdAt: timestamp('created_at').defaultNow().notNull(),
   },
@@ -48,34 +47,34 @@ export const userInfo = pgTable(
 
 export const chains = pgTable('chains', {
   id: integer('id').primaryKey(),
-  name: varchar('name', { length: 255 }).notNull(),
+  name: text('name').notNull(),
   isTestnet: boolean('is_testnet').default(false).notNull(),
   createdAt: timestamp('created_at').defaultNow().notNull(),
 });
 
 export const companies = pgTable('companies', {
-  id: varchar('id', { length: 255 }).primaryKey().default(generateCuid()),
-  name: varchar('name', { length: 255 }).notNull(),
-  image: varchar('image', { length: 255 }),
+  id: text('id').primaryKey().default(generateCuid()),
+  name: text('name').notNull(),
+  image: text('image'),
   description: text('description'),
-  website: varchar('website', { length: 255 }),
-  twitter: varchar('twitter', { length: 255 }),
-  github: varchar('github', { length: 255 }),
-  farcaster: varchar('farcaster', { length: 255 }),
-  address: varchar('address', { length: 255 }),
+  website: text('website'),
+  twitter: text('twitter'),
+  github: text('github'),
+  farcaster: text('farcaster'),
+  address: text('address'),
   createdAt: timestamp('created_at').defaultNow().notNull(),
 });
 
 export const events = pgTable(
   'events',
   {
-    id: varchar('id', { length: 255 }).primaryKey().default(generateCuid()),
-    name: varchar('name', { length: 255 }).notNull(),
-    slug: varchar('slug', { length: 255 }).notNull(),
-    image: varchar('image', { length: 255 }),
+    id: text('id').primaryKey().default(generateCuid()),
+    name: text('name').notNull(),
+    slug: text('slug').notNull(),
+    image: text('image'),
     description: text('description'),
-    link: varchar('link', { length: 255 }),
-    location: varchar('location', { length: 255 }),
+    link: text('link'),
+    location: text('location'),
     startDate: timestamp('start_date').notNull(),
     endDate: timestamp('end_date').notNull(),
     groupPuzzles: boolean('group_puzzles').default(false).notNull(),
@@ -97,29 +96,29 @@ export const golfCourses = pgTable(
     // On-chain identifier
     id: integer('id').notNull(),
     chainId: integer('chain_id').notNull(),
-    address: varchar('address', { length: 255 }),
-    curtaGolfAddress: varchar('curta_golf_address', { length: 255 }),
+    address: text('address'),
+    curtaGolfAddress: text('curta_golf_address'),
     // Metadata
-    name: varchar('name', { length: 255 }),
+    name: text('name'),
     description: text('description'),
-    allowedOpcodes: varchar('allowed_opcodes', { length: 255 }),
+    allowedOpcodes: text('allowed_opcodes'),
     bytecode: text('bytecode'),
     solidity: text('solidity'),
     huff: text('huff'),
-    github: varchar('github', { length: 255 }),
+    github: text('github'),
     // Leader information
-    leaderAddress: varchar('leader_address', { length: 255 }),
+    leaderAddress: text('leader_address'),
     leaderBlock: integer('leader_block'),
     leaderGas: integer('leader_gas'),
     leaderTimestamp: integer('leader_timestamp'),
-    leaderTx: varchar('leader_tx', { length: 255 }),
+    leaderTx: text('leader_tx'),
     // Added information
     addedBlock: integer('added_block'),
     addedTimestamp: integer('added_timestamp'),
-    addedTx: varchar('added_tx', { length: 255 }),
+    addedTx: text('added_tx'),
     // Miscellaneous
     disabled: boolean('disabled').default(false).notNull(),
-    eventId: varchar('event_id', { length: 255 }),
+    eventId: text('event_id'),
     createdAt: timestamp('created_at').defaultNow().notNull(),
   },
   (table) => ({
@@ -134,11 +133,11 @@ export const golfCourseCommits = pgTable(
   'golf_course_commits',
   {
     chainId: integer('chain_id').notNull(),
-    key: varchar('key', { length: 255 }).notNull(),
-    userAddress: varchar('user_address', { length: 255 }).notNull(),
+    key: text('key').notNull(),
+    userAddress: text('user_address').notNull(),
     commitBlock: integer('commit_block').notNull(),
     commitTimestamp: integer('commit_timestamp').notNull(),
-    commitTx: varchar('commit_tx', { length: 255 }).notNull(),
+    commitTx: text('commit_tx').notNull(),
     createdAt: timestamp('created_at').defaultNow().notNull(),
   },
   (table) => ({
@@ -155,15 +154,15 @@ export const golfCourseSolves = pgTable(
     // On-chain identifier
     courseId: integer('course_id').notNull(),
     chainId: integer('chain_id').notNull(),
-    solverAddress: varchar('solver_address', { length: 255 }).notNull(),
-    submitTx: varchar('submit_tx', { length: 255 }).notNull(),
+    solverAddress: text('solver_address').notNull(),
+    submitTx: text('submit_tx').notNull(),
     // Submission information
     gasUsed: integer('gas_used').notNull(),
     solution: text('solution').notNull(),
     submitBlock: integer('submit_block').notNull(),
     submitTimestamp: integer('submit_timestamp').notNull(),
     // Metadata
-    target: varchar('target', { length: 255 }).notNull(),
+    target: text('target').notNull(),
     isRecord: boolean('is_record').default(false),
     createdAt: timestamp('created_at').defaultNow().notNull(),
   },
@@ -190,29 +189,29 @@ export const puzzles = pgTable(
     // On-chain identifier
     id: integer('id').notNull(),
     chainId: integer('chain_id').notNull(),
-    address: varchar('address', { length: 255 }).notNull(),
+    address: text('address').notNull(),
     // Author
-    authorAddress: varchar('author_address', { length: 255 }).notNull(),
+    authorAddress: text('author_address').notNull(),
     // Metadata
-    name: varchar('name', { length: 255 }).notNull(),
+    name: text('name').notNull(),
     bytecode: text('bytecode').notNull(),
     solidity: text('solidity'),
     huff: text('huff'),
     // Added information
     addedBlock: integer('added_block').notNull(),
     addedTimestamp: integer('added_timestamp').notNull(),
-    addedTx: varchar('added_tx', { length: 255 }).notNull(),
+    addedTx: text('added_tx').notNull(),
     // First solve information
-    firstSolverAddress: varchar('first_solver_address', { length: 255 }),
+    firstSolverAddress: text('first_solver_address'),
     firstSolveBlock: integer('first_solve_block'),
     firstSolveTimestamp: integer('first_solve_timestamp'),
-    firstSolveTx: varchar('first_solve_tx', { length: 255 }),
+    firstSolveTx: text('first_solve_tx'),
     // Solution
-    solutionLink: varchar('solution_link', { length: 255 }),
-    github: varchar('github', { length: 255 }),
+    solutionLink: text('solution_link'),
+    github: text('github'),
     // Miscellaneous
     disabled: boolean('disabled').default(false).notNull(),
-    eventId: varchar('event_id', { length: 255 }),
+    eventId: text('event_id'),
     createdAt: timestamp('created_at').defaultNow().notNull(),
   },
   (table) => ({
@@ -230,14 +229,14 @@ export const puzzleSolves = pgTable(
     // On-chain identifier
     puzzleId: integer('puzzle_id').notNull(),
     chainId: integer('chain_id').notNull(),
-    solverAddress: varchar('solver_address', { length: 255 }).notNull(),
+    solverAddress: text('solver_address').notNull(),
     // Solve information
     rank: integer('rank'),
     phase: integer('phase'),
-    solution: varchar('solution', { length: 255 }),
+    solution: text('solution'),
     solveBlock: integer('solve_block'),
     solveTimestamp: integer('solve_timestamp'),
-    solveTx: varchar('solve_tx', { length: 255 }),
+    solveTx: text('solve_tx'),
     createdAt: timestamp('created_at').defaultNow().notNull(),
   },
   (table) => ({
@@ -262,9 +261,9 @@ export const teams = pgTable(
     id: integer('team_id').notNull(),
     chainId: integer('chain_id').notNull(),
     // Metadata
-    leaderAddress: varchar('leader_address', { length: 255 }).notNull(),
-    name: varchar('name', { length: 255 }),
-    image: varchar('image', { length: 255 }),
+    leaderAddress: text('leader_address').notNull(),
+    name: text('name'),
+    image: text('image'),
     createdAt: timestamp('created_at').defaultNow().notNull(),
   },
   (table) => ({
@@ -279,7 +278,7 @@ export const teamMemberApprovals = pgTable(
   {
     teamId: integer('team_id').notNull(),
     chainId: integer('chain_id').notNull(),
-    userAddress: varchar('user_address', { length: 255 }).notNull(),
+    userAddress: text('user_address').notNull(),
     approved: boolean('approved').notNull(),
     createdAt: timestamp('created_at').defaultNow().notNull(),
   },
@@ -297,14 +296,14 @@ export const teamMemberApprovals = pgTable(
 export const teamTransfers = pgTable(
   'team_transfers',
   {
-    id: varchar('id', { length: 255 }).primaryKey().default(generateCuid()),
-    userAddress: varchar('user_address', { length: 255 }).notNull(),
+    id: text('id').primaryKey().default(generateCuid()),
+    userAddress: text('user_address').notNull(),
     chainId: integer('chain_id').notNull(),
     fromTeamId: integer('from_team_id'),
     toTeamId: integer('to_team_id').notNull(),
     block: integer('block').notNull(),
     timestamp: integer('timestamp').notNull(),
-    tx: varchar('tx', { length: 255 }).notNull(),
+    tx: text('tx').notNull(),
     createdAt: timestamp('created_at').defaultNow().notNull(),
   },
   (table) => ({
@@ -328,18 +327,18 @@ export const teamTransfers = pgTable(
 export const accounts = pgTable(
   'accounts',
   {
-    id: varchar('id', { length: 255 }).primaryKey().default(generateCuid()),
-    userId: varchar('user_id', { length: 255 }).notNull(),
-    type: varchar('type', { length: 255 }).notNull(),
-    provider: varchar('provider', { length: 255 }).notNull(),
-    providerAccountId: varchar('provider_account_id', { length: 255 }).notNull(),
+    id: text('id').primaryKey().default(generateCuid()),
+    userId: text('user_id').notNull(),
+    type: text('type').notNull(),
+    provider: text('provider').notNull(),
+    providerAccountId: text('provider_account_id').notNull(),
     refresh_token: text('refresh_token'),
     access_token: text('access_token'),
     expires_at: integer('expires_at'),
-    token_type: varchar('token_type', { length: 255 }),
-    scope: varchar('scope', { length: 255 }),
+    token_type: text('token_type'),
+    scope: text('scope'),
     id_token: text('id_token'),
-    session_state: varchar('session_state', { length: 255 }),
+    session_state: text('session_state'),
   },
   (table) => ({
     userIdIdx: index('accounts_user_id_idx').on(table.userId),
@@ -353,9 +352,9 @@ export const accounts = pgTable(
 export const sessions = pgTable(
   'sessions',
   {
-    id: varchar('id', { length: 255 }).primaryKey().default(generateCuid()),
-    sessionToken: varchar('session_token', { length: 255 }).unique().notNull(),
-    userId: varchar('user_id', { length: 255 }).notNull(),
+    id: text('id').primaryKey().default(generateCuid()),
+    sessionToken: text('session_token').unique().notNull(),
+    userId: text('user_id').notNull(),
     expires: timestamp('expires').notNull(),
   },
   (table) => ({
@@ -364,12 +363,12 @@ export const sessions = pgTable(
 );
 
 export const users = pgTable('users', {
-  id: varchar('id', { length: 255 }).primaryKey().default(generateCuid()),
-  name: varchar('name', { length: 255 }),
-  address: varchar('address', { length: 255 }).unique().notNull(),
-  email: varchar('email', { length: 255 }).unique(),
+  id: text('id').primaryKey().default(generateCuid()),
+  name: text('name'),
+  address: text('address').unique().notNull(),
+  email: text('email').unique(),
   emailVerified: timestamp('email_verified'),
-  image: varchar('image', { length: 255 }),
+  image: text('image'),
   role: roleEnum('role').default('USER').notNull(),
   createdAt: timestamp('created_at').defaultNow().notNull(),
 });
@@ -377,8 +376,8 @@ export const users = pgTable('users', {
 export const verificationTokens = pgTable(
   'verification_tokens',
   {
-    identifier: varchar('identifier', { length: 255 }).notNull(),
-    token: varchar('token', { length: 255 }).unique().notNull(),
+    identifier: text('identifier').notNull(),
+    token: text('token').unique().notNull(),
     expires: timestamp('expires').notNull(),
   },
   (table) => ({
