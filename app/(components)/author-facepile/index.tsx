@@ -2,6 +2,7 @@ import { cache } from 'react';
 
 import AuthorFacepileAvatar from './avatar';
 import AuthorFacepileModal from './modal';
+import ModalAvatarClient from './modal-avatar-client';
 import type { UserInfo } from '@prisma/client';
 import { Github } from 'lucide-react';
 
@@ -10,7 +11,6 @@ import { getShortenedAddress } from '@/lib/utils';
 
 import LogoIcon from '@/components/common/logo-icon';
 import AddressLink from '@/components/templates/address-link';
-import UserAvatar from '@/components/templates/user-avatar';
 import UserHoverCard from '@/components/templates/user-hover-card';
 import { ButtonGroup, IconButton } from '@/components/ui';
 
@@ -37,17 +37,8 @@ const AuthorFacepile: React.FC<AuthorFacepileProps> = ({ data }) => {
               async () =>
                 await ethereumClient.getEnsName({ address: author.address as `0x${string}` }),
             )();
-            const ensAvatar = await cache(async () =>
-              ensName ? await ethereumClient.getEnsAvatar({ name: ensName }) : undefined,
-            )();
-
             return (
-              <AuthorFacepileAvatar
-                key={index}
-                user={author}
-                index={index}
-                ensAvatar={ensAvatar ?? undefined}
-              />
+              <AuthorFacepileAvatar key={index} user={author} index={index} ensName={ensName} />
             );
           })
         ) : (
@@ -63,9 +54,6 @@ const AuthorFacepile: React.FC<AuthorFacepileProps> = ({ data }) => {
                 async () =>
                   await ethereumClient.getEnsName({ address: author.address as `0x${string}` }),
               )();
-              const ensAvatar = await cache(async () =>
-                ensName ? await ethereumClient.getEnsAvatar({ name: ensName }) : undefined,
-              )();
               const displayName =
                 author.displayName ??
                 ensName ??
@@ -77,7 +65,11 @@ const AuthorFacepile: React.FC<AuthorFacepileProps> = ({ data }) => {
                   className="flex items-center justify-between border-t border-stroke py-3 first:border-0"
                 >
                   <div className="flex items-center gap-3.5">
-                    <UserAvatar size={40} image={ensAvatar} name={displayName} />
+                    <ModalAvatarClient
+                      address={author.address as `0x${string}`}
+                      ensName={ensName}
+                      displayName={author.displayName}
+                    />
                     <div className="flex flex-col">
                       <div className="text-gray-100">{displayName}</div>
                       <UserHoverCard
