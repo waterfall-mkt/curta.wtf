@@ -1,6 +1,6 @@
 CREATE TYPE "public"."role" AS ENUM('ADMIN', 'MODERATOR', 'USER');--> statement-breakpoint
 CREATE TABLE "accounts" (
-	"id" text PRIMARY KEY DEFAULT 'cuid_1758302497157_sm8qc24q4' NOT NULL,
+	"id" text PRIMARY KEY NOT NULL,
 	"user_id" text NOT NULL,
 	"type" text NOT NULL,
 	"provider" text NOT NULL,
@@ -22,7 +22,7 @@ CREATE TABLE "chains" (
 );
 --> statement-breakpoint
 CREATE TABLE "companies" (
-	"id" text PRIMARY KEY DEFAULT 'cuid_1758302497156_nndayyjnj' NOT NULL,
+	"id" text PRIMARY KEY NOT NULL,
 	"name" text NOT NULL,
 	"image" text,
 	"description" text,
@@ -35,7 +35,7 @@ CREATE TABLE "companies" (
 );
 --> statement-breakpoint
 CREATE TABLE "events" (
-	"id" text PRIMARY KEY DEFAULT 'cuid_1758302497156_damf9z1ii' NOT NULL,
+	"id" text PRIMARY KEY NOT NULL,
 	"name" text NOT NULL,
 	"slug" text NOT NULL,
 	"image" text,
@@ -140,7 +140,7 @@ CREATE TABLE "puzzles" (
 );
 --> statement-breakpoint
 CREATE TABLE "sessions" (
-	"id" text PRIMARY KEY DEFAULT 'cuid_1758302497157_45xt0tj7n' NOT NULL,
+	"id" text PRIMARY KEY NOT NULL,
 	"session_token" text NOT NULL,
 	"user_id" text NOT NULL,
 	"expires" timestamp NOT NULL,
@@ -157,7 +157,7 @@ CREATE TABLE "team_member_approvals" (
 );
 --> statement-breakpoint
 CREATE TABLE "team_transfers" (
-	"id" text PRIMARY KEY DEFAULT 'cuid_1758302497157_kzsifv5aj' NOT NULL,
+	"id" text PRIMARY KEY NOT NULL,
 	"user_address" text NOT NULL,
 	"chain_id" integer NOT NULL,
 	"from_team_id" integer,
@@ -180,7 +180,7 @@ CREATE TABLE "teams" (
 --> statement-breakpoint
 CREATE TABLE "user_info" (
 	"address" text PRIMARY KEY NOT NULL,
-	"username" text DEFAULT 'cuid_1758302497155_qf4p2lbfs' NOT NULL,
+	"username" text NOT NULL,
 	"display_name" text,
 	"bio" text,
 	"image" text,
@@ -194,7 +194,7 @@ CREATE TABLE "user_info" (
 );
 --> statement-breakpoint
 CREATE TABLE "users" (
-	"id" text PRIMARY KEY DEFAULT 'cuid_1758302497157_50m3eemir' NOT NULL,
+	"id" text PRIMARY KEY NOT NULL,
 	"name" text,
 	"address" text NOT NULL,
 	"email" text,

@@ -25,7 +25,7 @@ export const userInfo = pgTable(
   'user_info',
   {
     address: text('address').primaryKey(),
-    username: text('username').unique().notNull().default(generateCuid()),
+    username: text('username').unique().notNull(),
     displayName: text('display_name'),
     bio: text('bio'),
     image: text('image'),
@@ -53,7 +53,7 @@ export const chains = pgTable('chains', {
 });
 
 export const companies = pgTable('companies', {
-  id: text('id').primaryKey().default(generateCuid()),
+  id: text('id').primaryKey(),
   name: text('name').notNull(),
   image: text('image'),
   description: text('description'),
@@ -68,7 +68,7 @@ export const companies = pgTable('companies', {
 export const events = pgTable(
   'events',
   {
-    id: text('id').primaryKey().default(generateCuid()),
+    id: text('id').primaryKey(),
     name: text('name').notNull(),
     slug: text('slug').notNull(),
     image: text('image'),
@@ -296,7 +296,7 @@ export const teamMemberApprovals = pgTable(
 export const teamTransfers = pgTable(
   'team_transfers',
   {
-    id: text('id').primaryKey().default(generateCuid()),
+    id: text('id').primaryKey(),
     userAddress: text('user_address').notNull(),
     chainId: integer('chain_id').notNull(),
     fromTeamId: integer('from_team_id'),
@@ -327,7 +327,7 @@ export const teamTransfers = pgTable(
 export const accounts = pgTable(
   'accounts',
   {
-    id: text('id').primaryKey().default(generateCuid()),
+    id: text('id').primaryKey(),
     userId: text('user_id').notNull(),
     type: text('type').notNull(),
     provider: text('provider').notNull(),
@@ -352,7 +352,7 @@ export const accounts = pgTable(
 export const sessions = pgTable(
   'sessions',
   {
-    id: text('id').primaryKey().default(generateCuid()),
+    id: text('id').primaryKey(),
     sessionToken: text('session_token').unique().notNull(),
     userId: text('user_id').notNull(),
     expires: timestamp('expires').notNull(),
@@ -363,7 +363,7 @@ export const sessions = pgTable(
 );
 
 export const users = pgTable('users', {
-  id: text('id').primaryKey().default(generateCuid()),
+  id: text('id').primaryKey(),
   name: text('name'),
   address: text('address').unique().notNull(),
   email: text('email').unique(),
@@ -570,9 +570,3 @@ export const usersRelations = relations(users, ({ one, many }) => ({
   golfCommits: many(golfCourseCommits),
   golfSolves: many(golfCourseSolves),
 }));
-
-// Helper function to generate cuid
-function generateCuid(): string {
-  // This is a placeholder - in production, use a proper cuid library like @paralleldrive/cuid2
-  return `cuid_${Date.now()}_${Math.random().toString(36).substring(2, 11)}`;
-}

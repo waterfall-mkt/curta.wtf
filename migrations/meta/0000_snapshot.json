@@ -1,5 +1,5 @@
 {
-  "id": "8efd44e2-eb95-463e-8902-a64f8b4bfab8",
+  "id": "a1db3274-aab5-4420-93cf-cb7c92c41622",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -12,8 +12,7 @@
           "name": "id",
           "type": "text",
           "primaryKey": true,
-          "notNull": true,
-          "default": "'cuid_1758302497157_sm8qc24q4'"
+          "notNull": true
         },
         "user_id": {
           "name": "user_id",
@@ -174,8 +173,7 @@
           "name": "id",
           "type": "text",
           "primaryKey": true,
-          "notNull": true,
-          "default": "'cuid_1758302497156_nndayyjnj'"
+          "notNull": true
         },
         "name": {
           "name": "name",
@@ -249,8 +247,7 @@
           "name": "id",
           "type": "text",
           "primaryKey": true,
-          "notNull": true,
-          "default": "'cuid_1758302497156_damf9z1ii'"
+          "notNull": true
         },
         "name": {
           "name": "name",
@@ -1153,8 +1150,7 @@
           "name": "id",
           "type": "text",
           "primaryKey": true,
-          "notNull": true,
-          "default": "'cuid_1758302497157_45xt0tj7n'"
+          "notNull": true
         },
         "session_token": {
           "name": "session_token",
@@ -1320,8 +1316,7 @@
           "name": "id",
           "type": "text",
           "primaryKey": true,
-          "notNull": true,
-          "default": "'cuid_1758302497157_kzsifv5aj'"
+          "notNull": true
         },
         "user_address": {
           "name": "user_address",
@@ -1557,8 +1552,7 @@
           "name": "username",
           "type": "text",
           "primaryKey": false,
-          "notNull": true,
-          "default": "'cuid_1758302497155_qf4p2lbfs'"
+          "notNull": true
         },
         "display_name": {
           "name": "display_name",
@@ -1657,8 +1651,7 @@
           "name": "id",
           "type": "text",
           "primaryKey": true,
-          "notNull": true,
-          "default": "'cuid_1758302497157_50m3eemir'"
+          "notNull": true
         },
         "name": {
           "name": "name",
