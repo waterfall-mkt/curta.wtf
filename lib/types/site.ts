@@ -34,10 +34,7 @@ export type PageSlug =
  * intended to be part of configuration files (e.g. for the navigation bar
  * component).
  */
-export type PageExternalLink =
-  | 'https://jobs.waterfall.market'
-  | 'https://waterfall.market'
-  | 'https://discord.gg/zxerRE2Dn7';
+export type PageExternalLink = 'https://discord.gg/zxerRE2Dn7';
 
 /**
  * Type for a page on [**curta.wtf**](https://curta.wtf), intended to be part of

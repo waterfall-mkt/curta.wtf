@@ -43,8 +43,6 @@ export const DOCS_PAGES: {
 export const FOOTER_PAGES: Page[] = [
   { name: 'Home', slug: '/' },
   { name: 'Terms of Service', slug: '/legal/tos' },
-  { name: 'Careers', slug: 'https://jobs.waterfall.market' },
-  { name: 'Waterfall', slug: 'https://waterfall.market' },
   { name: 'Discord', slug: 'https://discord.gg/zxerRE2Dn7' },
 ];
 
