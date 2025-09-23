@@ -1,19 +1,9 @@
 import { ImageResponse } from 'next/server';
 
-import { Client } from '@planetscale/database';
-import { PrismaPlanetScale } from '@prisma/adapter-planetscale';
-import { PrismaClient } from '@prisma/client';
+import { count, eq, sql } from 'drizzle-orm';
 
-// -----------------------------------------------------------------------------
-// Prisma
-// -----------------------------------------------------------------------------
-
-const client = new Client({ url: process.env.DATABASE_URL });
-const adapter = new PrismaPlanetScale(client);
-const db = new PrismaClient({
-  adapter,
-  log: process.env.NODE_ENV === 'development' ? ['query', 'error', 'warn'] : ['error'],
-});
+import { db } from '@/lib/db';
+import { puzzleSolves, puzzles as puzzlesTable, userInfo } from '@/lib/db/schema';
 
 // -----------------------------------------------------------------------------
 // Image
@@ -28,21 +18,15 @@ export default async function Image() {
     new URL('../node_modules/@fontsource/inter/files/inter-latin-600-normal.woff', import.meta.url),
   ).then((res) => res.arrayBuffer());
 
-  const [authors, puzzles, solves, solversArr] = await Promise.all([
-    db.userInfo.count({ where: { isPuzzleAuthor: true } }),
-    db.puzzle.count({
-      where: { chain: { isTestnet: Boolean(process.env.NEXT_PUBLIC_IS_TESTNET) } },
-    }),
-    db.puzzleSolve.count({
-      where: { chain: { isTestnet: Boolean(process.env.NEXT_PUBLIC_IS_TESTNET) } },
-    }),
-    db.$queryRaw`SELECT COUNT(DISTINCT solver_address) FROM puzzle_solves` as Promise<
-      {
-        'count(distinct solver_address)': bigint;
-      }[]
-    >,
-  ]);
-  const solvers = solversArr[0]['count(distinct solver_address)'];
+  const [[{ total: authors }], [{ total: puzzles }], [{ total: solves }], [{ total: solvers }]] =
+    await Promise.all([
+      db.select({ total: count() }).from(userInfo).where(eq(userInfo.isPuzzleAuthor, true)),
+      db.select({ total: count() }).from(puzzlesTable),
+      db.select({ total: count() }).from(puzzleSolves),
+      db
+        .select({ total: sql<number>`COUNT(DISTINCT ${puzzleSolves.solverAddress})` })
+        .from(puzzleSolves),
+    ]);
 
   return new ImageResponse(
     (

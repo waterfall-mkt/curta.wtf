@@ -2,7 +2,7 @@
 
 import { Fragment } from 'react';
 
-import type { Team, User, UserInfo } from '@prisma/client';
+import type { Team, User, UserInfo } from '@/lib/db/schema';
 
 import Avatar from '@/components/templates/avatar';
 import ENSAvatarClient from '@/components/templates/ens-avatar-client';
@@ -42,10 +42,10 @@ const TeamDisplayClient: React.FC<TeamDisplayClientProps> = ({ team, hoverCardPr
                 {team.members.slice(0, 3).map((member, index) => (
                   <UserHoverCard
                     key={index}
-                    address={member.address as `0x${string}`}
+                    address={member.info?.address as `0x${string}`}
                     trigger={
                       <div className="z-[1] rounded-full ring-2 ring-gray-700 transition-transform hover:z-[5] hover:scale-110">
-                        <ENSAvatarClient nameOrAddress={member.address} size={12} />
+                        <ENSAvatarClient nameOrAddress={member.info?.address ?? ''} size={12} />
                       </div>
                     }
                     {...hoverCardProps}

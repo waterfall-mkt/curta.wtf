@@ -1,3 +1,4 @@
+export { default as enumToPgEnum } from './enum-to-pg-enum';
 export { default as fetchAuthors } from './fetchAuthors';
 export { default as fetchCourseById } from './fetchCourseById';
 export { default as fetchCourseLeaderboardById } from './fetchCourseLeaderboardById';

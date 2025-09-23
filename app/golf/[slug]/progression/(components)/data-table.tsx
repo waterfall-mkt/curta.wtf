@@ -50,7 +50,7 @@ const CourseProgressionDataTableDesktop: React.FC<CourseProgressionDataTableInte
         header: () => 'Player',
         cell: ({ row }) => (
           <AddressDisplayClient
-            address={row.original.solver.address as `0x${string}`}
+            address={row.original.solver.info?.address as `0x${string}`}
             label={row.original.solver.info?.displayName ?? undefined}
           />
         ),
@@ -112,7 +112,7 @@ const CourseProgressionDataTableDesktop: React.FC<CourseProgressionDataTableInte
                     '_blank',
                   );
                 }}
-                aria-label={`View ${row.original.solver.address}'s solution of puzzle ${row.original.courseId} on chain ${row.original.chainId}.`}
+                aria-label={`View ${row.original.solver.info?.address}'s solution of puzzle ${row.original.courseId} on chain ${row.original.chainId}.`}
               >
                 <ExternalLink />
               </IconButton>
@@ -149,7 +149,7 @@ const CourseProgressionDataTableMobile: React.FC<CourseProgressionDataTableInter
         header: () => 'Player',
         cell: ({ row }) => (
           <AddressDisplayClient
-            address={row.original.solver.address as `0x${string}`}
+            address={row.original.solver.info?.address as `0x${string}`}
             label={row.original.solver.info?.displayName ?? undefined}
           />
         ),
@@ -193,7 +193,7 @@ const CourseProgressionDataTableMobile: React.FC<CourseProgressionDataTableInter
                     '_blank',
                   );
                 }}
-                aria-label={`View ${row.original.solver.address}'s submission of puzzle ${row.original.courseId} on chain ${row.original.chainId}.`}
+                aria-label={`View ${row.original.solver.info?.address}'s submission of puzzle ${row.original.courseId} on chain ${row.original.chainId}.`}
               >
                 <ExternalLink />
               </IconButton>

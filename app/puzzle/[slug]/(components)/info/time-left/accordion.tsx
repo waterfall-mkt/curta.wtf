@@ -28,10 +28,10 @@ const PuzzleInfoTimeLeftAccordion: React.FC<PuzzleInfoTimeLeftAccordionProps> = 
     phase === 0
       ? 'Puzzle added'
       : phase === 1
-      ? 'First blood'
-      : phase === 2
-      ? 'Solutions revealed'
-      : 'Submissions closed';
+        ? 'First blood'
+        : phase === 2
+          ? 'Solutions revealed'
+          : 'Submissions closed';
 
   return (
     <Accordion.Root

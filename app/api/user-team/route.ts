@@ -1,6 +1,6 @@
 import { type NextRequest, NextResponse } from 'next/server';
 
-import { db } from '@/lib/db';
+// import { db } from '@/lib/db';
 
 export async function GET(req: NextRequest) {
   const address = req.nextUrl.searchParams.get('address');
@@ -9,10 +9,10 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: { message: 'Missing `address`.' } }, { status: 400 });
   }
 
-  const addressNormalized = address?.toLowerCase() ?? '';
+  // const addressNormalized = address?.toLowerCase() ?? '';
 
   // Fetch user w/ teams.
-  const user = await db.user.findFirst({
+  /* const user = await db.user.findFirst({
     where: { address: addressNormalized },
     include: {
       teamTransfers: {
@@ -22,7 +22,23 @@ export async function GET(req: NextRequest) {
         orderBy: { timestamp: 'desc' },
       },
     },
-  });
+  }); */
+  // TODO: Remove this.
+  const user = {
+    teamTransfers: [
+      {
+        toTeamId: 1,
+        to: {
+          id: 1,
+          chainId: 1,
+          leader: { address: '0x123' },
+          name: 'Team 1',
+          avatar: 'https://example.com/avatar.png',
+          members: [{ address: '0x123' }],
+        },
+      },
+    ],
+  };
 
   if (!user || user.teamTransfers.length === 0 || user.teamTransfers[0].toTeamId === 0) {
     return NextResponse.json({ message: 'User not on a team.' }, { status: 404 });

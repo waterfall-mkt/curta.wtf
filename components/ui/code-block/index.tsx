@@ -59,22 +59,22 @@ const CodeBlock: React.FC<CodeBlockProps> = ({
   const Icon = logo
     ? logo
     : language === 'javascript' || language === 'js'
-    ? CodeBlockLanguageLogo.JavaScript
-    : language === 'typescript' || language === 'ts'
-    ? CodeBlockLanguageLogo.TypeScript
-    : language === 'jsx'
-    ? CodeBlockLanguageLogo.React
-    : language === 'tsx'
-    ? CodeBlockLanguageLogo.React
-    : language === 'solidity' || language === 'sol'
-    ? CodeBlockLanguageLogo.Solidity
-    : language === 'python' || language === 'py'
-    ? CodeBlockLanguageLogo.Python
-    : language === 'bash' || language === 'sh'
-    ? TerminalSquare
-    : language === 'diff'
-    ? FileDiff
-    : File;
+      ? CodeBlockLanguageLogo.JavaScript
+      : language === 'typescript' || language === 'ts'
+        ? CodeBlockLanguageLogo.TypeScript
+        : language === 'jsx'
+          ? CodeBlockLanguageLogo.React
+          : language === 'tsx'
+            ? CodeBlockLanguageLogo.React
+            : language === 'solidity' || language === 'sol'
+              ? CodeBlockLanguageLogo.Solidity
+              : language === 'python' || language === 'py'
+                ? CodeBlockLanguageLogo.Python
+                : language === 'bash' || language === 'sh'
+                  ? TerminalSquare
+                  : language === 'diff'
+                    ? FileDiff
+                    : File;
 
   return (
     <div

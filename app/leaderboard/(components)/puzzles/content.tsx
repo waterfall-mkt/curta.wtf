@@ -6,10 +6,10 @@ import { Fragment, useCallback, useEffect, useState } from 'react';
 import LeaderboardPuzzlesDataTable from './data-table';
 import fetchLeaderboardData from './server-action';
 import LeaderboardPuzzlesTableSkeleton from './table-skeleton';
-import type { Event } from '@prisma/client';
 import clsx from 'clsx';
 import { ChevronRightCircle, ExternalLink } from 'lucide-react';
 
+import type { Event } from '@/lib/db/schema';
 import type { LeaderboardPuzzlesResponse } from '@/lib/utils/fetchLeaderboardPuzzles';
 
 import PhaseTagPing from '@/components/templates/phase-tag/ping';
@@ -66,8 +66,8 @@ const LeaderboardPuzzlesContent: React.FC<LeaderboardPuzzlesContentProps> = ({
     filterTypeAndValue.type === 'event'
       ? filterTypeAndValue.value
       : events.length > 0
-      ? events[events.length - 1].slug // Default to latest event slug by default.
-      : '';
+        ? events[events.length - 1].slug // Default to latest event slug by default.
+        : '';
 
   // ---------------------------------------------------------------------------
   // Filtered data state
@@ -323,8 +323,8 @@ const getFilterTypeAndValue = (
       events.find((event) => event.slug === parsedValue) !== undefined
         ? parsedValue
         : events.length > 0
-        ? events[events.length - 1].slug
-        : '';
+          ? events[events.length - 1].slug
+          : '';
 
     return { type: 'event', value: defaultValue };
   }

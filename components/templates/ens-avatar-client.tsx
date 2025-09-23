@@ -41,7 +41,7 @@ const ENSAvatarClient: React.FC<ENSAvatarClientProps> = ({
 
   useEffect(() => setMounted(true), []);
 
-  const src = mounted ? ensAvatar ?? prefetchedEnsAvatar ?? '' : prefetchedEnsAvatar ?? '';
+  const src = mounted ? (ensAvatar ?? prefetchedEnsAvatar ?? '') : (prefetchedEnsAvatar ?? '');
 
   return (
     <Avatar className={className} src={src} alt={`ENS avatar for ${nameOrAddress}`} size={size} />

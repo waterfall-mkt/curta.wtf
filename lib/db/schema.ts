@@ -11,11 +11,74 @@ import {
   uniqueIndex,
 } from 'drizzle-orm/pg-core';
 
+import { enumToPgEnum } from '@/lib/utils';
+
 // -----------------------------------------------------------------------------
 // Enums
 // -----------------------------------------------------------------------------
 
-export const roleEnum = pgEnum('role', ['ADMIN', 'MODERATOR', 'USER']);
+export enum UserRole {
+  ADMIN = 'admin',
+  MODERATOR = 'moderator',
+  USER = 'user',
+}
+
+export const userRoleEnum = pgEnum('role', enumToPgEnum(UserRole));
+
+// -----------------------------------------------------------------------------
+// Auth
+// -----------------------------------------------------------------------------
+
+export const users = pgTable('users', {
+  id: text('id').primaryKey(),
+  name: text('name').notNull(),
+  role: userRoleEnum('role').notNull().default(UserRole.USER),
+  email: text('email').notNull().unique(),
+  emailVerified: boolean('email_verified').notNull(),
+  image: text('image'),
+  createdAt: timestamp('created_at').notNull(),
+  updatedAt: timestamp('updated_at').notNull(),
+});
+
+export const sessions = pgTable('sessions', {
+  id: text('id').primaryKey(),
+  expiresAt: timestamp('expires_at').notNull(),
+  token: text('token').notNull().unique(),
+  createdAt: timestamp('created_at').notNull(),
+  updatedAt: timestamp('updated_at').notNull(),
+  ipAddress: text('ip_address'),
+  userAgent: text('user_agent'),
+  userId: text('user_id')
+    .notNull()
+    .references(() => users.id, { onDelete: 'cascade' }),
+});
+
+export const accounts = pgTable('accounts', {
+  id: text('id').primaryKey(),
+  accountId: text('account_id').notNull(),
+  providerId: text('provider_id').notNull(),
+  userId: text('user_id')
+    .notNull()
+    .references(() => users.id, { onDelete: 'cascade' }),
+  accessToken: text('access_token'),
+  refreshToken: text('refresh_token'),
+  idToken: text('id_token'),
+  accessTokenExpiresAt: timestamp('access_token_expires_at'),
+  refreshTokenExpiresAt: timestamp('refresh_token_expires_at'),
+  scope: text('scope'),
+  password: text('password'),
+  createdAt: timestamp('created_at').notNull(),
+  updatedAt: timestamp('updated_at').notNull(),
+});
+
+export const verifications = pgTable('verifications', {
+  id: text('id').primaryKey(),
+  identifier: text('identifier').notNull(),
+  value: text('value').notNull(),
+  expiresAt: timestamp('expires_at').notNull(),
+  createdAt: timestamp('created_at'),
+  updatedAt: timestamp('updated_at'),
+});
 
 // -----------------------------------------------------------------------------
 // User profile
@@ -33,12 +96,11 @@ export const userInfo = pgTable(
     github: text('github'),
     farcaster: text('farcaster'),
     website: text('website'),
-    isPuzzleAuthor: boolean('is_puzzle_author').default(false).notNull(),
-    createdAt: timestamp('created_at').defaultNow().notNull(),
+    isPuzzleAuthor: boolean('is_puzzle_author').notNull().default(false),
+    createdAt: timestamp('created_at').notNull().defaultNow(),
+    updatedAt: timestamp('updated_at').notNull().defaultNow(),
   },
-  (table) => ({
-    addressIdx: index('user_info_address_idx').on(table.address),
-  }),
+  (userInfo) => [index('user_info_address_idx').on(userInfo.address)],
 );
 
 // -----------------------------------------------------------------------------
@@ -49,7 +111,7 @@ export const chains = pgTable('chains', {
   id: integer('id').primaryKey(),
   name: text('name').notNull(),
   isTestnet: boolean('is_testnet').default(false).notNull(),
-  createdAt: timestamp('created_at').defaultNow().notNull(),
+  createdAt: timestamp('created_at').notNull().defaultNow(),
 });
 
 export const companies = pgTable('companies', {
@@ -62,7 +124,7 @@ export const companies = pgTable('companies', {
   github: text('github'),
   farcaster: text('farcaster'),
   address: text('address'),
-  createdAt: timestamp('created_at').defaultNow().notNull(),
+  createdAt: timestamp('created_at').notNull().defaultNow(),
 });
 
 export const events = pgTable(
@@ -77,13 +139,11 @@ export const events = pgTable(
     location: text('location'),
     startDate: timestamp('start_date').notNull(),
     endDate: timestamp('end_date').notNull(),
-    groupPuzzles: boolean('group_puzzles').default(false).notNull(),
-    isTestnet: boolean('is_testnet').default(false).notNull(),
-    createdAt: timestamp('created_at').defaultNow().notNull(),
+    groupPuzzles: boolean('group_puzzles').notNull().default(false),
+    isTestnet: boolean('is_testnet').notNull().default(false),
+    createdAt: timestamp('created_at').notNull().defaultNow(),
   },
-  (table) => ({
-    slugTestnetUnique: uniqueIndex('events_slug_is_testnet_unique').on(table.slug, table.isTestnet),
-  }),
+  (event) => [uniqueIndex('events_slug_is_testnet_unique').on(event.slug, event.isTestnet)],
 );
 
 // -----------------------------------------------------------------------------
@@ -117,16 +177,16 @@ export const golfCourses = pgTable(
     addedTimestamp: integer('added_timestamp'),
     addedTx: text('added_tx'),
     // Miscellaneous
-    disabled: boolean('disabled').default(false).notNull(),
+    disabled: boolean('disabled').notNull().default(false),
     eventId: text('event_id'),
-    createdAt: timestamp('created_at').defaultNow().notNull(),
+    createdAt: timestamp('created_at').notNull().defaultNow(),
   },
-  (table) => ({
-    pk: primaryKey({ columns: [table.id, table.chainId] }),
-    leaderAddressIdx: index('golf_courses_leader_address_idx').on(table.leaderAddress),
-    chainIdIdx: index('golf_courses_chain_id_idx').on(table.chainId),
-    eventIdIdx: index('golf_courses_event_id_idx').on(table.eventId),
-  }),
+  (course) => [
+    primaryKey({ columns: [course.id, course.chainId] }),
+    index('golf_courses_leader_address_idx').on(course.leaderAddress),
+    index('golf_courses_chain_id_idx').on(course.chainId),
+    index('golf_courses_event_id_idx').on(course.eventId),
+  ],
 );
 
 export const golfCourseCommits = pgTable(
@@ -138,14 +198,14 @@ export const golfCourseCommits = pgTable(
     commitBlock: integer('commit_block').notNull(),
     commitTimestamp: integer('commit_timestamp').notNull(),
     commitTx: text('commit_tx').notNull(),
-    createdAt: timestamp('created_at').defaultNow().notNull(),
+    createdAt: timestamp('created_at').notNull().defaultNow(),
   },
-  (table) => ({
-    pk: primaryKey({ columns: [table.chainId, table.key] }),
-    userAddressIdx: index('golf_course_commits_user_address_idx').on(table.userAddress),
-    commitBlockIdx: index('golf_course_commits_commit_block_idx').on(table.commitBlock),
-    chainIdIdx: index('golf_course_commits_chain_id_idx').on(table.chainId),
-  }),
+  (commit) => [
+    primaryKey({ columns: [commit.chainId, commit.key] }),
+    index('golf_course_commits_user_address_idx').on(commit.userAddress),
+    index('golf_course_commits_commit_block_idx').on(commit.commitBlock),
+    index('golf_course_commits_chain_id_idx').on(commit.chainId),
+  ],
 );
 
 export const golfCourseSolves = pgTable(
@@ -163,20 +223,15 @@ export const golfCourseSolves = pgTable(
     submitTimestamp: integer('submit_timestamp').notNull(),
     // Metadata
     target: text('target').notNull(),
-    isRecord: boolean('is_record').default(false),
-    createdAt: timestamp('created_at').defaultNow().notNull(),
+    isRecord: boolean('is_record').notNull().default(false),
+    createdAt: timestamp('created_at').notNull().defaultNow(),
   },
-  (table) => ({
-    pk: primaryKey({
-      columns: [table.courseId, table.chainId, table.solverAddress, table.submitTx],
-    }),
-    courseIdChainIdIdx: index('golf_course_solves_course_id_chain_id_idx').on(
-      table.courseId,
-      table.chainId,
-    ),
-    chainIdIdx: index('golf_course_solves_chain_id_idx').on(table.chainId),
-    solverAddressIdx: index('golf_course_solves_solver_address_idx').on(table.solverAddress),
-  }),
+  (solve) => [
+    primaryKey({ columns: [solve.courseId, solve.chainId, solve.solverAddress, solve.submitTx] }),
+    index('golf_course_solves_course_id_chain_id_idx').on(solve.courseId, solve.chainId),
+    index('golf_course_solves_chain_id_idx').on(solve.chainId),
+    index('golf_course_solves_solver_address_idx').on(solve.solverAddress),
+  ],
 );
 
 // -----------------------------------------------------------------------------
@@ -210,17 +265,17 @@ export const puzzles = pgTable(
     solutionLink: text('solution_link'),
     github: text('github'),
     // Miscellaneous
-    disabled: boolean('disabled').default(false).notNull(),
+    disabled: boolean('disabled').notNull().default(false),
     eventId: text('event_id'),
-    createdAt: timestamp('created_at').defaultNow().notNull(),
+    createdAt: timestamp('created_at').notNull().defaultNow(),
   },
-  (table) => ({
-    pk: primaryKey({ columns: [table.id, table.chainId] }),
-    authorAddressIdx: index('puzzles_author_address_idx').on(table.authorAddress),
-    firstSolverAddressIdx: index('puzzles_first_solver_address_idx').on(table.firstSolverAddress),
-    chainIdIdx: index('puzzles_chain_id_idx').on(table.chainId),
-    eventIdIdx: index('puzzles_event_id_idx').on(table.eventId),
-  }),
+  (puzzle) => [
+    primaryKey({ columns: [puzzle.id, puzzle.chainId] }),
+    index('puzzles_author_address_idx').on(puzzle.authorAddress),
+    index('puzzles_first_solver_address_idx').on(puzzle.firstSolverAddress),
+    index('puzzles_chain_id_idx').on(puzzle.chainId),
+    index('puzzles_event_id_idx').on(puzzle.eventId),
+  ],
 );
 
 export const puzzleSolves = pgTable(
@@ -237,17 +292,14 @@ export const puzzleSolves = pgTable(
     solveBlock: integer('solve_block'),
     solveTimestamp: integer('solve_timestamp'),
     solveTx: text('solve_tx'),
-    createdAt: timestamp('created_at').defaultNow().notNull(),
+    createdAt: timestamp('created_at').notNull().defaultNow(),
   },
-  (table) => ({
-    pk: primaryKey({ columns: [table.puzzleId, table.chainId, table.solverAddress] }),
-    puzzleIdChainIdIdx: index('puzzle_solves_puzzle_id_chain_id_idx').on(
-      table.puzzleId,
-      table.chainId,
-    ),
-    chainIdIdx: index('puzzle_solves_chain_id_idx').on(table.chainId),
-    solverAddressIdx: index('puzzle_solves_solver_address_idx').on(table.solverAddress),
-  }),
+  (solve) => [
+    primaryKey({ columns: [solve.puzzleId, solve.chainId, solve.solverAddress] }),
+    index('puzzle_solves_puzzle_id_chain_id_idx').on(solve.puzzleId, solve.chainId),
+    index('puzzle_solves_chain_id_idx').on(solve.chainId),
+    index('puzzle_solves_solver_address_idx').on(solve.solverAddress),
+  ],
 );
 
 // -----------------------------------------------------------------------------
@@ -264,13 +316,13 @@ export const teams = pgTable(
     leaderAddress: text('leader_address').notNull(),
     name: text('name'),
     image: text('image'),
-    createdAt: timestamp('created_at').defaultNow().notNull(),
+    createdAt: timestamp('created_at').notNull().defaultNow(),
   },
-  (table) => ({
-    pk: primaryKey({ columns: [table.id, table.chainId] }),
-    chainIdIdx: index('teams_chain_id_idx').on(table.chainId),
-    leaderAddressIdx: index('teams_leader_address_idx').on(table.leaderAddress),
-  }),
+  (team) => [
+    primaryKey({ columns: [team.id, team.chainId] }),
+    index('teams_chain_id_idx').on(team.chainId),
+    index('teams_leader_address_idx').on(team.leaderAddress),
+  ],
 );
 
 export const teamMemberApprovals = pgTable(
@@ -280,17 +332,14 @@ export const teamMemberApprovals = pgTable(
     chainId: integer('chain_id').notNull(),
     userAddress: text('user_address').notNull(),
     approved: boolean('approved').notNull(),
-    createdAt: timestamp('created_at').defaultNow().notNull(),
+    createdAt: timestamp('created_at').notNull().defaultNow(),
   },
-  (table) => ({
-    pk: primaryKey({ columns: [table.teamId, table.chainId, table.userAddress] }),
-    chainIdIdx: index('team_member_approvals_chain_id_idx').on(table.chainId),
-    teamIdChainIdIdx: index('team_member_approvals_team_id_chain_id_idx').on(
-      table.teamId,
-      table.chainId,
-    ),
-    userAddressIdx: index('team_member_approvals_user_address_idx').on(table.userAddress),
-  }),
+  (approval) => [
+    primaryKey({ columns: [approval.teamId, approval.chainId, approval.userAddress] }),
+    index('team_member_approvals_chain_id_idx').on(approval.chainId),
+    index('team_member_approvals_team_id_chain_id_idx').on(approval.teamId, approval.chainId),
+    index('team_member_approvals_user_address_idx').on(approval.userAddress),
+  ],
 );
 
 export const teamTransfers = pgTable(
@@ -304,99 +353,30 @@ export const teamTransfers = pgTable(
     block: integer('block').notNull(),
     timestamp: integer('timestamp').notNull(),
     tx: text('tx').notNull(),
-    createdAt: timestamp('created_at').defaultNow().notNull(),
+    createdAt: timestamp('created_at').notNull().defaultNow(),
   },
-  (table) => ({
-    chainIdIdx: index('team_transfers_chain_id_idx').on(table.chainId),
-    userAddressIdx: index('team_transfers_user_address_idx').on(table.userAddress),
-    fromTeamIdChainIdIdx: index('team_transfers_from_team_id_chain_id_idx').on(
-      table.fromTeamId,
-      table.chainId,
-    ),
-    toTeamIdChainIdIdx: index('team_transfers_to_team_id_chain_id_idx').on(
-      table.toTeamId,
-      table.chainId,
-    ),
-  }),
-);
-
-// -----------------------------------------------------------------------------
-// Authentication (auth.js)
-// -----------------------------------------------------------------------------
-
-export const accounts = pgTable(
-  'accounts',
-  {
-    id: text('id').primaryKey(),
-    userId: text('user_id').notNull(),
-    type: text('type').notNull(),
-    provider: text('provider').notNull(),
-    providerAccountId: text('provider_account_id').notNull(),
-    refresh_token: text('refresh_token'),
-    access_token: text('access_token'),
-    expires_at: integer('expires_at'),
-    token_type: text('token_type'),
-    scope: text('scope'),
-    id_token: text('id_token'),
-    session_state: text('session_state'),
-  },
-  (table) => ({
-    userIdIdx: index('accounts_user_id_idx').on(table.userId),
-    providerProviderAccountIdUnique: uniqueIndex('accounts_provider_provider_account_id_unique').on(
-      table.provider,
-      table.providerAccountId,
-    ),
-  }),
-);
-
-export const sessions = pgTable(
-  'sessions',
-  {
-    id: text('id').primaryKey(),
-    sessionToken: text('session_token').unique().notNull(),
-    userId: text('user_id').notNull(),
-    expires: timestamp('expires').notNull(),
-  },
-  (table) => ({
-    userIdIdx: index('sessions_user_id_idx').on(table.userId),
-  }),
-);
-
-export const users = pgTable('users', {
-  id: text('id').primaryKey(),
-  name: text('name'),
-  address: text('address').unique().notNull(),
-  email: text('email').unique(),
-  emailVerified: timestamp('email_verified'),
-  image: text('image'),
-  role: roleEnum('role').default('USER').notNull(),
-  createdAt: timestamp('created_at').defaultNow().notNull(),
-});
-
-export const verificationTokens = pgTable(
-  'verification_tokens',
-  {
-    identifier: text('identifier').notNull(),
-    token: text('token').unique().notNull(),
-    expires: timestamp('expires').notNull(),
-  },
-  (table) => ({
-    identifierTokenUnique: uniqueIndex('verification_tokens_identifier_token_unique').on(
-      table.identifier,
-      table.token,
-    ),
-  }),
+  (transfer) => [
+    index('team_transfers_chain_id_idx').on(transfer.chainId),
+    index('team_transfers_user_address_idx').on(transfer.userAddress),
+    index('team_transfers_from_team_id_chain_id_idx').on(transfer.fromTeamId, transfer.chainId),
+    index('team_transfers_to_team_id_chain_id_idx').on(transfer.toTeamId, transfer.chainId),
+  ],
 );
 
 // -----------------------------------------------------------------------------
 // Relations
 // -----------------------------------------------------------------------------
 
-export const userInfoRelations = relations(userInfo, ({ one }) => ({
-  user: one(users, {
-    fields: [userInfo.address],
-    references: [users.address],
-  }),
+export const userInfoRelations = relations(userInfo, ({ many }) => ({
+  authoredPuzzles: many(puzzles),
+  firstSolvePuzzles: many(puzzles),
+  puzzleSolves: many(puzzleSolves),
+  leadingTeams: many(teams),
+  teamTransfers: many(teamTransfers),
+  teamApprovals: many(teamMemberApprovals),
+  leadingGolfCourses: many(golfCourses),
+  golfCommits: many(golfCourseCommits),
+  golfSolves: many(golfCourseSolves),
 }));
 
 export const chainsRelations = relations(chains, ({ many }) => ({
@@ -416,9 +396,9 @@ export const eventsRelations = relations(events, ({ many }) => ({
 }));
 
 export const golfCoursesRelations = relations(golfCourses, ({ one, many }) => ({
-  leader: one(users, {
+  leader: one(userInfo, {
     fields: [golfCourses.leaderAddress],
-    references: [users.address],
+    references: [userInfo.address],
   }),
   chain: one(chains, {
     fields: [golfCourses.chainId],
@@ -436,9 +416,9 @@ export const golfCourseCommitsRelations = relations(golfCourseCommits, ({ one })
     fields: [golfCourseCommits.chainId],
     references: [chains.id],
   }),
-  user: one(users, {
+  user: one(userInfo, {
     fields: [golfCourseCommits.userAddress],
-    references: [users.address],
+    references: [userInfo.address],
   }),
 }));
 
@@ -451,20 +431,20 @@ export const golfCourseSolvesRelations = relations(golfCourseSolves, ({ one }) =
     fields: [golfCourseSolves.chainId],
     references: [chains.id],
   }),
-  solver: one(users, {
+  solver: one(userInfo, {
     fields: [golfCourseSolves.solverAddress],
-    references: [users.address],
+    references: [userInfo.address],
   }),
 }));
 
 export const puzzlesRelations = relations(puzzles, ({ one, many }) => ({
-  author: one(users, {
+  author: one(userInfo, {
     fields: [puzzles.authorAddress],
-    references: [users.address],
+    references: [userInfo.address],
   }),
-  firstSolver: one(users, {
+  firstSolver: one(userInfo, {
     fields: [puzzles.firstSolverAddress],
-    references: [users.address],
+    references: [userInfo.address],
   }),
   chain: one(chains, {
     fields: [puzzles.chainId],
@@ -486,9 +466,9 @@ export const puzzleSolvesRelations = relations(puzzleSolves, ({ one }) => ({
     fields: [puzzleSolves.chainId],
     references: [chains.id],
   }),
-  solver: one(users, {
+  solver: one(userInfo, {
     fields: [puzzleSolves.solverAddress],
-    references: [users.address],
+    references: [userInfo.address],
   }),
 }));
 
@@ -497,12 +477,12 @@ export const teamsRelations = relations(teams, ({ one, many }) => ({
     fields: [teams.chainId],
     references: [chains.id],
   }),
-  leader: one(users, {
+  leader: one(userInfo, {
     fields: [teams.leaderAddress],
-    references: [users.address],
+    references: [userInfo.address],
   }),
-  fromTransfers: many(teamTransfers, { relationName: 'team_tranfers_from' }),
-  toTransfers: many(teamTransfers, { relationName: 'team_tranfers_to' }),
+  fromTransfers: many(teamTransfers, { relationName: 'team_transfers_from' }),
+  toTransfers: many(teamTransfers, { relationName: 'team_transfers_to' }),
   memberApprovals: many(teamMemberApprovals),
 }));
 
@@ -515,9 +495,9 @@ export const teamMemberApprovalsRelations = relations(teamMemberApprovals, ({ on
     fields: [teamMemberApprovals.teamId, teamMemberApprovals.chainId],
     references: [teams.id, teams.chainId],
   }),
-  user: one(users, {
+  user: one(userInfo, {
     fields: [teamMemberApprovals.userAddress],
-    references: [users.address],
+    references: [userInfo.address],
   }),
 }));
 
@@ -526,19 +506,19 @@ export const teamTransfersRelations = relations(teamTransfers, ({ one }) => ({
     fields: [teamTransfers.chainId],
     references: [chains.id],
   }),
-  user: one(users, {
+  user: one(userInfo, {
     fields: [teamTransfers.userAddress],
-    references: [users.address],
+    references: [userInfo.address],
   }),
   from: one(teams, {
     fields: [teamTransfers.fromTeamId, teamTransfers.chainId],
     references: [teams.id, teams.chainId],
-    relationName: 'team_tranfers_from',
+    relationName: 'team_transfers_from',
   }),
   to: one(teams, {
     fields: [teamTransfers.toTeamId, teamTransfers.chainId],
     references: [teams.id, teams.chainId],
-    relationName: 'team_tranfers_to',
+    relationName: 'team_transfers_to',
   }),
 }));
 
@@ -570,3 +550,20 @@ export const usersRelations = relations(users, ({ one, many }) => ({
   golfCommits: many(golfCourseCommits),
   golfSolves: many(golfCourseSolves),
 }));
+
+// -----------------------------------------------------------------------------
+// Types
+// -----------------------------------------------------------------------------
+
+export type User = typeof users.$inferSelect;
+export type UserInfo = typeof userInfo.$inferSelect;
+export type Chain = typeof chains.$inferSelect;
+export type Event = typeof events.$inferSelect;
+export type GolfCourse = typeof golfCourses.$inferSelect;
+export type GolfCourseCommit = typeof golfCourseCommits.$inferSelect;
+export type GolfCourseSolve = typeof golfCourseSolves.$inferSelect;
+export type Puzzle = typeof puzzles.$inferSelect;
+export type PuzzleSolve = typeof puzzleSolves.$inferSelect;
+export type Team = typeof teams.$inferSelect;
+export type TeamMemberApproval = typeof teamMemberApprovals.$inferSelect;
+export type TeamTransfer = typeof teamTransfers.$inferSelect;

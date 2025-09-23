@@ -1,8 +1,7 @@
 import { type NextRequest, NextResponse } from 'next/server';
 
-import type { User, UserInfo } from '@prisma/client';
-
-import { db } from '@/lib/db';
+// import { db } from '@/lib/db';
+import type { User, UserInfo } from '@/lib/db/schema';
 
 export type UserApiValue = User & {
   info: UserInfo | null;
@@ -20,10 +19,10 @@ export async function GET(req: NextRequest) {
     );
   }
 
-  const addressNormalized = address?.toLowerCase() ?? '';
-  const usernameNormalized = username?.toLowerCase() ?? '';
+  // const addressNormalized = address?.toLowerCase() ?? '';
+  // const usernameNormalized = username?.toLowerCase() ?? '';
 
-  const user = await db.user.findFirst({
+  /* const user = await db.query.users.findFirst({
     where: {
       info: {
         OR: [{ address: addressNormalized }, { username: usernameNormalized }],
@@ -35,7 +34,9 @@ export async function GET(req: NextRequest) {
         select: { puzzleSolves: true },
       },
     },
-  });
+  }); */
+  // TODO: Remove this.
+  const user = null;
 
   if (!user) {
     return NextResponse.json({ message: 'User not found.' }, { status: 404 });
