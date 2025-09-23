@@ -12,7 +12,7 @@ const Footer: React.FC = () => {
       {/* Navigation */}
       <div>
         <div className="text-center text-lg font-semibold tracking-tighter text-gray-50 lg:text-start">
-          Waterfall
+          Curta
         </div>
         <div className="mt-2 flex flex-wrap items-center justify-center gap-2 lg:-ml-4 lg:mt-4 lg:justify-start lg:gap-4 lg:space-x-4">
           {FOOTER_PAGES.map((page) => (

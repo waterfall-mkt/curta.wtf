@@ -43,8 +43,6 @@ export const DOCS_PAGES: {
 export const FOOTER_PAGES: Page[] = [
   { name: 'Home', slug: '/' },
   { name: 'Terms of Service', slug: '/legal/tos' },
-  { name: 'Careers', slug: 'https://jobs.waterfall.market' },
-  { name: 'Waterfall', slug: 'https://waterfall.market' },
   { name: 'Discord', slug: 'https://discord.gg/zxerRE2Dn7' },
 ];
 
@@ -58,10 +56,9 @@ export const NAVBAR_PAGES: Page[] = [
 ];
 
 /**
- * Social links relevant to [**Curta**](https://twitter.com/curta_ctf) and
- * [**Waterfall**](https://twitter.com/waterfall-mkt).
+ * Social links relevant to [**Curta**](https://x.com/curta_ctf).
  */
 export const SOCIAL_LINKS: ExternalLink[] = [
-  { name: 'Curta Twitter', href: 'https://twitter.com/curta_ctf', icon: <LogoIcon.X /> },
+  { name: 'Curta Twitter', href: 'https://x.com/curta_ctf', icon: <LogoIcon.X /> },
   { name: 'GitHub', href: 'https://github.com/waterfall-mkt', icon: <Github /> },
 ];

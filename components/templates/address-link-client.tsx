@@ -39,8 +39,8 @@ const AddressLinkClient: React.FC<AddressLinkClientProps> = ({
 
   const labelDisplay = label && label.trim().length > 0 ? label : undefined;
   const content = mounted
-    ? ensName ?? prefetchedEnsName ?? labelDisplay ?? getShortenedAddress(address)
-    : prefetchedEnsName ?? labelDisplay ?? getShortenedAddress(address);
+    ? (ensName ?? prefetchedEnsName ?? labelDisplay ?? getShortenedAddress(address))
+    : (prefetchedEnsName ?? labelDisplay ?? getShortenedAddress(address));
 
   return (
     <a

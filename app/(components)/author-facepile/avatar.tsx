@@ -1,9 +1,11 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import type { KeyboardEventHandler } from 'react';
 
 import type { UserInfo } from '@prisma/client';
 
+import { ethereumClient } from '@/lib/client';
 import { getChainInfo } from '@/lib/utils';
 
 import UserAvatar from '@/components/templates/user-avatar';
@@ -16,16 +18,27 @@ import UserHoverCard from '@/components/templates/user-hover-card';
 type AuthorFacepileAvatarProps = {
   user: UserInfo;
   index: number;
-  ensAvatar?: string;
+  ensName?: string | null;
 };
 
 // ---------------------------------------–-------------------------------------
 // Component
 // ---------------------------------------–-------------------------------------
 
-const AuthorFacepileAvatar: React.FC<AuthorFacepileAvatarProps> = ({ user, index, ensAvatar }) => {
+const AuthorFacepileAvatar: React.FC<AuthorFacepileAvatarProps> = ({ user, index, ensName }) => {
+  const [ensAvatar, setEnsAvatar] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (ensName) {
+      ethereumClient
+        .getEnsAvatar({ name: ensName })
+        .then((avatar) => setEnsAvatar(avatar))
+        .catch(() => setEnsAvatar(null));
+    }
+  }, [ensName]);
+
   const href = user.twitter
-    ? `https://twitter.com/${user.twitter}`
+    ? `https://x.com/${user.twitter}`
     : `https://${getChainInfo(1).blockExplorer}/address/${user.address}`;
 
   const onKeyDown: KeyboardEventHandler<HTMLButtonElement> = (e) => {

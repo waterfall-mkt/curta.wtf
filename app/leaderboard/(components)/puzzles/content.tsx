@@ -66,8 +66,8 @@ const LeaderboardPuzzlesContent: React.FC<LeaderboardPuzzlesContentProps> = ({
     filterTypeAndValue.type === 'event'
       ? filterTypeAndValue.value
       : events.length > 0
-      ? events[events.length - 1].slug // Default to latest event slug by default.
-      : '';
+        ? events[events.length - 1].slug // Default to latest event slug by default.
+        : '';
 
   // ---------------------------------------------------------------------------
   // Filtered data state
@@ -323,8 +323,8 @@ const getFilterTypeAndValue = (
       events.find((event) => event.slug === parsedValue) !== undefined
         ? parsedValue
         : events.length > 0
-        ? events[events.length - 1].slug
-        : '';
+          ? events[events.length - 1].slug
+          : '';
 
     return { type: 'event', value: defaultValue };
   }

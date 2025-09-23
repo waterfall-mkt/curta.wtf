@@ -52,7 +52,7 @@ const UserHoverCard: React.FC<UserHoverCardProps> = ({
             <ButtonGroup>
               {[
                 {
-                  href: `https://twitter.com/${data?.info?.twitter}`,
+                  href: `https://x.com/${data?.info?.twitter}`,
                   icon: <LogoIcon.X />,
                   disabled: !data?.info?.twitter,
                 },

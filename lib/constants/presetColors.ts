@@ -6,7 +6,7 @@ export type FlagPresetColorConfig = FlagColorConfig & {
 
 export const PRESET_FLAG_COLOR_CONFIGS: FlagPresetColorConfig[] = [
   {
-    name: 'Waterfall',
+    name: 'Curta',
     border: '#27303D',
     bg: '#181E28',
     text: '#F0F6FC',
