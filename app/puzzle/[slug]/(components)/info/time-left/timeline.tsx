@@ -45,8 +45,8 @@ const PuzzleInfoTimeLeftTimeline: React.FC<PuzzleInfoTimeLeftTimelineProps> = ({
     ? phase === 2
       ? (44 - 2 * Math.sqrt(35)) * (1 - timeLeft / 259_200)
       : phase === 1
-      ? 44 + (44 - 2 * Math.sqrt(35)) * (1 - timeLeft / 172_800)
-      : 132 - 2 * Math.sqrt(35) // Fill completely if `phase === 0`.
+        ? 44 + (44 - 2 * Math.sqrt(35)) * (1 - timeLeft / 172_800)
+        : 132 - 2 * Math.sqrt(35) // Fill completely if `phase === 0`.
     : 132 - 2 * Math.sqrt(35); // Fill completely if component is unmounted.
 
   return (

@@ -72,7 +72,7 @@ export default async function UserDisplay({
             <IconButton
               variant="outline"
               intent="neutral"
-              href={`https://twitter.com/${userInfo.twitter}`}
+              href={`https://x.com/${userInfo.twitter}`}
               newTab
             >
               <LogoIcon.X />

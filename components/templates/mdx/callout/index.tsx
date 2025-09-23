@@ -14,14 +14,14 @@ const Callout: React.FC<CalloutProps> = ({
   const Icon = icon
     ? icon
     : intent === 'primary'
-    ? Info
-    : intent === 'success'
-    ? CheckCircle2
-    : intent === 'fail'
-    ? XCircle
-    : intent === 'warning'
-    ? AlertCircle
-    : Lightbulb;
+      ? Info
+      : intent === 'success'
+        ? CheckCircle2
+        : intent === 'fail'
+          ? XCircle
+          : intent === 'warning'
+            ? AlertCircle
+            : Lightbulb;
 
   return (
     <div className={twMerge(clsx(calloutVariants({ size, intent }), className))}>

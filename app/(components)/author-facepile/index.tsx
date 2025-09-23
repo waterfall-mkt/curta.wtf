@@ -90,7 +90,7 @@ const AuthorFacepile: React.FC<AuthorFacepileProps> = ({ data }) => {
                       <IconButton
                         variant="outline"
                         intent="neutral"
-                        href={`https://twitter.com/${author.twitter}`}
+                        href={`https://x.com/${author.twitter}`}
                         newTab
                       >
                         <LogoIcon.X />

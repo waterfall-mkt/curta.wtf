@@ -38,7 +38,7 @@ const AuthorFacepileAvatar: React.FC<AuthorFacepileAvatarProps> = ({ user, index
   }, [ensName]);
 
   const href = user.twitter
-    ? `https://twitter.com/${user.twitter}`
+    ? `https://x.com/${user.twitter}`
     : `https://${getChainInfo(1).blockExplorer}/address/${user.address}`;
 
   const onKeyDown: KeyboardEventHandler<HTMLButtonElement> = (e) => {

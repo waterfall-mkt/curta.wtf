@@ -163,8 +163,8 @@ const PuzzleInfoSolutionForm: React.FC<PuzzleInfoSolutionFormProps> = ({ puzzle 
                           ? '0.02 ETH'
                           : `${Math.round(Number(tip) * 1000) / 1000} ETH`
                         : Number(tip) === 0
-                        ? 'Tip author'
-                        : `${Math.round(Number(tip) * 1000) / 1000} ETH`}
+                          ? 'Tip author'
+                          : `${Math.round(Number(tip) * 1000) / 1000} ETH`}
                     </Button>
                   }
                 >
