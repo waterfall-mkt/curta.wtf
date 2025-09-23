@@ -64,19 +64,19 @@ const GolfCourseDataTableDesktop: FC<GolfCourseDataTableInternalProps> = ({
         accessorKey: 'leader.address',
         header: () => 'King',
         cell: ({ row }) =>
-          row.original.leader && row.original.leader.address ? (
+          row.original.leader && row.original.leader.info?.address ? (
             <div>
               <UserHoverCard
-                address={row.original.leader.address as `0x${string}`}
+                address={row.original.leader.info?.address as `0x${string}`}
                 trigger={
                   <AddressLinkClient
                     className="text-gray-100"
-                    address={row.original.leader.address as `0x${string}`}
+                    address={row.original.leader.info?.address as `0x${string}`}
                   />
                 }
               />
               <div className="mt-0.5 text-xs text-gray-200">
-                {`${row.original.leaderGas} gas` ?? '-'}
+                {row.original.leaderGas !== null ? `${row.original.leaderGas} gas` : '-'}
               </div>
             </div>
           ) : (
@@ -168,18 +168,20 @@ const GolfCourseDataTableMobile: FC<GolfCourseDataTableInternalProps> = ({
         accessorKey: 'leader.address',
         header: () => <div className="ml-auto">King</div>,
         cell: ({ row }) =>
-          row.original.leader && row.original.leader.address ? (
+          row.original.leader && row.original.leader.info?.address ? (
             <div className="mt-0.5 flex flex-col items-end">
               <UserHoverCard
-                address={row.original.leader.address as `0x${string}`}
+                address={row.original.leader.info?.address as `0x${string}`}
                 trigger={
                   <AddressLinkClient
                     className="text-gray-100"
-                    address={row.original.leader.address as `0x${string}`}
+                    address={row.original.leader.info?.address as `0x${string}`}
                   />
                 }
               />
-              <div className="text-xs text-gray-200">{`${row.original.leaderGas} gas` ?? '-'}</div>
+              <div className="text-xs text-gray-200">
+                {row.original.leaderGas !== null ? `${row.original.leaderGas} gas` : '-'}
+              </div>
             </div>
           ) : (
             <div className="flex justify-end italic text-gray-200">None</div>

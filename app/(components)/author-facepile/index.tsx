@@ -2,10 +2,10 @@ import { cache } from 'react';
 
 import AuthorFacepileAvatar from './avatar';
 import AuthorFacepileModal from './modal';
-import type { UserInfo } from '@prisma/client';
 import { Github } from 'lucide-react';
 
 import { ethereumClient } from '@/lib/client';
+import type { UserInfo } from '@/lib/db/schema';
 import { getShortenedAddress } from '@/lib/utils';
 
 import LogoIcon from '@/components/common/logo-icon';

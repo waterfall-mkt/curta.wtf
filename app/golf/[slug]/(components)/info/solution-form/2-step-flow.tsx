@@ -33,7 +33,7 @@ const CourseInfoSolutionForm2StepFlow: React.FC<CourseInfoSolutionForm2StepFlowP
   // Set mounted.
   useEffect(() => setMounted(true), []);
 
-  const senderAddress = mounted ? address ?? zeroAddress : zeroAddress;
+  const senderAddress = mounted ? (address ?? zeroAddress) : zeroAddress;
   const commitKey = getGolfCommitKey({
     address: senderAddress,
     bytecode,

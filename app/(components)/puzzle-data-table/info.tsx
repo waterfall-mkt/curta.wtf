@@ -1,7 +1,6 @@
 'use client';
 
-import type { UserInfo } from '@prisma/client';
-
+import type { UserInfo } from '@/lib/db/schema';
 import type { Phase } from '@/lib/types/protocol';
 
 import AddressLinkClient from '@/components/templates/address-link-client';

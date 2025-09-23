@@ -147,8 +147,8 @@ const NavBarMobile: React.FC<NavBarInternalProps> = ({ yScroll }) => {
                     {mounted && !isError && !isLoading && data
                       ? data
                       : address
-                      ? getShortenedAddress(address)
-                      : '–'}
+                        ? getShortenedAddress(address)
+                        : '–'}
                   </a>
                 </div>
                 <div className="flex gap-2">

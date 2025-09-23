@@ -1,4 +1,4 @@
-import type { GolfCourse, Puzzle, User, UserInfo } from '@prisma/client';
+import type { GolfCourse, Puzzle, User, UserInfo } from '@/lib/db/schema';
 
 export type PuzzleValue = Puzzle & {
   author: User & { info: UserInfo | null };

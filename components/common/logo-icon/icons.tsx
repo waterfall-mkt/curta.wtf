@@ -1,3 +1,5 @@
+import React from 'react';
+
 export const BaseIcon: React.FC<JSX.IntrinsicElements['svg']> = ({ className, ...rest }) => {
   return (
     <svg

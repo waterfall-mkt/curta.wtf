@@ -2,8 +2,7 @@
 
 import type { KeyboardEventHandler } from 'react';
 
-import type { UserInfo } from '@prisma/client';
-
+import type { UserInfo } from '@/lib/db/schema';
 import { getChainInfo } from '@/lib/utils';
 
 import UserAvatar from '@/components/templates/user-avatar';

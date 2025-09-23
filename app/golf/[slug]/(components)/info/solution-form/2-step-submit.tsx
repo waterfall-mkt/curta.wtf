@@ -40,7 +40,7 @@ const CourseInfoSolutionForm2StepSubmitButton: React.FC<
   useEffect(() => setMounted(true), []);
 
   // Fetch commit data.
-  const senderAddress = mounted ? address ?? zeroAddress : zeroAddress;
+  const senderAddress = mounted ? (address ?? zeroAddress) : zeroAddress;
   const commitKey = getGolfCommitKey({
     address: senderAddress,
     bytecode,

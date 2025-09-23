@@ -109,7 +109,7 @@ const CourseLeaderboardDataTableDesktop: React.FC<CourseLeaderboardDataTableInte
                     '_blank',
                   );
                 }}
-                aria-label={`View ${row.original.solver.address}'s submission of puzzle ${row.original.courseId} on chain ${row.original.chainId}.`}
+                aria-label={`View ${row.original.solver.info?.address}'s submission of puzzle ${row.original.courseId} on chain ${row.original.chainId}.`}
               >
                 <ExternalLink />
               </IconButton>
@@ -153,7 +153,7 @@ const CourseLeaderboardDataTableMobile: React.FC<CourseLeaderboardDataTableInter
         header: () => 'Player',
         cell: ({ row }) => (
           <AddressDisplayClient
-            address={row.original.solver.address as `0x${string}`}
+            address={row.original.solver.info?.address as `0x${string}`}
             label={row.original.solver.info?.displayName ?? undefined}
           />
         ),
@@ -187,7 +187,7 @@ const CourseLeaderboardDataTableMobile: React.FC<CourseLeaderboardDataTableInter
                     '_blank',
                   );
                 }}
-                aria-label={`View ${row.original.solver.address}'s solution of puzzle ${row.original.courseId} on chain ${row.original.chainId}.`}
+                aria-label={`View ${row.original.solver.info?.address}'s solution of puzzle ${row.original.courseId} on chain ${row.original.chainId}.`}
               >
                 <ExternalLink />
               </IconButton>

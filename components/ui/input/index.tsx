@@ -53,8 +53,8 @@ const Input = forwardRef(
       inputMode === 'numeric'
         ? numericPattern
         : inputMode === 'decimal'
-        ? decimalPattern
-        : undefined;
+          ? decimalPattern
+          : undefined;
 
     return (
       <div className="relative flex flex-col gap-1 transition-colors">

@@ -39,7 +39,10 @@ export default async function UserDisplay({
 }: UserDisplayProps) {
   const ensName = await cache(async () => await ethereumClient.getEnsName({ address }))();
   const userInfo = await cache(
-    async () => await db.userInfo.findFirst({ where: { address: address.toLowerCase() } }),
+    async () =>
+      await db.query.userInfo.findFirst({
+        where: (user, { eq }) => eq(user.address, address.toLowerCase()),
+      }),
   )();
   const displayName = userInfo?.displayName ?? ensName ?? getShortenedAddress(address);
 
